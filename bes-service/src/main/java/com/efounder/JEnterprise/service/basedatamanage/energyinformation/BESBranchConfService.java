@@ -137,4 +137,29 @@ public interface BESBranchConfService {
 	 *
 	 */
     ISSPReturnObject tidyTree() throws Exception;
+
+    /**
+     *
+     * @Description: 获取所有的电表
+     *
+     * @auther: wanghongjie
+     * @date: 9:54 2022/4/25
+     * @param: []
+     * @return: com.core.common.ISSPReturnObject
+     *
+     */
+    ISSPReturnObject loadAllAmmeter();
+
+    /**
+     *
+     * @Description: 根据支路编号查询所有的电表
+     *
+     * @auther: wanghongjie
+     * @date: 10:16 2022/4/25
+     * @param: []
+     * @return: com.core.common.ISSPReturnObject
+     *
+	 * @param besBAR
+	 */
+    ISSPReturnObject loadAmmeterByBranchId(BESBranch_Ammeter_Rlgl besBAR);
 }

@@ -281,6 +281,38 @@ public class BESBranchConfController {
 		return returnObject;
 	}
 
+	/**
+	 *
+	 * @Description: 获取所有的电表
+	 *
+	 * @auther: wanghongjie
+	 * @date: 9:51 2022/4/25
+	 * @param:
+	 * @return:
+	 *
+	 */
+	@RequestMapping(value = "/loadAllAmmeter", method = RequestMethod.POST)
+	@ResponseBody
+	public ISSPReturnObject loadAllAmmeter() {
+		ISSPReturnObject returnObject = besBranchConfService.loadAllAmmeter();
+		return returnObject;
+	}
 
+	/**
+	 *
+	 * @Description: 根据支路编号查询所有的电表
+	 *
+	 * @auther: wanghongjie
+	 * @date: 10:15 2022/4/25
+	 * @param:
+	 * @return:
+	 *
+	 */
+	@RequestMapping(value = "/loadAmmeterByBranchId", method = RequestMethod.POST)
+	@ResponseBody
+	public ISSPReturnObject loadAmmeterByBranchId(BESBranch_Ammeter_Rlgl besBAR) {
+		ISSPReturnObject returnObject = besBranchConfService.loadAmmeterByBranchId(besBAR);
+		return returnObject;
+	}
 
 }

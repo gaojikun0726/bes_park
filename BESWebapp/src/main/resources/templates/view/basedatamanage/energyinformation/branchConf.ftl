@@ -242,16 +242,16 @@
 <div class="modal fade" id="includeBranchAmt" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
      data-backdrop="static" data-keyboard="false">
   <div class="modal-dialog">
-    <div class="modal-content" style="width:1185px;left: -288px">
+    <div class="modal-content" style="width: 90vw;left: -30vw;height: 80vh;">
       <div class="modal-header bg-primary">
         <button aria-hidden="true" data-dismiss="modal" class="close" type="button">×</button>
         <h4 class="modal-title">包含支路电表</h4>
       </div>
-      <div class="modal-body" style="height:600px;">
-        <div style="float:left;width:54.5%">
+      <div class="modal-body" style="height:76vh;">
+        <div style="float:left;width:54%">
           <button class="btn btn-md" style="cursor:default"><span>未选择</span></button>
         </div>
-        <div style="float:left;width:40%">
+        <div style="float:left;width:46%">
           <button class="btn btn-md" style="cursor:default;float: left"><span>已选择</span></button>
           <label class="col-sm-2 control-label">是否级联:</label>
           <div class="col-sm-4">
@@ -260,10 +260,10 @@
           </div>
         </div>
         <!----未选择table+搜索）--->
-        <div class="notIncludeCss">
+        <div class="notIncludeCss" style="width: 46%;height: 93%;">
 
           <!-- 搜索框 -->
-          <div class="zc_search_special_branch find">
+          <div class="zc_search_special_branch find" style="width: 36vw;">
             <input type="text" class="zc_search_special_specialyle" id="notincludeAmtKeywords"
                    name="notincludeAmtKeywords" placeholder="电表编号、名称">
             <button id="queryNotIncludeAmt"
@@ -271,20 +271,20 @@
                                                                                                     aria-hidden="true"></i>
             </button>
           </div>
-          <div id="branchAmt_noInclude" style="margin-top:10px;overflow: auto;">
+          <div id="branchAmt_noInclude" style="margin-top:10px;">
           </div>
         </div>
         <!----未选择用户结束--->
 
 
         <!----操作开始--->
-        <div style="width:100px;height:400px;float:left">
-          <div id="AmtrightMove" style="margin-top:200px;margin-left:23px;">
+        <div style="width:8%;height:400px;float:left">
+          <div id="AmtrightMove" style="margin-top:200px;text-align: -webkit-center;">
             <button id="branchConf_right" type="button"
                     onclick="basedatamanage_efficiencyanalysis_branchConf.AmtrightMove()" class="btn btn-primary">>>
             </button>
           </div>
-          <div id="AmtleftMove" style="margin-top:20px;margin-left:23px;">
+          <div id="AmtleftMove" style="margin-top:20px;text-align: -webkit-center;">
             <button id="branchConf_left" type="button"
                     onclick="basedatamanage_efficiencyanalysis_branchConf.AmtleftMove()" class="btn btn-primary"><<
             </button>
@@ -294,16 +294,16 @@
 
 
         <!----包含用户开始--->
-        <div class="includeCss">
+        <div class="includeCss" style="width: 46%;height: 93%;">
 
           <!-- 搜索框 -->
-          <div class="zc_search_special_branch find">
+          <div class="zc_search_special_branch find" style="width: 36vw;">
             <input type="text" class="zc_search_special_specialyle" id="includeAmtKeywords" name="includeAmtKeywords"
                    placeholder="电表编号、名称">
             <button id="queryIncludeAmt" onclick="basedatamanage_efficiencyanalysis_branchConf.searchIncludeAmt()"><i
                       class="fa fa-search" aria-hidden="true"></i></button>
           </div>
-          <div id="branchAmt_include" style="overflow: auto;margin-top:10px;">
+          <div id="branchAmt_include" style="margin-top:10px;">
           </div>
           <div>
             <!----包含用户结束--->
@@ -394,6 +394,12 @@
     var Selected_branch = null;//支路被选中的节点
     var EquipmentSet = "";//设备集id
     var Selected_tree = null;//组织机构树被选中的节点
+
+    var AllAmmeter = null;//所有电表的数组
+    var NoAllAmmeter = [];//未加载电表的数组
+    var YesAllAmmeter = [];//已加载电表的数组
+
+    var YesAllAmmeter1 = [];//已加载电表的数组
 
     $(function () {
       $("input[type=radio][name='f_jl_branch']").change(function () {
@@ -588,98 +594,6 @@
       });
     }
 
-    //设备集帮助框 (添加模态框)
-    /* $("#fEquipment_Set").ISSPHelpComboBox({
-           title:'请选择设备集',
-           inputWidth:'85%',
-           inputEditable:true,
-           inputPromMsg:'请选择设备集',
-           getDataFun: getEquipmentSetData,//请求场景数据需要执行的方法
-           isMultistage:true,
-           searchDisCxt:'请选择设备集',
-           callBacks: search_EquipmentSet,  //自定义选择弹框元素后执行的事件
-         });*/
-
-    //加载设备集（分项树）
-    function getEquipmentSetData() {
-      $.ajax({
-        type: "post",
-        url: _ctx + "/view/basedatamanage/energyinformation/subitem_tree",
-        dataType: "json",
-        success: function (result) {
-          if (result.status == '1') {
-            zonenode = $("#fEquipment_Set").setComboBoxData({
-              data: result.list,
-            });
-          }
-        },
-        error: function (result) {
-          swal(result.msg, "", "error");
-        },
-      });
-    }
-
-    //设备集 帮助框 (编辑模态框)
-    /*$("#edit_fEquipment_Set").ISSPHelpComboBox({
-          title:'请选择场景',
-          inputWidth:'85%',
-          inputEditable:true,
-          inputPromMsg:'请选择场景',
-          getDataFun: getfEquipmentSet_edit,//请求场景数据需要执行的方法
-          isMultistage:true,
-          searchDisCxt:'请选择场景',
-          callBacks: search_EquipmentSet,  //自定义选择弹框元素后执行的事件
-        });*/
-
-    //加载设备集(分项树)
-    function getfEquipmentSet_edit() {
-      $.ajax({
-        type: "post",
-        url: _ctx + "/view/basedatamanage/energyinformation/subitem_tree",
-        dataType: "json",
-        success: function (result) {
-          if (result.status == '1') {
-            zonenode = $("#edit_fEquipment_Set").setComboBoxData({
-              data: result.list,
-            });
-          }
-        },
-        error: function (result) {
-          swal(result.msg, "", "error");
-        },
-      });
-    }
-
-    function search_EquipmentSet(node) {
-      var saveMap = new Map();
-      if (node == "") {
-        swal({
-          title: "请先选择设备集  ",
-          text: "经检测，您还未选择设备集!",
-          type: "warning",
-          showCancelButton: false,
-          confirmButtonColor: "#1ab394",
-          confirmButtonText: "关闭",
-          closeOnConfirm: false
-        });
-      } else {
-        /* var nodesStr ;
-         var	nodeList = zonenode.data('treeview').getChildsArrayByNode(node[0]);
-       if(nodeList.length>0){
-         for (var i = 0; i < nodeList.length; i++) {
-           var non = nodeList[i].substring(2);
-           nodeList[i] = "part_"+non;
-         }
-         nodesStr = nodeList.join(",");
-       }else{
-         nodesStr=  node[0].id;
-       }
-       EquipmentSet = nodesStr;//赋值*/
-
-        EquipmentSet = node[0].id
-      }
-    }
-
     //触发搜索的回车时间
     $("#branchInfo").focus(function () {
       $(this).keydown(function (e) {
@@ -770,21 +684,21 @@
           //在树上添加
           var pNode = $("#tree_branch").treeview("getSelected");
 
-          // if (pNode.length != 0 && pNode != '' && Selected_branch) {
-          //   $("#tree_branch").treeview("addNode", [{
-          //     nodeTreeId: data.list[0].fZlbh,
-          //     id: data.list[0].fZlbh,
-          //     text: data.list[0].fZlmc,
-          //     pid: pNode[0].nodeTreeId,
-          //     js: data.list[0].fJs
-          //   }, pNode]);
-          // } else {
+          if (pNode.length != 0 && pNode != '' && Selected_branch) {
+            $("#tree_branch").treeview("addNode", [{
+              nodeTreeId: data.list[0].fZlbh,
+              id: data.list[0].fZlbh,
+              text: data.list[0].fZlmc,
+              pid: pNode[0].nodeTreeId,
+              js: data.list[0].fJs
+            }, pNode]);
+          } else {
             var fNybh = $("#btn_nybrach").val();
             // var fNybh=$("#fNybh_branch").val();
             var fYqbh = $("#btn_yqbrach").val();
             // var fYqbh=$("#fYqbh_branch").val();
             gettree_branch(fYqbh, fNybh);
-          // }
+          }
 
         },
         error: function (data) {
@@ -838,8 +752,13 @@
     });
     //关闭包含模态框清空表单值
     $("#includeBranchAmt").on('hidden.bs.modal', function (event) {
+      $("#branchAmt_noInclude").tabulator("setData", []);
+      $("#branchAmt_include").tabulator("setData", []);
       $("#includeAmtKeywords").val('');
       $("#notincludeAmtKeywords").val('');
+      //最后清空NoAllAmmeter,YesAllAmmeter
+      NoAllAmmeter.length = 0;
+      YesAllAmmeter.length = 0;
 
       // $(this).find("input").val("");
     });
@@ -1041,13 +960,13 @@
     $("#includeBranchAmt").on('show.bs.modal', function (event) {
       var button = $(event.relatedTarget);
       var id = button.data("id");			//获取用户组编号
+      $(this).css("overflow", "hidden"); // 防止出现滚动条，出现的话，你会把滚动条一起拖着走的
       $(this).draggable({
         handle: ".modal-header"     	// 只能点击头部拖动
       });
-      $(this).css("overflow", "hidden"); // 防止出现滚动条，出现的话，你会把滚动条一起拖着走的
       loadShowCascade(id);//显示级联
       loadNoIncludeAmt(id);
-      loadIncludeAmt(id);
+      // loadIncludeAmt(id);
       _fzbh = id;
 
     });
@@ -1199,7 +1118,7 @@
       columns: [
         {
           title: "序号",
-          width: 50,
+          width: 70,
           formatter: "rownum",
           frozen: false,
           sorter: "number",
@@ -1209,7 +1128,7 @@
         {
           title: "电表编号",
           field: "fSysNameOld",
-          width: 135,
+          width: 290,
           sorter: "string",
           editor: false,
           align: "center",
@@ -1218,7 +1137,7 @@
         {
           title: "电表名称",
           field: "fNickName",
-          width: 240,
+          width: 290,
           sorter: "string",
           editor: false,
           align: "center",
@@ -1227,7 +1146,7 @@
         {
           title: "操作",
           field: "opt",
-          width: 80,
+          width: 92,
           tooltip: false,
           tooltipsHeader: false,
           align: "center",
@@ -1252,7 +1171,7 @@
       columns: [
         {
           title: "序号",
-          width: 50,
+          width: 70,
           formatter: "rownum",
           frozen: false,
           sorter: "number",
@@ -1262,7 +1181,7 @@
         {
           title: "电表编号",
           field: "fSysNameOld",
-          width: 97,
+          width: 250,
           sorter: "string",
           editor: false,
           align: "center",
@@ -1271,7 +1190,7 @@
         {
           title: "电表名称",
           field: "fNickName",
-          width: 200,
+          width: 250,
           sorter: "string",
           editor: false,
           align: "center",
@@ -1281,7 +1200,7 @@
         {
           title: "操作",
           field: "opt",
-          width: 80,
+          width: 92,
           tooltip: false,
           tooltipsHeader: false,
           align: "center",
@@ -1294,28 +1213,76 @@
       },
     });
 
+    function aaa(a,b) {
+
+      if (a.fDbsysName == b.fSysName) {
+        
+        return a.fOperator
+      }
+    }
+
     //加载未包含电表
     function loadNoIncludeAmt(id, keywords) {
+
+      //根据支路编号查询所有的电表
       $.ajax({
-        url: _ctx + "/view/basedatamanage/energyinformation/loadNoIncludeAmt",
+        url: _ctx + "/view/basedatamanage/energyinformation/loadAmmeterByBranchId",
         type: "post",
         data: ({
-          fZlbh: id,
-          keywords: keywords
+          fZlbh: id
+          // keywords: keywords
         }),
         success: function (data) {
-          //填充“未选择”数据
-          if (data.hasOwnProperty('list') == false) {
-            $("#branchAmt_noInclude").tabulator("setData", []);
+          
+          if (data.list == null) {
+            NoAllAmmeter = [...AllAmmeter];
+            YesAllAmmeter = [];
           } else {
-            $("#branchAmt_noInclude").tabulator("setData", data.list);
+            AllAmmeter.map((el,index) => {
+
+              if (!data.list.find(item => item.fDbsysName == el.fSysName)) {
+                NoAllAmmeter.push(AllAmmeter[index])
+              } else {
+                
+                let bbb = data.list.find(function (item) {
+                  if (item.fDbsysName == el.fSysName) {
+                    return item.fOperator
+                  }
+                })
+                AllAmmeter[index].fOperator = bbb.fOperator;
+                YesAllAmmeter.push(AllAmmeter[index] )
+              }
+            })
+
+
           }
-          var noinclude_branch_data = $("#branchAmt_noInclude").tabulator("getData");
+
+          //填充“未选择”数据
+          $("#branchAmt_noInclude").tabulator("setData", NoAllAmmeter);
+
+          let noinclude_branch_data = $("#branchAmt_noInclude").tabulator("getData");
           if (noinclude_branch_data.length == 0) {
             $("#branchConf_right").attr('disabled', true);
             $("#branchConf_left").attr('disabled', false);
           } else {
             $("#branchConf_right").attr('disabled', false);
+          }
+          
+          //填充“已选择”数据
+          $("#branchAmt_include").tabulator("setData", YesAllAmmeter);
+          let include_branch_data = $("#branchAmt_include").tabulator("getData");
+          if (include_branch_data.length == 0) {
+            $("#branchConf_right").attr('disabled', false);
+            $("#branchConf_left").attr('disabled', true);
+          } else {
+            $("#branchConf_left").attr('disabled', false);
+            //设置已包含表格中 运算符列的值
+            for (var i = 0; i < include_branch_data.length; i++) {
+              var fSysName = include_branch_data[i].fSysNameOld;
+              var fOperator = include_branch_data[i].fOperator;
+              $("#sel" + fSysName + "").val(fOperator);
+
+            }
           }
         },
         error: function (data) {
@@ -1362,6 +1329,7 @@
 
     }
 
+    //园区选择传入能源树联动
     function get_altertree_esub(_yqbh) {
       $("#btn_nysubitem").empty();
 
@@ -1451,6 +1419,45 @@
         }
       });
     }
+
+    function getAllAmmeter() {
+      $.ajax({
+        url: _ctx + "/view/basedatamanage/energyinformation/loadAllAmmeter",
+        type: "post",
+        success: function (data) {
+          AllAmmeter = data.list;
+        },
+        error: function (data) {
+          swal("加载未包含失败!", data.msg, "error");
+        }
+      });
+    }
+
+    /**
+     * 使用spilt方法实现模糊查询
+     * @param  {Array}  list     进行查询的数组
+     * @param  {String} keyWord  查询的关键词
+     * @return {Array}           查询的结果
+     */
+    function NofuzzyQuery(list, keyWord) {
+      let arr = [];
+      for (var i = 0; i < list.length; i++) {
+        if (list[i].fSysName.split(keyWord).length > 1) {
+          arr.push(list[i]);
+        }
+      }
+      return arr;
+    }
+    function YesfuzzyQuery(list, keyWord) {
+      let arr = [];
+      for (var i = 0; i < list.length; i++) {
+        if (list[i].fSysNameOld.split(keyWord).length > 1) {
+          arr.push(list[i]);
+        }
+      }
+      return arr;
+    }
+
     return {
       get_zzjgtree_branch: function () {
         $.ajax({
@@ -1495,15 +1502,46 @@
 
       //搜索已包含用户
       searchIncludeAmt: function () {
-        var includeAmtKeywords = $("#includeAmtKeywords").val();
-        loadIncludeAmt(_fzbh, includeAmtKeywords);
+        let includeAmtKeywords = $("#includeAmtKeywords").val();
+
+        let list = YesfuzzyQuery(YesAllAmmeter,includeAmtKeywords);
+        $("#branchAmt_include").tabulator("setData", list);
+        let include_branch_data = $("#branchAmt_include").tabulator("getData");
+        if (include_branch_data.length == 0) {
+          $("#branchConf_right").attr('disabled', false);
+          $("#branchConf_left").attr('disabled', true);
+        } else {
+          $("#branchConf_left").attr('disabled', false);
+          //设置已包含表格中 运算符列的值
+          for (var i = 0; i < include_branch_data.length; i++) {
+            var fSysName = include_branch_data[i].fSysNameOld;
+            var fOperator = include_branch_data[i].fOperator;
+            $("#sel" + fSysName + "").val(fOperator);
+
+          }
+        }
+        // loadIncludeAmt(_fzbh, includeAmtKeywords);
         //$("#branchAmt_include").tabulator("setData", _ctx+'/view/basedatamanage/loadGroupRlglUser?fZlbh='+_fzbh+'&keywords='+includeAmtKeywords);
       },
 
       //搜索未包含用户
       searchNotIncludeAmt: function () {
-        var notincludeAmtKeywords = $("#notincludeAmtKeywords").val();
-        loadNoIncludeAmt(_fzbh, notincludeAmtKeywords);
+        let notincludeAmtKeywords = $("#notincludeAmtKeywords").val();
+
+
+        let list = NofuzzyQuery(NoAllAmmeter,notincludeAmtKeywords);
+        //填充“未选择”数据
+        $("#branchAmt_noInclude").tabulator("setData", []);
+        $("#branchAmt_noInclude").tabulator("setData", list);
+
+        let noinclude_branch_data = $("#branchAmt_noInclude").tabulator("getData");
+        if (noinclude_branch_data.length == 0) {
+          $("#branchConf_right").attr('disabled', true);
+          $("#branchConf_left").attr('disabled', false);
+        } else {
+          $("#branchConf_right").attr('disabled', false);
+        }
+        // loadNoIncludeAmt(_fzbh, notincludeAmtKeywords);
         //$("#branchAmt_noInclude").tabulator("setData", _ctx+'/view/basedatamanage/loadNoIncludeAmt?fZlbh='+_fzbh+'&keywords='+notincludeAmtKeywords);
       },
       //园区下拉列表
@@ -1556,7 +1594,9 @@
             }),
             success: function (data) {
               if (data.status == '1') {
-                loadIncludeAmt(_fzbh);
+                // loadIncludeAmt(_fzbh);
+                YesAllAmmeter = [...AllAmmeter];
+
                 $("#branchAmt_noInclude").tabulator("setData", []);
                 $("#branchConf_right").attr('disabled', true);
                 $("#branchConf_left").attr('disabled', false);
@@ -1592,7 +1632,8 @@
                 //swal(data.msg, "", "success");
                 $("#branchAmt_include").tabulator("setData", []);
                 //$("#branchAmt_noInclude").tabulator("setData", _ctx+'/view/basedatamanage/loadNoIncludeAmt?fZlbh='+_fzbh);
-                loadNoIncludeAmt(_fzbh);
+                // loadNoIncludeAmt(_fzbh);
+                NoAllAmmeter = [...AllAmmeter];
                 $("#branchConf_right").attr('disabled', false);
                 $("#branchConf_left").attr('disabled', true);
               } else {
@@ -1668,13 +1709,14 @@
         basedatamanage_efficiencyanalysis_branchConf.get_yqtree_sub();
         getuserName();//获取用户信息
         getZZJG();//获取组织机构信息
+        getAllAmmeter();//获取所有的电表
       },
 
       /*整理树结构*/
       tidyTree: function() {
 
         swal({
-          title: "是否重新整理支路树？",
+          title: "是否需要重新整理支路树？请不要轻易整理",
           text: "",
           type: "warning",
           showCancelButton: true,
@@ -1690,7 +1732,7 @@
             async: true,
             url: _ctx + "/view/basedatamanage/energyinformation/tidyTree",
             success: function(result){
-              if (result.list == undefined) {
+             /* if (result.list == undefined) {
                 Selected_branch = null;
                 $('#tree_branch').treeview('remove');
                 $("#branchTable").tabulator("setData", []);
@@ -1718,7 +1760,7 @@
                 $("#tree_branch").treeview("selectNode", firstNode);//将第一个节点设置为选中状态
                 //获取子节点
                 getbranch_chlildtree(_branchZlbh, _branchJs);
-              }
+              }*/
             }
           });
         })

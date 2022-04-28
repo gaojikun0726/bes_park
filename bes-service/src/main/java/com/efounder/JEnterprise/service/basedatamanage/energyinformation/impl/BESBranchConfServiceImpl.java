@@ -1213,6 +1213,7 @@ public class BESBranchConfServiceImpl implements BESBranchConfService ,ESBaseSer
 		return isspReturnObject;
 	}
 
+
 	//递归判断
 	@Transactional(propagation = Propagation.NESTED)
 	public void recursionTidyTree (List<ISSPTreeNode> buildTree,String nodeId) throws IOException,Exception{
@@ -1256,6 +1257,48 @@ public class BESBranchConfServiceImpl implements BESBranchConfService ,ESBaseSer
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
+	}
+
+	/**
+	 *
+	 * @Description: 获取所有的电表
+	 *
+	 * @auther: wanghongjie
+	 * @date: 9:54 2022/4/25
+	 * @param: []
+	 * @return: com.core.common.ISSPReturnObject
+	 *
+	 */
+	@Override
+	public ISSPReturnObject loadAllAmmeter() {
+		ISSPReturnObject returnObject = new ISSPReturnObject();
+
+		List<BESAmmeter>  ammeterMap = besAmmeterMapper.loadAll();
+
+		returnObject.setList(ammeterMap);
+		return returnObject;
+	}
+
+	/**
+	 *
+	 * @Description:根据支路编号查询所有的电表
+	 *
+	 * @auther: wanghongjie
+	 * @date: 10:16 2022/4/25
+	 * @param: []
+	 * @return: com.core.common.ISSPReturnObject
+	 *
+	 * @param besBAR
+	 */
+	@Override
+	public ISSPReturnObject loadAmmeterByBranchId(BESBranch_Ammeter_Rlgl besBAR) {
+		ISSPReturnObject returnObject = new ISSPReturnObject();
+		if (besBAR.getfZlbh() != null || besBAR.getfZlbh() != "") {
+			List<BESBranch_Ammeter_Rlgl> BARList = besBranch_Ammeter_RlglMapper.queryBARList(besBAR.getfZlbh());
+			returnObject.setList(BARList);
+		}
+
+		return returnObject;
 	}
 
 }
