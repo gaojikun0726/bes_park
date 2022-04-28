@@ -235,9 +235,8 @@ public class BesExecute {
         System.out.println("定时发送报表走了***********************************: strategyId " + strategyId + dateFormat.format(date));
 
 
-
         //查询配置策略信息
-        Map<String,Object> strategyInfo = besStrategyMapper.queryStrategyInfo(strategyId);
+        Map<String, Object> strategyInfo = besStrategyMapper.queryStrategyInfo(strategyId);
 
         //获取时间范围
         SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
@@ -249,66 +248,67 @@ public class BesExecute {
         String lastEnd = "";
         String f_range = "";
 
-        if ("1".equals(strategyInfo.get("f_range"))){
+        if ("1".equals(strategyInfo.get("f_range"))) {
             f_range = "本天";
 
             //本天
-            nowStart = format.format(c.getTime())+" 00:00:00";
-            nowEnd = format.format(c.getTime())+" 23:59:59";
+            nowStart = format.format(c.getTime()) + " 00:00:00";
+            nowEnd = format.format(c.getTime()) + " 23:59:59";
 
             //昨天
-            c.add(Calendar.DATE,-1);
-            lastStart = format.format(c.getTime())+" 00:00:00";;
-            lastEnd = format.format(c.getTime())+" 23:59:59";
+            c.add(Calendar.DATE, -1);
+            lastStart = format.format(c.getTime()) + " 00:00:00";
+            ;
+            lastEnd = format.format(c.getTime()) + " 23:59:59";
 
-        } else if ("2".equals(strategyInfo.get("f_range"))){
+        } else if ("2".equals(strategyInfo.get("f_range"))) {
             f_range = "本周";
 
             //本周
-            c.set(Calendar.DAY_OF_WEEK,Calendar.MONDAY);
-            nowStart = format.format(c.getTime())+" 00:00:00";
+            c.set(Calendar.DAY_OF_WEEK, Calendar.MONDAY);
+            nowStart = format.format(c.getTime()) + " 00:00:00";
 
             Calendar ca = Calendar.getInstance();
             ca.setFirstDayOfWeek(Calendar.MONDAY);
             ca.set(Calendar.DAY_OF_WEEK, ca.getFirstDayOfWeek() + 6); // Sunday
-            nowEnd = format.format(ca.getTime())+" 23:59:59";
+            nowEnd = format.format(ca.getTime()) + " 23:59:59";
 
             //上周
             Calendar cal = Calendar.getInstance();
             cal.add(Calendar.DATE, -7);
-            cal.set(Calendar.DAY_OF_WEEK,Calendar.MONDAY);
+            cal.set(Calendar.DAY_OF_WEEK, Calendar.MONDAY);
             lastStart = format.format(cal.getTime()) + " 00:00:00";
 
             cal.add(Calendar.DATE, 7);
-            cal.set(Calendar.DAY_OF_WEEK,Calendar.SUNDAY);
+            cal.set(Calendar.DAY_OF_WEEK, Calendar.SUNDAY);
             lastEnd = format.format(cal.getTime()) + " 23:59:59";
 
-        } else if ("3".equals(strategyInfo.get("f_range"))){
+        } else if ("3".equals(strategyInfo.get("f_range"))) {
             f_range = "本月";
             //本月第一天
-            c.set(Calendar.DAY_OF_MONTH,1);//设置为1号,当前日期既为本月第一天
-            nowStart = format.format(c.getTime())+" 00:00:00";
+            c.set(Calendar.DAY_OF_MONTH, 1);//设置为1号,当前日期既为本月第一天
+            nowStart = format.format(c.getTime()) + " 00:00:00";
             //本月最后一天
             Calendar ca = Calendar.getInstance();
             ca.set(Calendar.DAY_OF_MONTH, ca.getActualMaximum(Calendar.DAY_OF_MONTH));
-            nowEnd = format.format(ca.getTime())+" 23:59:59";
+            nowEnd = format.format(ca.getTime()) + " 23:59:59";
 
             //上月
             Calendar cal = Calendar.getInstance();
             cal.add(Calendar.MONTH, -1);    //得到前一个月
-            cal.set(Calendar.DAY_OF_MONTH,1);//设置为1号,当前日期既为本月第一天
-            lastStart = format.format(cal.getTime())+" 00:00:00";
+            cal.set(Calendar.DAY_OF_MONTH, 1);//设置为1号,当前日期既为本月第一天
+            lastStart = format.format(cal.getTime()) + " 00:00:00";
 
             Calendar cale = Calendar.getInstance();
             cale.add(Calendar.MONTH, -1);    //得到前一个月
             cale.set(Calendar.DAY_OF_MONTH, cale.getActualMaximum(Calendar.DAY_OF_MONTH));
-            lastEnd = format.format(cale.getTime())+" 23:59:59";
+            lastEnd = format.format(cale.getTime()) + " 23:59:59";
 
-        } else if ("4".equals(strategyInfo.get("f_range"))){
+        } else if ("4".equals(strategyInfo.get("f_range"))) {
             f_range = "本季";
             //本季度开始时间
             int currentMonth = c.get(Calendar.MONTH) + 1;
-            if (currentMonth >= 1 && currentMonth <= 3){
+            if (currentMonth >= 1 && currentMonth <= 3) {
                 c.set(Calendar.MONTH, 0);
             } else if (currentMonth >= 4 && currentMonth <= 6) {
                 c.set(Calendar.MONTH, 3);
@@ -318,19 +318,19 @@ public class BesExecute {
                 c.set(Calendar.MONTH, 9);
             }
             c.set(Calendar.DATE, 1);
-            nowStart = format.format(c.getTime())+" 00:00:00";
+            nowStart = format.format(c.getTime()) + " 00:00:00";
 
             //本季度结束时间
             Calendar ca = Calendar.getInstance();
             //计算季度数：由于月份从0开始，即1月份的Calendar.MONTH值为0,所以计算季度的第三个月份只需 月份 / 3 * 3 + 2
             ca.set(Calendar.MONTH, (((int) ca.get(Calendar.MONTH)) / 3) * 3 + 2);
             ca.set(Calendar.DAY_OF_MONTH, ca.getActualMaximum(Calendar.DAY_OF_MONTH));
-            nowEnd = format.format(ca.getTime())+" 23:59:59";
+            nowEnd = format.format(ca.getTime()) + " 23:59:59";
 
             //上季度开始时间
             Calendar cal = Calendar.getInstance();
             int lastMonth = cal.get(Calendar.MONTH) - 2;
-            if (lastMonth >= 1 && lastMonth <= 3){
+            if (lastMonth >= 1 && lastMonth <= 3) {
                 cal.set(Calendar.MONTH, 0);
             } else if (lastMonth >= 4 && lastMonth <= 6) {
                 cal.set(Calendar.MONTH, 3);
@@ -340,58 +340,58 @@ public class BesExecute {
                 cal.set(Calendar.MONTH, 9);
             }
             cal.set(Calendar.DATE, 1);
-            lastStart = format.format(cal.getTime())+" 00:00:00";
+            lastStart = format.format(cal.getTime()) + " 00:00:00";
 
             //上季度结束时间
             Calendar cale = Calendar.getInstance();
             //计算季度数：由于月份从0开始，即1月份的Calendar.MONTH值为0,所以计算季度的第三个月份只需 月份 / 3 * 3 + 2
             cale.set(Calendar.MONTH, (((int) cale.get(Calendar.MONTH) - 2) / 3) * 3 + 2);
             cale.set(Calendar.DAY_OF_MONTH, cale.getActualMaximum(Calendar.DAY_OF_MONTH));
-            lastEnd = format.format(cale.getTime())+" 23:59:59";
+            lastEnd = format.format(cale.getTime()) + " 23:59:59";
 
-        } else if ("5".equals(strategyInfo.get("f_range"))){
+        } else if ("5".equals(strategyInfo.get("f_range"))) {
             f_range = "本年";
             //本年开始时间
-            c.set(c.get(Calendar.YEAR) ,0, 1);//开始时间日期
-            nowStart = format.format(c.getTime())+" 00:00:00";
+            c.set(c.get(Calendar.YEAR), 0, 1);//开始时间日期
+            nowStart = format.format(c.getTime()) + " 00:00:00";
             //本年结束时间
             Calendar ca = Calendar.getInstance();
-            ca.set(ca.get(Calendar.YEAR) ,11, ca.getActualMaximum(Calendar.DAY_OF_MONTH));//结束日期
-            nowEnd = format.format(ca.getTime())+" 23:59:59";
+            ca.set(ca.get(Calendar.YEAR), 11, ca.getActualMaximum(Calendar.DAY_OF_MONTH));//结束日期
+            nowEnd = format.format(ca.getTime()) + " 23:59:59";
 
             //去年开始时间
             Calendar cal = Calendar.getInstance();
             cal.add(Calendar.YEAR, -1); //年份减1
-            cal.set(cal.get(Calendar.YEAR) ,0, 1);
-            lastStart =format.format(cal.getTime())+" 00:00:00";
+            cal.set(cal.get(Calendar.YEAR), 0, 1);
+            lastStart = format.format(cal.getTime()) + " 00:00:00";
 
             //去年结束时间
             Calendar cale = Calendar.getInstance();
             cale.add(Calendar.YEAR, -1); //年份减1
-            cale.set(cale.get(Calendar.YEAR) ,11, cale.getActualMaximum(Calendar.DAY_OF_MONTH));//结束日期
-            lastEnd = format.format(cale.getTime())+" 23:59:59";
+            cale.set(cale.get(Calendar.YEAR), 11, cale.getActualMaximum(Calendar.DAY_OF_MONTH));//结束日期
+            lastEnd = format.format(cale.getTime()) + " 23:59:59";
 
         }
-        List<Map<String,Object>> AllData = new ArrayList<>();
-        List<Map<String,Object>> branchData = new ArrayList<>();
-        List<Map<String,Object>> departmentData = new ArrayList<>();
-        if ("1".equals(strategyInfo.get("f_pId"))){ //默认 支路和部门都有
+        List<Map<String, Object>> AllData = new ArrayList<>();
+        List<Map<String, Object>> branchData = new ArrayList<>();
+        List<Map<String, Object>> departmentData = new ArrayList<>();
+        if ("1".equals(strategyInfo.get("f_pId"))) { //默认 支路和部门都有
 
             //支路2号楼数据
-            AllData = besStrategyMapper.queryBranchData(strategyId,nowStart,nowEnd,lastStart,lastEnd);
+            AllData = besStrategyMapper.queryBranchData(strategyId, nowStart, nowEnd, lastStart, lastEnd);
             //支路子级数据
-            branchData = besStrategyMapper.queryChildBranchData(strategyId,nowStart,nowEnd,lastStart,lastEnd);
+            branchData = besStrategyMapper.queryChildBranchData(strategyId, nowStart, nowEnd, lastStart, lastEnd);
             //部门数据
 //            departmentData = this.queryAllDepInfoByStrategyId(strategyId,"0",nowStart,nowEnd,lastStart,lastEnd);
-        } else if ("2".equals(strategyInfo.get("f_pId"))){ //层级,只有支路
+        } else if ("2".equals(strategyInfo.get("f_pId"))) { //层级,只有支路
             //支路2号楼数据
-            AllData = besStrategyMapper.queryBranchData(strategyId,nowStart,nowEnd,lastStart,lastEnd);
+            AllData = besStrategyMapper.queryBranchData(strategyId, nowStart, nowEnd, lastStart, lastEnd);
             //支路子级数据
-            branchData = besStrategyMapper.queryChildBranchData(strategyId,nowStart,nowEnd,lastStart,lastEnd);
+            branchData = besStrategyMapper.queryChildBranchData(strategyId, nowStart, nowEnd, lastStart, lastEnd);
 
-        } else if ("3".equals(strategyInfo.get("f_pId"))){ //只有部门
+        } else if ("3".equals(strategyInfo.get("f_pId"))) { //只有部门
             //部门数据
-            departmentData = this.queryAllDepInfoByStrategyId(strategyId,"0",nowStart,nowEnd,lastStart,lastEnd);
+            departmentData = this.queryAllDepInfoByStrategyId(strategyId, "0", nowStart, nowEnd, lastStart, lastEnd);
         }
 
         // 创建工具类.
@@ -412,10 +412,8 @@ public class BesExecute {
     }
 
 
-
-
     //组织部门数据
-    private List<Map<String, Object>> queryAllDepInfoByStrategyId(String strategyId,String fType, String time_start, String time_end, String last_time_start, String last_time_end) {
+    private List<Map<String, Object>> queryAllDepInfoByStrategyId(String strategyId, String fType, String time_start, String time_end, String last_time_start, String last_time_end) {
         //获取参数
         //时间颗粒 fType
         String nhlx = "01000";
@@ -427,7 +425,7 @@ public class BesExecute {
         List<Map<String, Object>> list = besBranchDataMapper.queryAllDepByStrategy(strategyId);
         for (Map m : list) {
             //根据部门列表获取所有支路，电表数据
-            if ("3".equals(m.get("f_level").toString())) {
+            if ("2".equals(m.get("f_level").toString()) || "3".equals(m.get("f_level").toString())) {
                 Double dou = 0.00;
                 Double predou = 0.00;
                 Double peopleData = 0.00;
@@ -486,16 +484,17 @@ public class BesExecute {
                         peopleData = getTwoDecimal(peopleData);
                         m.put("peopleData", peopleData + "kwh");
                     }
-                }else{
+                } else {
                     m.put("fData", "未配置支路或电表");
                     m.put("F_CJSJ", time_end);
                     m.put("F_TYPE", fType);
                     m.put("f_zlbh(1)", m.get("f_department_id").toString());
                     m.put("yData", "未配置支路或电表");
                     //人均
-                    m.put("peopleData", "未配置支路或电表");
+                    if ("3".equals(m.get("f_level").toString())) {
+                        m.put("peopleData", "未配置支路或电表");
+                    }
                 }
-
             } else {
                 m.put("fData", "0kwh");
                 m.put("F_CJSJ", time_end);
@@ -506,35 +505,98 @@ public class BesExecute {
                 m.put("peopleData", "0kwh");
             }
         }
-
-        Map<String, Object> twoFloor = new HashMap<String, Object>(){
-            {
-                put("f_level","1");
-                put("f_zlmc","二号楼");
-                put("f_type",fType);
-                put("fData", "0kwh");
-                put("yData", "0kwh");
-                put("peopleData", "0kwh");
-            }
-        };
-        list.add(twoFloor);
-
 //        for () {
 //
 //        }
-
-
         return list;
     }
+
+
+    //组织部门数据
+    private List<Map<String, Object>> queryAllDepInfoByStrategyIdOnly(String strategyId, String fType, String time_start, String time_end, String last_time_start, String last_time_end) {
+        //获取参数
+        //时间颗粒 fType
+        String nhlx = "01000";
+//        Double allDou = 0.00;
+//        Double allPredou = 0.00;
+//        Double allNUmber = 0.00;
+
+        //根据id取得所有部门列表
+        List<Map<String, Object>> list = besBranchDataMapper.queryAllDepByStrategy(strategyId);
+        for (Map m : list) {
+            //根据部门列表获取所有支路，电表数据
+            if ("1".equals(m.get("f_level").toString())) {
+                Double dou = 0.00;
+                Double predou = 0.00;
+                Double peopleData = 0.00;
+                List<Map<String, Object>> branchList = besBranchDataMapper.queryAllBranchByDepList(m.get("f_department_id").toString());
+                List<Map<String, Object>> ammeterList = besBranchDataMapper.queryAllAmmeterByDepList(m.get("f_department_id").toString());
+                List<Map<String, Object>> allList = new ArrayList<>();
+                allList.addAll(branchList);
+                allList.addAll(ammeterList);
+                if (allList.size() > 0) {
+
+                    //根据电表和支路查询数据
+                    List<Map<String, Object>> dataList = besBranchDataMapper.queryDepDataByList(fType, nhlx, time_start, time_end, branchList, ammeterList);
+                    //根据系数修改数据
+                    a:
+                    for (Map dataMap : dataList) {
+                        b:
+                        for (Map zlxs : allList) {
+                            if (zlxs.get("bh").toString().equals(dataMap.get("F_ZLBH").toString())) {
+//                            dataMap.put("F_DATA",Double.parseDouble(dataMap.get("F_DATA").toString())*Double.parseDouble(m.get("xs").toString()));
+                                dou = dou + Double.parseDouble(dataMap.get("F_DATA").toString()) * Double.parseDouble(zlxs.get("xs").toString());
+                                continue a;
+                            }
+                        }
+                    }
+//                    allDou = allDou +dou;
+                    //环比数据
+                    List<Map<String, Object>> preDataList = besBranchDataMapper.queryDepDataByList(fType, nhlx, last_time_start, last_time_end, branchList, ammeterList);
+                    //根据系数修改数据
+                    a:
+                    for (Map dataMap : preDataList) {
+                        b:
+                        for (Map zlxs : allList) {
+                            if (zlxs.get("bh").toString().equals(dataMap.get("F_ZLBH").toString())) {
+//                            dataMap.put("F_DATA",Double.parseDouble(dataMap.get("F_DATA").toString())*Double.parseDouble(m.get("xs").toString()));
+                                predou = predou + Double.parseDouble(dataMap.get("F_DATA").toString()) * Double.parseDouble(zlxs.get("xs").toString());
+
+                                continue a;
+                            }
+                        }
+                    }
+
+                    dou = getTwoDecimal(dou);
+                    predou = getTwoDecimal(predou);
+//                    allPredou = allPredou+predou;
+                    m.put("fData", dou + "kwh");
+                    m.put("F_CJSJ", time_end);
+                    m.put("F_TYPE", fType);
+                    m.put("f_zlbh(1)", m.get("f_department_id").toString());
+                    m.put("yData", predou + "kwh");
+                } else {
+                    m.put("fData", "未配置支路或电表");
+                    m.put("F_CJSJ", time_end);
+                    m.put("F_TYPE", fType);
+                    m.put("f_zlbh(1)", m.get("f_department_id").toString());
+                    m.put("yData", "未配置支路或电表");
+                }
+
+            }
+        }
+        return list;
+    }
+
 
     /*@PostConstruct
     public void testMethods(){
         List<Map<String, Object>> list = queryAllDepInfoByStrategyId("11","0","2022-04-18 00:00:00","2022-04-24 23:59:59","2022-04-11 23:59:59","2022-04-17 23:59:59");
     }*/
 
-    private Double getTwoDecimal(Double dou){
+    private Double getTwoDecimal(Double dou) {
         BigDecimal two = new BigDecimal(dou);
-        dou = two.setScale(2,BigDecimal.ROUND_HALF_UP).doubleValue();
+        dou = two.setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
         return dou;
     }
 

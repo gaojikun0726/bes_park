@@ -258,19 +258,19 @@ public interface BesDepartmentConfService {
 
 	List<Map<String, Object>> getSelectBranchInfoList(String bmbh,String keywords);
 
-	List<Map<String, Object>> getSelectBranchInfoChoose(String bmbh);
+	List<Map<String, Object>> getSelectBranchInfoChoose(String bmbh,String F_LEVEL);
 
 	List<Map<String, Object>> getSelectBranchInfoById(String fZlbh);
 
-	List<Map<String, Object>> getSelectBranchCount(String F_DEP_ID,String fZlbh);
+	List<Map<String, Object>> getSelectBranchCount(String F_DEP_ID,String fZlbh,String F_LEVEL);
 
 	List<Map<String, Object>> getSelectElectricityMeterInfoList(String bmbh,String keywords);
 
-	List<Map<String, Object>> getSelectElectricityMeterInfoChoose(String bmbh);
+	List<Map<String, Object>> getSelectElectricityMeterInfoChoose(String bmbh,String F_LEVEL);
 
 	List<Map<String, Object>> getSelectElectricityMeterInfoById(String fZlbh);
 
-	List<Map<String, Object>> getSelectElectricityMeterCount(String F_DEP_ID,String fZlbh);
+	List<Map<String, Object>> getSelectElectricityMeterCount(String F_DEP_ID,String fZlbh,String F_LEVEL);
 
 	Map<String, Object> getDepPeopleNumber(String F_DEP_ID);
 

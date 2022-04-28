@@ -43,10 +43,10 @@
         date_format( a.UPDATE_TIME, '%Y-%m-%d %H:%i:%s' ) UPDATE_TIME
         FROM bes_department_data a
         <where>
-            1=1
-            <if test="fDepId != null and fDepId != ''">
+            a.F_DEP_ID = #{fDepId}
+            <!--<if test="fDepId != null and fDepId != ''">
                 and a.F_DEP_ID LIKE CONCAT('%',#{fDepId},'%')
-            </if>
+            </if>-->
         </where>
         order by a.F_DEP_ID
     </select>
@@ -115,6 +115,9 @@
                 <if test="item.F_DBXS != null" >
                     F_DBXS,
                 </if>
+                <if test="item.F_LEVEL != null" >
+                    F_LEVEL,
+                </if>
                 CREATE_TIME,
                 UPDATE_TIME
             </trim>
@@ -133,6 +136,9 @@
                 </if>
                 <if test="item.F_DBXS != null" >
                     #{item.F_DBXS},
+                </if>
+                <if test="item.F_LEVEL != null" >
+                    #{item.F_LEVEL},
                 </if>
                 current_timestamp(),
                 current_timestamp()
@@ -234,7 +240,9 @@
             <if test="bmbh != null and bmbh != ''">
                 AND a.F_ZLBH in (SELECT F_ZLBH from bes_department_data WHERE F_DEP_ID = #{bmbh} AND F_ZLBH is not null)
             </if>
-
+            <if test="F_LEVEL != null and F_LEVEL != ''">
+                AND F_LEVEL = #{F_LEVEL}
+            </if>
         </where>
     </select>
 
@@ -246,7 +254,7 @@
     </select>
 
     <select id="getSelectBranchCount" resultType="java.util.Map">
-        SELECT 1/(count(1)+1) F_ZLXS FROM bes_department_data WHERE F_ZLBH = #{fZlbh} AND F_DEP_ID != #{F_DEP_ID}
+        SELECT 1/(count(1)+1) F_ZLXS FROM bes_department_data WHERE F_ZLBH = #{fZlbh} AND F_DEP_ID != #{F_DEP_ID} AND F_LEVEL = #{F_LEVEL}
     </select>
 
     <select id="getSelectElectricityMeterInfoList" resultType="java.util.Map">
@@ -269,6 +277,9 @@
             <if test="bmbh != null and bmbh != ''">
                 AND a.F_SYS_NAME in (SELECT F_DBSYS_NAME from bes_department_data WHERE F_DEP_ID = #{bmbh} AND F_DBSYS_NAME is not null)
             </if>
+            <if test="F_LEVEL != null and F_LEVEL != ''">
+                AND F_LEVEL = #{F_LEVEL}
+            </if>
         </where>
     </select>
 
@@ -280,7 +291,7 @@
     </select>
 
     <select id="getSelectElectricityMeterCount" resultType="java.util.Map">
-        SELECT 1/(count(1)+1) F_DBXS FROM bes_department_data WHERE F_DBSYS_NAME = #{fZlbh} AND F_DEP_ID != #{F_DEP_ID}
+        SELECT 1/(count(1)+1) F_DBXS FROM bes_department_data WHERE F_DBSYS_NAME = #{fZlbh} AND F_DEP_ID != #{F_DEP_ID} AND F_LEVEL = #{F_LEVEL}
     </select>
 
     <update id="updateBranchCoefficient">
@@ -290,7 +301,7 @@
                 F_ZLXS = #{F_ZLXS},
             </if>
         </set>
-        where F_ZLBH = #{F_ZLBH}
+        where F_ZLBH = #{F_ZLBH} AND F_LEVEL = #{F_LEVEL}
     </update>
 
     <update id="updateAmmeterCoefficient">
@@ -300,7 +311,7 @@
                 F_DBXS = #{F_DBXS},
             </if>
         </set>
-        where F_DBSYS_NAME = #{F_DBSYS_NAME}
+        where F_DBSYS_NAME = #{F_DBSYS_NAME} AND F_LEVEL = #{F_LEVEL}
     </update>
 
     <select id="getDepPeopleNumber" resultType="java.util.Map">

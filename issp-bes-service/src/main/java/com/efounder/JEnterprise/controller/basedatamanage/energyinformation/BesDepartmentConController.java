@@ -184,8 +184,8 @@ public class BesDepartmentConController {
     /**
      * 查询分户未包含的支路信息
      *
-     * @param besHBR
-     * @param besBranchConf
+     * @param
+     * @param
      * @return
      */
     @RequestMapping(value = "/loadNoBrcDep", method = RequestMethod.POST)
@@ -200,8 +200,8 @@ public class BesDepartmentConController {
     /**
      * 查询分户包含的支路信息
      *
-     * @param besHBR
-     * @param besBranchConf
+     * @param
+     * @param
      * @return
      */
     @RequestMapping(value = "/loadInBrcDep", method = RequestMethod.POST)
@@ -248,7 +248,7 @@ public class BesDepartmentConController {
     /**
      * 分户中添加支路
      *
-     * @param besHBR
+     * @param
      * @return
      */
     @RequestMapping(value = "/besDepartment_instBranch", method = RequestMethod.POST)
@@ -263,7 +263,7 @@ public class BesDepartmentConController {
     /**
      * 分户中删除支路
      *
-     * @param besHBR
+     * @param
      * @return
      */
     @RequestMapping(value = "/besDepartment_delBranch", method = RequestMethod.POST)
@@ -278,7 +278,7 @@ public class BesDepartmentConController {
     /**
      * 移除全部支路
      *
-     * @param besHBR
+     * @param
      * @return
      */
     @RequestMapping(value = "/besDepartment_leftmoveAll", method = RequestMethod.POST)
@@ -293,7 +293,7 @@ public class BesDepartmentConController {
     /**
      * 添加全部支路
      *
-     * @param besHBR
+     * @param
      * @return
      */
     @RequestMapping(value = "/besDepartment_rightmoveAll", method = RequestMethod.POST)
@@ -486,9 +486,9 @@ public class BesDepartmentConController {
 
     @RequestMapping(value = "/getSelectBranchInfoChoose", method = RequestMethod.POST)
     @ResponseBody
-    public ISSPReturnObject getSelectBranchInfoChoose(String bmbh) {
+    public ISSPReturnObject getSelectBranchInfoChoose(String bmbh,String F_LEVEL) {
         ISSPReturnObject returnObject = new ISSPReturnObject();
-        List<Map<String,Object>> selectBranchInfoList = besDepartmentConfService.getSelectBranchInfoChoose(bmbh);
+        List<Map<String,Object>> selectBranchInfoList = besDepartmentConfService.getSelectBranchInfoChoose(bmbh,F_LEVEL);
         returnObject.setList(selectBranchInfoList);
         return returnObject;
     }
@@ -507,9 +507,9 @@ public class BesDepartmentConController {
 
     @RequestMapping(value = "/getSelectBranchCount", method = RequestMethod.POST)
     @ResponseBody
-    public ISSPReturnObject getSelectBranchCount(String F_DEP_ID,String fZlbh) {
+    public ISSPReturnObject getSelectBranchCount(String F_DEP_ID,String fZlbh,String F_LEVEL) {
         ISSPReturnObject returnObject = new ISSPReturnObject();
-        List<Map<String,Object>> selectBranchInfoList = besDepartmentConfService.getSelectBranchCount(F_DEP_ID,fZlbh);
+        List<Map<String,Object>> selectBranchInfoList = besDepartmentConfService.getSelectBranchCount(F_DEP_ID,fZlbh, F_LEVEL);
         returnObject.setList(selectBranchInfoList);
         return returnObject;
     }
@@ -533,9 +533,9 @@ public class BesDepartmentConController {
 
     @RequestMapping(value = "/getSelectElectricityMeterInfoChoose", method = RequestMethod.POST)
     @ResponseBody
-    public ISSPReturnObject getSelectElectricityMeterInfoChoose(String bmbh) {
+    public ISSPReturnObject getSelectElectricityMeterInfoChoose(String bmbh,String F_LEVEL) {
         ISSPReturnObject returnObject = new ISSPReturnObject();
-        List<Map<String,Object>> selectElectricityMeterInfoList = besDepartmentConfService.getSelectElectricityMeterInfoChoose(bmbh);
+        List<Map<String,Object>> selectElectricityMeterInfoList = besDepartmentConfService.getSelectElectricityMeterInfoChoose(bmbh,F_LEVEL);
         returnObject.setList(selectElectricityMeterInfoList);
         return returnObject;
     }
@@ -551,9 +551,9 @@ public class BesDepartmentConController {
 
     @RequestMapping(value = "/getSelectElectricityMeterCount", method = RequestMethod.POST)
     @ResponseBody
-    public ISSPReturnObject getSelectElectricityMeterCount(String F_DEP_ID,String fZlbh) {
+    public ISSPReturnObject getSelectElectricityMeterCount(String F_DEP_ID,String fZlbh,String F_LEVEL) {
         ISSPReturnObject returnObject = new ISSPReturnObject();
-        List<Map<String,Object>> selectBranchInfoList = besDepartmentConfService.getSelectElectricityMeterCount(F_DEP_ID,fZlbh);
+        List<Map<String,Object>> selectBranchInfoList = besDepartmentConfService.getSelectElectricityMeterCount(F_DEP_ID,fZlbh, F_LEVEL);
         returnObject.setList(selectBranchInfoList);
         return returnObject;
     }

@@ -149,10 +149,10 @@ public class BesDepartmentConfServiceImpl implements BesDepartmentConfService {
             }
             for (Map map : list) {
                 if (map.get("F_ZLXS") != null /*&& Double.parseDouble(map.get("F_ZLXS").toString())<1*/) {
-                    besDepartmentConfMapper.updateBranchCoefficient(Double.parseDouble(map.get("F_ZLXS").toString()), map.get("F_ZLBH").toString());
+                    besDepartmentConfMapper.updateBranchCoefficient(Double.parseDouble(map.get("F_ZLXS").toString()), map.get("F_ZLBH").toString(), map.get("F_LEVEL").toString());
                 }
                 if (map.get("F_DBXS") != null /*&& Double.parseDouble(map.get("F_DBXS").toString())<1*/) {
-                    besDepartmentConfMapper.updateAmmeterCoefficient(Double.parseDouble(map.get("F_DBXS").toString()), map.get("F_SYS_NAME").toString());
+                    besDepartmentConfMapper.updateAmmeterCoefficient(Double.parseDouble(map.get("F_DBXS").toString()), map.get("F_SYS_NAME").toString(), map.get("F_LEVEL").toString());
                 }
             }
         } else {
@@ -220,8 +220,8 @@ public class BesDepartmentConfServiceImpl implements BesDepartmentConfService {
     }
 
     @Override
-    public List<Map<String, Object>> getSelectBranchInfoChoose(String bmbh) {
-        return besDepartmentConfMapper.getSelectBranchInfoChoose(bmbh);
+    public List<Map<String, Object>> getSelectBranchInfoChoose(String bmbh,String F_LEVEL) {
+        return besDepartmentConfMapper.getSelectBranchInfoChoose(bmbh,F_LEVEL);
     }
 
     @Override
@@ -230,8 +230,8 @@ public class BesDepartmentConfServiceImpl implements BesDepartmentConfService {
     }
 
     @Override
-    public List<Map<String, Object>> getSelectBranchCount(String F_DEP_ID, String fZlbh) {
-        return besDepartmentConfMapper.getSelectBranchCount(F_DEP_ID, fZlbh);
+    public List<Map<String, Object>> getSelectBranchCount(String F_DEP_ID, String fZlbh,String F_LEVEL) {
+        return besDepartmentConfMapper.getSelectBranchCount(F_DEP_ID, fZlbh, F_LEVEL);
     }
 
     @Override
@@ -240,8 +240,8 @@ public class BesDepartmentConfServiceImpl implements BesDepartmentConfService {
     }
 
     @Override
-    public List<Map<String, Object>> getSelectElectricityMeterInfoChoose(String bmbh) {
-        return besDepartmentConfMapper.getSelectElectricityMeterInfoChoose(bmbh);
+    public List<Map<String, Object>> getSelectElectricityMeterInfoChoose(String bmbh,String F_LEVEL) {
+        return besDepartmentConfMapper.getSelectElectricityMeterInfoChoose(bmbh,F_LEVEL);
     }
 
     @Override
@@ -250,8 +250,8 @@ public class BesDepartmentConfServiceImpl implements BesDepartmentConfService {
     }
 
     @Override
-    public List<Map<String, Object>> getSelectElectricityMeterCount(String F_DEP_ID, String fZlbh) {
-        return besDepartmentConfMapper.getSelectElectricityMeterCount(F_DEP_ID, fZlbh);
+    public List<Map<String, Object>> getSelectElectricityMeterCount(String F_DEP_ID, String fZlbh,String F_LEVEL) {
+        return besDepartmentConfMapper.getSelectElectricityMeterCount(F_DEP_ID, fZlbh, F_LEVEL);
     }
 
     @Override

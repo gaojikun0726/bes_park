@@ -247,23 +247,23 @@ public interface BesDepartmentConfMapper extends BaseMapper<String ,BESSubitemCo
 
 	List<Map<String,Object>> getSelectBranchInfoList(@Param("bmbh") String bmbh,@Param("keywords") String keywords);
 
-	List<Map<String,Object>> getSelectBranchInfoChoose(@Param("bmbh") String bmbh);
+	List<Map<String,Object>> getSelectBranchInfoChoose(@Param("bmbh") String bmbh,@Param("F_LEVEL") String F_LEVEL);
 
 	List<Map<String,Object>> getSelectBranchInfoById(@Param("fZlbh") String fZlbh);
 
-	List<Map<String,Object>> getSelectBranchCount(@Param("F_DEP_ID") String F_DEP_ID,@Param("fZlbh") String fZlbh);
+	List<Map<String,Object>> getSelectBranchCount(@Param("F_DEP_ID") String F_DEP_ID,@Param("fZlbh") String fZlbh,@Param("F_LEVEL") String F_LEVEL);
 
 	List<Map<String,Object>> getSelectElectricityMeterInfoList(@Param("bmbh") String bmbh,@Param("keywords") String keywords);
 
-	List<Map<String,Object>> getSelectElectricityMeterInfoChoose(@Param("bmbh") String bmbh);
+	List<Map<String,Object>> getSelectElectricityMeterInfoChoose(@Param("bmbh") String bmbh,@Param("F_LEVEL") String F_LEVEL);
 
 	List<Map<String,Object>> getSelectElectricityMeterInfoById(@Param("fZlbh") String fZlbh);
 
-	List<Map<String,Object>> getSelectElectricityMeterCount(@Param("F_DEP_ID") String F_DEP_ID,@Param("fZlbh") String fZlbh);
+	List<Map<String,Object>> getSelectElectricityMeterCount(@Param("F_DEP_ID") String F_DEP_ID,@Param("fZlbh") String fZlbh,@Param("F_LEVEL") String F_LEVEL);
 
-	void updateBranchCoefficient(@Param("F_ZLXS") Double F_ZLXS,@Param("F_ZLBH") String F_ZLBH);
+	void updateBranchCoefficient(@Param("F_ZLXS") Double F_ZLXS,@Param("F_ZLBH") String F_ZLBH,@Param("F_LEVEL") String F_LEVEL);
 
-	void updateAmmeterCoefficient(@Param("F_DBXS") Double F_DBXS,@Param("F_DBSYS_NAME") String F_DBSYS_NAME);
+	void updateAmmeterCoefficient(@Param("F_DBXS") Double F_DBXS,@Param("F_DBSYS_NAME") String F_DBSYS_NAME,@Param("F_LEVEL") String F_LEVEL);
 
 	Map<String,Object> getDepPeopleNumber(@Param("F_DEP_ID") String F_DEP_ID);
 

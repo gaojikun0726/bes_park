@@ -29,7 +29,7 @@
             <div class="zc_search find">
                 <input type="text" class="find-style" id="zzjginfo" name="zzjginfo" placeholder="支路/电表编号、名称">
                 <button id="queryuserBtn" onclick="organizationmanage_zzjg.searchzzjgZLDB()"><i class="fa fa-search"
-                                                                                            aria-hidden="true"></i>
+                                                                                                aria-hidden="true"></i>
                 </button>
             </div>
         </div>
@@ -49,15 +49,17 @@
             </div>
             <div class="modal-body">
                 <#--<form role="form" id="addZzjg" name="addZzjg" class="form-horizontal">-->
-                <div>
+                <div id="depPeopleNumberDiv">
                     <h4 class="modal-title">部门人数:</h4>
                     <br>
                     <div>
-                        <input type="number" id="depPeopleNumber" name="depPeopleNumber" class="input-sm form-control" placeholder="请输入部门人数(必填)"
-                               autocomplete="off" oninput="if(value>10000)value=10000;if(value<0)value=0" onblur="organizationmanage_zzjg.checkDepPeopleNumber(this)"/>
+                        <input type="number" id="depPeopleNumber" name="depPeopleNumber" class="input-sm form-control"
+                               placeholder="请输入部门人数(必填)"
+                               autocomplete="off" oninput="if(value>10000)value=10000;if(value<0)value=0"
+                               onblur="organizationmanage_zzjg.checkDepPeopleNumber(this)"/>
                     </div>
                 </div>
-                <HR>
+                <HR id="depPeopleNumberDivHR">
                 <div>
                     <h4 class="modal-title">包含支路:</h4>
                     <div class="modal-body" style="height:600px;">
@@ -488,9 +490,9 @@
                     F_DEP_ID: _zzjgbh
                 }),
                 success: function (result) {
-                    if(result.hasOwnProperty('data') == false){
+                    if (result.hasOwnProperty('data') == false) {
                         $("#depPeopleNumber").val(0)
-                    }else{
+                    } else {
                         $("#depPeopleNumber").val(result.data.F_NUMBER)
                     }
                 }
@@ -533,7 +535,7 @@
             });
         }
 
-        function getSelectBranchInfoChoose(_zzjgbh) {
+        function getSelectBranchInfoChoose(_zzjgbh, _zzjgJs) {
             $.ajax({
                 type: "POST",
                 dataType: 'json',
@@ -550,9 +552,10 @@
                             addList[0]['F_ZLXS'] = result.list[i].F_ZLXS
                             addList[0]['F_ZLBH'] = result.list[i].F_ZLBH
                             addList[0]['F_DEP_ID'] = _zzjgbh;
+                            addList[0]['F_LEVEL'] = _zzjgJs;
                             addDepList.push(addList[0]);
                         }
-                    }else{
+                    } else {
                         $("#householdBrc_include").tabulator("setData", []);
                     }
                 }
@@ -572,10 +575,10 @@
                     if (result.hasOwnProperty('list') == false) {
                         $("#wattHourMeter_noInclude").tabulator("setData", []);
                     } else {
-                        for(let i = 0; i < result.list.length; i++){
-                            for(let j = 0; j < addDepList.length; j++){
-                                if(addDepList[j].F_SYS_NAME == result.list[i].F_SYS_NAME){
-                                    result.list.splice(i,1);
+                        for (let i = 0; i < result.list.length; i++) {
+                            for (let j = 0; j < addDepList.length; j++) {
+                                if (addDepList[j].F_SYS_NAME == result.list[i].F_SYS_NAME) {
+                                    result.list.splice(i, 1);
                                 }
                             }
                         }
@@ -592,7 +595,7 @@
             });
         }
 
-        function getSelectElectricityMeterInfoChoose(_zzjgbh) {
+        function getSelectElectricityMeterInfoChoose(_zzjgbh, _zzjgJs) {
             $.ajax({
                 type: "POST",
                 dataType: 'json',
@@ -609,9 +612,10 @@
                             addList[0]['F_DBXS'] = result.list[i].F_DBXS;
                             addList[0]['F_SYS_NAME'] = result.list[i].F_SYS_NAME
                             addList[0]['F_DEP_ID'] = _zzjgbh;
+                            addList[0]['F_LEVEL'] = _zzjgJs;
                             addDepList.push(addList[0]);
                         }
-                    }else{
+                    } else {
                         $("#wattHourMeter_include").tabulator("setData", []);
                     }
                 }
@@ -636,7 +640,8 @@
                             type: "post",
                             data: ({
                                 fZlbh: f_yhbh,
-                                F_DEP_ID:_zzjgbh
+                                F_DEP_ID: _zzjgbh,
+                                F_LEVEL: _zzjgJs
                             }),
                             success: function (data1) {
                                 $("#householdBrc_noInclude").tabulator("deleteRow", _notincludecurRow);
@@ -653,6 +658,7 @@
                                 addList[0]['F_ZLXS'] = data1.list[0].F_ZLXS
                                 addList[0]['F_ZLBH'] = data.list[0].F_ZLBH
                                 addList[0]['F_DEP_ID'] = _zzjgbh;
+                                addList[0]['F_LEVEL'] = _zzjgJs;
                                 addDepList.push(/*data.list[0]*/addList[0]);
                                 //未包含用户表格：
                                 var noinclude_group_data = $("#householdBrc_noInclude").tabulator("getData");
@@ -743,7 +749,8 @@
                             type: "post",
                             data: ({
                                 fZlbh: f_yhbh,
-                                F_DEP_ID:_zzjgbh
+                                F_DEP_ID: _zzjgbh,
+                                F_LEVEL: _zzjgJs
                             }),
                             success: function (data1) {
                                 data.list[0]['F_DBXS'] = data1.list[0].F_DBXS;
@@ -761,6 +768,7 @@
                                 addList[0]['F_DBXS'] = data1.list[0].F_DBXS;
                                 addList[0]['F_SYS_NAME'] = data.list[0].F_SYS_NAME
                                 addList[0]['F_DEP_ID'] = _zzjgbh;
+                                addList[0]['F_LEVEL'] = _zzjgJs;
                                 addDepList.push(/*data.list[0]*/addList[0]);
                                 //未包含用户表格：
                                 var noinclude_group_data = $("#wattHourMeter_noInclude").tabulator("getData");
@@ -1421,9 +1429,10 @@
         };
 
         return {
-            checkDepPeopleNumber:function() {
-                var re =  /^[1-9]+[0-9]*]*$/;//判断正整数
-                if (!re.test($('#depPeopleNumber').val())){
+            checkDepPeopleNumber: function () {
+
+                var re = /^[1-9]+[0-9]*]*$/;//判断正整数
+                if (!re.test($('#depPeopleNumber').val())) {
                     swal("请输入正确的部门人数", "", "error");
                     return;
                 }
@@ -1431,17 +1440,20 @@
                     swal("请输入部门人数", "", "error");
                     return;
                 }
+
             },
             //保存提交
             add_depInfo: function () {
-                if ($('#depPeopleNumber').val() == "" || $('#depPeopleNumber').val() == "0" || $('#depPeopleNumber').val() == 0) {
-                    swal("请输入部门人数", "", "error");
-                    return;
-                }
-                var re =  /^[1-9]+[0-9]*]*$/;//判断正整数
-                if (!re.test($('#depPeopleNumber').val())){
-                    swal("请输入正确的部门人数", "", "error");
-                    return;
+                if (_zzjgJs == '3') {
+                    if ($('#depPeopleNumber').val() == "" || $('#depPeopleNumber').val() == "0" || $('#depPeopleNumber').val() == 0) {
+                        swal("请输入部门人数", "", "error");
+                        return;
+                    }
+                    var re = /^[1-9]+[0-9]*]*$/;//判断正整数
+                    if (!re.test($('#depPeopleNumber').val())) {
+                        swal("请输入正确的部门人数", "", "error");
+                        return;
+                    }
                 }
                 if (addDepList.length == 0) {
                     swal("请添加支路或电表数据", "", "error");
@@ -1467,7 +1479,7 @@
                         type: "post",
                         data: {
                             F_DEP_ID: _zzjgbh,
-                            number:number
+                            number: number
                         },
                         success: function () {
                             $.ajax({
@@ -1555,7 +1567,7 @@
             },
             searchzzjgZLDB: function () {
                 var zzjginfo = $("#zzjginfo").val();
-                $("#zzjgTable").tabulator("setData", _ctx + '/view/basedatamanage/energyinformation/getDepartmentAllList?f_zzjgbh=' + _zzjginfo1+'&zzjginfo='+zzjginfo);
+                $("#zzjgTable").tabulator("setData", _ctx + '/view/basedatamanage/energyinformation/getDepartmentAllList?f_zzjgbh=' + _zzjginfo1 + '&zzjginfo=' + zzjginfo);
             },
             getCurRow: function () {
                 return _curRow;
@@ -1568,24 +1580,31 @@
                 // $('#selectBranchInfo').val('');
                 // $('#selectElectricityMeterInfo').val('');
                 var node = $('#tree_zzjg').treeview('getSelected');
-                if (node.length == 0 || node[0].level != '3') {//凡是1节点，note.length都为1；无选择节点，为0；
-                    swal({
-                        title: "请选择部门",
-                        text: "经检测，您未选择部门节点!",
-                        type: "warning",
-                        showCancelButton: false,
-                        confirmButtonColor: "#1ab394",
-                        confirmButtonText: "关闭",
-                        closeOnConfirm: false
-                    });
+                if (node.length == 0 || node[0].level != '3') {
+                    $("#depPeopleNumberDiv").hide();
+                    $("#depPeopleNumberDivHR").hide();
                 } else {
-                    getDepPeopleNumber(_zzjgbh)
-                    getSelectBranchInfo(_zzjgbh, '')
-                    getSelectBranchInfoChoose(_zzjgbh)
-                    getSelectElectricityMeterInfo(_zzjgbh, '')
-                    getSelectElectricityMeterInfoChoose(_zzjgbh)
-                    $('#modal-form-addzzjg').modal('show');
+                    $("#depPeopleNumberDiv").show();
+                    $("#depPeopleNumberDivHR").show();
                 }
+                // if (node.length == 0 || node[0].level != '3') {//凡是1节点，note.length都为1；无选择节点，为0；
+                //     swal({
+                //         title: "请选择部门",
+                //         text: "经检测，您未选择部门节点!",
+                //         type: "warning",
+                //         showCancelButton: false,
+                //         confirmButtonColor: "#1ab394",
+                //         confirmButtonText: "关闭",
+                //         closeOnConfirm: false
+                //     });
+                // } else {
+                getDepPeopleNumber(_zzjgbh)
+                getSelectBranchInfo(_zzjgbh, '')
+                getSelectBranchInfoChoose(_zzjgbh, _zzjgJs)
+                getSelectElectricityMeterInfo(_zzjgbh, '')
+                getSelectElectricityMeterInfoChoose(_zzjgbh, _zzjgJs)
+                $('#modal-form-addzzjg').modal('show');
+                // }
             },
 
             //搜索已包含支路

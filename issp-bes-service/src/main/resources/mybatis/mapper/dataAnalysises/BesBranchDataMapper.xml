@@ -576,7 +576,9 @@ WHERE
     </select>
 
     <select id="queryAllDepByStrategy" resultType="java.util.Map">
-        SELECT a.*,CASE WHEN ISNULL(b.F_NUMBER) THEN 0 ELSE b.F_NUMBER END F_NUMBER FROM bes_strategy_department a
+        SELECT a.*,CASE WHEN ISNULL( b.F_NUMBER ) AND f_level = '3' THEN 0 WHEN f_level = '2' THEN ( SELECT COALESCE(SUM( d.F_NUMBER ),0)  FROM es_zzjg c LEFT JOIN bes_department_number d
+        ON c.F_ZZJGBH = d.F_DEP_ID WHERE c.F_PZZJGBH = a.f_department_id ) ELSE b.F_NUMBER END F_NUMBER
+		FROM bes_strategy_department a
         LEFT JOIN bes_department_number b ON a.f_department_id = b.F_DEP_ID WHERE a.f_strategy_id = #{strategyId} AND a.f_level &gt; '1'
     </select>
 
