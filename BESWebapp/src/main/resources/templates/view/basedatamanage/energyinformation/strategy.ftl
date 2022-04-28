@@ -673,6 +673,7 @@
                 success: function (result) {
                     //只取2号楼的数据
                     result.list[0].nodes.forEach((item) => {
+                        //git提交测试
                         if (item.text == '二号楼'){
                             firstBranchNode.push(item)
                         }
