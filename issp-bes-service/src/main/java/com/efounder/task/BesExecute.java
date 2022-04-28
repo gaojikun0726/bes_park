@@ -397,7 +397,16 @@ public class BesExecute {
         // 创建工具类.
         ExcelUtil<Object> util = new ExcelUtil<Object>(Object.class);
         List<Object> alias = new ArrayList<>();
+        alias.add("f_level");
+        alias.add("f_zlmc");
+        alias.add("fData");
+        alias.add("yData");
         List<Object> names = new ArrayList<>();
+        names.add("等级");
+        names.add("支路名称");
+        names.add("能耗量");
+        names.add("上次能耗量");
+
         // 临时文件名
         String file = System.currentTimeMillis() + "";
         // sheet页名称
@@ -407,6 +416,7 @@ public class BesExecute {
         String FilePath = path+"\\BESWebapp\\src\\main\\webapp\\WEB-INF\\file\\DDCprgram\\";//获取文件的上级目录的路径,为了拼接编译好的bin文件*/
         String FilePath = System.getProperty("user.dir") + "\\" + file + ".xls";
         // 导出方法
+        ExcelReturn res = util.resListDynamic(file,FilePath,branchData,alias,names);
 
 
     }
