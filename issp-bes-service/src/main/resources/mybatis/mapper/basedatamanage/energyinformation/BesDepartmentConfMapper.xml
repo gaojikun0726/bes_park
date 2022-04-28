@@ -154,8 +154,9 @@
 
     <select id="queryDepartmentCount" resultType="java.util.Map" parameterType="java.lang.String">
         SELECT F_ID,CASE WHEN ISNULL(F_ZLBH) THEN 'db' ELSE 'zl' END F_TYPE FROM bes_department_data  WHERE
-	        (F_ZLBH = ( SELECT F_ZLBH FROM bes_department_data WHERE F_ID = #{id} )
-	        OR F_DBSYS_NAME = ( SELECT F_DBSYS_NAME FROM bes_department_data WHERE F_ID = #{id} )) AND F_ID != #{id}
+	        (F_ZLBH = ( SELECT F_ZLBH FROM bes_department_data WHERE F_ID = #{id} AND F_LEVLE = #{F_LEVEL})
+	        OR F_DBSYS_NAME = ( SELECT F_DBSYS_NAME FROM bes_department_data WHERE F_ID = #{id} AND F_LEVLE = #{F_LEVEL})) AND F_ID != #{id}
+	         AND F_LEVEL = (SELECT F_LEVEL FROM bes_department_data WHERE F_ID = #{id})
     </select>
 
     <update id="updaeDepartmentCount">
