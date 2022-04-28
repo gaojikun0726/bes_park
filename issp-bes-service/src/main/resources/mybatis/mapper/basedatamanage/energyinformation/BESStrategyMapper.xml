@@ -121,7 +121,7 @@
             from bes_strategy_branch t1 LEFT JOIN bes_branch_data t2 on t1.f_zlbh = t2.F_ZLBH
 
             where
-            F_LEVEL = '1' and t2.F_TYPE = '0'
+            t2.F_TYPE = '0'
             and t1.f_strategy_id = #{strategyId,jdbcType=VARCHAR}
             and  t2.F_CJSJ >= #{nowStart,jdbcType=VARCHAR} and t2.F_CJSJ &lt;= #{nowEnd,jdbcType=VARCHAR}
             GROUP BY t1.F_ZLBH

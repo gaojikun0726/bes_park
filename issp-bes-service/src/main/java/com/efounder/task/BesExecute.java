@@ -372,51 +372,80 @@ public class BesExecute {
             lastEnd = format.format(cale.getTime()) + " 23:59:59";
 
         }
-        List<Map<String, Object>> AllData = new ArrayList<>();
-        List<Map<String, Object>> branchData = new ArrayList<>();
-        List<Map<String, Object>> departmentData = new ArrayList<>();
-        if ("1".equals(strategyInfo.get("f_pId"))) { //默认 支路和部门都有
-
-            //支路2号楼数据
-            AllData = besStrategyMapper.queryBranchData(strategyId, nowStart, nowEnd, lastStart, lastEnd);
-            //支路子级数据
-            branchData = besStrategyMapper.queryChildBranchData(strategyId, nowStart, nowEnd, lastStart, lastEnd);
-            //部门数据
-//            departmentData = this.queryAllDepInfoByStrategyId(strategyId,"0",nowStart,nowEnd,lastStart,lastEnd);
-        } else if ("2".equals(strategyInfo.get("f_pId"))) { //层级,只有支路
-            //支路2号楼数据
-            AllData = besStrategyMapper.queryBranchData(strategyId, nowStart, nowEnd, lastStart, lastEnd);
-            //支路子级数据
-            branchData = besStrategyMapper.queryChildBranchData(strategyId, nowStart, nowEnd, lastStart, lastEnd);
-
-        } else if ("3".equals(strategyInfo.get("f_pId"))) { //只有部门
-            //部门数据
-            departmentData = this.queryAllDepInfoByStrategyId(strategyId, "0", nowStart, nowEnd, lastStart, lastEnd);
-        }
 
         // 创建工具类.
         ExcelUtil<Object> util = new ExcelUtil<Object>(Object.class);
+
+        List<Map<String, Object>> branchData = new ArrayList<>();
         List<Object> alias = new ArrayList<>();
-        alias.add("f_level");
-        alias.add("f_zlmc");
-        alias.add("fData");
-        alias.add("yData");
         List<Object> names = new ArrayList<>();
-        names.add("等级");
-        names.add("支路名称");
-        names.add("能耗量");
-        names.add("上次能耗量");
+
+        names.add("f_level");
+        names.add("f_zlmc");
+        names.add("fData");
+        names.add("yData");
+
+        alias.add("等级");
+        alias.add("支路名称");
+        alias.add("能耗量");
+        alias.add("上次能耗量");
+
+        List<Map<String, Object>> departmentData = new ArrayList<>();
+        List<Object> departmentAlias = new ArrayList<>();
+        List<Object> departmentNames = new ArrayList<>();
+
+        departmentNames.add("f_level");
+        departmentNames.add("f_zlmc");
+        departmentNames.add("fData");
+        departmentNames.add("yData");
+
+        departmentAlias.add("等级");
+        departmentAlias.add("支路名称");
+        departmentAlias.add("能耗量");
+        departmentAlias.add("上次能耗量");
+
 
         // 临时文件名
-        String file = System.currentTimeMillis() + "";
+        String branchFile =  "branch" + System.currentTimeMillis();
+        String departmentFile =  "department" + System.currentTimeMillis();
         // sheet页名称
         String FileName = "sheet";
         // 导出excel地址
         /*String path = System.getProperty("user.dir");//获取项目的路径
         String FilePath = path+"\\BESWebapp\\src\\main\\webapp\\WEB-INF\\file\\DDCprgram\\";//获取文件的上级目录的路径,为了拼接编译好的bin文件*/
-        String FilePath = System.getProperty("user.dir") + "\\" + file + ".xls";
+        //String FilePath = System.getProperty("user.dir") + "\\" + file + ".xls";
+
+        String branchFilePath = "D:\\" + branchFile + ".xls";
+        String departmentFilePath = "D:\\" + departmentFile + ".xls";
+
         // 导出方法
-        ExcelReturn res = util.resListDynamic(file,FilePath,branchData,alias,names);
+        if ("1".equals(strategyInfo.get("f_pId"))) { //默认 支路和部门都有
+
+            //支路数据
+            branchData = besStrategyMapper.queryBranchData(strategyId, nowStart, nowEnd, lastStart, lastEnd);
+            //生成支路excel
+            ExcelReturn resBranch = util.resListDynamic(FileName,branchFilePath,branchData,alias,names);
+
+            //部门数据
+            departmentData = this.queryAllDepInfoByStrategyId(strategyId, "0", nowStart, nowEnd, lastStart, lastEnd);
+            //生成支路excel
+            ExcelReturn resDepartment = util.resListDynamic(FileName,departmentFilePath,departmentData,departmentAlias,departmentNames);
+
+        } else if ("2".equals(strategyInfo.get("f_pId"))) { //层级,只有支路
+            //支路数据
+            branchData = besStrategyMapper.queryBranchData(strategyId, nowStart, nowEnd, lastStart, lastEnd);
+            //生成支路excel
+            ExcelReturn resBranch = util.resListDynamic(FileName,branchFilePath,branchData,alias,names);
+
+        } else if ("3".equals(strategyInfo.get("f_pId"))) { //只有部门
+            //部门数据
+            departmentData = this.queryAllDepInfoByStrategyId(strategyId, "0", nowStart, nowEnd, lastStart, lastEnd);
+            //生成支路excel
+            ExcelReturn resDepartment = util.resListDynamic(FileName,departmentFilePath,departmentData,departmentAlias,departmentNames);
+
+        }
+
+
 
 
     }
