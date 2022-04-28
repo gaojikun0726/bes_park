@@ -435,78 +435,66 @@ public class BesExecute {
         List<Map<String, Object>> list = besBranchDataMapper.queryAllDepByStrategy(strategyId);
         for (Map m : list) {
             //根据部门列表获取所有支路，电表数据
-            if ("2".equals(m.get("f_level").toString()) || "3".equals(m.get("f_level").toString())) {
-                Double dou = 0.00;
-                Double predou = 0.00;
-                Double peopleData = 0.00;
-                List<Map<String, Object>> branchList = besBranchDataMapper.queryAllBranchByDepList(m.get("f_department_id").toString());
-                List<Map<String, Object>> ammeterList = besBranchDataMapper.queryAllAmmeterByDepList(m.get("f_department_id").toString());
-                List<Map<String, Object>> allList = new ArrayList<>();
-                allList.addAll(branchList);
-                allList.addAll(ammeterList);
-                if (allList.size() > 0) {
+            Double dou = 0.00;
+            Double predou = 0.00;
+            Double peopleData = 0.00;
+            List<Map<String, Object>> branchList = besBranchDataMapper.queryAllBranchByDepList(m.get("f_department_id").toString());
+            List<Map<String, Object>> ammeterList = besBranchDataMapper.queryAllAmmeterByDepList(m.get("f_department_id").toString());
+            List<Map<String, Object>> allList = new ArrayList<>();
+            allList.addAll(branchList);
+            allList.addAll(ammeterList);
+            if (allList.size() > 0) {
 
-                    //根据电表和支路查询数据
-                    List<Map<String, Object>> dataList = besBranchDataMapper.queryDepDataByList(fType, nhlx, time_start, time_end, branchList, ammeterList);
-                    //根据系数修改数据
-                    a:
-                    for (Map dataMap : dataList) {
-                        b:
-                        for (Map zlxs : allList) {
-                            if (zlxs.get("bh").toString().equals(dataMap.get("F_ZLBH").toString())) {
+                //根据电表和支路查询数据
+                List<Map<String, Object>> dataList = besBranchDataMapper.queryDepDataByList(fType, nhlx, time_start, time_end, branchList, ammeterList);
+                //根据系数修改数据
+                a:
+                for (Map dataMap : dataList) {
+                    b:
+                    for (Map zlxs : allList) {
+                        if (zlxs.get("bh").toString().equals(dataMap.get("F_ZLBH").toString())) {
 //                            dataMap.put("F_DATA",Double.parseDouble(dataMap.get("F_DATA").toString())*Double.parseDouble(m.get("xs").toString()));
-                                dou = dou + Double.parseDouble(dataMap.get("F_DATA").toString()) * Double.parseDouble(zlxs.get("xs").toString());
-                                continue a;
-                            }
+                            dou = dou + Double.parseDouble(dataMap.get("F_DATA").toString()) * Double.parseDouble(zlxs.get("xs").toString());
+                            continue a;
                         }
-                    }
-//                    allDou = allDou +dou;
-                    //环比数据
-                    List<Map<String, Object>> preDataList = besBranchDataMapper.queryDepDataByList(fType, nhlx, last_time_start, last_time_end, branchList, ammeterList);
-                    //根据系数修改数据
-                    a:
-                    for (Map dataMap : preDataList) {
-                        b:
-                        for (Map zlxs : allList) {
-                            if (zlxs.get("bh").toString().equals(dataMap.get("F_ZLBH").toString())) {
-//                            dataMap.put("F_DATA",Double.parseDouble(dataMap.get("F_DATA").toString())*Double.parseDouble(m.get("xs").toString()));
-                                predou = predou + Double.parseDouble(dataMap.get("F_DATA").toString()) * Double.parseDouble(zlxs.get("xs").toString());
-
-                                continue a;
-                            }
-                        }
-                    }
-
-                    dou = getTwoDecimal(dou);
-                    predou = getTwoDecimal(predou);
-//                    allPredou = allPredou+predou;
-                    m.put("fData", dou + "kwh");
-                    m.put("F_CJSJ", time_end);
-                    m.put("F_TYPE", fType);
-                    m.put("f_zlbh(1)", m.get("f_department_id").toString());
-                    m.put("yData", predou + "kwh");
-                    //人均
-                    if ("0".equals(m.get("F_NUMBER").toString())) {
-                        m.put("peopleData", "未配置部门人数");
-                    } else {
-//                        allNUmber =  allNUmber+Double.parseDouble(m.get("F_NUMBER").toString());
-                        peopleData = dou / Double.parseDouble(m.get("F_NUMBER").toString());
-                        peopleData = getTwoDecimal(peopleData);
-                        m.put("peopleData", peopleData + "kwh");
-                    }
-                } else {
-                    m.put("fData", "未配置支路或电表");
-                    m.put("F_CJSJ", time_end);
-                    m.put("F_TYPE", fType);
-                    m.put("f_zlbh(1)", m.get("f_department_id").toString());
-                    m.put("yData", "未配置支路或电表");
-                    //人均
-                    if ("3".equals(m.get("f_level").toString())) {
-                        m.put("peopleData", "未配置支路或电表");
                     }
                 }
+//                    allDou = allDou +dou;
+                //环比数据
+                List<Map<String, Object>> preDataList = besBranchDataMapper.queryDepDataByList(fType, nhlx, last_time_start, last_time_end, branchList, ammeterList);
+                //根据系数修改数据
+                a:
+                for (Map dataMap : preDataList) {
+                    b:
+                    for (Map zlxs : allList) {
+                        if (zlxs.get("bh").toString().equals(dataMap.get("F_ZLBH").toString())) {
+//                            dataMap.put("F_DATA",Double.parseDouble(dataMap.get("F_DATA").toString())*Double.parseDouble(m.get("xs").toString()));
+                            predou = predou + Double.parseDouble(dataMap.get("F_DATA").toString()) * Double.parseDouble(zlxs.get("xs").toString());
+
+                            continue a;
+                        }
+                    }
+                }
+
+                dou = getTwoDecimal(dou);
+                predou = getTwoDecimal(predou);
+//                    allPredou = allPredou+predou;
+                m.put("fData", dou);
+                m.put("F_CJSJ", time_end);
+                m.put("F_TYPE", fType);
+                m.put("f_zlbh(1)", m.get("f_department_id").toString());
+                m.put("yData", predou + "kwh");
+                //人均
+                if ("0".equals(m.get("F_NUMBER").toString())) {
+                    m.put("peopleData", "0kwh");
+                } else {
+//                        allNUmber =  allNUmber+Double.parseDouble(m.get("F_NUMBER").toString());
+                    peopleData = dou / Double.parseDouble(m.get("F_NUMBER").toString());
+                    peopleData = getTwoDecimal(peopleData);
+                    m.put("peopleData", peopleData + "kwh");
+                }
             } else {
-                m.put("fData", "0kwh");
+                m.put("fData", "0");
                 m.put("F_CJSJ", time_end);
                 m.put("F_TYPE", fType);
                 m.put("f_zlbh(1)", m.get("f_department_id").toString());
@@ -514,95 +502,56 @@ public class BesExecute {
                 //人均
                 m.put("peopleData", "0kwh");
             }
+
         }
 //        for () {
 //
 //        }
-        return list;
-    }
 
+        // 排序器
+        Comparator<Map<String, Object>> comparator = new Comparator<Map<String, Object>>() {
+            @Override
+            public int compare(Map<String, Object> o1, Map<String, Object> o2) {
+                int o1RoomNo = Integer.parseInt(o1.get("f_level").toString());
+                int o2RoomNo = Integer.parseInt(o2.get("f_level").toString());
 
-    //组织部门数据
-    private List<Map<String, Object>> queryAllDepInfoByStrategyIdOnly(String strategyId, String fType, String time_start, String time_end, String last_time_start, String last_time_end) {
-        //获取参数
-        //时间颗粒 fType
-        String nhlx = "01000";
-//        Double allDou = 0.00;
-//        Double allPredou = 0.00;
-//        Double allNUmber = 0.00;
-
-        //根据id取得所有部门列表
-        List<Map<String, Object>> list = besBranchDataMapper.queryAllDepByStrategy(strategyId);
-        for (Map m : list) {
-            //根据部门列表获取所有支路，电表数据
-            if ("1".equals(m.get("f_level").toString())) {
-                Double dou = 0.00;
-                Double predou = 0.00;
-                Double peopleData = 0.00;
-                List<Map<String, Object>> branchList = besBranchDataMapper.queryAllBranchByDepList(m.get("f_department_id").toString());
-                List<Map<String, Object>> ammeterList = besBranchDataMapper.queryAllAmmeterByDepList(m.get("f_department_id").toString());
-                List<Map<String, Object>> allList = new ArrayList<>();
-                allList.addAll(branchList);
-                allList.addAll(ammeterList);
-                if (allList.size() > 0) {
-
-                    //根据电表和支路查询数据
-                    List<Map<String, Object>> dataList = besBranchDataMapper.queryDepDataByList(fType, nhlx, time_start, time_end, branchList, ammeterList);
-                    //根据系数修改数据
-                    a:
-                    for (Map dataMap : dataList) {
-                        b:
-                        for (Map zlxs : allList) {
-                            if (zlxs.get("bh").toString().equals(dataMap.get("F_ZLBH").toString())) {
-//                            dataMap.put("F_DATA",Double.parseDouble(dataMap.get("F_DATA").toString())*Double.parseDouble(m.get("xs").toString()));
-                                dou = dou + Double.parseDouble(dataMap.get("F_DATA").toString()) * Double.parseDouble(zlxs.get("xs").toString());
-                                continue a;
-                            }
-                        }
-                    }
-//                    allDou = allDou +dou;
-                    //环比数据
-                    List<Map<String, Object>> preDataList = besBranchDataMapper.queryDepDataByList(fType, nhlx, last_time_start, last_time_end, branchList, ammeterList);
-                    //根据系数修改数据
-                    a:
-                    for (Map dataMap : preDataList) {
-                        b:
-                        for (Map zlxs : allList) {
-                            if (zlxs.get("bh").toString().equals(dataMap.get("F_ZLBH").toString())) {
-//                            dataMap.put("F_DATA",Double.parseDouble(dataMap.get("F_DATA").toString())*Double.parseDouble(m.get("xs").toString()));
-                                predou = predou + Double.parseDouble(dataMap.get("F_DATA").toString()) * Double.parseDouble(zlxs.get("xs").toString());
-
-                                continue a;
-                            }
-                        }
-                    }
-
-                    dou = getTwoDecimal(dou);
-                    predou = getTwoDecimal(predou);
-//                    allPredou = allPredou+predou;
-                    m.put("fData", dou + "kwh");
-                    m.put("F_CJSJ", time_end);
-                    m.put("F_TYPE", fType);
-                    m.put("f_zlbh(1)", m.get("f_department_id").toString());
-                    m.put("yData", predou + "kwh");
+                if (o1RoomNo > o2RoomNo) {
+                    return 1;
+                } else if (o1RoomNo < o2RoomNo) {
+                    return -1;
                 } else {
-                    m.put("fData", "未配置支路或电表");
-                    m.put("F_CJSJ", time_end);
-                    m.put("F_TYPE", fType);
-                    m.put("f_zlbh(1)", m.get("f_department_id").toString());
-                    m.put("yData", "未配置支路或电表");
-                }
+                    // 若是相同房间号，则比较时间
+                    if (o1.get("fData") == null || o2.get("fData") == null) {
+                        return 1;
+                    }
 
+                    Double o1Data = Double.parseDouble(o1.get("fData").toString());
+                    Double o2Data = Double.parseDouble(o2.get("fData").toString());
+
+
+                    if (o1Data < o2Data) {
+                        return 1;
+                    } else if (o1Data > o2Data) {
+                        return -1;
+                    }
+                    return 0;
+                }
             }
+        };
+
+        list.sort(comparator);
+        for (Map map : list) {
+            Double fData = Double.parseDouble(map.get("fData").toString());
+            map.put("fData", fData + "kwh");
         }
         return list;
     }
 
 
-    /*@PostConstruct
-    public void testMethods(){
-        List<Map<String, Object>> list = queryAllDepInfoByStrategyId("11","0","2022-04-18 00:00:00","2022-04-24 23:59:59","2022-04-11 23:59:59","2022-04-17 23:59:59");
-    }*/
+    @PostConstruct
+    public void testMethods() {
+        List<Map<String, Object>> list = queryAllDepInfoByStrategyId("11", "0", "2022-04-18 00:00:00", "2022-04-24 23:59:59", "2022-04-11 23:59:59", "2022-04-17 23:59:59");
+    }
 
     private Double getTwoDecimal(Double dou) {
         BigDecimal two = new BigDecimal(dou);
