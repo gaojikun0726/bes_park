@@ -500,9 +500,9 @@ WHERE
     </select>-->
 
     <select id="searchstatisAnalyOfEnergyConsumptionDataDep" resultMap="BesBranchDataMap">
-        SELECT F_ZLBH,F_DNBH,SUM(F_DATA) F_DATA,F_type,F_CJSJ,F_ZLMC,F_UNIT FROM
+        SELECT F_ZLBH,F_DNBH,F_DATA,F_type,F_CJSJ,F_ZLMC,F_UNIT FROM
         ( (
-        SELECT a.F_ZLBH, a.F_DNBH, a.F_DATA, a.F_TYPE, date_format( a.F_CJSJ, '%Y-%m-%d %H:%i:%s' ) F_CJSJ, b.F_ZLMC,
+        SELECT a.F_ZLBH, a.F_DNBH, COALESCE(SUM(a.F_DATA),0) F_DATA, a.F_TYPE, date_format( a.F_CJSJ, '%Y-%m-%d %H:%i:%s' ) F_CJSJ, b.F_ZLMC,
         c.F_UNIT
         FROM bes_branch_data a
         LEFT JOIN bes_branch_conf b ON a.F_ZLBH = b.F_ZLBH
@@ -533,7 +533,7 @@ WHERE
         )
         UNION ALL
         (
-        SELECT a.F_DBSYS_NAME F_ZLBH, a.F_DNBH, SUM(a.F_DATA) F_DATA, a.F_TYPE, date_format( a.F_CJSJ, '%Y-%m-%d %H:%i:%s' ) F_CJSJ, b.F_NICK_NAME F_ZLMC,
+        SELECT a.F_DBSYS_NAME F_ZLBH, a.F_DNBH, COALESCE(SUM(a.F_DATA),0) F_DATA, a.F_TYPE, date_format( a.F_CJSJ, '%Y-%m-%d %H:%i:%s' ) F_CJSJ, b.F_NICK_NAME F_ZLMC,
         'kwh' F_UNIT
         FROM bes_monitoring_data a
         LEFT JOIN bes_ammeter b ON a.F_DBSYS_NAME = b.F_SYS_NAME
@@ -576,10 +576,11 @@ WHERE
     </select>
 
     <select id="queryAllDepByStrategy" resultType="java.util.Map">
-        SELECT a.*,CASE WHEN ISNULL( b.F_NUMBER ) AND f_level = '3' THEN 0 WHEN f_level = '2' THEN ( SELECT COALESCE(SUM( d.F_NUMBER ),0)  FROM es_zzjg c LEFT JOIN bes_department_number d
-        ON c.F_ZZJGBH = d.F_DEP_ID WHERE c.F_PZZJGBH = a.f_department_id ) ELSE b.F_NUMBER END F_NUMBER
+--         CASE WHEN ISNULL( b.F_NUMBER ) AND f_level = '3' THEN 0 WHEN f_level = '2' THEN ( SELECT COALESCE(SUM( d.F_NUMBER ),0)  FROM es_zzjg c LEFT JOIN bes_department_number d
+--         ON c.F_ZZJGBH = d.F_DEP_ID WHERE c.F_PZZJGBH = a.f_department_id ) ELSE b.F_NUMBER END F_NUMBER
+        SELECT a.*,CASE WHEN ISNULL( b.F_NUMBER ) THEN 0 ELSE b.F_NUMBER END F_NUMBER
 		FROM bes_strategy_department a
-        LEFT JOIN bes_department_number b ON a.f_department_id = b.F_DEP_ID WHERE a.f_strategy_id = #{strategyId} AND a.f_level &gt; '1'
+        LEFT JOIN bes_department_number b ON a.f_department_id = b.F_DEP_ID WHERE a.f_strategy_id = #{strategyId}
     </select>
 
     <select id="queryAllBranchByDepList" resultType="java.util.Map">
@@ -591,9 +592,9 @@ WHERE
     </select>
 
     <select id="queryDepDataByList" resultType="java.util.Map">
-        SELECT F_ZLBH,F_DATA FROM
+        SELECT F_ZLBH, F_DATA FROM
         ( (
-        SELECT a.F_ZLBH,SUM(a.F_DATA) F_DATA
+        SELECT a.F_ZLBH,COALESCE(SUM(a.F_DATA),0) F_DATA
         FROM bes_branch_data a
         <where>
             1 = 1
@@ -621,7 +622,7 @@ WHERE
         )
         UNION ALL
         (
-        SELECT a.F_DBSYS_NAME F_ZLBH,SUM(a.F_DATA) F_DATA
+        SELECT a.F_DBSYS_NAME F_ZLBH,COALESCE(SUM(a.F_DATA),0) F_DATA
         FROM bes_monitoring_data a
         <where>
             1 = 1
