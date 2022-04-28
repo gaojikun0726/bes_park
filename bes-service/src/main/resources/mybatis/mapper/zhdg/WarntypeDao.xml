@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.efounder.JEnterprise.zhdg.dao.WarntypeDao">
+
+    <!-- 可根据自己的需求，是否要使用 -->
+    <resultMap type="com.efounder.JEnterprise.zhdg.entity.WarntypeEntity" id="warntypeMap">
+                    <result property="id" column="id"/>
+                    <result property="warntype" column="warntype"/>
+            </resultMap>
+
+    <sql id="Base_Column_List">
+            select id, warntype from seb_warntype
+    </sql>
+
+    <!-- 关键字查询，分页查询 -->
+    <select id="getSearch" resultMap="warntypeMap" parameterType="java.lang.String">
+        <include refid="Base_Column_List"/>
+        <where>
+            1=1
+            <if test="keywords != null and keywords != ''">
+                and ID like CONCAT ('%', #{keywords},'%')
+                or WARNTYPE like CONCAT ('%', #{keywords},'%')
+            </if>
+        </where>
+    </select>
+
+    <select id="getSearchById" resultMap="warntypeMap" parameterType="java.lang.String">
+        <include refid="Base_Column_List"/>
+        <where>
+            id = #{id}
+        </where>
+    </select>
+
+    <insert id="add" parameterType="com.efounder.JEnterprise.zhdg.entity.WarntypeEntity">
+        insert into seb_warntype
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+        <if test="id != null ">id,
+        </if>
+        <if test="warntype != null ">warntype,
+        </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+        <if test="id != null ">#{id},
+        </if>
+        <if test="warntype != null ">#{warntype},
+        </if>
+        </trim>
+    </insert>
+
+    <update id="update" parameterType="com.efounder.JEnterprise.zhdg.entity.WarntypeEntity">
+        update seb_warntype
+        <trim prefix="SET" suffixOverrides=",">
+         <if test="id != null">id = #{id},</if>
+         <if test="warntype != null">warntype = #{warntype},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="delete" parameterType="java.lang.String" >
+        delete from seb_warntype where id = #{id}
+    </delete>
+
+</mapper>

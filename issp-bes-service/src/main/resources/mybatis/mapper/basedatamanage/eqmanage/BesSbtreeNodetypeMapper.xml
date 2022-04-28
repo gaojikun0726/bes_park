@@ -1,0 +1,184 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.efounder.JEnterprise.mapper.basedatamanage.eqmanage.BesSbtreeNodetypeMapper">
+
+    <resultMap id="BaseResultMap" type="com.efounder.JEnterprise.model.basedatamanage.eqmanage.BESSbTreeNodeType">
+        <id column="F_NODE_TYPE" property="f_node_type" jdbcType="VARCHAR"/>
+        <result column="F_NODE_NAME" property="f_node_name" jdbcType="VARCHAR"/>
+        <result column="F_FUN_MCS" property="f_fun_mcs" jdbcType="VARCHAR"/>
+        <result column="F_FUN_NODETYPE" property="f_fun_nodetype" jdbcType="VARCHAR"/>
+        <result column="F_EDIT_URL" property="f_edit_url" jdbcType="VARCHAR"/>
+        <result column="F_MAX_COUNT" property="f_max_count" jdbcType="VARCHAR"/>
+        <result column="F_NODE_TABLE" property="f_node_table" jdbcType="VARCHAR"/>
+        <result column="F_ONLINE_IMG" property="f_online_img" jdbcType="VARCHAR"/>
+        <result column="F_OFFLINE_IMG" property="f_offline_img" jdbcType="VARCHAR"/>
+        <result column="F_REMARK" property="f_remark" jdbcType="VARCHAR"/>
+        <result column="F_CRDATE" property="f_crdate"/>
+        <result column="F_CHDATE" property="f_chdate"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        F_NODE_TYPE, F_NODE_NAME, F_FUN_MCS, F_FUN_NODETYPE, F_EDIT_URL, F_MAX_COUNT, F_NODE_TABLE, 
+        F_ONLINE_IMG, F_OFFLINE_IMG, F_REMARK, date_format(F_CRDATE,'%Y-%m-%d %H:%i:%s' ) F_CRDATE,date_format(F_CHDATE,'%Y-%m-%d %H:%i:%s' ) F_CHDATE
+    </sql>
+
+    <select id="selectBesSbtreeNodetype" resultMap="BaseResultMap" parameterType="java.lang.String">
+        select
+        <include refid="Base_Column_List"/>
+        from bes_sbtree_nodetype
+        where F_NODE_TYPE = #{f_node_type,jdbcType=VARCHAR}
+    </select>
+
+    <delete id="delBesSbtreeNodetype" parameterType="java.lang.String">
+        delete from bes_sbtree_nodetype
+        where F_NODE_TYPE = #{f_node_type,jdbcType=VARCHAR}
+    </delete>
+
+    <insert id="insBesSbtreeNodetype"
+            parameterType="com.efounder.JEnterprise.model.basedatamanage.eqmanage.BESSbTreeNodeType">
+        insert into bes_sbtree_nodetype
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="f_node_type != null">
+                F_NODE_TYPE,
+            </if>
+            <if test="f_node_name != null">
+                F_NODE_NAME,
+            </if>
+            <if test="f_fun_mcs != null">
+                F_FUN_MCS,
+            </if>
+            <if test="f_fun_nodetype != null">
+                F_FUN_NODETYPE,
+            </if>
+            <if test="f_edit_url != null">
+                F_EDIT_URL,
+            </if>
+            <if test="f_max_count != null">
+                F_MAX_COUNT,
+            </if>
+            <if test="f_node_table != null">
+                F_NODE_TABLE,
+            </if>
+            <if test="f_online_img != null">
+                F_ONLINE_IMG,
+            </if>
+            <if test="f_offline_img != null">
+                F_OFFLINE_IMG,
+            </if>
+            <if test="f_remark != null">
+                F_REMARK,
+            </if>
+            <if test="f_crdate != null">
+                F_CRDATE,
+            </if>
+            <if test="f_chdate != null">
+                F_CHDATE,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="f_node_type != null">
+                #{f_node_type,jdbcType=VARCHAR},
+            </if>
+            <if test="f_node_name != null">
+                #{f_node_name,jdbcType=VARCHAR},
+            </if>
+            <if test="f_fun_mcs != null">
+                #{f_fun_mcs,jdbcType=VARCHAR},
+            </if>
+            <if test="f_fun_nodetype != null">
+                #{f_fun_nodetype,jdbcType=VARCHAR},
+            </if>
+            <if test="f_edit_url != null">
+                #{f_edit_url,jdbcType=VARCHAR},
+            </if>
+            <if test="f_max_count != null">
+                #{f_max_count,jdbcType=VARCHAR},
+            </if>
+            <if test="f_node_table != null">
+                #{f_node_table,jdbcType=VARCHAR},
+            </if>
+            <if test="f_online_img != null">
+                #{f_online_img,jdbcType=VARCHAR},
+            </if>
+            <if test="f_offline_img != null">
+                #{f_offline_img,jdbcType=VARCHAR},
+            </if>
+            <if test="f_remark != null">
+                #{f_remark,jdbcType=VARCHAR},
+            </if>
+            <if test="f_crdate != null">
+                #{f_crdate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="f_chdate != null">
+                #{f_chdate,jdbcType=TIMESTAMP},
+            </if>
+        </trim>
+    </insert>
+
+    <update id="updateBesSbtreeNodetype"
+            parameterType="com.efounder.JEnterprise.model.basedatamanage.eqmanage.BESSbTreeNodeType">
+        update bes_sbtree_nodetype
+        <set>
+            <if test="f_node_name != null">
+                F_NODE_NAME = #{f_node_name,jdbcType=VARCHAR},
+            </if>
+            <if test="f_fun_mcs != null">
+                F_FUN_MCS = #{f_fun_mcs,jdbcType=VARCHAR},
+            </if>
+            <if test="f_fun_nodetype != null">
+                F_FUN_NODETYPE = #{f_fun_nodetype,jdbcType=VARCHAR},
+            </if>
+            <if test="f_edit_url != null">
+                F_EDIT_URL = #{f_edit_url,jdbcType=VARCHAR},
+            </if>
+            <if test="f_max_count != null">
+                F_MAX_COUNT = #{f_max_count,jdbcType=VARCHAR},
+            </if>
+            <if test="f_node_table != null">
+                F_NODE_TABLE = #{f_node_table,jdbcType=VARCHAR},
+            </if>
+            <if test="f_online_img != null">
+                F_ONLINE_IMG = #{f_online_img,jdbcType=VARCHAR},
+            </if>
+            <if test="f_offline_img != null">
+                F_OFFLINE_IMG = #{f_offline_img,jdbcType=VARCHAR},
+            </if>
+            <if test="f_remark != null">
+                F_REMARK = #{f_remark,jdbcType=VARCHAR},
+            </if>
+            <if test="f_crdate != null">
+                F_CRDATE = #{f_crdate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="f_chdate != null">
+                F_CHDATE = #{f_chdate,jdbcType=TIMESTAMP},
+            </if>
+        </set>
+        where F_NODE_TYPE = #{f_node_type,jdbcType=VARCHAR}
+    </update>
+
+    <!-- 分页与搜索 -->
+    <select id="selBesSbtreeNodetypepage" resultMap="BaseResultMap" parameterType="String">
+        select
+        <include refid="Base_Column_List"/>
+        from bes_sbtree_nodetype
+        <where>
+            1=1
+            <if test="keywords != null and keywords != ''">
+                and CONCAT(`F_NODE_NAME`,'##',`F_REMARK` ) LIKE CONCAT('%',#{keywords},'%')
+            </if>
+        </where>
+        order by F_NODE_TYPE
+    </select>
+
+    <!-- 获取全部设备树节点类型数据 -->
+    <select id="findAll" resultMap="BaseResultMap" parameterType="String">
+        select <include refid="Base_Column_List"/> from bes_sbtree_nodetype
+    </select>
+
+    <!--查询f_node_type节点类型是否存在-->
+    <select id="getCount" resultType="java.lang.Integer" parameterType="String">
+        select count(*) from bes_sbtree_nodetype where F_NODE_TYPE = #{f_node_type}
+    </select>
+
+
+</mapper>

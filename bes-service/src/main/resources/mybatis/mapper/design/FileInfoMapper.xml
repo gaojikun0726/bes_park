@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.efounder.JEnterprise.design.mapper.FileInfoMapper" >
+
+  <resultMap id="FileInfoMap" type="com.efounder.JEnterprise.design.model.FileInfo" >
+    <id column="id" property="id" jdbcType="VARCHAR" />
+    <result column="file_name" property="fileName" jdbcType="VARCHAR" />
+    <result column="save_name" property="saveName" jdbcType="VARCHAR"/>
+    <result column="save_directory" property="saveDirectory" jdbcType="VARCHAR"/>
+    <result column="file_url" property="fileUrl" jdbcType="VARCHAR"/>
+    <result column="upload_time" property="uploadTime" jdbcType="DATE"/>
+  </resultMap>
+
+
+  <!--保存-->
+  <insert id="insert">
+    insert into a_design_file_info (id,file_name,save_time,save_directory,file_url,upload_time)
+    values (uuid(),#{fileName},#{saveName},#{saveDirectory},#{fileUrl},#{uploadTime})
+  </insert>
+
+  <!--查询-->
+  <select id="queryOne" resultType="java.util.Map">
+    select id,html from a_design_page_info
+    where 1 = 1
+    <if test="id != null and id != ''">
+      and id = #{id}
+    </if>
+      order by create_time desc
+      limit 1
+  </select>
+</mapper>

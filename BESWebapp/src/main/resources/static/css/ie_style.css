@@ -1,0 +1,14 @@
+@CHARSET "UTF-8";
+/* id兼容样式 */
+/*.nav>li>a:focus, .nav>li>a:hover { */
+	/*background: rgb(60, 109, 152);*/
+/*}*/
+.tabulator .tabulator-row.tabulator-selectable:hover{
+	background: rgb(60, 109, 152);
+}
+.tabulator .tabulator-row.tabulator-selected {
+  background: #2360a0;
+}
+.tabulator .tabulator-row.tabulator-row-even-selected {
+ background: #2360a0;
+}

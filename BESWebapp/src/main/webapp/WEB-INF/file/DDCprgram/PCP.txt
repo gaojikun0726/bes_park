@@ -1,0 +1,181 @@
+PPCL()
+{
+//初始化
+	AirconditioningSystemParamInit(season, coolingTowerNum, coolingWaterPumpNum, freezeWaterPumpNum, coolWaterUnitNum, 2, 2, 2, 2, makeupPumpRunState, airconditioningRequest);
+	
+	MainStateMessageInit(DDC3MK2012, DDC3MK2013, DDC3MK1015, DDC3MK2011, DDC3MK3011, DDC3MK3012, DDC3MK3013, DDC3MK3014, DDC3MK3015, DDC3MK1013, DDC3MK1014, DDC3MK108);
+
+	CoolingWaterPumpInit(CoolingtempUpperLimit, CoolingtempLowerLimit, CoolingrateUpperLimit, CoolingrateLowerLimit);
+	FreezeWaterPumpInit(FreezetempUpperLimit, FreezetempLowerLimit, FreezerateUpperLimit, FreezerateLowerLimit);
+						  
+	AddEquipmentPoint(5, 1, DDC1MK1_M02, DDC1MK1_M08, FreezeWaterPumptroubleState11, FreezeWaterPumptroubleState12, FreezeWaterRequest1, DDC1MK2_M00, FWPumpRatetroubleState1, 0, 205);	
+	AddEquipmentPoint(4, DDC1MK1_M00, 0, 0, 0, 0, 0, 0, 0, 0, 205);
+	AddEquipmentPoint(8, DDC1MK1_M01, 0, 0, 0, 0, 0, 0, 0, 0, 205);
+	AddEquipmentPoint(2, 1, DDC2MK102, DDC2MK108, CoolingWaterPumptroubleState11, CoolingWaterPumptroubleState12, CoolingWaterRequest1, DDC2MK200, CWPumpRatetroubleState1, 0, 207);
+	AddEquipmentPoint(0, DDC2MK100,  0,  0,  0, 0, 0, 0, 0, 0, 207);
+	AddEquipmentPoint(7, DDC2MK101,  0,  0,  0, 0, 0, 0, 0, 0, 207);
+	
+	AddEquipmentPoint(5, 1, DDC1MK2_M01, DDC1MK1_M09, FreezeWaterPumptroubleState21, FreezeWaterPumptroubleState22, FreezeWaterRequest2, DDC1MK2_M02, FWPumpRatetroubleState2, 0, 205);	
+	AddEquipmentPoint(4, DDC1MK3_M02, 0, 0, 0, 0, 0, 0, 0, 0, 205);
+	AddEquipmentPoint(8, DDC1MK3_M03, 0, 0, 0, 0, 0, 0, 0, 0, 205);
+	AddEquipmentPoint(2, 1, DDC2MK201, DDC2MK109, CoolingWaterPumptroubleState21, CoolingWaterPumptroubleState22, CoolingWaterRequest2, DDC2MK202, CWPumpRatetroubleState2, 0, 207);
+	AddEquipmentPoint(0, DDC2MK302,  0,  0, 0, 0, 0, 0, 0, 0, 207);
+	AddEquipmentPoint(7, DDC2MK303,  0,  0, 0, 0, 0, 0, 0, 0, 207);
+
+	AddEquipmentPoint(6, coolWaterUnitRunTime1, coolWaterUnitrunState1, 0, CoolWaterUnitTroubleState1, 0, 0, 0, 0, 0, 0);
+	AddEquipmentPoint(6, coolWaterUnitRunTime2, coolWaterUnitrunState2, 0, CoolWaterUnitTroubleState2, 0, 0, 0, 0, 0, 0);
+
+	CoolingTowerParamInit(DDC3MK101, DDC3MK102, DDC3MK103, DDC3MK104, DDC3MK106, DDC3MK107, DDC3MK100, DDC3MK307, DDC3MK105,DDC3MK203,DDC3MK305,coolingTowertrouble1, CoolingTowerRunTime1, 0, 0);
+	CoolingTowerParamInit(DDC3MK201, DDC3MK202, DDC3MK204, DDC3MK205, DDC3MK207, DDC3MK303, DDC3MK200, DDC3MK1011, DDC3MK206,DDC3MK304,DDC3MK306,coolingtowertrouble2, CoolingTowerRunTime2, 0, 0);
+	
+	TimerAcountInit( CoolingTowerRunTime1, DDC3MK307, 0, 0, 0, 0);
+	TimerAcountInit( CoolingTowerRunTime2, DDC3MK1011, 0, 0, 0, 0);
+
+	Button = 0;
+	COP = 0;
+	RunState = 0;
+	MODULE = 0;
+	ADD = 0;
+	REDUCE = 0;
+	airconditioningRequest = 0;
+	coolingTowerNum = 0;
+	coolingWaterPumpNum = 0;
+	freezeWaterPumpNum = 0;
+	coolWaterUnitNum = 0;
+	coolWaterUnitrunState1=0;
+	coolWaterUnitrunState2=0;
+	
+	CoolingtempUpperLimit = 350;
+	CoolingtempLowerLimit = 300;
+	CoolingrateUpperLimit = 500;
+	CoolingrateLowerLimit = 350;
+	
+	FreezetempUpperLimit = 130;
+	FreezetempLowerLimit = 80;
+	FreezerateUpperLimit = 500;
+	FreezerateLowerLimit = 350;
+	
+	TimerAcountInit( coolWaterUnitRunTime1, coolWaterUnitrunState1, 0, 0, 0, 0);
+	TimerAcountInit( coolWaterUnitRunTime2, coolWaterUnitrunState2, 0, 0, 0, 0);
+	
+	//TimerAcountInit( 0,RunState,TotalCoolEnergy,1,1,InstantCoolEnergy);
+	START_COUNT();
+
+	//临时变量	
+	PcpMalloc(returnValue, 0, 4);
+	PcpMalloc(tempDiffValue, 0, 4);
+	
+	PcpMalloc(inwatertempoff1, 0, 4);
+	PcpMalloc(inwatertempoff2, 0, 4);
+	PcpMalloc(outwatertempoff1, 0, 4);
+	PcpMalloc(outwatertempoff2, 0, 4);
+	
+	SLEEP(0,1,0,0);
+	RunState = PowerDownStart(season, troublePoint);
+	
+	WHILE(1)
+	{
+		//InstantCoolEnergy = CalculateAirSystemInstantCoolEnergy(InstantCoolEnergy,season,DDC3MK1013,DDC3MK1015,DDC3MK2011);
+		IF(Button == 1)
+		{		
+			Button = 0;
+			returnValue = CentralAirConditioningSystemStart(season, troublePoint, 0, 3);
+			IF(returnValue == 0)
+			{
+				RunState = 255;
+			}
+		}
+		IF(Button == 2)
+		{
+			Button = 0;
+			returnValue = CentralAirConditioningSystemStop(season, troublePoint, 6, 0, 3);
+			IF(returnValue == 0)
+			{
+				RunState = 0;
+			}
+			
+						
+		}
+		IF(RunState == 255 && coolWaterUnitNum > 0)
+		{			
+			IF(season == 0)
+			{
+				outwatertempoff1 = FreezetempLowerLimit - 5;
+				outwatertempoff2 = FreezetempLowerLimit + 5;
+				tempDiffValue = DDC3MK2011 - DDC3MK1015;
+				IF((DDC3MK1015 < outwatertempoff1) || (DDC3MK1015 > outwatertempoff2) || (tempDiffValue < 45) || (tempDiffValue > 55))
+				{
+					ChangeEquipmentRate(5, 0, 0, 3, tempDiffValue , DDC3MK1015, DDC3MK2011, 0);
+					SLEEP(0,5,0,0);
+				}
+				inwatertempoff1 = CoolingtempLowerLimit - 5;
+				inwatertempoff2 = CoolingtempLowerLimit + 5;
+				tempDiffValue = DDC3MK2012 - DDC3MK2013;
+				IF((DDC3MK2013 < inwatertempoff1) || (DDC3MK2013 > inwatertempoff2 ) || (tempDiffValue < 45) || (tempDiffValue > 55))
+				{
+					ChangeEquipmentRate(2, 0, 0, 3, tempDiffValue, DDC3MK2012, DDC3MK2013, 0);
+					SLEEP(0,5,0,0);
+				}
+				
+				IF(ADD == 1)
+				{
+					ADD = 0;
+					returnValue = CentralAirConditioningSystemStart(season, troublePoint, 0, 2);
+					SLEEP(0,0,10,0);
+				}	
+				IF(REDUCE == 1)
+				{
+					REDUCE = 0;
+					ChangeEquipmentRate(6, troublePoint, 0, 0, 0, 0, 0, 0);
+					SLEEP(0,0,10,0);
+					
+				}
+			}
+			IF(season == 1)
+			{
+				outwatertempoff1 = FreezetempLowerLimit - 5;
+				outwatertempoff2 = FreezetempLowerLimit + 5;
+				tempDiffValue = DDC3MK1015 - DDC3MK2011;
+				IF((DDC3MK1015 < outwatertempoff1) || (DDC3MK1015 > outwatertempoff2)|| (tempDiffValue < 45) || (tempDiffValue > 55))
+				{
+					ChangeEquipmentRate(5, 0, 1, 3, tempDiffValue, DDC3MK1015, DDC3MK2011, 0);
+					SLEEP(0,5,0,0);
+				}
+				
+				IF(ADD == 1)
+				{
+					ADD = 0;
+					returnValue = CentralAirConditioningSystemStart(season, troublePoint, 0, 2);
+					SLEEP(0,0,10,0);
+				}	
+				IF(REDUCE == 1)
+				{
+					REDUCE = 0;
+					ChangeEquipmentRate(6, troublePoint, 1, 0, 0, 0, 0, 0);
+					SLEEP(0,0,10,0);
+					
+				}
+			}
+			
+		}
+
+		
+		IF(DDC3MK105 == 255 || DDC3MK203 == 255 || DDC3MK305 == 255)
+		{
+			coolingTowertrouble1 = 255;
+		}
+		IF(DDC3MK105 == 0 && DDC3MK203 == 0 && DDC3MK305 == 0)
+		{
+			coolingTowertrouble1 = 0;
+		}
+		IF(DDC3MK206 == 255 || DDC3MK304 == 255 || DDC3MK306 == 255)
+		{
+			coolingTowertrouble2 = 255;
+		}
+		IF(DDC3MK206 == 0 && DDC3MK304 == 0 && DDC3MK306 == 0)
+		{
+			coolingTowertrouble2 = 0;
+		}
+	}
+	
+}

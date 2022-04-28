@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.efounder.JEnterprise.mapper.isspplugins.ISSPComboboxMapper">
+	<!-- 获取指定信息 -->
+	<select id="getData" parameterType="String" resultType="java.util.HashMap">
+		SELECT ${disCol},${disColId} FROM ${tabName} 
+	<where>
+		<if test="conColumn != null and conColumn != ''"> 
+			<if test="conValue != null and conValue != ''"> 
+				${conColumn} = #{conValue}
+			</if>
+		</if>
+		<if test="conSql != null and conSql != ''"> 
+			${conSql}
+		</if>
+	</where>
+	</select>
+</mapper>

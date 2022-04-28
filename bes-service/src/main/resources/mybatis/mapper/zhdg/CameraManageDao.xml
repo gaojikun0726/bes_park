@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.efounder.JEnterprise.zhdg.dao.CameraManageDao">
+
+    <!-- 可根据自己的需求，是否要使用 -->
+    <resultMap type="com.efounder.JEnterprise.zhdg.entity.CameraManageHk" id="cameraMap">
+        <result property="id" column="id"/>
+        <result property="cameraNum" column="camera_num"/>
+        <result property="coverId" column="cover_id"/>
+        <result property="cameraName" column="camera_name"/>
+        <result property="cameraUser" column="camera_user"/>
+        <result property="cameraPassword" column="camera_password"/>
+        <result property="cameraIp" column="camera_ip"/>
+        <result property="cameraPort" column="camera_port"/>
+        <result property="remark" column="remark"/>
+        <result property="creatTime" column="creat_time"/>
+        <result property="updateTime" column="update_time"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        select id, camera_num, cover_id,camera_name,camera_user,camera_password,camera_ip
+        ,camera_port,remark,creat_time,update_time from seb_camera_manage
+    </sql>
+
+    <!-- 关键字查询，分页查询 -->
+    <select id="selectList" resultMap="cameraMap" parameterType="java.lang.String">
+        <include refid="Base_Column_List"/>
+        <where>
+            1=1
+            <if test="keywords != null and keywords != ''">
+                and camera_name like CONCAT ('%', #{keywords},'%')
+                or camera_ip like CONCAT ('%', #{keywords},'%')
+            </if>
+        </where>
+    </select>
+
+    <select id="selectById" resultMap="cameraMap" parameterType="java.lang.Long">
+        <include refid="Base_Column_List"/>
+        <where>
+            id = #{id}
+        </where>
+    </select>
+
+    <insert id="add" parameterType="com.efounder.JEnterprise.zhdg.entity.CameraManageHk">
+        insert into seb_camera_manage
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null ">id,</if>
+            <if test="cameraNum != null ">camera_num,</if>
+            <if test="coverId != null ">cover_id,</if>
+            <if test="cameraName != null ">camera_name,</if>
+            <if test="cameraUser != null ">camera_user,</if>
+            <if test="cameraPassword != null ">camera_password,</if>
+            <if test="cameraIp != null ">camera_ip,</if>
+            <if test="cameraPort != null ">camera_port,</if>
+            <if test="remark != null ">remark,</if>
+            <if test="creatTime != null ">creat_time,</if>
+            <if test="updateTime != null ">update_time,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null ">#{id},</if>
+            <if test="cameraNum != null ">#{cameraNum},</if>
+            <if test="coverId != null ">#{coverId},</if>
+            <if test="cameraName != null ">#{cameraName},</if>
+            <if test="cameraUser != null ">#{cameraUser},</if>
+            <if test="cameraPassword != null ">#{cameraPassword},</if>
+            <if test="cameraIp != null ">#{cameraIp},</if>
+            <if test="cameraPort != null ">#{cameraPort},</if>
+            <if test="remark != null ">#{remark},</if>
+            <if test="creatTime != null ">#{creatTime},</if>
+            <if test="updateTime != null ">#{updateTime},</if>
+        </trim>
+    </insert>
+
+    <update id="update" parameterType="com.efounder.JEnterprise.zhdg.entity.CameraManageHk">
+        update seb_camera_manage
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="id != null ">id=#{id},</if>
+            <if test="cameraNum != null ">camera_num=#{cameraNum},</if>
+            <if test="coverId != null ">cover_id=#{coverId},</if>
+            <if test="cameraName != null ">camera_name=#{cameraName},</if>
+            <if test="cameraUser != null ">camera_user=#{cameraUser},</if>
+            <if test="cameraPassword != null ">camera_password=#{cameraPassword},</if>
+            <if test="cameraIp != null ">camera_ip=#{cameraIp},</if>
+            <if test="cameraPort != null ">camera_port=#{cameraPort},</if>
+            <if test="remark != null ">remark=#{remark},</if>
+            <if test="creatTime != null ">creat_time=#{creatTime},</if>
+            <if test="updateTime != null ">update_time=#{updateTime},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="delete" parameterType="java.lang.Long" >
+        delete from seb_camera_manage where id = #{id}
+    </delete>
+
+</mapper>

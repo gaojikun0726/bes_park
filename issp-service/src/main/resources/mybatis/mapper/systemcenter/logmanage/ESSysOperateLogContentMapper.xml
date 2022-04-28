@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.efounder.JEnterprise.mapper.systemcenter.logmanage.ESSysOperateLogContentMapper">
+	<resultMap id="SysOperateLogContentMap"
+		type="com.efounder.JEnterprise.model.systemcenter.logmanage.ESSysOperateLogContent">
+		<result column="F_ID" property="fId" />
+		<result column="F_LOG_ID" property="fLogId" />
+		<result column="F_TB_KEY" property="fTbKey" />
+		<result column="F_TB_VALUE" property="fTbValue" />
+		<result column="F_CURRENTTB_VALUE" property="fCurrenttbValue" />
+		<result column="F_COMMENT" property="fComment" />
+		<result column="F_CRDATE" property="fCrdate" />
+		<result column="F_CHDATE" property="fChdate" />
+
+	</resultMap>
+	
+	<sql id="find_xxx">
+	  <![CDATA[
+	  SELECT 
+	    F_ID,
+	    F_LOG_ID,
+	    F_TB_KEY,
+	    F_TB_VALUE,
+	    F_CURRENTTB_VALUE,
+        F_COMMENT,
+        date_format(F_CRDATE,'%Y-%m-%d %H:%i:%s' )F_CRDATE ,date_format(F_CHDATE,'%Y-%m-%d %H:%i:%s' )F_CHDATE
+	  ]]>
+	</sql>
+	<sql id="from_xxx">
+	    <![CDATA[
+	      FROM es_operation_log_content
+	    ]]>
+	</sql>
+	
+	<!--分页显示系统操作日志信息 -->
+	<select id="loadsysOperatelogContentByKey" parameterType="String" resultMap="SysOperateLogContentMap">
+		<include refid="find_xxx" />
+		<include refid="from_xxx" />
+		<where>
+			F_LOG_ID = #{f_id}
+		</where>
+		  order by F_CHDATE desc
+	</select>
+	
+</mapper>	

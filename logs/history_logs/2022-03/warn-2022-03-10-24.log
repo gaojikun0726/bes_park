@@ -1,0 +1,791 @@
+[17:17:00:540] [WARN] - com.netflix.config.sources.URLConfigurationSource.<init>(URLConfigurationSource.java:121) - No URLs will be polled as dynamic configuration sources.
+[17:17:48:974] [WARN] - org.springframework.cloud.netflix.archaius.ArchaiusAutoConfiguration.configureArchaius(ArchaiusAutoConfiguration.java:137) - No spring.application.name found, defaulting to 'application'
+[17:17:48:976] [WARN] - com.netflix.config.sources.URLConfigurationSource.<init>(URLConfigurationSource.java:121) - No URLs will be polled as dynamic configuration sources.
+[17:18:00:734] [ERROR] - com.efounder.JEnterprise.timer.manage.PduStatusManage.getOnlineData(PduStatusManage.java:143) - 在线状态的PDU设备数据获取方法-请求报错:Connect to localhost:8060 [localhost/127.0.0.1, localhost/0:0:0:0:0:0:0:1] failed: Connection refused: connect
+[17:18:04:369] [WARN] - org.springframework.cloud.netflix.zuul.web.ZuulHandlerMapping.registerHandlers(ZuulHandlerMapping.java:104) - No routes found from RouteLocator
+[17:18:24:004] [WARN] - org.ace.socketserver.util.MsgUtil.getChannelByTokenSN(MsgUtil.java:93) - Channel bound by  tokenSN:10.168.136.74 is not exists
+[17:18:24:005] [WARN] - org.ace.business.handler.SendMsgHandler.pushStack(SendMsgHandler.java:196) - Post event failed, because the channel for event subscriber:10.168.136.74 is not exists
+[17:19:03:264] [WARN] - org.ace.socketserver.util.MsgUtil.getChannelByTokenSN(MsgUtil.java:93) - Channel bound by  tokenSN:10.168.136.77 is not exists
+[17:19:03:264] [WARN] - org.ace.business.handler.SendMsgHandler.pushStack(SendMsgHandler.java:196) - Post event failed, because the channel for event subscriber:10.168.136.77 is not exists
+[17:19:04:842] [ERROR] - com.efounder.JEnterprise.timer.manage.PduStatusManage.getOnlineData(PduStatusManage.java:143) - 在线状态的PDU设备数据获取方法-请求报错:Connect to localhost:8060 [localhost/127.0.0.1, localhost/0:0:0:0:0:0:0:1] failed: Connection refused: connect
+[17:19:20:360] [WARN] - org.ace.socketserver.util.MsgUtil.getChannelByTokenSN(MsgUtil.java:93) - Channel bound by  tokenSN:10.168.136.74 is not exists
+[17:19:20:360] [WARN] - org.ace.business.handler.SendMsgHandler.pushStack(SendMsgHandler.java:196) - Post event failed, because the channel for event subscriber:10.168.136.74 is not exists
+[17:20:09:656] [ERROR] - com.efounder.JEnterprise.timer.manage.PduStatusManage.getOnlineData(PduStatusManage.java:143) - 在线状态的PDU设备数据获取方法-请求报错:Connect to localhost:8060 [localhost/127.0.0.1, localhost/0:0:0:0:0:0:0:1] failed: Connection refused: connect
+[17:20:11:030] [WARN] - org.ace.socketserver.util.MsgUtil.getChannelByTokenSN(MsgUtil.java:93) - Channel bound by  tokenSN:10.168.138.8 is not exists
+[17:20:11:030] [WARN] - org.ace.business.handler.SendMsgHandler.pushStack(SendMsgHandler.java:196) - Post event failed, because the channel for event subscriber:10.168.138.8 is not exists
+[17:20:12:012] [WARN] - org.ace.socketserver.util.MsgUtil.getChannelByTokenSN(MsgUtil.java:93) - Channel bound by  tokenSN:10.168.138.8 is not exists
+[17:20:12:012] [WARN] - org.ace.business.handler.SendMsgHandler.pushStack(SendMsgHandler.java:196) - Post event failed, because the channel for event subscriber:10.168.138.8 is not exists
+[17:20:13:013] [WARN] - org.ace.socketserver.util.MsgUtil.getChannelByTokenSN(MsgUtil.java:93) - Channel bound by  tokenSN:10.168.138.8 is not exists
+[17:20:13:013] [WARN] - org.ace.business.handler.SendMsgHandler.pushStack(SendMsgHandler.java:196) - Post event failed, because the channel for event subscriber:10.168.138.8 is not exists
+[17:20:14:010] [WARN] - org.ace.socketserver.util.MsgUtil.getChannelByTokenSN(MsgUtil.java:93) - Channel bound by  tokenSN:10.168.138.8 is not exists
+[17:20:14:010] [WARN] - org.ace.business.handler.SendMsgHandler.pushStack(SendMsgHandler.java:196) - Post event failed, because the channel for event subscriber:10.168.138.8 is not exists
+[17:20:15:012] [WARN] - org.ace.socketserver.util.MsgUtil.getChannelByTokenSN(MsgUtil.java:93) - Channel bound by  tokenSN:10.168.138.8 is not exists
+[17:20:15:012] [WARN] - org.ace.business.handler.SendMsgHandler.pushStack(SendMsgHandler.java:196) - Post event failed, because the channel for event subscriber:10.168.138.8 is not exists
+[17:20:16:011] [WARN] - org.ace.socketserver.util.MsgUtil.getChannelByTokenSN(MsgUtil.java:93) - Channel bound by  tokenSN:10.168.138.8 is not exists
+[17:20:16:011] [WARN] - org.ace.business.handler.SendMsgHandler.pushStack(SendMsgHandler.java:196) - Post event failed, because the channel for event subscriber:10.168.138.8 is not exists
+[17:20:17:010] [WARN] - org.ace.socketserver.util.MsgUtil.getChannelByTokenSN(MsgUtil.java:93) - Channel bound by  tokenSN:10.168.138.8 is not exists
+[17:20:17:010] [WARN] - org.ace.business.handler.SendMsgHandler.pushStack(SendMsgHandler.java:196) - Post event failed, because the channel for event subscriber:10.168.138.8 is not exists
+[17:20:18:010] [WARN] - org.ace.socketserver.util.MsgUtil.getChannelByTokenSN(MsgUtil.java:93) - Channel bound by  tokenSN:10.168.138.8 is not exists
+[17:20:18:011] [WARN] - org.ace.business.handler.SendMsgHandler.pushStack(SendMsgHandler.java:196) - Post event failed, because the channel for event subscriber:10.168.138.8 is not exists
+[17:20:19:011] [WARN] - org.ace.socketserver.util.MsgUtil.getChannelByTokenSN(MsgUtil.java:93) - Channel bound by  tokenSN:10.168.138.8 is not exists
+[17:20:19:011] [WARN] - org.ace.business.handler.SendMsgHandler.pushStack(SendMsgHandler.java:196) - Post event failed, because the channel for event subscriber:10.168.138.8 is not exists
+[17:20:20:011] [WARN] - org.ace.socketserver.util.MsgUtil.getChannelByTokenSN(MsgUtil.java:93) - Channel bound by  tokenSN:10.168.138.8 is not exists
+[17:20:20:011] [WARN] - org.ace.business.handler.SendMsgHandler.pushStack(SendMsgHandler.java:196) - Post event failed, because the channel for event subscriber:10.168.138.8 is not exists
+[17:20:21:009] [WARN] - org.ace.socketserver.util.MsgUtil.getChannelByTokenSN(MsgUtil.java:93) - Channel bound by  tokenSN:10.168.138.8 is not exists
+[17:20:21:009] [WARN] - org.ace.business.handler.SendMsgHandler.pushStack(SendMsgHandler.java:196) - Post event failed, because the channel for event subscriber:10.168.138.8 is not exists
+[17:20:21:927] [WARN] - com.netflix.config.sources.URLConfigurationSource.<init>(URLConfigurationSource.java:121) - No URLs will be polled as dynamic configuration sources.
+[17:23:38:796] [WARN] - net.sf.ehcache.CacheManager.configure(CacheManager.java:698) - One or more caches require a DiskStore but there is no diskStore element configured. Using the default disk store path of C:\Users\Lenovo\AppData\Local\Temp\. Please explicitly configure the diskStore element in ehcache.xml.
+[17:23:38:815] [WARN] - net.sf.ehcache.config.CacheConfiguration.warnMaxEntriesLocalHeap(CacheConfiguration.java:1697) - Cache: deviceFunctionCache has a maxElementsInMemory of 0. This might lead to performance degradation or OutOfMemoryError at Terracotta client.From Ehcache 2.0 onwards this has been changed to mean a store with no capacity limit. Set it to 1 if you want no elements cached in memory
+[17:23:38:852] [WARN] - net.sf.ehcache.config.CacheConfiguration.warnMaxEntriesLocalHeap(CacheConfiguration.java:1697) - Cache: deviceTypeCache has a maxElementsInMemory of 0. This might lead to performance degradation or OutOfMemoryError at Terracotta client.From Ehcache 2.0 onwards this has been changed to mean a store with no capacity limit. Set it to 1 if you want no elements cached in memory
+[17:23:38:854] [WARN] - net.sf.ehcache.config.CacheConfiguration.warnMaxEntriesLocalHeap(CacheConfiguration.java:1697) - Cache: groupCache has a maxElementsInMemory of 0. This might lead to performance degradation or OutOfMemoryError at Terracotta client.From Ehcache 2.0 onwards this has been changed to mean a store with no capacity limit. Set it to 1 if you want no elements cached in memory
+[17:23:38:856] [WARN] - net.sf.ehcache.config.CacheConfiguration.warnMaxEntriesLocalHeap(CacheConfiguration.java:1697) - Cache: householdConfigCache has a maxElementsInMemory of 0. This might lead to performance degradation or OutOfMemoryError at Terracotta client.From Ehcache 2.0 onwards this has been changed to mean a store with no capacity limit. Set it to 1 if you want no elements cached in memory
+[17:23:38:858] [WARN] - net.sf.ehcache.config.CacheConfiguration.warnMaxEntriesLocalHeap(CacheConfiguration.java:1697) - Cache: electricCollRlgl has a maxElementsInMemory of 0. This might lead to performance degradation or OutOfMemoryError at Terracotta client.From Ehcache 2.0 onwards this has been changed to mean a store with no capacity limit. Set it to 1 if you want no elements cached in memory
+[17:23:38:859] [WARN] - net.sf.ehcache.config.CacheConfiguration.warnMaxEntriesLocalHeap(CacheConfiguration.java:1697) - Cache: deviceFunctionPointCache has a maxElementsInMemory of 0. This might lead to performance degradation or OutOfMemoryError at Terracotta client.From Ehcache 2.0 onwards this has been changed to mean a store with no capacity limit. Set it to 1 if you want no elements cached in memory
+[17:23:38:861] [WARN] - net.sf.ehcache.config.CacheConfiguration.warnMaxEntriesLocalHeap(CacheConfiguration.java:1697) - Cache: originalData has a maxElementsInMemory of 0. This might lead to performance degradation or OutOfMemoryError at Terracotta client.From Ehcache 2.0 onwards this has been changed to mean a store with no capacity limit. Set it to 1 if you want no elements cached in memory
+[17:23:38:863] [WARN] - net.sf.ehcache.config.CacheConfiguration.warnMaxEntriesLocalHeap(CacheConfiguration.java:1697) - Cache: aoPointCache has a maxElementsInMemory of 0. This might lead to performance degradation or OutOfMemoryError at Terracotta client.From Ehcache 2.0 onwards this has been changed to mean a store with no capacity limit. Set it to 1 if you want no elements cached in memory
+[17:23:38:864] [WARN] - net.sf.ehcache.config.CacheConfiguration.warnMaxEntriesLocalHeap(CacheConfiguration.java:1697) - Cache: functionPointStateCache has a maxElementsInMemory of 0. This might lead to performance degradation or OutOfMemoryError at Terracotta client.From Ehcache 2.0 onwards this has been changed to mean a store with no capacity limit. Set it to 1 if you want no elements cached in memory
+[17:23:38:865] [WARN] - net.sf.ehcache.config.CacheConfiguration.warnMaxEntriesLocalHeap(CacheConfiguration.java:1697) - Cache: diPointCache has a maxElementsInMemory of 0. This might lead to performance degradation or OutOfMemoryError at Terracotta client.From Ehcache 2.0 onwards this has been changed to mean a store with no capacity limit. Set it to 1 if you want no elements cached in memory
+[17:23:38:867] [WARN] - net.sf.ehcache.config.CacheConfiguration.warnMaxEntriesLocalHeap(CacheConfiguration.java:1697) - Cache: branchConfAlarmConfiguration has a maxElementsInMemory of 0. This might lead to performance degradation or OutOfMemoryError at Terracotta client.From Ehcache 2.0 onwards this has been changed to mean a store with no capacity limit. Set it to 1 if you want no elements cached in memory
+[17:23:38:868] [WARN] - net.sf.ehcache.config.CacheConfiguration.warnMaxEntriesLocalHeap(CacheConfiguration.java:1697) - Cache: roleGroupCache has a maxElementsInMemory of 0. This might lead to performance degradation or OutOfMemoryError at Terracotta client.From Ehcache 2.0 onwards this has been changed to mean a store with no capacity limit. Set it to 1 if you want no elements cached in memory
+[17:23:38:870] [WARN] - net.sf.ehcache.config.CacheConfiguration.warnMaxEntriesLocalHeap(CacheConfiguration.java:1697) - Cache: collectorCache has a maxElementsInMemory of 0. This might lead to performance degradation or OutOfMemoryError at Terracotta client.From Ehcache 2.0 onwards this has been changed to mean a store with no capacity limit. Set it to 1 if you want no elements cached in memory
+[17:23:38:871] [WARN] - net.sf.ehcache.config.CacheConfiguration.warnMaxEntriesLocalHeap(CacheConfiguration.java:1697) - Cache: subitemBranchRlgl has a maxElementsInMemory of 0. This might lead to performance degradation or OutOfMemoryError at Terracotta client.From Ehcache 2.0 onwards this has been changed to mean a store with no capacity limit. Set it to 1 if you want no elements cached in memory
+[17:23:38:873] [WARN] - net.sf.ehcache.config.CacheConfiguration.warnMaxEntriesLocalHeap(CacheConfiguration.java:1697) - Cache: roleCache has a maxElementsInMemory of 0. This might lead to performance degradation or OutOfMemoryError at Terracotta client.From Ehcache 2.0 onwards this has been changed to mean a store with no capacity limit. Set it to 1 if you want no elements cached in memory
+[17:23:38:875] [WARN] - net.sf.ehcache.config.CacheConfiguration.warnMaxEntriesLocalHeap(CacheConfiguration.java:1697) - Cache: messageMonitoringCache has a maxElementsInMemory of 0. This might lead to performance degradation or OutOfMemoryError at Terracotta client.From Ehcache 2.0 onwards this has been changed to mean a store with no capacity limit. Set it to 1 if you want no elements cached in memory
+[17:23:38:876] [WARN] - net.sf.ehcache.config.CacheConfiguration.warnMaxEntriesLocalHeap(CacheConfiguration.java:1697) - Cache: ddcCache has a maxElementsInMemory of 0. This might lead to performance degradation or OutOfMemoryError at Terracotta client.From Ehcache 2.0 onwards this has been changed to mean a store with no capacity limit. Set it to 1 if you want no elements cached in memory
+[17:23:38:878] [WARN] - net.sf.ehcache.config.CacheConfiguration.warnMaxEntriesLocalHeap(CacheConfiguration.java:1697) - Cache: scenePointCache has a maxElementsInMemory of 0. This might lead to performance degradation or OutOfMemoryError at Terracotta client.From Ehcache 2.0 onwards this has been changed to mean a store with no capacity limit. Set it to 1 if you want no elements cached in memory
+[17:23:38:880] [WARN] - net.sf.ehcache.config.CacheConfiguration.warnMaxEntriesLocalHeap(CacheConfiguration.java:1697) - Cache: energyTypeCache has a maxElementsInMemory of 0. This might lead to performance degradation or OutOfMemoryError at Terracotta client.From Ehcache 2.0 onwards this has been changed to mean a store with no capacity limit. Set it to 1 if you want no elements cached in memory
+[17:23:38:881] [WARN] - net.sf.ehcache.config.CacheConfiguration.warnMaxEntriesLocalHeap(CacheConfiguration.java:1697) - Cache: ammeterCache has a maxElementsInMemory of 0. This might lead to performance degradation or OutOfMemoryError at Terracotta client.From Ehcache 2.0 onwards this has been changed to mean a store with no capacity limit. Set it to 1 if you want no elements cached in memory
+[17:23:38:882] [WARN] - net.sf.ehcache.config.CacheConfiguration.warnMaxEntriesLocalHeap(CacheConfiguration.java:1697) - Cache: planCache has a maxElementsInMemory of 0. This might lead to performance degradation or OutOfMemoryError at Terracotta client.From Ehcache 2.0 onwards this has been changed to mean a store with no capacity limit. Set it to 1 if you want no elements cached in memory
+[17:23:38:884] [WARN] - net.sf.ehcache.config.CacheConfiguration.warnMaxEntriesLocalHeap(CacheConfiguration.java:1697) - Cache: sceneModeCache has a maxElementsInMemory of 0. This might lead to performance degradation or OutOfMemoryError at Terracotta client.From Ehcache 2.0 onwards this has been changed to mean a store with no capacity limit. Set it to 1 if you want no elements cached in memory
+[17:23:38:885] [WARN] - net.sf.ehcache.config.CacheConfiguration.warnMaxEntriesLocalHeap(CacheConfiguration.java:1697) - Cache: timeTaskCache has a maxElementsInMemory of 0. This might lead to performance degradation or OutOfMemoryError at Terracotta client.From Ehcache 2.0 onwards this has been changed to mean a store with no capacity limit. Set it to 1 if you want no elements cached in memory
+[17:23:38:887] [WARN] - net.sf.ehcache.config.CacheConfiguration.warnMaxEntriesLocalHeap(CacheConfiguration.java:1697) - Cache: subRealtimeData has a maxElementsInMemory of 0. This might lead to performance degradation or OutOfMemoryError at Terracotta client.From Ehcache 2.0 onwards this has been changed to mean a store with no capacity limit. Set it to 1 if you want no elements cached in memory
+[17:23:38:888] [WARN] - net.sf.ehcache.config.CacheConfiguration.warnMaxEntriesLocalHeap(CacheConfiguration.java:1697) - Cache: branchConfParameter has a maxElementsInMemory of 0. This might lead to performance degradation or OutOfMemoryError at Terracotta client.From Ehcache 2.0 onwards this has been changed to mean a store with no capacity limit. Set it to 1 if you want no elements cached in memory
+[17:23:38:890] [WARN] - net.sf.ehcache.config.CacheConfiguration.warnMaxEntriesLocalHeap(CacheConfiguration.java:1697) - Cache: electricParams has a maxElementsInMemory of 0. This might lead to performance degradation or OutOfMemoryError at Terracotta client.From Ehcache 2.0 onwards this has been changed to mean a store with no capacity limit. Set it to 1 if you want no elements cached in memory
+[17:23:38:891] [WARN] - net.sf.ehcache.config.CacheConfiguration.warnMaxEntriesLocalHeap(CacheConfiguration.java:1697) - Cache: sbTreeNodeTypeCache has a maxElementsInMemory of 0. This might lead to performance degradation or OutOfMemoryError at Terracotta client.From Ehcache 2.0 onwards this has been changed to mean a store with no capacity limit. Set it to 1 if you want no elements cached in memory
+[17:23:38:892] [WARN] - net.sf.ehcache.config.CacheConfiguration.warnMaxEntriesLocalHeap(CacheConfiguration.java:1697) - Cache: branchAmmeterRlgl has a maxElementsInMemory of 0. This might lead to performance degradation or OutOfMemoryError at Terracotta client.From Ehcache 2.0 onwards this has been changed to mean a store with no capacity limit. Set it to 1 if you want no elements cached in memory
+[17:23:38:894] [WARN] - net.sf.ehcache.config.CacheConfiguration.warnMaxEntriesLocalHeap(CacheConfiguration.java:1697) - Cache: planVariatInfoCache has a maxElementsInMemory of 0. This might lead to performance degradation or OutOfMemoryError at Terracotta client.From Ehcache 2.0 onwards this has been changed to mean a store with no capacity limit. Set it to 1 if you want no elements cached in memory
+[17:23:38:895] [WARN] - net.sf.ehcache.config.CacheConfiguration.warnMaxEntriesLocalHeap(CacheConfiguration.java:1697) - Cache: aiPointCache has a maxElementsInMemory of 0. This might lead to performance degradation or OutOfMemoryError at Terracotta client.From Ehcache 2.0 onwards this has been changed to mean a store with no capacity limit. Set it to 1 if you want no elements cached in memory
+[17:23:38:897] [WARN] - net.sf.ehcache.config.CacheConfiguration.warnMaxEntriesLocalHeap(CacheConfiguration.java:1697) - Cache: deviceConfigurationCache has a maxElementsInMemory of 0. This might lead to performance degradation or OutOfMemoryError at Terracotta client.From Ehcache 2.0 onwards this has been changed to mean a store with no capacity limit. Set it to 1 if you want no elements cached in memory
+[17:23:38:898] [WARN] - net.sf.ehcache.config.CacheConfiguration.warnMaxEntriesLocalHeap(CacheConfiguration.java:1697) - Cache: doPointCache has a maxElementsInMemory of 0. This might lead to performance degradation or OutOfMemoryError at Terracotta client.From Ehcache 2.0 onwards this has been changed to mean a store with no capacity limit. Set it to 1 if you want no elements cached in memory
+[17:23:38:899] [WARN] - net.sf.ehcache.config.CacheConfiguration.warnMaxEntriesLocalHeap(CacheConfiguration.java:1697) - Cache: virtualPointCache has a maxElementsInMemory of 0. This might lead to performance degradation or OutOfMemoryError at Terracotta client.From Ehcache 2.0 onwards this has been changed to mean a store with no capacity limit. Set it to 1 if you want no elements cached in memory
+[17:23:38:901] [WARN] - net.sf.ehcache.config.CacheConfiguration.warnMaxEntriesLocalHeap(CacheConfiguration.java:1697) - Cache: subitemConfigCache has a maxElementsInMemory of 0. This might lead to performance degradation or OutOfMemoryError at Terracotta client.From Ehcache 2.0 onwards this has been changed to mean a store with no capacity limit. Set it to 1 if you want no elements cached in memory
+[17:23:38:902] [WARN] - net.sf.ehcache.config.CacheConfiguration.warnMaxEntriesLocalHeap(CacheConfiguration.java:1697) - Cache: branchConfigCache has a maxElementsInMemory of 0. This might lead to performance degradation or OutOfMemoryError at Terracotta client.From Ehcache 2.0 onwards this has been changed to mean a store with no capacity limit. Set it to 1 if you want no elements cached in memory
+[17:23:38:904] [WARN] - net.sf.ehcache.config.CacheConfiguration.warnMaxEntriesLocalHeap(CacheConfiguration.java:1697) - Cache: sbPzStructCache has a maxElementsInMemory of 0. This might lead to performance degradation or OutOfMemoryError at Terracotta client.From Ehcache 2.0 onwards this has been changed to mean a store with no capacity limit. Set it to 1 if you want no elements cached in memory
+[17:23:38:905] [WARN] - net.sf.ehcache.config.CacheConfiguration.warnMaxEntriesLocalHeap(CacheConfiguration.java:1697) - Cache: householdBranchRlgl has a maxElementsInMemory of 0. This might lead to performance degradation or OutOfMemoryError at Terracotta client.From Ehcache 2.0 onwards this has been changed to mean a store with no capacity limit. Set it to 1 if you want no elements cached in memory
+[17:23:38:906] [WARN] - net.sf.ehcache.config.CacheConfiguration.warnMaxEntriesLocalHeap(CacheConfiguration.java:1697) - Cache: collMethod has a maxElementsInMemory of 0. This might lead to performance degradation or OutOfMemoryError at Terracotta client.From Ehcache 2.0 onwards this has been changed to mean a store with no capacity limit. Set it to 1 if you want no elements cached in memory
+[17:23:39:041] [WARN] - com.alibaba.druid.pool.vendor.MySqlValidConnectionChecker.<init>(MySqlValidConnectionChecker.java:55) - Cannot resolve com.mysq.jdbc.Connection.ping method.  Will use 'SELECT 1' instead.
+java.lang.NullPointerException: null
+	at com.alibaba.druid.pool.vendor.MySqlValidConnectionChecker.<init>(MySqlValidConnectionChecker.java:50) [druid-1.0.18.jar:1.0.18]
+	at com.alibaba.druid.pool.DruidDataSource.initValidConnectionChecker(DruidDataSource.java:944) [druid-1.0.18.jar:1.0.18]
+	at com.alibaba.druid.pool.DruidDataSource.init(DruidDataSource.java:659) [druid-1.0.18.jar:1.0.18]
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method) ~[?:1.8.0_76-ea]
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62) ~[?:1.8.0_76-ea]
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43) ~[?:1.8.0_76-ea]
+	at java.lang.reflect.Method.invoke(Method.java:498) ~[?:1.8.0_76-ea]
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.invokeCustomInitMethod(AbstractAutowireCapableBeanFactory.java:1758) [spring-beans-4.3.12.RELEASE.jar:4.3.12.RELEASE]
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.invokeInitMethods(AbstractAutowireCapableBeanFactory.java:1695) [spring-beans-4.3.12.RELEASE.jar:4.3.12.RELEASE]
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.initializeBean(AbstractAutowireCapableBeanFactory.java:1624) [spring-beans-4.3.12.RELEASE.jar:4.3.12.RELEASE]
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:555) [spring-beans-4.3.12.RELEASE.jar:4.3.12.RELEASE]
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:483) [spring-beans-4.3.12.RELEASE.jar:4.3.12.RELEASE]
+	at org.springframework.beans.factory.support.AbstractBeanFactory$1.getObject(AbstractBeanFactory.java:306) [spring-beans-4.3.12.RELEASE.jar:4.3.12.RELEASE]
+	at org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.getSingleton(DefaultSingletonBeanRegistry.java:230) [spring-beans-4.3.12.RELEASE.jar:4.3.12.RELEASE]
+	at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:302) [spring-beans-4.3.12.RELEASE.jar:4.3.12.RELEASE]
+	at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:202) [spring-beans-4.3.12.RELEASE.jar:4.3.12.RELEASE]
+	at org.springframework.beans.factory.config.DependencyDescriptor.resolveCandidate(DependencyDescriptor.java:208) [spring-beans-4.3.12.RELEASE.jar:4.3.12.RELEASE]
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.doResolveDependency(DefaultListableBeanFactory.java:1138) [spring-beans-4.3.12.RELEASE.jar:4.3.12.RELEASE]
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.resolveDependency(DefaultListableBeanFactory.java:1066) [spring-beans-4.3.12.RELEASE.jar:4.3.12.RELEASE]
+	at org.springframework.beans.factory.support.ConstructorResolver.resolveAutowiredArgument(ConstructorResolver.java:835) [spring-beans-4.3.12.RELEASE.jar:4.3.12.RELEASE]
+	at org.springframework.beans.factory.support.ConstructorResolver.createArgumentArray(ConstructorResolver.java:741) [spring-beans-4.3.12.RELEASE.jar:4.3.12.RELEASE]
+	at org.springframework.beans.factory.support.ConstructorResolver.instantiateUsingFactoryMethod(ConstructorResolver.java:467) [spring-beans-4.3.12.RELEASE.jar:4.3.12.RELEASE]
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.instantiateUsingFactoryMethod(AbstractAutowireCapableBeanFactory.java:1173) [spring-beans-4.3.12.RELEASE.jar:4.3.12.RELEASE]
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBeanInstance(AbstractAutowireCapableBeanFactory.java:1067) [spring-beans-4.3.12.RELEASE.jar:4.3.12.RELEASE]
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:513) [spring-beans-4.3.12.RELEASE.jar:4.3.12.RELEASE]
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:483) [spring-beans-4.3.12.RELEASE.jar:4.3.12.RELEASE]
+	at org.springframework.beans.factory.support.AbstractBeanFactory$1.getObject(AbstractBeanFactory.java:306) [spring-beans-4.3.12.RELEASE.jar:4.3.12.RELEASE]
+	at org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.getSingleton(DefaultSingletonBeanRegistry.java:230) [spring-beans-4.3.12.RELEASE.jar:4.3.12.RELEASE]
+	at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:302) [spring-beans-4.3.12.RELEASE.jar:4.3.12.RELEASE]
+	at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:202) [spring-beans-4.3.12.RELEASE.jar:4.3.12.RELEASE]
+	at org.springframework.beans.factory.config.DependencyDescriptor.resolveCandidate(DependencyDescriptor.java:208) [spring-beans-4.3.12.RELEASE.jar:4.3.12.RELEASE]
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.doResolveDependency(DefaultListableBeanFactory.java:1138) [spring-beans-4.3.12.RELEASE.jar:4.3.12.RELEASE]
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.resolveDependency(DefaultListableBeanFactory.java:1066) [spring-beans-4.3.12.RELEASE.jar:4.3.12.RELEASE]
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.autowireByType(AbstractAutowireCapableBeanFactory.java:1342) [spring-beans-4.3.12.RELEASE.jar:4.3.12.RELEASE]
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.populateBean(AbstractAutowireCapableBeanFactory.java:1249) [spring-beans-4.3.12.RELEASE.jar:4.3.12.RELEASE]
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:553) [spring-beans-4.3.12.RELEASE.jar:4.3.12.RELEASE]
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:483) [spring-beans-4.3.12.RELEASE.jar:4.3.12.RELEASE]
+	at org.springframework.beans.factory.support.AbstractBeanFactory$1.getObject(AbstractBeanFactory.java:306) [spring-beans-4.3.12.RELEASE.jar:4.3.12.RELEASE]
+	at org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.getSingleton(DefaultSingletonBeanRegistry.java:230) [spring-beans-4.3.12.RELEASE.jar:4.3.12.RELEASE]
+	at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:302) [spring-beans-4.3.12.RELEASE.jar:4.3.12.RELEASE]
+	at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:202) [spring-beans-4.3.12.RELEASE.jar:4.3.12.RELEASE]
+	at org.springframework.beans.factory.config.DependencyDescriptor.resolveCandidate(DependencyDescriptor.java:208) [spring-beans-4.3.12.RELEASE.jar:4.3.12.RELEASE]
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.doResolveDependency(DefaultListableBeanFactory.java:1138) [spring-beans-4.3.12.RELEASE.jar:4.3.12.RELEASE]
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.resolveDependency(DefaultListableBeanFactory.java:1066) [spring-beans-4.3.12.RELEASE.jar:4.3.12.RELEASE]
+	at org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor$AutowiredFieldElement.inject(AutowiredAnnotationBeanPostProcessor.java:585) [spring-beans-4.3.12.RELEASE.jar:4.3.12.RELEASE]
+	at org.springframework.beans.factory.annotation.InjectionMetadata.inject(InjectionMetadata.java:88) [spring-beans-4.3.12.RELEASE.jar:4.3.12.RELEASE]
+	at org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor.postProcessPropertyValues(AutowiredAnnotationBeanPostProcessor.java:366) [spring-beans-4.3.12.RELEASE.jar:4.3.12.RELEASE]
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.populateBean(AbstractAutowireCapableBeanFactory.java:1264) [spring-beans-4.3.12.RELEASE.jar:4.3.12.RELEASE]
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:553) [spring-beans-4.3.12.RELEASE.jar:4.3.12.RELEASE]
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:483) [spring-beans-4.3.12.RELEASE.jar:4.3.12.RELEASE]
+	at org.springframework.beans.factory.support.AbstractBeanFactory$1.getObject(AbstractBeanFactory.java:306) [spring-beans-4.3.12.RELEASE.jar:4.3.12.RELEASE]
+	at org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.getSingleton(DefaultSingletonBeanRegistry.java:230) [spring-beans-4.3.12.RELEASE.jar:4.3.12.RELEASE]
+	at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:302) [spring-beans-4.3.12.RELEASE.jar:4.3.12.RELEASE]
+	at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:202) [spring-beans-4.3.12.RELEASE.jar:4.3.12.RELEASE]
+	at org.springframework.beans.factory.config.DependencyDescriptor.resolveCandidate(DependencyDescriptor.java:208) [spring-beans-4.3.12.RELEASE.jar:4.3.12.RELEASE]
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.doResolveDependency(DefaultListableBeanFactory.java:1138) [spring-beans-4.3.12.RELEASE.jar:4.3.12.RELEASE]
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.resolveDependency(DefaultListableBeanFactory.java:1066) [spring-beans-4.3.12.RELEASE.jar:4.3.12.RELEASE]
+	at org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor$AutowiredFieldElement.inject(AutowiredAnnotationBeanPostProcessor.java:585) [spring-beans-4.3.12.RELEASE.jar:4.3.12.RELEASE]
+	at org.springframework.beans.factory.annotation.InjectionMetadata.inject(InjectionMetadata.java:88) [spring-beans-4.3.12.RELEASE.jar:4.3.12.RELEASE]
+	at org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor.postProcessPropertyValues(AutowiredAnnotationBeanPostProcessor.java:366) [spring-beans-4.3.12.RELEASE.jar:4.3.12.RELEASE]
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.populateBean(AbstractAutowireCapableBeanFactory.java:1264) [spring-beans-4.3.12.RELEASE.jar:4.3.12.RELEASE]
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:553) [spring-beans-4.3.12.RELEASE.jar:4.3.12.RELEASE]
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:483) [spring-beans-4.3.12.RELEASE.jar:4.3.12.RELEASE]
+	at org.springframework.beans.factory.support.AbstractBeanFactory$1.getObject(AbstractBeanFactory.java:306) [spring-beans-4.3.12.RELEASE.jar:4.3.12.RELEASE]
+	at org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.getSingleton(DefaultSingletonBeanRegistry.java:230) [spring-beans-4.3.12.RELEASE.jar:4.3.12.RELEASE]
+	at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:302) [spring-beans-4.3.12.RELEASE.jar:4.3.12.RELEASE]
+	at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:202) [spring-beans-4.3.12.RELEASE.jar:4.3.12.RELEASE]
+	at org.springframework.beans.factory.config.DependencyDescriptor.resolveCandidate(DependencyDescriptor.java:208) [spring-beans-4.3.12.RELEASE.jar:4.3.12.RELEASE]
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.doResolveDependency(DefaultListableBeanFactory.java:1138) [spring-beans-4.3.12.RELEASE.jar:4.3.12.RELEASE]
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.resolveDependency(DefaultListableBeanFactory.java:1066) [spring-beans-4.3.12.RELEASE.jar:4.3.12.RELEASE]
+	at org.springframework.beans.factory.support.ConstructorResolver.resolveAutowiredArgument(ConstructorResolver.java:835) [spring-beans-4.3.12.RELEASE.jar:4.3.12.RELEASE]
+	at org.springframework.beans.factory.support.ConstructorResolver.createArgumentArray(ConstructorResolver.java:741) [spring-beans-4.3.12.RELEASE.jar:4.3.12.RELEASE]
+	at org.springframework.beans.factory.support.ConstructorResolver.instantiateUsingFactoryMethod(ConstructorResolver.java:467) [spring-beans-4.3.12.RELEASE.jar:4.3.12.RELEASE]
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.instantiateUsingFactoryMethod(AbstractAutowireCapableBeanFactory.java:1173) [spring-beans-4.3.12.RELEASE.jar:4.3.12.RELEASE]
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBeanInstance(AbstractAutowireCapableBeanFactory.java:1067) [spring-beans-4.3.12.RELEASE.jar:4.3.12.RELEASE]
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:513) [spring-beans-4.3.12.RELEASE.jar:4.3.12.RELEASE]
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:483) [spring-beans-4.3.12.RELEASE.jar:4.3.12.RELEASE]
+	at org.springframework.beans.factory.support.AbstractBeanFactory$1.getObject(AbstractBeanFactory.java:306) [spring-beans-4.3.12.RELEASE.jar:4.3.12.RELEASE]
+	at org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.getSingleton(DefaultSingletonBeanRegistry.java:230) [spring-beans-4.3.12.RELEASE.jar:4.3.12.RELEASE]
+	at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:302) [spring-beans-4.3.12.RELEASE.jar:4.3.12.RELEASE]
+	at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:202) [spring-beans-4.3.12.RELEASE.jar:4.3.12.RELEASE]
+	at org.springframework.beans.factory.config.DependencyDescriptor.resolveCandidate(DependencyDescriptor.java:208) [spring-beans-4.3.12.RELEASE.jar:4.3.12.RELEASE]
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.doResolveDependency(DefaultListableBeanFactory.java:1138) [spring-beans-4.3.12.RELEASE.jar:4.3.12.RELEASE]
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.resolveDependency(DefaultListableBeanFactory.java:1066) [spring-beans-4.3.12.RELEASE.jar:4.3.12.RELEASE]
+	at org.springframework.beans.factory.support.ConstructorResolver.resolveAutowiredArgument(ConstructorResolver.java:835) [spring-beans-4.3.12.RELEASE.jar:4.3.12.RELEASE]
+	at org.springframework.beans.factory.support.ConstructorResolver.createArgumentArray(ConstructorResolver.java:741) [spring-beans-4.3.12.RELEASE.jar:4.3.12.RELEASE]
+	at org.springframework.beans.factory.support.ConstructorResolver.instantiateUsingFactoryMethod(ConstructorResolver.java:467) [spring-beans-4.3.12.RELEASE.jar:4.3.12.RELEASE]
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.instantiateUsingFactoryMethod(AbstractAutowireCapableBeanFactory.java:1173) [spring-beans-4.3.12.RELEASE.jar:4.3.12.RELEASE]
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBeanInstance(AbstractAutowireCapableBeanFactory.java:1067) [spring-beans-4.3.12.RELEASE.jar:4.3.12.RELEASE]
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.getSingletonFactoryBeanForTypeCheck(AbstractAutowireCapableBeanFactory.java:923) [spring-beans-4.3.12.RELEASE.jar:4.3.12.RELEASE]
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.getTypeForFactoryBean(AbstractAutowireCapableBeanFactory.java:804) [spring-beans-4.3.12.RELEASE.jar:4.3.12.RELEASE]
+	at org.springframework.beans.factory.support.AbstractBeanFactory.isTypeMatch(AbstractBeanFactory.java:558) [spring-beans-4.3.12.RELEASE.jar:4.3.12.RELEASE]
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.doGetBeanNamesForType(DefaultListableBeanFactory.java:432) [spring-beans-4.3.12.RELEASE.jar:4.3.12.RELEASE]
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.getBeanNamesForType(DefaultListableBeanFactory.java:395) [spring-beans-4.3.12.RELEASE.jar:4.3.12.RELEASE]
+	at org.springframework.beans.factory.BeanFactoryUtils.beanNamesForTypeIncludingAncestors(BeanFactoryUtils.java:220) [spring-beans-4.3.12.RELEASE.jar:4.3.12.RELEASE]
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.findAutowireCandidates(DefaultListableBeanFactory.java:1267) [spring-beans-4.3.12.RELEASE.jar:4.3.12.RELEASE]
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.doResolveDependency(DefaultListableBeanFactory.java:1101) [spring-beans-4.3.12.RELEASE.jar:4.3.12.RELEASE]
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.resolveDependency(DefaultListableBeanFactory.java:1066) [spring-beans-4.3.12.RELEASE.jar:4.3.12.RELEASE]
+	at org.springframework.beans.factory.support.ConstructorResolver.resolveAutowiredArgument(ConstructorResolver.java:835) [spring-beans-4.3.12.RELEASE.jar:4.3.12.RELEASE]
+	at org.springframework.beans.factory.support.ConstructorResolver.createArgumentArray(ConstructorResolver.java:741) [spring-beans-4.3.12.RELEASE.jar:4.3.12.RELEASE]
+	at org.springframework.beans.factory.support.ConstructorResolver.instantiateUsingFactoryMethod(ConstructorResolver.java:467) [spring-beans-4.3.12.RELEASE.jar:4.3.12.RELEASE]
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.instantiateUsingFactoryMethod(AbstractAutowireCapableBeanFactory.java:1173) [spring-beans-4.3.12.RELEASE.jar:4.3.12.RELEASE]
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBeanInstance(AbstractAutowireCapableBeanFactory.java:1067) [spring-beans-4.3.12.RELEASE.jar:4.3.12.RELEASE]
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:513) [spring-beans-4.3.12.RELEASE.jar:4.3.12.RELEASE]
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:483) [spring-beans-4.3.12.RELEASE.jar:4.3.12.RELEASE]
+	at org.springframework.beans.factory.support.AbstractBeanFactory$1.getObject(AbstractBeanFactory.java:306) [spring-beans-4.3.12.RELEASE.jar:4.3.12.RELEASE]
+	at org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.getSingleton(DefaultSingletonBeanRegistry.java:230) [spring-beans-4.3.12.RELEASE.jar:4.3.12.RELEASE]
+	at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:302) [spring-beans-4.3.12.RELEASE.jar:4.3.12.RELEASE]
+	at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:202) [spring-beans-4.3.12.RELEASE.jar:4.3.12.RELEASE]
+	at org.springframework.context.support.PostProcessorRegistrationDelegate.registerBeanPostProcessors(PostProcessorRegistrationDelegate.java:225) [spring-context-4.3.12.RELEASE.jar:4.3.12.RELEASE]
+	at org.springframework.context.support.AbstractApplicationContext.registerBeanPostProcessors(AbstractApplicationContext.java:703) [spring-context-4.3.12.RELEASE.jar:4.3.12.RELEASE]
+	at org.springframework.context.support.AbstractApplicationContext.refresh(AbstractApplicationContext.java:528) [spring-context-4.3.12.RELEASE.jar:4.3.12.RELEASE]
+	at org.springframework.boot.context.embedded.EmbeddedWebApplicationContext.refresh(EmbeddedWebApplicationContext.java:122) [spring-boot-1.5.8.RELEASE.jar:1.5.8.RELEASE]
+	at org.springframework.boot.SpringApplication.refresh(SpringApplication.java:693) [spring-boot-1.5.8.RELEASE.jar:1.5.8.RELEASE]
+	at org.springframework.boot.SpringApplication.refreshContext(SpringApplication.java:360) [spring-boot-1.5.8.RELEASE.jar:1.5.8.RELEASE]
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:303) [spring-boot-1.5.8.RELEASE.jar:1.5.8.RELEASE]
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1118) [spring-boot-1.5.8.RELEASE.jar:1.5.8.RELEASE]
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1107) [spring-boot-1.5.8.RELEASE.jar:1.5.8.RELEASE]
+	at com.efounder.JEnterprise.BESApplication.main(BESApplication.java:49) [classes/:?]
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method) ~[?:1.8.0_76-ea]
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62) ~[?:1.8.0_76-ea]
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43) ~[?:1.8.0_76-ea]
+	at java.lang.reflect.Method.invoke(Method.java:498) ~[?:1.8.0_76-ea]
+	at org.springframework.boot.devtools.restart.RestartLauncher.run(RestartLauncher.java:49) [spring-boot-devtools-1.5.8.RELEASE.jar:1.5.8.RELEASE]
+[17:23:48:107] [WARN] - com.netflix.config.sources.URLConfigurationSource.<init>(URLConfigurationSource.java:121) - No URLs will be polled as dynamic configuration sources.
+[17:24:24:650] [WARN] - org.springframework.cloud.netflix.archaius.ArchaiusAutoConfiguration.configureArchaius(ArchaiusAutoConfiguration.java:137) - No spring.application.name found, defaulting to 'application'
+[17:24:24:651] [WARN] - com.netflix.config.sources.URLConfigurationSource.<init>(URLConfigurationSource.java:121) - No URLs will be polled as dynamic configuration sources.
+[17:24:27:854] [WARN] - org.springframework.cloud.netflix.zuul.web.ZuulHandlerMapping.registerHandlers(ZuulHandlerMapping.java:104) - No routes found from RouteLocator
+[17:24:27:926] [ERROR] - org.apache.juli.logging.DirectJDKLog.log(DirectJDKLog.java:181) - Servlet.service() for servlet [dispatcherServlet] in context with path [/energy] threw exception [Request processing failed; nested exception is java.lang.NullPointerException] with root cause
+java.lang.NullPointerException: null
+	at com.efounder.JEnterprise.initializer.SubRealTimeDataCache.unsubscribeCacheBySessionId(SubRealTimeDataCache.java:127) ~[classes/:?]
+	at com.efounder.JEnterprise.controller.LoginController.logout(LoginController.java:271) ~[classes/:?]
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method) ~[?:1.8.0_76-ea]
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62) ~[?:1.8.0_76-ea]
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43) ~[?:1.8.0_76-ea]
+	at java.lang.reflect.Method.invoke(Method.java:498) ~[?:1.8.0_76-ea]
+	at org.springframework.web.method.support.InvocableHandlerMethod.doInvoke(InvocableHandlerMethod.java:205) ~[spring-web-4.3.12.RELEASE.jar:4.3.12.RELEASE]
+	at org.springframework.web.method.support.InvocableHandlerMethod.invokeForRequest(InvocableHandlerMethod.java:133) ~[spring-web-4.3.12.RELEASE.jar:4.3.12.RELEASE]
+	at org.springframework.web.servlet.mvc.method.annotation.ServletInvocableHandlerMethod.invokeAndHandle(ServletInvocableHandlerMethod.java:97) ~[spring-webmvc-4.3.12.RELEASE.jar:4.3.12.RELEASE]
+	at org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter.invokeHandlerMethod(RequestMappingHandlerAdapter.java:827) ~[spring-webmvc-4.3.12.RELEASE.jar:4.3.12.RELEASE]
+	at org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter.handleInternal(RequestMappingHandlerAdapter.java:738) ~[spring-webmvc-4.3.12.RELEASE.jar:4.3.12.RELEASE]
+	at org.springframework.web.servlet.mvc.method.AbstractHandlerMethodAdapter.handle(AbstractHandlerMethodAdapter.java:85) ~[spring-webmvc-4.3.12.RELEASE.jar:4.3.12.RELEASE]
+	at org.springframework.web.servlet.DispatcherServlet.doDispatch(DispatcherServlet.java:967) ~[spring-webmvc-4.3.12.RELEASE.jar:4.3.12.RELEASE]
+	at org.springframework.web.servlet.DispatcherServlet.doService(DispatcherServlet.java:901) ~[spring-webmvc-4.3.12.RELEASE.jar:4.3.12.RELEASE]
+	at org.springframework.web.servlet.FrameworkServlet.processRequest(FrameworkServlet.java:970) ~[spring-webmvc-4.3.12.RELEASE.jar:4.3.12.RELEASE]
+	at org.springframework.web.servlet.FrameworkServlet.doGet(FrameworkServlet.java:861) ~[spring-webmvc-4.3.12.RELEASE.jar:4.3.12.RELEASE]
+	at javax.servlet.http.HttpServlet.service(HttpServlet.java:687) ~[javax.servlet-api-3.1.0.jar:3.1.0]
+	at org.springframework.web.servlet.FrameworkServlet.service(FrameworkServlet.java:846) ~[spring-webmvc-4.3.12.RELEASE.jar:4.3.12.RELEASE]
+	at javax.servlet.http.HttpServlet.service(HttpServlet.java:790) ~[javax.servlet-api-3.1.0.jar:3.1.0]
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:231) ~[tomcat-embed-core-8.5.23.jar:8.5.23]
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:166) ~[tomcat-embed-core-8.5.23.jar:8.5.23]
+	at org.apache.tomcat.websocket.server.WsFilter.doFilter(WsFilter.java:52) ~[tomcat-embed-websocket-8.5.23.jar:8.5.23]
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:193) ~[tomcat-embed-core-8.5.23.jar:8.5.23]
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:166) ~[tomcat-embed-core-8.5.23.jar:8.5.23]
+	at org.springframework.boot.web.filter.ApplicationContextHeaderFilter.doFilterInternal(ApplicationContextHeaderFilter.java:55) ~[spring-boot-1.5.8.RELEASE.jar:1.5.8.RELEASE]
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:107) ~[spring-web-4.3.12.RELEASE.jar:4.3.12.RELEASE]
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:193) ~[tomcat-embed-core-8.5.23.jar:8.5.23]
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:166) ~[tomcat-embed-core-8.5.23.jar:8.5.23]
+	at org.apache.shiro.web.servlet.ProxiedFilterChain.doFilter(ProxiedFilterChain.java:61) ~[shiro-web-1.5.3.jar:1.5.3]
+	at org.apache.shiro.web.servlet.AdviceFilter.executeChain(AdviceFilter.java:108) ~[shiro-web-1.5.3.jar:1.5.3]
+	at org.apache.shiro.web.servlet.AdviceFilter.doFilterInternal(AdviceFilter.java:137) ~[shiro-web-1.5.3.jar:1.5.3]
+	at org.apache.shiro.web.servlet.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:125) ~[shiro-web-1.5.3.jar:1.5.3]
+	at org.apache.shiro.web.servlet.ProxiedFilterChain.doFilter(ProxiedFilterChain.java:66) ~[shiro-web-1.5.3.jar:1.5.3]
+	at org.apache.shiro.web.servlet.AbstractShiroFilter.executeChain(AbstractShiroFilter.java:449) ~[shiro-web-1.5.3.jar:1.5.3]
+	at org.apache.shiro.web.servlet.AbstractShiroFilter$1.call(AbstractShiroFilter.java:365) ~[shiro-web-1.5.3.jar:1.5.3]
+	at org.apache.shiro.subject.support.SubjectCallable.doCall(SubjectCallable.java:90) ~[shiro-core-1.5.3.jar:1.5.3]
+	at org.apache.shiro.subject.support.SubjectCallable.call(SubjectCallable.java:83) ~[shiro-core-1.5.3.jar:1.5.3]
+	at org.apache.shiro.subject.support.DelegatingSubject.execute(DelegatingSubject.java:387) ~[shiro-core-1.5.3.jar:1.5.3]
+	at org.apache.shiro.web.servlet.AbstractShiroFilter.doFilterInternal(AbstractShiroFilter.java:362) ~[shiro-web-1.5.3.jar:1.5.3]
+	at com.efounder.JEnterprise.config.shiro.MShiroFilterFactoryBean$MSpringShiroFilter.doFilterInternal(MShiroFilterFactoryBean.java:100) ~[classes/:?]
+	at org.apache.shiro.web.servlet.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:125) ~[shiro-web-1.5.3.jar:1.5.3]
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:193) ~[tomcat-embed-core-8.5.23.jar:8.5.23]
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:166) ~[tomcat-embed-core-8.5.23.jar:8.5.23]
+	at com.alibaba.druid.support.http.WebStatFilter.doFilter(WebStatFilter.java:123) ~[druid-1.0.18.jar:1.0.18]
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:193) ~[tomcat-embed-core-8.5.23.jar:8.5.23]
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:166) ~[tomcat-embed-core-8.5.23.jar:8.5.23]
+	at com.efounder.JEnterprise.common.authority.filter.XSSSecurityFilter.doFilter(XSSSecurityFilter.java:91) ~[classes/:?]
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:193) ~[tomcat-embed-core-8.5.23.jar:8.5.23]
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:166) ~[tomcat-embed-core-8.5.23.jar:8.5.23]
+	at com.efounder.JEnterprise.common.authority.filter.SQLInjectionFilterServlet.doFilter(SQLInjectionFilterServlet.java:68) ~[classes/:?]
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:193) ~[tomcat-embed-core-8.5.23.jar:8.5.23]
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:166) ~[tomcat-embed-core-8.5.23.jar:8.5.23]
+	at org.springframework.boot.actuate.trace.WebRequestTraceFilter.doFilterInternal(WebRequestTraceFilter.java:110) ~[spring-boot-actuator-1.5.8.RELEASE.jar:1.5.8.RELEASE]
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:107) ~[spring-web-4.3.12.RELEASE.jar:4.3.12.RELEASE]
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:193) ~[tomcat-embed-core-8.5.23.jar:8.5.23]
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:166) ~[tomcat-embed-core-8.5.23.jar:8.5.23]
+	at org.springframework.web.filter.RequestContextFilter.doFilterInternal(RequestContextFilter.java:99) ~[spring-web-4.3.12.RELEASE.jar:4.3.12.RELEASE]
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:107) ~[spring-web-4.3.12.RELEASE.jar:4.3.12.RELEASE]
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:193) ~[tomcat-embed-core-8.5.23.jar:8.5.23]
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:166) ~[tomcat-embed-core-8.5.23.jar:8.5.23]
+	at org.springframework.web.filter.HttpPutFormContentFilter.doFilterInternal(HttpPutFormContentFilter.java:108) ~[spring-web-4.3.12.RELEASE.jar:4.3.12.RELEASE]
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:107) ~[spring-web-4.3.12.RELEASE.jar:4.3.12.RELEASE]
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:193) ~[tomcat-embed-core-8.5.23.jar:8.5.23]
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:166) ~[tomcat-embed-core-8.5.23.jar:8.5.23]
+	at org.springframework.web.filter.HiddenHttpMethodFilter.doFilterInternal(HiddenHttpMethodFilter.java:81) ~[spring-web-4.3.12.RELEASE.jar:4.3.12.RELEASE]
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:107) ~[spring-web-4.3.12.RELEASE.jar:4.3.12.RELEASE]
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:193) ~[tomcat-embed-core-8.5.23.jar:8.5.23]
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:166) ~[tomcat-embed-core-8.5.23.jar:8.5.23]
+	at org.springframework.web.filter.CharacterEncodingFilter.doFilterInternal(CharacterEncodingFilter.java:197) ~[spring-web-4.3.12.RELEASE.jar:4.3.12.RELEASE]
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:107) ~[spring-web-4.3.12.RELEASE.jar:4.3.12.RELEASE]
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:193) ~[tomcat-embed-core-8.5.23.jar:8.5.23]
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:166) ~[tomcat-embed-core-8.5.23.jar:8.5.23]
+	at org.springframework.boot.actuate.autoconfigure.MetricsFilter.doFilterInternal(MetricsFilter.java:106) ~[spring-boot-actuator-1.5.8.RELEASE.jar:1.5.8.RELEASE]
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:107) ~[spring-web-4.3.12.RELEASE.jar:4.3.12.RELEASE]
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:193) ~[tomcat-embed-core-8.5.23.jar:8.5.23]
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:166) ~[tomcat-embed-core-8.5.23.jar:8.5.23]
+	at org.apache.catalina.core.StandardWrapperValve.invoke(StandardWrapperValve.java:199) [tomcat-embed-core-8.5.23.jar:8.5.23]
+	at org.apache.catalina.core.StandardContextValve.invoke(StandardContextValve.java:96) [tomcat-embed-core-8.5.23.jar:8.5.23]
+	at org.apache.catalina.authenticator.AuthenticatorBase.invoke(AuthenticatorBase.java:478) [tomcat-embed-core-8.5.23.jar:8.5.23]
+	at org.apache.catalina.core.StandardHostValve.invoke(StandardHostValve.java:140) [tomcat-embed-core-8.5.23.jar:8.5.23]
+	at org.apache.catalina.valves.ErrorReportValve.invoke(ErrorReportValve.java:81) [tomcat-embed-core-8.5.23.jar:8.5.23]
+	at org.apache.catalina.core.StandardEngineValve.invoke(StandardEngineValve.java:87) [tomcat-embed-core-8.5.23.jar:8.5.23]
+	at org.apache.catalina.connector.CoyoteAdapter.service(CoyoteAdapter.java:342) [tomcat-embed-core-8.5.23.jar:8.5.23]
+	at org.apache.coyote.http11.Http11Processor.service(Http11Processor.java:803) [tomcat-embed-core-8.5.23.jar:8.5.23]
+	at org.apache.coyote.AbstractProcessorLight.process(AbstractProcessorLight.java:66) [tomcat-embed-core-8.5.23.jar:8.5.23]
+	at org.apache.coyote.AbstractProtocol$ConnectionHandler.process(AbstractProtocol.java:868) [tomcat-embed-core-8.5.23.jar:8.5.23]
+	at org.apache.tomcat.util.net.NioEndpoint$SocketProcessor.doRun(NioEndpoint.java:1459) [tomcat-embed-core-8.5.23.jar:8.5.23]
+	at org.apache.tomcat.util.net.SocketProcessorBase.run(SocketProcessorBase.java:49) [tomcat-embed-core-8.5.23.jar:8.5.23]
+	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1142) [?:1.8.0_76-ea]
+	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:617) [?:1.8.0_76-ea]
+	at org.apache.tomcat.util.threads.TaskThread$WrappingRunnable.run(TaskThread.java:61) [tomcat-embed-core-8.5.23.jar:8.5.23]
+	at java.lang.Thread.run(Thread.java:745) [?:1.8.0_76-ea]
+[17:24:28:216] [WARN] - org.ace.socketserver.util.MsgUtil.getChannelByTokenSN(MsgUtil.java:93) - Channel bound by  tokenSN:10.168.138.8 is not exists
+[17:24:28:217] [WARN] - org.ace.business.handler.SendMsgHandler.pushStack(SendMsgHandler.java:196) - Post event failed, because the channel for event subscriber:10.168.138.8 is not exists
+[17:24:28:219] [WARN] - org.ace.socketserver.util.MsgUtil.getChannelByTokenSN(MsgUtil.java:93) - Channel bound by  tokenSN:10.168.137.123 is not exists
+[17:24:28:219] [WARN] - org.ace.business.handler.SendMsgHandler.pushStack(SendMsgHandler.java:196) - Post event failed, because the channel for event subscriber:10.168.137.123 is not exists
+[17:24:29:019] [WARN] - org.ace.socketserver.util.MsgUtil.getChannelByTokenSN(MsgUtil.java:93) - Channel bound by  tokenSN:10.168.138.8 is not exists
+[17:24:29:020] [WARN] - org.ace.business.handler.SendMsgHandler.pushStack(SendMsgHandler.java:196) - Post event failed, because the channel for event subscriber:10.168.138.8 is not exists
+[17:24:29:023] [WARN] - org.ace.socketserver.util.MsgUtil.getChannelByTokenSN(MsgUtil.java:93) - Channel bound by  tokenSN:10.168.137.123 is not exists
+[17:24:29:023] [WARN] - org.ace.business.handler.SendMsgHandler.pushStack(SendMsgHandler.java:196) - Post event failed, because the channel for event subscriber:10.168.137.123 is not exists
+[17:24:30:449] [WARN] - org.ace.socketserver.util.MsgUtil.getChannelByTokenSN(MsgUtil.java:93) - Channel bound by  tokenSN:10.168.138.8 is not exists
+[17:24:30:449] [WARN] - org.ace.business.handler.SendMsgHandler.pushStack(SendMsgHandler.java:196) - Post event failed, because the channel for event subscriber:10.168.138.8 is not exists
+[17:24:30:451] [WARN] - org.ace.socketserver.util.MsgUtil.getChannelByTokenSN(MsgUtil.java:93) - Channel bound by  tokenSN:10.168.137.123 is not exists
+[17:24:30:451] [WARN] - org.ace.business.handler.SendMsgHandler.pushStack(SendMsgHandler.java:196) - Post event failed, because the channel for event subscriber:10.168.137.123 is not exists
+[17:24:31:019] [WARN] - org.ace.socketserver.util.MsgUtil.getChannelByTokenSN(MsgUtil.java:93) - Channel bound by  tokenSN:10.168.138.8 is not exists
+[17:24:31:020] [WARN] - org.ace.business.handler.SendMsgHandler.pushStack(SendMsgHandler.java:196) - Post event failed, because the channel for event subscriber:10.168.138.8 is not exists
+[17:24:31:022] [WARN] - org.ace.socketserver.util.MsgUtil.getChannelByTokenSN(MsgUtil.java:93) - Channel bound by  tokenSN:10.168.137.123 is not exists
+[17:24:31:022] [WARN] - org.ace.business.handler.SendMsgHandler.pushStack(SendMsgHandler.java:196) - Post event failed, because the channel for event subscriber:10.168.137.123 is not exists
+[17:24:32:011] [WARN] - org.ace.socketserver.util.MsgUtil.getChannelByTokenSN(MsgUtil.java:93) - Channel bound by  tokenSN:10.168.138.8 is not exists
+[17:24:32:011] [WARN] - org.ace.business.handler.SendMsgHandler.pushStack(SendMsgHandler.java:196) - Post event failed, because the channel for event subscriber:10.168.138.8 is not exists
+[17:24:32:013] [WARN] - org.ace.socketserver.util.MsgUtil.getChannelByTokenSN(MsgUtil.java:93) - Channel bound by  tokenSN:10.168.137.123 is not exists
+[17:24:32:013] [WARN] - org.ace.business.handler.SendMsgHandler.pushStack(SendMsgHandler.java:196) - Post event failed, because the channel for event subscriber:10.168.137.123 is not exists
+[17:24:33:021] [WARN] - org.ace.socketserver.util.MsgUtil.getChannelByTokenSN(MsgUtil.java:93) - Channel bound by  tokenSN:10.168.138.8 is not exists
+[17:24:33:021] [WARN] - org.ace.business.handler.SendMsgHandler.pushStack(SendMsgHandler.java:196) - Post event failed, because the channel for event subscriber:10.168.138.8 is not exists
+[17:24:33:022] [WARN] - org.ace.socketserver.util.MsgUtil.getChannelByTokenSN(MsgUtil.java:93) - Channel bound by  tokenSN:10.168.137.123 is not exists
+[17:24:33:023] [WARN] - org.ace.business.handler.SendMsgHandler.pushStack(SendMsgHandler.java:196) - Post event failed, because the channel for event subscriber:10.168.137.123 is not exists
+[17:24:33:141] [ERROR] - com.efounder.JEnterprise.timer.manage.PduStatusManage.getOnlineData(PduStatusManage.java:143) - 在线状态的PDU设备数据获取方法-请求报错:Connect to localhost:8060 [localhost/127.0.0.1, localhost/0:0:0:0:0:0:0:1] failed: Connection refused: connect
+[17:24:34:017] [WARN] - org.ace.socketserver.util.MsgUtil.getChannelByTokenSN(MsgUtil.java:93) - Channel bound by  tokenSN:10.168.138.8 is not exists
+[17:24:34:018] [WARN] - org.ace.business.handler.SendMsgHandler.pushStack(SendMsgHandler.java:196) - Post event failed, because the channel for event subscriber:10.168.138.8 is not exists
+[17:24:34:019] [WARN] - org.ace.socketserver.util.MsgUtil.getChannelByTokenSN(MsgUtil.java:93) - Channel bound by  tokenSN:10.168.137.123 is not exists
+[17:24:34:019] [WARN] - org.ace.business.handler.SendMsgHandler.pushStack(SendMsgHandler.java:196) - Post event failed, because the channel for event subscriber:10.168.137.123 is not exists
+[17:24:35:012] [WARN] - org.ace.socketserver.util.MsgUtil.getChannelByTokenSN(MsgUtil.java:93) - Channel bound by  tokenSN:10.168.138.8 is not exists
+[17:24:35:012] [WARN] - org.ace.business.handler.SendMsgHandler.pushStack(SendMsgHandler.java:196) - Post event failed, because the channel for event subscriber:10.168.138.8 is not exists
+[17:24:35:013] [WARN] - org.ace.socketserver.util.MsgUtil.getChannelByTokenSN(MsgUtil.java:93) - Channel bound by  tokenSN:10.168.137.123 is not exists
+[17:24:35:013] [WARN] - org.ace.business.handler.SendMsgHandler.pushStack(SendMsgHandler.java:196) - Post event failed, because the channel for event subscriber:10.168.137.123 is not exists
+[17:24:36:015] [WARN] - org.ace.socketserver.util.MsgUtil.getChannelByTokenSN(MsgUtil.java:93) - Channel bound by  tokenSN:10.168.138.8 is not exists
+[17:24:36:015] [WARN] - org.ace.business.handler.SendMsgHandler.pushStack(SendMsgHandler.java:196) - Post event failed, because the channel for event subscriber:10.168.138.8 is not exists
+[17:24:36:016] [WARN] - org.ace.socketserver.util.MsgUtil.getChannelByTokenSN(MsgUtil.java:93) - Channel bound by  tokenSN:10.168.137.123 is not exists
+[17:24:36:017] [WARN] - org.ace.business.handler.SendMsgHandler.pushStack(SendMsgHandler.java:196) - Post event failed, because the channel for event subscriber:10.168.137.123 is not exists
+[17:24:37:012] [WARN] - org.ace.socketserver.util.MsgUtil.getChannelByTokenSN(MsgUtil.java:93) - Channel bound by  tokenSN:10.168.138.8 is not exists
+[17:24:37:012] [WARN] - org.ace.business.handler.SendMsgHandler.pushStack(SendMsgHandler.java:196) - Post event failed, because the channel for event subscriber:10.168.138.8 is not exists
+[17:24:37:013] [WARN] - org.ace.socketserver.util.MsgUtil.getChannelByTokenSN(MsgUtil.java:93) - Channel bound by  tokenSN:10.168.137.123 is not exists
+[17:24:37:013] [WARN] - org.ace.business.handler.SendMsgHandler.pushStack(SendMsgHandler.java:196) - Post event failed, because the channel for event subscriber:10.168.137.123 is not exists
+[17:24:38:035] [WARN] - org.ace.socketserver.util.MsgUtil.getChannelByTokenSN(MsgUtil.java:93) - Channel bound by  tokenSN:10.168.138.8 is not exists
+[17:24:38:035] [WARN] - org.ace.business.handler.SendMsgHandler.pushStack(SendMsgHandler.java:196) - Post event failed, because the channel for event subscriber:10.168.138.8 is not exists
+[17:24:38:036] [WARN] - org.ace.socketserver.util.MsgUtil.getChannelByTokenSN(MsgUtil.java:93) - Channel bound by  tokenSN:10.168.137.123 is not exists
+[17:24:38:037] [WARN] - org.ace.business.handler.SendMsgHandler.pushStack(SendMsgHandler.java:196) - Post event failed, because the channel for event subscriber:10.168.137.123 is not exists
+[17:24:39:012] [WARN] - org.ace.socketserver.util.MsgUtil.getChannelByTokenSN(MsgUtil.java:93) - Channel bound by  tokenSN:10.168.138.8 is not exists
+[17:24:39:013] [WARN] - org.ace.business.handler.SendMsgHandler.pushStack(SendMsgHandler.java:196) - Post event failed, because the channel for event subscriber:10.168.138.8 is not exists
+[17:24:39:014] [WARN] - org.ace.socketserver.util.MsgUtil.getChannelByTokenSN(MsgUtil.java:93) - Channel bound by  tokenSN:10.168.137.123 is not exists
+[17:24:39:014] [WARN] - org.ace.business.handler.SendMsgHandler.pushStack(SendMsgHandler.java:196) - Post event failed, because the channel for event subscriber:10.168.137.123 is not exists
+[17:24:40:011] [WARN] - org.ace.socketserver.util.MsgUtil.getChannelByTokenSN(MsgUtil.java:93) - Channel bound by  tokenSN:10.168.138.8 is not exists
+[17:24:40:011] [WARN] - org.ace.business.handler.SendMsgHandler.pushStack(SendMsgHandler.java:196) - Post event failed, because the channel for event subscriber:10.168.138.8 is not exists
+[17:24:40:012] [WARN] - org.ace.socketserver.util.MsgUtil.getChannelByTokenSN(MsgUtil.java:93) - Channel bound by  tokenSN:10.168.137.123 is not exists
+[17:24:40:012] [WARN] - org.ace.business.handler.SendMsgHandler.pushStack(SendMsgHandler.java:196) - Post event failed, because the channel for event subscriber:10.168.137.123 is not exists
+[17:24:41:015] [WARN] - org.ace.socketserver.util.MsgUtil.getChannelByTokenSN(MsgUtil.java:93) - Channel bound by  tokenSN:10.168.138.8 is not exists
+[17:24:41:015] [WARN] - org.ace.business.handler.SendMsgHandler.pushStack(SendMsgHandler.java:196) - Post event failed, because the channel for event subscriber:10.168.138.8 is not exists
+[17:24:41:016] [WARN] - org.ace.socketserver.util.MsgUtil.getChannelByTokenSN(MsgUtil.java:93) - Channel bound by  tokenSN:10.168.137.123 is not exists
+[17:24:41:017] [WARN] - org.ace.business.handler.SendMsgHandler.pushStack(SendMsgHandler.java:196) - Post event failed, because the channel for event subscriber:10.168.137.123 is not exists
+[17:24:42:016] [WARN] - org.ace.socketserver.util.MsgUtil.getChannelByTokenSN(MsgUtil.java:93) - Channel bound by  tokenSN:10.168.138.8 is not exists
+[17:24:42:016] [WARN] - org.ace.business.handler.SendMsgHandler.pushStack(SendMsgHandler.java:196) - Post event failed, because the channel for event subscriber:10.168.138.8 is not exists
+[17:24:42:018] [WARN] - org.ace.socketserver.util.MsgUtil.getChannelByTokenSN(MsgUtil.java:93) - Channel bound by  tokenSN:10.168.137.123 is not exists
+[17:24:42:018] [WARN] - org.ace.business.handler.SendMsgHandler.pushStack(SendMsgHandler.java:196) - Post event failed, because the channel for event subscriber:10.168.137.123 is not exists
+[17:24:43:015] [WARN] - org.ace.socketserver.util.MsgUtil.getChannelByTokenSN(MsgUtil.java:93) - Channel bound by  tokenSN:10.168.138.8 is not exists
+[17:24:43:016] [WARN] - org.ace.business.handler.SendMsgHandler.pushStack(SendMsgHandler.java:196) - Post event failed, because the channel for event subscriber:10.168.138.8 is not exists
+[17:24:43:017] [WARN] - org.ace.socketserver.util.MsgUtil.getChannelByTokenSN(MsgUtil.java:93) - Channel bound by  tokenSN:10.168.137.123 is not exists
+[17:24:43:017] [WARN] - org.ace.business.handler.SendMsgHandler.pushStack(SendMsgHandler.java:196) - Post event failed, because the channel for event subscriber:10.168.137.123 is not exists
+[17:24:44:018] [WARN] - org.ace.socketserver.util.MsgUtil.getChannelByTokenSN(MsgUtil.java:93) - Channel bound by  tokenSN:10.168.138.8 is not exists
+[17:24:44:018] [WARN] - org.ace.business.handler.SendMsgHandler.pushStack(SendMsgHandler.java:196) - Post event failed, because the channel for event subscriber:10.168.138.8 is not exists
+[17:24:44:020] [WARN] - org.ace.socketserver.util.MsgUtil.getChannelByTokenSN(MsgUtil.java:93) - Channel bound by  tokenSN:10.168.137.123 is not exists
+[17:24:44:020] [WARN] - org.ace.business.handler.SendMsgHandler.pushStack(SendMsgHandler.java:196) - Post event failed, because the channel for event subscriber:10.168.137.123 is not exists
+[17:24:45:010] [WARN] - org.ace.socketserver.util.MsgUtil.getChannelByTokenSN(MsgUtil.java:93) - Channel bound by  tokenSN:10.168.138.8 is not exists
+[17:24:45:010] [WARN] - org.ace.business.handler.SendMsgHandler.pushStack(SendMsgHandler.java:196) - Post event failed, because the channel for event subscriber:10.168.138.8 is not exists
+[17:24:45:011] [WARN] - org.ace.socketserver.util.MsgUtil.getChannelByTokenSN(MsgUtil.java:93) - Channel bound by  tokenSN:10.168.137.123 is not exists
+[17:24:45:011] [WARN] - org.ace.business.handler.SendMsgHandler.pushStack(SendMsgHandler.java:196) - Post event failed, because the channel for event subscriber:10.168.137.123 is not exists
+[17:24:46:012] [WARN] - org.ace.socketserver.util.MsgUtil.getChannelByTokenSN(MsgUtil.java:93) - Channel bound by  tokenSN:10.168.138.8 is not exists
+[17:24:46:012] [WARN] - org.ace.business.handler.SendMsgHandler.pushStack(SendMsgHandler.java:196) - Post event failed, because the channel for event subscriber:10.168.138.8 is not exists
+[17:24:46:013] [WARN] - org.ace.socketserver.util.MsgUtil.getChannelByTokenSN(MsgUtil.java:93) - Channel bound by  tokenSN:10.168.137.123 is not exists
+[17:24:46:013] [WARN] - org.ace.business.handler.SendMsgHandler.pushStack(SendMsgHandler.java:196) - Post event failed, because the channel for event subscriber:10.168.137.123 is not exists
+[17:24:47:011] [WARN] - org.ace.socketserver.util.MsgUtil.getChannelByTokenSN(MsgUtil.java:93) - Channel bound by  tokenSN:10.168.138.8 is not exists
+[17:24:47:011] [WARN] - org.ace.business.handler.SendMsgHandler.pushStack(SendMsgHandler.java:196) - Post event failed, because the channel for event subscriber:10.168.138.8 is not exists
+[17:24:47:013] [WARN] - org.ace.socketserver.util.MsgUtil.getChannelByTokenSN(MsgUtil.java:93) - Channel bound by  tokenSN:10.168.137.123 is not exists
+[17:24:47:013] [WARN] - org.ace.business.handler.SendMsgHandler.pushStack(SendMsgHandler.java:196) - Post event failed, because the channel for event subscriber:10.168.137.123 is not exists
+[17:24:48:008] [WARN] - org.ace.socketserver.util.MsgUtil.getChannelByTokenSN(MsgUtil.java:93) - Channel bound by  tokenSN:10.168.138.8 is not exists
+[17:24:48:009] [WARN] - org.ace.business.handler.SendMsgHandler.pushStack(SendMsgHandler.java:196) - Post event failed, because the channel for event subscriber:10.168.138.8 is not exists
+[17:24:48:010] [WARN] - org.ace.socketserver.util.MsgUtil.getChannelByTokenSN(MsgUtil.java:93) - Channel bound by  tokenSN:10.168.137.123 is not exists
+[17:24:48:010] [WARN] - org.ace.business.handler.SendMsgHandler.pushStack(SendMsgHandler.java:196) - Post event failed, because the channel for event subscriber:10.168.137.123 is not exists
+[17:24:49:011] [WARN] - org.ace.socketserver.util.MsgUtil.getChannelByTokenSN(MsgUtil.java:93) - Channel bound by  tokenSN:10.168.138.8 is not exists
+[17:24:49:012] [WARN] - org.ace.business.handler.SendMsgHandler.pushStack(SendMsgHandler.java:196) - Post event failed, because the channel for event subscriber:10.168.138.8 is not exists
+[17:24:49:013] [WARN] - org.ace.socketserver.util.MsgUtil.getChannelByTokenSN(MsgUtil.java:93) - Channel bound by  tokenSN:10.168.137.123 is not exists
+[17:24:49:013] [WARN] - org.ace.business.handler.SendMsgHandler.pushStack(SendMsgHandler.java:196) - Post event failed, because the channel for event subscriber:10.168.137.123 is not exists
+[17:24:50:011] [WARN] - org.ace.socketserver.util.MsgUtil.getChannelByTokenSN(MsgUtil.java:93) - Channel bound by  tokenSN:10.168.138.8 is not exists
+[17:24:50:012] [WARN] - org.ace.business.handler.SendMsgHandler.pushStack(SendMsgHandler.java:196) - Post event failed, because the channel for event subscriber:10.168.138.8 is not exists
+[17:24:50:013] [WARN] - org.ace.socketserver.util.MsgUtil.getChannelByTokenSN(MsgUtil.java:93) - Channel bound by  tokenSN:10.168.137.123 is not exists
+[17:24:50:013] [WARN] - org.ace.business.handler.SendMsgHandler.pushStack(SendMsgHandler.java:196) - Post event failed, because the channel for event subscriber:10.168.137.123 is not exists
+[17:24:51:012] [WARN] - org.ace.socketserver.util.MsgUtil.getChannelByTokenSN(MsgUtil.java:93) - Channel bound by  tokenSN:10.168.138.8 is not exists
+[17:24:51:012] [WARN] - org.ace.business.handler.SendMsgHandler.pushStack(SendMsgHandler.java:196) - Post event failed, because the channel for event subscriber:10.168.138.8 is not exists
+[17:24:51:013] [WARN] - org.ace.socketserver.util.MsgUtil.getChannelByTokenSN(MsgUtil.java:93) - Channel bound by  tokenSN:10.168.137.123 is not exists
+[17:24:51:013] [WARN] - org.ace.business.handler.SendMsgHandler.pushStack(SendMsgHandler.java:196) - Post event failed, because the channel for event subscriber:10.168.137.123 is not exists
+[17:24:52:010] [WARN] - org.ace.socketserver.util.MsgUtil.getChannelByTokenSN(MsgUtil.java:93) - Channel bound by  tokenSN:10.168.138.8 is not exists
+[17:24:52:010] [WARN] - org.ace.business.handler.SendMsgHandler.pushStack(SendMsgHandler.java:196) - Post event failed, because the channel for event subscriber:10.168.138.8 is not exists
+[17:24:52:011] [WARN] - org.ace.socketserver.util.MsgUtil.getChannelByTokenSN(MsgUtil.java:93) - Channel bound by  tokenSN:10.168.137.123 is not exists
+[17:24:52:011] [WARN] - org.ace.business.handler.SendMsgHandler.pushStack(SendMsgHandler.java:196) - Post event failed, because the channel for event subscriber:10.168.137.123 is not exists
+[17:24:53:011] [WARN] - org.ace.socketserver.util.MsgUtil.getChannelByTokenSN(MsgUtil.java:93) - Channel bound by  tokenSN:10.168.138.8 is not exists
+[17:24:53:011] [WARN] - org.ace.business.handler.SendMsgHandler.pushStack(SendMsgHandler.java:196) - Post event failed, because the channel for event subscriber:10.168.138.8 is not exists
+[17:24:53:013] [WARN] - org.ace.socketserver.util.MsgUtil.getChannelByTokenSN(MsgUtil.java:93) - Channel bound by  tokenSN:10.168.137.123 is not exists
+[17:24:53:013] [WARN] - org.ace.business.handler.SendMsgHandler.pushStack(SendMsgHandler.java:196) - Post event failed, because the channel for event subscriber:10.168.137.123 is not exists
+[17:24:54:018] [WARN] - org.ace.socketserver.util.MsgUtil.getChannelByTokenSN(MsgUtil.java:93) - Channel bound by  tokenSN:10.168.138.8 is not exists
+[17:24:54:018] [WARN] - org.ace.business.handler.SendMsgHandler.pushStack(SendMsgHandler.java:196) - Post event failed, because the channel for event subscriber:10.168.138.8 is not exists
+[17:24:54:019] [WARN] - org.ace.socketserver.util.MsgUtil.getChannelByTokenSN(MsgUtil.java:93) - Channel bound by  tokenSN:10.168.137.123 is not exists
+[17:24:54:019] [WARN] - org.ace.business.handler.SendMsgHandler.pushStack(SendMsgHandler.java:196) - Post event failed, because the channel for event subscriber:10.168.137.123 is not exists
+[17:24:55:010] [WARN] - org.ace.socketserver.util.MsgUtil.getChannelByTokenSN(MsgUtil.java:93) - Channel bound by  tokenSN:10.168.138.8 is not exists
+[17:24:55:010] [WARN] - org.ace.business.handler.SendMsgHandler.pushStack(SendMsgHandler.java:196) - Post event failed, because the channel for event subscriber:10.168.138.8 is not exists
+[17:24:55:011] [WARN] - org.ace.socketserver.util.MsgUtil.getChannelByTokenSN(MsgUtil.java:93) - Channel bound by  tokenSN:10.168.137.123 is not exists
+[17:24:55:011] [WARN] - org.ace.business.handler.SendMsgHandler.pushStack(SendMsgHandler.java:196) - Post event failed, because the channel for event subscriber:10.168.137.123 is not exists
+[17:24:56:008] [WARN] - org.ace.socketserver.util.MsgUtil.getChannelByTokenSN(MsgUtil.java:93) - Channel bound by  tokenSN:10.168.138.8 is not exists
+[17:24:56:009] [WARN] - org.ace.business.handler.SendMsgHandler.pushStack(SendMsgHandler.java:196) - Post event failed, because the channel for event subscriber:10.168.138.8 is not exists
+[17:24:56:010] [WARN] - org.ace.socketserver.util.MsgUtil.getChannelByTokenSN(MsgUtil.java:93) - Channel bound by  tokenSN:10.168.137.123 is not exists
+[17:24:56:010] [WARN] - org.ace.business.handler.SendMsgHandler.pushStack(SendMsgHandler.java:196) - Post event failed, because the channel for event subscriber:10.168.137.123 is not exists
+[17:24:57:019] [WARN] - org.ace.socketserver.util.MsgUtil.getChannelByTokenSN(MsgUtil.java:93) - Channel bound by  tokenSN:10.168.138.8 is not exists
+[17:24:57:019] [WARN] - org.ace.business.handler.SendMsgHandler.pushStack(SendMsgHandler.java:196) - Post event failed, because the channel for event subscriber:10.168.138.8 is not exists
+[17:24:57:020] [WARN] - org.ace.socketserver.util.MsgUtil.getChannelByTokenSN(MsgUtil.java:93) - Channel bound by  tokenSN:10.168.137.123 is not exists
+[17:24:57:020] [WARN] - org.ace.business.handler.SendMsgHandler.pushStack(SendMsgHandler.java:196) - Post event failed, because the channel for event subscriber:10.168.137.123 is not exists
+[17:24:58:010] [WARN] - org.ace.socketserver.util.MsgUtil.getChannelByTokenSN(MsgUtil.java:93) - Channel bound by  tokenSN:10.168.138.8 is not exists
+[17:24:58:010] [WARN] - org.ace.business.handler.SendMsgHandler.pushStack(SendMsgHandler.java:196) - Post event failed, because the channel for event subscriber:10.168.138.8 is not exists
+[17:24:58:011] [WARN] - org.ace.socketserver.util.MsgUtil.getChannelByTokenSN(MsgUtil.java:93) - Channel bound by  tokenSN:10.168.137.123 is not exists
+[17:24:58:011] [WARN] - org.ace.business.handler.SendMsgHandler.pushStack(SendMsgHandler.java:196) - Post event failed, because the channel for event subscriber:10.168.137.123 is not exists
+[17:24:59:009] [WARN] - org.ace.socketserver.util.MsgUtil.getChannelByTokenSN(MsgUtil.java:93) - Channel bound by  tokenSN:10.168.138.8 is not exists
+[17:24:59:009] [WARN] - org.ace.business.handler.SendMsgHandler.pushStack(SendMsgHandler.java:196) - Post event failed, because the channel for event subscriber:10.168.138.8 is not exists
+[17:24:59:010] [WARN] - org.ace.socketserver.util.MsgUtil.getChannelByTokenSN(MsgUtil.java:93) - Channel bound by  tokenSN:10.168.137.123 is not exists
+[17:24:59:011] [WARN] - org.ace.business.handler.SendMsgHandler.pushStack(SendMsgHandler.java:196) - Post event failed, because the channel for event subscriber:10.168.137.123 is not exists
+[17:25:00:010] [WARN] - org.ace.socketserver.util.MsgUtil.getChannelByTokenSN(MsgUtil.java:93) - Channel bound by  tokenSN:10.168.138.8 is not exists
+[17:25:00:010] [WARN] - org.ace.business.handler.SendMsgHandler.pushStack(SendMsgHandler.java:196) - Post event failed, because the channel for event subscriber:10.168.138.8 is not exists
+[17:25:00:013] [WARN] - org.ace.socketserver.util.MsgUtil.getChannelByTokenSN(MsgUtil.java:93) - Channel bound by  tokenSN:10.168.137.123 is not exists
+[17:25:00:013] [WARN] - org.ace.business.handler.SendMsgHandler.pushStack(SendMsgHandler.java:196) - Post event failed, because the channel for event subscriber:10.168.137.123 is not exists
+[17:25:01:018] [WARN] - org.ace.socketserver.util.MsgUtil.getChannelByTokenSN(MsgUtil.java:93) - Channel bound by  tokenSN:10.168.138.8 is not exists
+[17:25:01:018] [WARN] - org.ace.business.handler.SendMsgHandler.pushStack(SendMsgHandler.java:196) - Post event failed, because the channel for event subscriber:10.168.138.8 is not exists
+[17:25:01:019] [WARN] - org.ace.socketserver.util.MsgUtil.getChannelByTokenSN(MsgUtil.java:93) - Channel bound by  tokenSN:10.168.137.123 is not exists
+[17:25:01:020] [WARN] - org.ace.business.handler.SendMsgHandler.pushStack(SendMsgHandler.java:196) - Post event failed, because the channel for event subscriber:10.168.137.123 is not exists
+[17:25:02:019] [WARN] - org.ace.socketserver.util.MsgUtil.getChannelByTokenSN(MsgUtil.java:93) - Channel bound by  tokenSN:10.168.138.8 is not exists
+[17:25:02:019] [WARN] - org.ace.business.handler.SendMsgHandler.pushStack(SendMsgHandler.java:196) - Post event failed, because the channel for event subscriber:10.168.138.8 is not exists
+[17:25:02:021] [WARN] - org.ace.socketserver.util.MsgUtil.getChannelByTokenSN(MsgUtil.java:93) - Channel bound by  tokenSN:10.168.137.123 is not exists
+[17:25:02:021] [WARN] - org.ace.business.handler.SendMsgHandler.pushStack(SendMsgHandler.java:196) - Post event failed, because the channel for event subscriber:10.168.137.123 is not exists
+[17:25:03:017] [WARN] - org.ace.socketserver.util.MsgUtil.getChannelByTokenSN(MsgUtil.java:93) - Channel bound by  tokenSN:10.168.138.8 is not exists
+[17:25:03:018] [WARN] - org.ace.business.handler.SendMsgHandler.pushStack(SendMsgHandler.java:196) - Post event failed, because the channel for event subscriber:10.168.138.8 is not exists
+[17:25:03:019] [WARN] - org.ace.socketserver.util.MsgUtil.getChannelByTokenSN(MsgUtil.java:93) - Channel bound by  tokenSN:10.168.137.123 is not exists
+[17:25:03:019] [WARN] - org.ace.business.handler.SendMsgHandler.pushStack(SendMsgHandler.java:196) - Post event failed, because the channel for event subscriber:10.168.137.123 is not exists
+[17:25:37:198] [ERROR] - com.efounder.JEnterprise.timer.manage.PduStatusManage.getOnlineData(PduStatusManage.java:143) - 在线状态的PDU设备数据获取方法-请求报错:Connect to localhost:8060 [localhost/127.0.0.1, localhost/0:0:0:0:0:0:0:1] failed: Connection refused: connect
+[17:25:45:216] [WARN] - com.netflix.config.sources.URLConfigurationSource.<init>(URLConfigurationSource.java:121) - No URLs will be polled as dynamic configuration sources.
+[17:26:26:539] [WARN] - net.sf.ehcache.CacheManager.configure(CacheManager.java:698) - One or more caches require a DiskStore but there is no diskStore element configured. Using the default disk store path of C:\Users\Lenovo\AppData\Local\Temp\. Please explicitly configure the diskStore element in ehcache.xml.
+[17:26:26:557] [WARN] - net.sf.ehcache.config.CacheConfiguration.warnMaxEntriesLocalHeap(CacheConfiguration.java:1697) - Cache: electricParams has a maxElementsInMemory of 0. This might lead to performance degradation or OutOfMemoryError at Terracotta client.From Ehcache 2.0 onwards this has been changed to mean a store with no capacity limit. Set it to 1 if you want no elements cached in memory
+[17:26:26:594] [WARN] - net.sf.ehcache.config.CacheConfiguration.warnMaxEntriesLocalHeap(CacheConfiguration.java:1697) - Cache: sbTreeNodeTypeCache has a maxElementsInMemory of 0. This might lead to performance degradation or OutOfMemoryError at Terracotta client.From Ehcache 2.0 onwards this has been changed to mean a store with no capacity limit. Set it to 1 if you want no elements cached in memory
+[17:26:26:596] [WARN] - net.sf.ehcache.config.CacheConfiguration.warnMaxEntriesLocalHeap(CacheConfiguration.java:1697) - Cache: timeTaskCache has a maxElementsInMemory of 0. This might lead to performance degradation or OutOfMemoryError at Terracotta client.From Ehcache 2.0 onwards this has been changed to mean a store with no capacity limit. Set it to 1 if you want no elements cached in memory
+[17:26:26:598] [WARN] - net.sf.ehcache.config.CacheConfiguration.warnMaxEntriesLocalHeap(CacheConfiguration.java:1697) - Cache: collectorCache has a maxElementsInMemory of 0. This might lead to performance degradation or OutOfMemoryError at Terracotta client.From Ehcache 2.0 onwards this has been changed to mean a store with no capacity limit. Set it to 1 if you want no elements cached in memory
+[17:26:26:600] [WARN] - net.sf.ehcache.config.CacheConfiguration.warnMaxEntriesLocalHeap(CacheConfiguration.java:1697) - Cache: groupCache has a maxElementsInMemory of 0. This might lead to performance degradation or OutOfMemoryError at Terracotta client.From Ehcache 2.0 onwards this has been changed to mean a store with no capacity limit. Set it to 1 if you want no elements cached in memory
+[17:26:26:602] [WARN] - net.sf.ehcache.config.CacheConfiguration.warnMaxEntriesLocalHeap(CacheConfiguration.java:1697) - Cache: deviceFunctionCache has a maxElementsInMemory of 0. This might lead to performance degradation or OutOfMemoryError at Terracotta client.From Ehcache 2.0 onwards this has been changed to mean a store with no capacity limit. Set it to 1 if you want no elements cached in memory
+[17:26:26:603] [WARN] - net.sf.ehcache.config.CacheConfiguration.warnMaxEntriesLocalHeap(CacheConfiguration.java:1697) - Cache: scenePointCache has a maxElementsInMemory of 0. This might lead to performance degradation or OutOfMemoryError at Terracotta client.From Ehcache 2.0 onwards this has been changed to mean a store with no capacity limit. Set it to 1 if you want no elements cached in memory
+[17:26:26:605] [WARN] - net.sf.ehcache.config.CacheConfiguration.warnMaxEntriesLocalHeap(CacheConfiguration.java:1697) - Cache: householdConfigCache has a maxElementsInMemory of 0. This might lead to performance degradation or OutOfMemoryError at Terracotta client.From Ehcache 2.0 onwards this has been changed to mean a store with no capacity limit. Set it to 1 if you want no elements cached in memory
+[17:26:26:607] [WARN] - net.sf.ehcache.config.CacheConfiguration.warnMaxEntriesLocalHeap(CacheConfiguration.java:1697) - Cache: roleGroupCache has a maxElementsInMemory of 0. This might lead to performance degradation or OutOfMemoryError at Terracotta client.From Ehcache 2.0 onwards this has been changed to mean a store with no capacity limit. Set it to 1 if you want no elements cached in memory
+[17:26:26:608] [WARN] - net.sf.ehcache.config.CacheConfiguration.warnMaxEntriesLocalHeap(CacheConfiguration.java:1697) - Cache: branchAmmeterRlgl has a maxElementsInMemory of 0. This might lead to performance degradation or OutOfMemoryError at Terracotta client.From Ehcache 2.0 onwards this has been changed to mean a store with no capacity limit. Set it to 1 if you want no elements cached in memory
+[17:26:26:610] [WARN] - net.sf.ehcache.config.CacheConfiguration.warnMaxEntriesLocalHeap(CacheConfiguration.java:1697) - Cache: ammeterCache has a maxElementsInMemory of 0. This might lead to performance degradation or OutOfMemoryError at Terracotta client.From Ehcache 2.0 onwards this has been changed to mean a store with no capacity limit. Set it to 1 if you want no elements cached in memory
+[17:26:26:612] [WARN] - net.sf.ehcache.config.CacheConfiguration.warnMaxEntriesLocalHeap(CacheConfiguration.java:1697) - Cache: deviceFunctionPointCache has a maxElementsInMemory of 0. This might lead to performance degradation or OutOfMemoryError at Terracotta client.From Ehcache 2.0 onwards this has been changed to mean a store with no capacity limit. Set it to 1 if you want no elements cached in memory
+[17:26:26:615] [WARN] - net.sf.ehcache.config.CacheConfiguration.warnMaxEntriesLocalHeap(CacheConfiguration.java:1697) - Cache: planVariatInfoCache has a maxElementsInMemory of 0. This might lead to performance degradation or OutOfMemoryError at Terracotta client.From Ehcache 2.0 onwards this has been changed to mean a store with no capacity limit. Set it to 1 if you want no elements cached in memory
+[17:26:26:617] [WARN] - net.sf.ehcache.config.CacheConfiguration.warnMaxEntriesLocalHeap(CacheConfiguration.java:1697) - Cache: branchConfAlarmConfiguration has a maxElementsInMemory of 0. This might lead to performance degradation or OutOfMemoryError at Terracotta client.From Ehcache 2.0 onwards this has been changed to mean a store with no capacity limit. Set it to 1 if you want no elements cached in memory
+[17:26:26:620] [WARN] - net.sf.ehcache.config.CacheConfiguration.warnMaxEntriesLocalHeap(CacheConfiguration.java:1697) - Cache: functionPointStateCache has a maxElementsInMemory of 0. This might lead to performance degradation or OutOfMemoryError at Terracotta client.From Ehcache 2.0 onwards this has been changed to mean a store with no capacity limit. Set it to 1 if you want no elements cached in memory
+[17:26:26:622] [WARN] - net.sf.ehcache.config.CacheConfiguration.warnMaxEntriesLocalHeap(CacheConfiguration.java:1697) - Cache: roleCache has a maxElementsInMemory of 0. This might lead to performance degradation or OutOfMemoryError at Terracotta client.From Ehcache 2.0 onwards this has been changed to mean a store with no capacity limit. Set it to 1 if you want no elements cached in memory
+[17:26:26:624] [WARN] - net.sf.ehcache.config.CacheConfiguration.warnMaxEntriesLocalHeap(CacheConfiguration.java:1697) - Cache: collMethod has a maxElementsInMemory of 0. This might lead to performance degradation or OutOfMemoryError at Terracotta client.From Ehcache 2.0 onwards this has been changed to mean a store with no capacity limit. Set it to 1 if you want no elements cached in memory
+[17:26:26:626] [WARN] - net.sf.ehcache.config.CacheConfiguration.warnMaxEntriesLocalHeap(CacheConfiguration.java:1697) - Cache: subitemBranchRlgl has a maxElementsInMemory of 0. This might lead to performance degradation or OutOfMemoryError at Terracotta client.From Ehcache 2.0 onwards this has been changed to mean a store with no capacity limit. Set it to 1 if you want no elements cached in memory
+[17:26:26:628] [WARN] - net.sf.ehcache.config.CacheConfiguration.warnMaxEntriesLocalHeap(CacheConfiguration.java:1697) - Cache: deviceConfigurationCache has a maxElementsInMemory of 0. This might lead to performance degradation or OutOfMemoryError at Terracotta client.From Ehcache 2.0 onwards this has been changed to mean a store with no capacity limit. Set it to 1 if you want no elements cached in memory
+[17:26:26:630] [WARN] - net.sf.ehcache.config.CacheConfiguration.warnMaxEntriesLocalHeap(CacheConfiguration.java:1697) - Cache: aoPointCache has a maxElementsInMemory of 0. This might lead to performance degradation or OutOfMemoryError at Terracotta client.From Ehcache 2.0 onwards this has been changed to mean a store with no capacity limit. Set it to 1 if you want no elements cached in memory
+[17:26:26:631] [WARN] - net.sf.ehcache.config.CacheConfiguration.warnMaxEntriesLocalHeap(CacheConfiguration.java:1697) - Cache: branchConfParameter has a maxElementsInMemory of 0. This might lead to performance degradation or OutOfMemoryError at Terracotta client.From Ehcache 2.0 onwards this has been changed to mean a store with no capacity limit. Set it to 1 if you want no elements cached in memory
+[17:26:26:633] [WARN] - net.sf.ehcache.config.CacheConfiguration.warnMaxEntriesLocalHeap(CacheConfiguration.java:1697) - Cache: ddcCache has a maxElementsInMemory of 0. This might lead to performance degradation or OutOfMemoryError at Terracotta client.From Ehcache 2.0 onwards this has been changed to mean a store with no capacity limit. Set it to 1 if you want no elements cached in memory
+[17:26:26:634] [WARN] - net.sf.ehcache.config.CacheConfiguration.warnMaxEntriesLocalHeap(CacheConfiguration.java:1697) - Cache: doPointCache has a maxElementsInMemory of 0. This might lead to performance degradation or OutOfMemoryError at Terracotta client.From Ehcache 2.0 onwards this has been changed to mean a store with no capacity limit. Set it to 1 if you want no elements cached in memory
+[17:26:26:636] [WARN] - net.sf.ehcache.config.CacheConfiguration.warnMaxEntriesLocalHeap(CacheConfiguration.java:1697) - Cache: aiPointCache has a maxElementsInMemory of 0. This might lead to performance degradation or OutOfMemoryError at Terracotta client.From Ehcache 2.0 onwards this has been changed to mean a store with no capacity limit. Set it to 1 if you want no elements cached in memory
+[17:26:26:637] [WARN] - net.sf.ehcache.config.CacheConfiguration.warnMaxEntriesLocalHeap(CacheConfiguration.java:1697) - Cache: messageMonitoringCache has a maxElementsInMemory of 0. This might lead to performance degradation or OutOfMemoryError at Terracotta client.From Ehcache 2.0 onwards this has been changed to mean a store with no capacity limit. Set it to 1 if you want no elements cached in memory
+[17:26:26:639] [WARN] - net.sf.ehcache.config.CacheConfiguration.warnMaxEntriesLocalHeap(CacheConfiguration.java:1697) - Cache: subRealtimeData has a maxElementsInMemory of 0. This might lead to performance degradation or OutOfMemoryError at Terracotta client.From Ehcache 2.0 onwards this has been changed to mean a store with no capacity limit. Set it to 1 if you want no elements cached in memory
+[17:26:26:641] [WARN] - net.sf.ehcache.config.CacheConfiguration.warnMaxEntriesLocalHeap(CacheConfiguration.java:1697) - Cache: sbPzStructCache has a maxElementsInMemory of 0. This might lead to performance degradation or OutOfMemoryError at Terracotta client.From Ehcache 2.0 onwards this has been changed to mean a store with no capacity limit. Set it to 1 if you want no elements cached in memory
+[17:26:26:642] [WARN] - net.sf.ehcache.config.CacheConfiguration.warnMaxEntriesLocalHeap(CacheConfiguration.java:1697) - Cache: deviceTypeCache has a maxElementsInMemory of 0. This might lead to performance degradation or OutOfMemoryError at Terracotta client.From Ehcache 2.0 onwards this has been changed to mean a store with no capacity limit. Set it to 1 if you want no elements cached in memory
+[17:26:26:643] [WARN] - net.sf.ehcache.config.CacheConfiguration.warnMaxEntriesLocalHeap(CacheConfiguration.java:1697) - Cache: diPointCache has a maxElementsInMemory of 0. This might lead to performance degradation or OutOfMemoryError at Terracotta client.From Ehcache 2.0 onwards this has been changed to mean a store with no capacity limit. Set it to 1 if you want no elements cached in memory
+[17:26:26:645] [WARN] - net.sf.ehcache.config.CacheConfiguration.warnMaxEntriesLocalHeap(CacheConfiguration.java:1697) - Cache: energyTypeCache has a maxElementsInMemory of 0. This might lead to performance degradation or OutOfMemoryError at Terracotta client.From Ehcache 2.0 onwards this has been changed to mean a store with no capacity limit. Set it to 1 if you want no elements cached in memory
+[17:26:26:647] [WARN] - net.sf.ehcache.config.CacheConfiguration.warnMaxEntriesLocalHeap(CacheConfiguration.java:1697) - Cache: planCache has a maxElementsInMemory of 0. This might lead to performance degradation or OutOfMemoryError at Terracotta client.From Ehcache 2.0 onwards this has been changed to mean a store with no capacity limit. Set it to 1 if you want no elements cached in memory
+[17:26:26:648] [WARN] - net.sf.ehcache.config.CacheConfiguration.warnMaxEntriesLocalHeap(CacheConfiguration.java:1697) - Cache: originalData has a maxElementsInMemory of 0. This might lead to performance degradation or OutOfMemoryError at Terracotta client.From Ehcache 2.0 onwards this has been changed to mean a store with no capacity limit. Set it to 1 if you want no elements cached in memory
+[17:26:26:650] [WARN] - net.sf.ehcache.config.CacheConfiguration.warnMaxEntriesLocalHeap(CacheConfiguration.java:1697) - Cache: householdBranchRlgl has a maxElementsInMemory of 0. This might lead to performance degradation or OutOfMemoryError at Terracotta client.From Ehcache 2.0 onwards this has been changed to mean a store with no capacity limit. Set it to 1 if you want no elements cached in memory
+[17:26:26:651] [WARN] - net.sf.ehcache.config.CacheConfiguration.warnMaxEntriesLocalHeap(CacheConfiguration.java:1697) - Cache: electricCollRlgl has a maxElementsInMemory of 0. This might lead to performance degradation or OutOfMemoryError at Terracotta client.From Ehcache 2.0 onwards this has been changed to mean a store with no capacity limit. Set it to 1 if you want no elements cached in memory
+[17:26:26:653] [WARN] - net.sf.ehcache.config.CacheConfiguration.warnMaxEntriesLocalHeap(CacheConfiguration.java:1697) - Cache: sceneModeCache has a maxElementsInMemory of 0. This might lead to performance degradation or OutOfMemoryError at Terracotta client.From Ehcache 2.0 onwards this has been changed to mean a store with no capacity limit. Set it to 1 if you want no elements cached in memory
+[17:26:26:654] [WARN] - net.sf.ehcache.config.CacheConfiguration.warnMaxEntriesLocalHeap(CacheConfiguration.java:1697) - Cache: subitemConfigCache has a maxElementsInMemory of 0. This might lead to performance degradation or OutOfMemoryError at Terracotta client.From Ehcache 2.0 onwards this has been changed to mean a store with no capacity limit. Set it to 1 if you want no elements cached in memory
+[17:26:26:656] [WARN] - net.sf.ehcache.config.CacheConfiguration.warnMaxEntriesLocalHeap(CacheConfiguration.java:1697) - Cache: virtualPointCache has a maxElementsInMemory of 0. This might lead to performance degradation or OutOfMemoryError at Terracotta client.From Ehcache 2.0 onwards this has been changed to mean a store with no capacity limit. Set it to 1 if you want no elements cached in memory
+[17:26:26:657] [WARN] - net.sf.ehcache.config.CacheConfiguration.warnMaxEntriesLocalHeap(CacheConfiguration.java:1697) - Cache: branchConfigCache has a maxElementsInMemory of 0. This might lead to performance degradation or OutOfMemoryError at Terracotta client.From Ehcache 2.0 onwards this has been changed to mean a store with no capacity limit. Set it to 1 if you want no elements cached in memory
+[17:26:26:792] [WARN] - com.alibaba.druid.pool.vendor.MySqlValidConnectionChecker.<init>(MySqlValidConnectionChecker.java:55) - Cannot resolve com.mysq.jdbc.Connection.ping method.  Will use 'SELECT 1' instead.
+java.lang.NullPointerException: null
+	at com.alibaba.druid.pool.vendor.MySqlValidConnectionChecker.<init>(MySqlValidConnectionChecker.java:50) [druid-1.0.18.jar:1.0.18]
+	at com.alibaba.druid.pool.DruidDataSource.initValidConnectionChecker(DruidDataSource.java:944) [druid-1.0.18.jar:1.0.18]
+	at com.alibaba.druid.pool.DruidDataSource.init(DruidDataSource.java:659) [druid-1.0.18.jar:1.0.18]
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method) ~[?:1.8.0_76-ea]
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62) ~[?:1.8.0_76-ea]
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43) ~[?:1.8.0_76-ea]
+	at java.lang.reflect.Method.invoke(Method.java:498) ~[?:1.8.0_76-ea]
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.invokeCustomInitMethod(AbstractAutowireCapableBeanFactory.java:1758) [spring-beans-4.3.12.RELEASE.jar:4.3.12.RELEASE]
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.invokeInitMethods(AbstractAutowireCapableBeanFactory.java:1695) [spring-beans-4.3.12.RELEASE.jar:4.3.12.RELEASE]
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.initializeBean(AbstractAutowireCapableBeanFactory.java:1624) [spring-beans-4.3.12.RELEASE.jar:4.3.12.RELEASE]
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:555) [spring-beans-4.3.12.RELEASE.jar:4.3.12.RELEASE]
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:483) [spring-beans-4.3.12.RELEASE.jar:4.3.12.RELEASE]
+	at org.springframework.beans.factory.support.AbstractBeanFactory$1.getObject(AbstractBeanFactory.java:306) [spring-beans-4.3.12.RELEASE.jar:4.3.12.RELEASE]
+	at org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.getSingleton(DefaultSingletonBeanRegistry.java:230) [spring-beans-4.3.12.RELEASE.jar:4.3.12.RELEASE]
+	at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:302) [spring-beans-4.3.12.RELEASE.jar:4.3.12.RELEASE]
+	at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:202) [spring-beans-4.3.12.RELEASE.jar:4.3.12.RELEASE]
+	at org.springframework.beans.factory.config.DependencyDescriptor.resolveCandidate(DependencyDescriptor.java:208) [spring-beans-4.3.12.RELEASE.jar:4.3.12.RELEASE]
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.doResolveDependency(DefaultListableBeanFactory.java:1138) [spring-beans-4.3.12.RELEASE.jar:4.3.12.RELEASE]
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.resolveDependency(DefaultListableBeanFactory.java:1066) [spring-beans-4.3.12.RELEASE.jar:4.3.12.RELEASE]
+	at org.springframework.beans.factory.support.ConstructorResolver.resolveAutowiredArgument(ConstructorResolver.java:835) [spring-beans-4.3.12.RELEASE.jar:4.3.12.RELEASE]
+	at org.springframework.beans.factory.support.ConstructorResolver.createArgumentArray(ConstructorResolver.java:741) [spring-beans-4.3.12.RELEASE.jar:4.3.12.RELEASE]
+	at org.springframework.beans.factory.support.ConstructorResolver.instantiateUsingFactoryMethod(ConstructorResolver.java:467) [spring-beans-4.3.12.RELEASE.jar:4.3.12.RELEASE]
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.instantiateUsingFactoryMethod(AbstractAutowireCapableBeanFactory.java:1173) [spring-beans-4.3.12.RELEASE.jar:4.3.12.RELEASE]
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBeanInstance(AbstractAutowireCapableBeanFactory.java:1067) [spring-beans-4.3.12.RELEASE.jar:4.3.12.RELEASE]
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:513) [spring-beans-4.3.12.RELEASE.jar:4.3.12.RELEASE]
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:483) [spring-beans-4.3.12.RELEASE.jar:4.3.12.RELEASE]
+	at org.springframework.beans.factory.support.AbstractBeanFactory$1.getObject(AbstractBeanFactory.java:306) [spring-beans-4.3.12.RELEASE.jar:4.3.12.RELEASE]
+	at org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.getSingleton(DefaultSingletonBeanRegistry.java:230) [spring-beans-4.3.12.RELEASE.jar:4.3.12.RELEASE]
+	at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:302) [spring-beans-4.3.12.RELEASE.jar:4.3.12.RELEASE]
+	at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:202) [spring-beans-4.3.12.RELEASE.jar:4.3.12.RELEASE]
+	at org.springframework.beans.factory.config.DependencyDescriptor.resolveCandidate(DependencyDescriptor.java:208) [spring-beans-4.3.12.RELEASE.jar:4.3.12.RELEASE]
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.doResolveDependency(DefaultListableBeanFactory.java:1138) [spring-beans-4.3.12.RELEASE.jar:4.3.12.RELEASE]
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.resolveDependency(DefaultListableBeanFactory.java:1066) [spring-beans-4.3.12.RELEASE.jar:4.3.12.RELEASE]
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.autowireByType(AbstractAutowireCapableBeanFactory.java:1342) [spring-beans-4.3.12.RELEASE.jar:4.3.12.RELEASE]
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.populateBean(AbstractAutowireCapableBeanFactory.java:1249) [spring-beans-4.3.12.RELEASE.jar:4.3.12.RELEASE]
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:553) [spring-beans-4.3.12.RELEASE.jar:4.3.12.RELEASE]
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:483) [spring-beans-4.3.12.RELEASE.jar:4.3.12.RELEASE]
+	at org.springframework.beans.factory.support.AbstractBeanFactory$1.getObject(AbstractBeanFactory.java:306) [spring-beans-4.3.12.RELEASE.jar:4.3.12.RELEASE]
+	at org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.getSingleton(DefaultSingletonBeanRegistry.java:230) [spring-beans-4.3.12.RELEASE.jar:4.3.12.RELEASE]
+	at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:302) [spring-beans-4.3.12.RELEASE.jar:4.3.12.RELEASE]
+	at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:202) [spring-beans-4.3.12.RELEASE.jar:4.3.12.RELEASE]
+	at org.springframework.beans.factory.config.DependencyDescriptor.resolveCandidate(DependencyDescriptor.java:208) [spring-beans-4.3.12.RELEASE.jar:4.3.12.RELEASE]
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.doResolveDependency(DefaultListableBeanFactory.java:1138) [spring-beans-4.3.12.RELEASE.jar:4.3.12.RELEASE]
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.resolveDependency(DefaultListableBeanFactory.java:1066) [spring-beans-4.3.12.RELEASE.jar:4.3.12.RELEASE]
+	at org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor$AutowiredFieldElement.inject(AutowiredAnnotationBeanPostProcessor.java:585) [spring-beans-4.3.12.RELEASE.jar:4.3.12.RELEASE]
+	at org.springframework.beans.factory.annotation.InjectionMetadata.inject(InjectionMetadata.java:88) [spring-beans-4.3.12.RELEASE.jar:4.3.12.RELEASE]
+	at org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor.postProcessPropertyValues(AutowiredAnnotationBeanPostProcessor.java:366) [spring-beans-4.3.12.RELEASE.jar:4.3.12.RELEASE]
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.populateBean(AbstractAutowireCapableBeanFactory.java:1264) [spring-beans-4.3.12.RELEASE.jar:4.3.12.RELEASE]
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:553) [spring-beans-4.3.12.RELEASE.jar:4.3.12.RELEASE]
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:483) [spring-beans-4.3.12.RELEASE.jar:4.3.12.RELEASE]
+	at org.springframework.beans.factory.support.AbstractBeanFactory$1.getObject(AbstractBeanFactory.java:306) [spring-beans-4.3.12.RELEASE.jar:4.3.12.RELEASE]
+	at org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.getSingleton(DefaultSingletonBeanRegistry.java:230) [spring-beans-4.3.12.RELEASE.jar:4.3.12.RELEASE]
+	at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:302) [spring-beans-4.3.12.RELEASE.jar:4.3.12.RELEASE]
+	at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:202) [spring-beans-4.3.12.RELEASE.jar:4.3.12.RELEASE]
+	at org.springframework.beans.factory.config.DependencyDescriptor.resolveCandidate(DependencyDescriptor.java:208) [spring-beans-4.3.12.RELEASE.jar:4.3.12.RELEASE]
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.doResolveDependency(DefaultListableBeanFactory.java:1138) [spring-beans-4.3.12.RELEASE.jar:4.3.12.RELEASE]
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.resolveDependency(DefaultListableBeanFactory.java:1066) [spring-beans-4.3.12.RELEASE.jar:4.3.12.RELEASE]
+	at org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor$AutowiredFieldElement.inject(AutowiredAnnotationBeanPostProcessor.java:585) [spring-beans-4.3.12.RELEASE.jar:4.3.12.RELEASE]
+	at org.springframework.beans.factory.annotation.InjectionMetadata.inject(InjectionMetadata.java:88) [spring-beans-4.3.12.RELEASE.jar:4.3.12.RELEASE]
+	at org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor.postProcessPropertyValues(AutowiredAnnotationBeanPostProcessor.java:366) [spring-beans-4.3.12.RELEASE.jar:4.3.12.RELEASE]
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.populateBean(AbstractAutowireCapableBeanFactory.java:1264) [spring-beans-4.3.12.RELEASE.jar:4.3.12.RELEASE]
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:553) [spring-beans-4.3.12.RELEASE.jar:4.3.12.RELEASE]
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:483) [spring-beans-4.3.12.RELEASE.jar:4.3.12.RELEASE]
+	at org.springframework.beans.factory.support.AbstractBeanFactory$1.getObject(AbstractBeanFactory.java:306) [spring-beans-4.3.12.RELEASE.jar:4.3.12.RELEASE]
+	at org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.getSingleton(DefaultSingletonBeanRegistry.java:230) [spring-beans-4.3.12.RELEASE.jar:4.3.12.RELEASE]
+	at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:302) [spring-beans-4.3.12.RELEASE.jar:4.3.12.RELEASE]
+	at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:202) [spring-beans-4.3.12.RELEASE.jar:4.3.12.RELEASE]
+	at org.springframework.beans.factory.config.DependencyDescriptor.resolveCandidate(DependencyDescriptor.java:208) [spring-beans-4.3.12.RELEASE.jar:4.3.12.RELEASE]
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.doResolveDependency(DefaultListableBeanFactory.java:1138) [spring-beans-4.3.12.RELEASE.jar:4.3.12.RELEASE]
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.resolveDependency(DefaultListableBeanFactory.java:1066) [spring-beans-4.3.12.RELEASE.jar:4.3.12.RELEASE]
+	at org.springframework.beans.factory.support.ConstructorResolver.resolveAutowiredArgument(ConstructorResolver.java:835) [spring-beans-4.3.12.RELEASE.jar:4.3.12.RELEASE]
+	at org.springframework.beans.factory.support.ConstructorResolver.createArgumentArray(ConstructorResolver.java:741) [spring-beans-4.3.12.RELEASE.jar:4.3.12.RELEASE]
+	at org.springframework.beans.factory.support.ConstructorResolver.instantiateUsingFactoryMethod(ConstructorResolver.java:467) [spring-beans-4.3.12.RELEASE.jar:4.3.12.RELEASE]
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.instantiateUsingFactoryMethod(AbstractAutowireCapableBeanFactory.java:1173) [spring-beans-4.3.12.RELEASE.jar:4.3.12.RELEASE]
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBeanInstance(AbstractAutowireCapableBeanFactory.java:1067) [spring-beans-4.3.12.RELEASE.jar:4.3.12.RELEASE]
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:513) [spring-beans-4.3.12.RELEASE.jar:4.3.12.RELEASE]
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:483) [spring-beans-4.3.12.RELEASE.jar:4.3.12.RELEASE]
+	at org.springframework.beans.factory.support.AbstractBeanFactory$1.getObject(AbstractBeanFactory.java:306) [spring-beans-4.3.12.RELEASE.jar:4.3.12.RELEASE]
+	at org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.getSingleton(DefaultSingletonBeanRegistry.java:230) [spring-beans-4.3.12.RELEASE.jar:4.3.12.RELEASE]
+	at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:302) [spring-beans-4.3.12.RELEASE.jar:4.3.12.RELEASE]
+	at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:202) [spring-beans-4.3.12.RELEASE.jar:4.3.12.RELEASE]
+	at org.springframework.beans.factory.config.DependencyDescriptor.resolveCandidate(DependencyDescriptor.java:208) [spring-beans-4.3.12.RELEASE.jar:4.3.12.RELEASE]
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.doResolveDependency(DefaultListableBeanFactory.java:1138) [spring-beans-4.3.12.RELEASE.jar:4.3.12.RELEASE]
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.resolveDependency(DefaultListableBeanFactory.java:1066) [spring-beans-4.3.12.RELEASE.jar:4.3.12.RELEASE]
+	at org.springframework.beans.factory.support.ConstructorResolver.resolveAutowiredArgument(ConstructorResolver.java:835) [spring-beans-4.3.12.RELEASE.jar:4.3.12.RELEASE]
+	at org.springframework.beans.factory.support.ConstructorResolver.createArgumentArray(ConstructorResolver.java:741) [spring-beans-4.3.12.RELEASE.jar:4.3.12.RELEASE]
+	at org.springframework.beans.factory.support.ConstructorResolver.instantiateUsingFactoryMethod(ConstructorResolver.java:467) [spring-beans-4.3.12.RELEASE.jar:4.3.12.RELEASE]
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.instantiateUsingFactoryMethod(AbstractAutowireCapableBeanFactory.java:1173) [spring-beans-4.3.12.RELEASE.jar:4.3.12.RELEASE]
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBeanInstance(AbstractAutowireCapableBeanFactory.java:1067) [spring-beans-4.3.12.RELEASE.jar:4.3.12.RELEASE]
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.getSingletonFactoryBeanForTypeCheck(AbstractAutowireCapableBeanFactory.java:923) [spring-beans-4.3.12.RELEASE.jar:4.3.12.RELEASE]
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.getTypeForFactoryBean(AbstractAutowireCapableBeanFactory.java:804) [spring-beans-4.3.12.RELEASE.jar:4.3.12.RELEASE]
+	at org.springframework.beans.factory.support.AbstractBeanFactory.isTypeMatch(AbstractBeanFactory.java:558) [spring-beans-4.3.12.RELEASE.jar:4.3.12.RELEASE]
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.doGetBeanNamesForType(DefaultListableBeanFactory.java:432) [spring-beans-4.3.12.RELEASE.jar:4.3.12.RELEASE]
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.getBeanNamesForType(DefaultListableBeanFactory.java:395) [spring-beans-4.3.12.RELEASE.jar:4.3.12.RELEASE]
+	at org.springframework.beans.factory.BeanFactoryUtils.beanNamesForTypeIncludingAncestors(BeanFactoryUtils.java:220) [spring-beans-4.3.12.RELEASE.jar:4.3.12.RELEASE]
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.findAutowireCandidates(DefaultListableBeanFactory.java:1267) [spring-beans-4.3.12.RELEASE.jar:4.3.12.RELEASE]
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.doResolveDependency(DefaultListableBeanFactory.java:1101) [spring-beans-4.3.12.RELEASE.jar:4.3.12.RELEASE]
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.resolveDependency(DefaultListableBeanFactory.java:1066) [spring-beans-4.3.12.RELEASE.jar:4.3.12.RELEASE]
+	at org.springframework.beans.factory.support.ConstructorResolver.resolveAutowiredArgument(ConstructorResolver.java:835) [spring-beans-4.3.12.RELEASE.jar:4.3.12.RELEASE]
+	at org.springframework.beans.factory.support.ConstructorResolver.createArgumentArray(ConstructorResolver.java:741) [spring-beans-4.3.12.RELEASE.jar:4.3.12.RELEASE]
+	at org.springframework.beans.factory.support.ConstructorResolver.instantiateUsingFactoryMethod(ConstructorResolver.java:467) [spring-beans-4.3.12.RELEASE.jar:4.3.12.RELEASE]
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.instantiateUsingFactoryMethod(AbstractAutowireCapableBeanFactory.java:1173) [spring-beans-4.3.12.RELEASE.jar:4.3.12.RELEASE]
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBeanInstance(AbstractAutowireCapableBeanFactory.java:1067) [spring-beans-4.3.12.RELEASE.jar:4.3.12.RELEASE]
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:513) [spring-beans-4.3.12.RELEASE.jar:4.3.12.RELEASE]
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:483) [spring-beans-4.3.12.RELEASE.jar:4.3.12.RELEASE]
+	at org.springframework.beans.factory.support.AbstractBeanFactory$1.getObject(AbstractBeanFactory.java:306) [spring-beans-4.3.12.RELEASE.jar:4.3.12.RELEASE]
+	at org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.getSingleton(DefaultSingletonBeanRegistry.java:230) [spring-beans-4.3.12.RELEASE.jar:4.3.12.RELEASE]
+	at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:302) [spring-beans-4.3.12.RELEASE.jar:4.3.12.RELEASE]
+	at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:202) [spring-beans-4.3.12.RELEASE.jar:4.3.12.RELEASE]
+	at org.springframework.context.support.PostProcessorRegistrationDelegate.registerBeanPostProcessors(PostProcessorRegistrationDelegate.java:225) [spring-context-4.3.12.RELEASE.jar:4.3.12.RELEASE]
+	at org.springframework.context.support.AbstractApplicationContext.registerBeanPostProcessors(AbstractApplicationContext.java:703) [spring-context-4.3.12.RELEASE.jar:4.3.12.RELEASE]
+	at org.springframework.context.support.AbstractApplicationContext.refresh(AbstractApplicationContext.java:528) [spring-context-4.3.12.RELEASE.jar:4.3.12.RELEASE]
+	at org.springframework.boot.context.embedded.EmbeddedWebApplicationContext.refresh(EmbeddedWebApplicationContext.java:122) [spring-boot-1.5.8.RELEASE.jar:1.5.8.RELEASE]
+	at org.springframework.boot.SpringApplication.refresh(SpringApplication.java:693) [spring-boot-1.5.8.RELEASE.jar:1.5.8.RELEASE]
+	at org.springframework.boot.SpringApplication.refreshContext(SpringApplication.java:360) [spring-boot-1.5.8.RELEASE.jar:1.5.8.RELEASE]
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:303) [spring-boot-1.5.8.RELEASE.jar:1.5.8.RELEASE]
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1118) [spring-boot-1.5.8.RELEASE.jar:1.5.8.RELEASE]
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1107) [spring-boot-1.5.8.RELEASE.jar:1.5.8.RELEASE]
+	at com.efounder.JEnterprise.BESApplication.main(BESApplication.java:49) [classes/:?]
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method) ~[?:1.8.0_76-ea]
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62) ~[?:1.8.0_76-ea]
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43) ~[?:1.8.0_76-ea]
+	at java.lang.reflect.Method.invoke(Method.java:498) ~[?:1.8.0_76-ea]
+	at org.springframework.boot.devtools.restart.RestartLauncher.run(RestartLauncher.java:49) [spring-boot-devtools-1.5.8.RELEASE.jar:1.5.8.RELEASE]
+[17:26:37:581] [WARN] - com.netflix.config.sources.URLConfigurationSource.<init>(URLConfigurationSource.java:121) - No URLs will be polled as dynamic configuration sources.
+[17:27:15:436] [WARN] - org.springframework.cloud.netflix.archaius.ArchaiusAutoConfiguration.configureArchaius(ArchaiusAutoConfiguration.java:137) - No spring.application.name found, defaulting to 'application'
+[17:27:15:438] [WARN] - com.netflix.config.sources.URLConfigurationSource.<init>(URLConfigurationSource.java:121) - No URLs will be polled as dynamic configuration sources.
+[17:27:23:922] [ERROR] - com.efounder.JEnterprise.timer.manage.PduStatusManage.getOnlineData(PduStatusManage.java:143) - 在线状态的PDU设备数据获取方法-请求报错:Connect to localhost:8060 [localhost/127.0.0.1, localhost/0:0:0:0:0:0:0:1] failed: Connection refused: connect
+[17:27:42:807] [WARN] - org.springframework.cloud.netflix.zuul.web.ZuulHandlerMapping.registerHandlers(ZuulHandlerMapping.java:104) - No routes found from RouteLocator
+[17:28:28:011] [ERROR] - com.efounder.JEnterprise.timer.manage.PduStatusManage.getOnlineData(PduStatusManage.java:143) - 在线状态的PDU设备数据获取方法-请求报错:Connect to localhost:8060 [localhost/127.0.0.1, localhost/0:0:0:0:0:0:0:1] failed: Connection refused: connect
+[17:29:32:053] [ERROR] - com.efounder.JEnterprise.timer.manage.PduStatusManage.getOnlineData(PduStatusManage.java:143) - 在线状态的PDU设备数据获取方法-请求报错:Connect to localhost:8060 [localhost/127.0.0.1, localhost/0:0:0:0:0:0:0:1] failed: Connection refused: connect
+[17:30:36:122] [ERROR] - com.efounder.JEnterprise.timer.manage.PduStatusManage.getOnlineData(PduStatusManage.java:143) - 在线状态的PDU设备数据获取方法-请求报错:Connect to localhost:8060 [localhost/127.0.0.1, localhost/0:0:0:0:0:0:0:1] failed: Connection refused: connect
+[17:31:40:202] [ERROR] - com.efounder.JEnterprise.timer.manage.PduStatusManage.getOnlineData(PduStatusManage.java:143) - 在线状态的PDU设备数据获取方法-请求报错:Connect to localhost:8060 [localhost/127.0.0.1, localhost/0:0:0:0:0:0:0:1] failed: Connection refused: connect
+[17:32:44:286] [ERROR] - com.efounder.JEnterprise.timer.manage.PduStatusManage.getOnlineData(PduStatusManage.java:143) - 在线状态的PDU设备数据获取方法-请求报错:Connect to localhost:8060 [localhost/127.0.0.1, localhost/0:0:0:0:0:0:0:1] failed: Connection refused: connect
+[17:33:48:367] [ERROR] - com.efounder.JEnterprise.timer.manage.PduStatusManage.getOnlineData(PduStatusManage.java:143) - 在线状态的PDU设备数据获取方法-请求报错:Connect to localhost:8060 [localhost/127.0.0.1, localhost/0:0:0:0:0:0:0:1] failed: Connection refused: connect
+[17:34:52:484] [ERROR] - com.efounder.JEnterprise.timer.manage.PduStatusManage.getOnlineData(PduStatusManage.java:143) - 在线状态的PDU设备数据获取方法-请求报错:Connect to localhost:8060 [localhost/127.0.0.1, localhost/0:0:0:0:0:0:0:1] failed: Connection refused: connect
+[17:35:56:566] [ERROR] - com.efounder.JEnterprise.timer.manage.PduStatusManage.getOnlineData(PduStatusManage.java:143) - 在线状态的PDU设备数据获取方法-请求报错:Connect to localhost:8060 [localhost/127.0.0.1, localhost/0:0:0:0:0:0:0:1] failed: Connection refused: connect
+[17:36:24:286] [WARN] - com.netflix.config.sources.URLConfigurationSource.<init>(URLConfigurationSource.java:121) - No URLs will be polled as dynamic configuration sources.
+[17:36:51:675] [WARN] - net.sf.ehcache.CacheManager.configure(CacheManager.java:698) - One or more caches require a DiskStore but there is no diskStore element configured. Using the default disk store path of C:\Users\Lenovo\AppData\Local\Temp\. Please explicitly configure the diskStore element in ehcache.xml.
+[17:36:51:692] [WARN] - net.sf.ehcache.config.CacheConfiguration.warnMaxEntriesLocalHeap(CacheConfiguration.java:1697) - Cache: householdBranchRlgl has a maxElementsInMemory of 0. This might lead to performance degradation or OutOfMemoryError at Terracotta client.From Ehcache 2.0 onwards this has been changed to mean a store with no capacity limit. Set it to 1 if you want no elements cached in memory
+[17:36:51:732] [WARN] - net.sf.ehcache.config.CacheConfiguration.warnMaxEntriesLocalHeap(CacheConfiguration.java:1697) - Cache: collectorCache has a maxElementsInMemory of 0. This might lead to performance degradation or OutOfMemoryError at Terracotta client.From Ehcache 2.0 onwards this has been changed to mean a store with no capacity limit. Set it to 1 if you want no elements cached in memory
+[17:36:51:734] [WARN] - net.sf.ehcache.config.CacheConfiguration.warnMaxEntriesLocalHeap(CacheConfiguration.java:1697) - Cache: electricParams has a maxElementsInMemory of 0. This might lead to performance degradation or OutOfMemoryError at Terracotta client.From Ehcache 2.0 onwards this has been changed to mean a store with no capacity limit. Set it to 1 if you want no elements cached in memory
+[17:36:51:736] [WARN] - net.sf.ehcache.config.CacheConfiguration.warnMaxEntriesLocalHeap(CacheConfiguration.java:1697) - Cache: aiPointCache has a maxElementsInMemory of 0. This might lead to performance degradation or OutOfMemoryError at Terracotta client.From Ehcache 2.0 onwards this has been changed to mean a store with no capacity limit. Set it to 1 if you want no elements cached in memory
+[17:36:51:737] [WARN] - net.sf.ehcache.config.CacheConfiguration.warnMaxEntriesLocalHeap(CacheConfiguration.java:1697) - Cache: householdConfigCache has a maxElementsInMemory of 0. This might lead to performance degradation or OutOfMemoryError at Terracotta client.From Ehcache 2.0 onwards this has been changed to mean a store with no capacity limit. Set it to 1 if you want no elements cached in memory
+[17:36:51:739] [WARN] - net.sf.ehcache.config.CacheConfiguration.warnMaxEntriesLocalHeap(CacheConfiguration.java:1697) - Cache: branchConfAlarmConfiguration has a maxElementsInMemory of 0. This might lead to performance degradation or OutOfMemoryError at Terracotta client.From Ehcache 2.0 onwards this has been changed to mean a store with no capacity limit. Set it to 1 if you want no elements cached in memory
+[17:36:51:740] [WARN] - net.sf.ehcache.config.CacheConfiguration.warnMaxEntriesLocalHeap(CacheConfiguration.java:1697) - Cache: sbPzStructCache has a maxElementsInMemory of 0. This might lead to performance degradation or OutOfMemoryError at Terracotta client.From Ehcache 2.0 onwards this has been changed to mean a store with no capacity limit. Set it to 1 if you want no elements cached in memory
+[17:36:51:742] [WARN] - net.sf.ehcache.config.CacheConfiguration.warnMaxEntriesLocalHeap(CacheConfiguration.java:1697) - Cache: diPointCache has a maxElementsInMemory of 0. This might lead to performance degradation or OutOfMemoryError at Terracotta client.From Ehcache 2.0 onwards this has been changed to mean a store with no capacity limit. Set it to 1 if you want no elements cached in memory
+[17:36:51:743] [WARN] - net.sf.ehcache.config.CacheConfiguration.warnMaxEntriesLocalHeap(CacheConfiguration.java:1697) - Cache: timeTaskCache has a maxElementsInMemory of 0. This might lead to performance degradation or OutOfMemoryError at Terracotta client.From Ehcache 2.0 onwards this has been changed to mean a store with no capacity limit. Set it to 1 if you want no elements cached in memory
+[17:36:51:745] [WARN] - net.sf.ehcache.config.CacheConfiguration.warnMaxEntriesLocalHeap(CacheConfiguration.java:1697) - Cache: planVariatInfoCache has a maxElementsInMemory of 0. This might lead to performance degradation or OutOfMemoryError at Terracotta client.From Ehcache 2.0 onwards this has been changed to mean a store with no capacity limit. Set it to 1 if you want no elements cached in memory
+[17:36:51:747] [WARN] - net.sf.ehcache.config.CacheConfiguration.warnMaxEntriesLocalHeap(CacheConfiguration.java:1697) - Cache: aoPointCache has a maxElementsInMemory of 0. This might lead to performance degradation or OutOfMemoryError at Terracotta client.From Ehcache 2.0 onwards this has been changed to mean a store with no capacity limit. Set it to 1 if you want no elements cached in memory
+[17:36:51:748] [WARN] - net.sf.ehcache.config.CacheConfiguration.warnMaxEntriesLocalHeap(CacheConfiguration.java:1697) - Cache: originalData has a maxElementsInMemory of 0. This might lead to performance degradation or OutOfMemoryError at Terracotta client.From Ehcache 2.0 onwards this has been changed to mean a store with no capacity limit. Set it to 1 if you want no elements cached in memory
+[17:36:51:750] [WARN] - net.sf.ehcache.config.CacheConfiguration.warnMaxEntriesLocalHeap(CacheConfiguration.java:1697) - Cache: sbTreeNodeTypeCache has a maxElementsInMemory of 0. This might lead to performance degradation or OutOfMemoryError at Terracotta client.From Ehcache 2.0 onwards this has been changed to mean a store with no capacity limit. Set it to 1 if you want no elements cached in memory
+[17:36:51:752] [WARN] - net.sf.ehcache.config.CacheConfiguration.warnMaxEntriesLocalHeap(CacheConfiguration.java:1697) - Cache: planCache has a maxElementsInMemory of 0. This might lead to performance degradation or OutOfMemoryError at Terracotta client.From Ehcache 2.0 onwards this has been changed to mean a store with no capacity limit. Set it to 1 if you want no elements cached in memory
+[17:36:51:753] [WARN] - net.sf.ehcache.config.CacheConfiguration.warnMaxEntriesLocalHeap(CacheConfiguration.java:1697) - Cache: subitemBranchRlgl has a maxElementsInMemory of 0. This might lead to performance degradation or OutOfMemoryError at Terracotta client.From Ehcache 2.0 onwards this has been changed to mean a store with no capacity limit. Set it to 1 if you want no elements cached in memory
+[17:36:51:755] [WARN] - net.sf.ehcache.config.CacheConfiguration.warnMaxEntriesLocalHeap(CacheConfiguration.java:1697) - Cache: deviceFunctionCache has a maxElementsInMemory of 0. This might lead to performance degradation or OutOfMemoryError at Terracotta client.From Ehcache 2.0 onwards this has been changed to mean a store with no capacity limit. Set it to 1 if you want no elements cached in memory
+[17:36:51:757] [WARN] - net.sf.ehcache.config.CacheConfiguration.warnMaxEntriesLocalHeap(CacheConfiguration.java:1697) - Cache: roleCache has a maxElementsInMemory of 0. This might lead to performance degradation or OutOfMemoryError at Terracotta client.From Ehcache 2.0 onwards this has been changed to mean a store with no capacity limit. Set it to 1 if you want no elements cached in memory
+[17:36:51:759] [WARN] - net.sf.ehcache.config.CacheConfiguration.warnMaxEntriesLocalHeap(CacheConfiguration.java:1697) - Cache: ddcCache has a maxElementsInMemory of 0. This might lead to performance degradation or OutOfMemoryError at Terracotta client.From Ehcache 2.0 onwards this has been changed to mean a store with no capacity limit. Set it to 1 if you want no elements cached in memory
+[17:36:51:760] [WARN] - net.sf.ehcache.config.CacheConfiguration.warnMaxEntriesLocalHeap(CacheConfiguration.java:1697) - Cache: branchConfigCache has a maxElementsInMemory of 0. This might lead to performance degradation or OutOfMemoryError at Terracotta client.From Ehcache 2.0 onwards this has been changed to mean a store with no capacity limit. Set it to 1 if you want no elements cached in memory
+[17:36:51:762] [WARN] - net.sf.ehcache.config.CacheConfiguration.warnMaxEntriesLocalHeap(CacheConfiguration.java:1697) - Cache: doPointCache has a maxElementsInMemory of 0. This might lead to performance degradation or OutOfMemoryError at Terracotta client.From Ehcache 2.0 onwards this has been changed to mean a store with no capacity limit. Set it to 1 if you want no elements cached in memory
+[17:36:51:764] [WARN] - net.sf.ehcache.config.CacheConfiguration.warnMaxEntriesLocalHeap(CacheConfiguration.java:1697) - Cache: branchConfParameter has a maxElementsInMemory of 0. This might lead to performance degradation or OutOfMemoryError at Terracotta client.From Ehcache 2.0 onwards this has been changed to mean a store with no capacity limit. Set it to 1 if you want no elements cached in memory
+[17:36:51:765] [WARN] - net.sf.ehcache.config.CacheConfiguration.warnMaxEntriesLocalHeap(CacheConfiguration.java:1697) - Cache: energyTypeCache has a maxElementsInMemory of 0. This might lead to performance degradation or OutOfMemoryError at Terracotta client.From Ehcache 2.0 onwards this has been changed to mean a store with no capacity limit. Set it to 1 if you want no elements cached in memory
+[17:36:51:767] [WARN] - net.sf.ehcache.config.CacheConfiguration.warnMaxEntriesLocalHeap(CacheConfiguration.java:1697) - Cache: branchAmmeterRlgl has a maxElementsInMemory of 0. This might lead to performance degradation or OutOfMemoryError at Terracotta client.From Ehcache 2.0 onwards this has been changed to mean a store with no capacity limit. Set it to 1 if you want no elements cached in memory
+[17:36:51:768] [WARN] - net.sf.ehcache.config.CacheConfiguration.warnMaxEntriesLocalHeap(CacheConfiguration.java:1697) - Cache: messageMonitoringCache has a maxElementsInMemory of 0. This might lead to performance degradation or OutOfMemoryError at Terracotta client.From Ehcache 2.0 onwards this has been changed to mean a store with no capacity limit. Set it to 1 if you want no elements cached in memory
+[17:36:51:770] [WARN] - net.sf.ehcache.config.CacheConfiguration.warnMaxEntriesLocalHeap(CacheConfiguration.java:1697) - Cache: ammeterCache has a maxElementsInMemory of 0. This might lead to performance degradation or OutOfMemoryError at Terracotta client.From Ehcache 2.0 onwards this has been changed to mean a store with no capacity limit. Set it to 1 if you want no elements cached in memory
+[17:36:51:772] [WARN] - net.sf.ehcache.config.CacheConfiguration.warnMaxEntriesLocalHeap(CacheConfiguration.java:1697) - Cache: virtualPointCache has a maxElementsInMemory of 0. This might lead to performance degradation or OutOfMemoryError at Terracotta client.From Ehcache 2.0 onwards this has been changed to mean a store with no capacity limit. Set it to 1 if you want no elements cached in memory
+[17:36:51:773] [WARN] - net.sf.ehcache.config.CacheConfiguration.warnMaxEntriesLocalHeap(CacheConfiguration.java:1697) - Cache: deviceConfigurationCache has a maxElementsInMemory of 0. This might lead to performance degradation or OutOfMemoryError at Terracotta client.From Ehcache 2.0 onwards this has been changed to mean a store with no capacity limit. Set it to 1 if you want no elements cached in memory
+[17:36:51:775] [WARN] - net.sf.ehcache.config.CacheConfiguration.warnMaxEntriesLocalHeap(CacheConfiguration.java:1697) - Cache: scenePointCache has a maxElementsInMemory of 0. This might lead to performance degradation or OutOfMemoryError at Terracotta client.From Ehcache 2.0 onwards this has been changed to mean a store with no capacity limit. Set it to 1 if you want no elements cached in memory
+[17:36:51:776] [WARN] - net.sf.ehcache.config.CacheConfiguration.warnMaxEntriesLocalHeap(CacheConfiguration.java:1697) - Cache: subitemConfigCache has a maxElementsInMemory of 0. This might lead to performance degradation or OutOfMemoryError at Terracotta client.From Ehcache 2.0 onwards this has been changed to mean a store with no capacity limit. Set it to 1 if you want no elements cached in memory
+[17:36:51:778] [WARN] - net.sf.ehcache.config.CacheConfiguration.warnMaxEntriesLocalHeap(CacheConfiguration.java:1697) - Cache: roleGroupCache has a maxElementsInMemory of 0. This might lead to performance degradation or OutOfMemoryError at Terracotta client.From Ehcache 2.0 onwards this has been changed to mean a store with no capacity limit. Set it to 1 if you want no elements cached in memory
+[17:36:51:779] [WARN] - net.sf.ehcache.config.CacheConfiguration.warnMaxEntriesLocalHeap(CacheConfiguration.java:1697) - Cache: functionPointStateCache has a maxElementsInMemory of 0. This might lead to performance degradation or OutOfMemoryError at Terracotta client.From Ehcache 2.0 onwards this has been changed to mean a store with no capacity limit. Set it to 1 if you want no elements cached in memory
+[17:36:51:781] [WARN] - net.sf.ehcache.config.CacheConfiguration.warnMaxEntriesLocalHeap(CacheConfiguration.java:1697) - Cache: groupCache has a maxElementsInMemory of 0. This might lead to performance degradation or OutOfMemoryError at Terracotta client.From Ehcache 2.0 onwards this has been changed to mean a store with no capacity limit. Set it to 1 if you want no elements cached in memory
+[17:36:51:783] [WARN] - net.sf.ehcache.config.CacheConfiguration.warnMaxEntriesLocalHeap(CacheConfiguration.java:1697) - Cache: deviceTypeCache has a maxElementsInMemory of 0. This might lead to performance degradation or OutOfMemoryError at Terracotta client.From Ehcache 2.0 onwards this has been changed to mean a store with no capacity limit. Set it to 1 if you want no elements cached in memory
+[17:36:51:784] [WARN] - net.sf.ehcache.config.CacheConfiguration.warnMaxEntriesLocalHeap(CacheConfiguration.java:1697) - Cache: collMethod has a maxElementsInMemory of 0. This might lead to performance degradation or OutOfMemoryError at Terracotta client.From Ehcache 2.0 onwards this has been changed to mean a store with no capacity limit. Set it to 1 if you want no elements cached in memory
+[17:36:51:786] [WARN] - net.sf.ehcache.config.CacheConfiguration.warnMaxEntriesLocalHeap(CacheConfiguration.java:1697) - Cache: subRealtimeData has a maxElementsInMemory of 0. This might lead to performance degradation or OutOfMemoryError at Terracotta client.From Ehcache 2.0 onwards this has been changed to mean a store with no capacity limit. Set it to 1 if you want no elements cached in memory
+[17:36:51:787] [WARN] - net.sf.ehcache.config.CacheConfiguration.warnMaxEntriesLocalHeap(CacheConfiguration.java:1697) - Cache: sceneModeCache has a maxElementsInMemory of 0. This might lead to performance degradation or OutOfMemoryError at Terracotta client.From Ehcache 2.0 onwards this has been changed to mean a store with no capacity limit. Set it to 1 if you want no elements cached in memory
+[17:36:51:789] [WARN] - net.sf.ehcache.config.CacheConfiguration.warnMaxEntriesLocalHeap(CacheConfiguration.java:1697) - Cache: electricCollRlgl has a maxElementsInMemory of 0. This might lead to performance degradation or OutOfMemoryError at Terracotta client.From Ehcache 2.0 onwards this has been changed to mean a store with no capacity limit. Set it to 1 if you want no elements cached in memory
+[17:36:51:790] [WARN] - net.sf.ehcache.config.CacheConfiguration.warnMaxEntriesLocalHeap(CacheConfiguration.java:1697) - Cache: deviceFunctionPointCache has a maxElementsInMemory of 0. This might lead to performance degradation or OutOfMemoryError at Terracotta client.From Ehcache 2.0 onwards this has been changed to mean a store with no capacity limit. Set it to 1 if you want no elements cached in memory
+[17:36:51:921] [WARN] - com.alibaba.druid.pool.vendor.MySqlValidConnectionChecker.<init>(MySqlValidConnectionChecker.java:55) - Cannot resolve com.mysq.jdbc.Connection.ping method.  Will use 'SELECT 1' instead.
+java.lang.NullPointerException: null
+	at com.alibaba.druid.pool.vendor.MySqlValidConnectionChecker.<init>(MySqlValidConnectionChecker.java:50) [druid-1.0.18.jar:1.0.18]
+	at com.alibaba.druid.pool.DruidDataSource.initValidConnectionChecker(DruidDataSource.java:944) [druid-1.0.18.jar:1.0.18]
+	at com.alibaba.druid.pool.DruidDataSource.init(DruidDataSource.java:659) [druid-1.0.18.jar:1.0.18]
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method) ~[?:1.8.0_76-ea]
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62) ~[?:1.8.0_76-ea]
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43) ~[?:1.8.0_76-ea]
+	at java.lang.reflect.Method.invoke(Method.java:498) ~[?:1.8.0_76-ea]
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.invokeCustomInitMethod(AbstractAutowireCapableBeanFactory.java:1758) [spring-beans-4.3.12.RELEASE.jar:4.3.12.RELEASE]
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.invokeInitMethods(AbstractAutowireCapableBeanFactory.java:1695) [spring-beans-4.3.12.RELEASE.jar:4.3.12.RELEASE]
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.initializeBean(AbstractAutowireCapableBeanFactory.java:1624) [spring-beans-4.3.12.RELEASE.jar:4.3.12.RELEASE]
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:555) [spring-beans-4.3.12.RELEASE.jar:4.3.12.RELEASE]
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:483) [spring-beans-4.3.12.RELEASE.jar:4.3.12.RELEASE]
+	at org.springframework.beans.factory.support.AbstractBeanFactory$1.getObject(AbstractBeanFactory.java:306) [spring-beans-4.3.12.RELEASE.jar:4.3.12.RELEASE]
+	at org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.getSingleton(DefaultSingletonBeanRegistry.java:230) [spring-beans-4.3.12.RELEASE.jar:4.3.12.RELEASE]
+	at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:302) [spring-beans-4.3.12.RELEASE.jar:4.3.12.RELEASE]
+	at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:202) [spring-beans-4.3.12.RELEASE.jar:4.3.12.RELEASE]
+	at org.springframework.beans.factory.config.DependencyDescriptor.resolveCandidate(DependencyDescriptor.java:208) [spring-beans-4.3.12.RELEASE.jar:4.3.12.RELEASE]
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.doResolveDependency(DefaultListableBeanFactory.java:1138) [spring-beans-4.3.12.RELEASE.jar:4.3.12.RELEASE]
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.resolveDependency(DefaultListableBeanFactory.java:1066) [spring-beans-4.3.12.RELEASE.jar:4.3.12.RELEASE]
+	at org.springframework.beans.factory.support.ConstructorResolver.resolveAutowiredArgument(ConstructorResolver.java:835) [spring-beans-4.3.12.RELEASE.jar:4.3.12.RELEASE]
+	at org.springframework.beans.factory.support.ConstructorResolver.createArgumentArray(ConstructorResolver.java:741) [spring-beans-4.3.12.RELEASE.jar:4.3.12.RELEASE]
+	at org.springframework.beans.factory.support.ConstructorResolver.instantiateUsingFactoryMethod(ConstructorResolver.java:467) [spring-beans-4.3.12.RELEASE.jar:4.3.12.RELEASE]
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.instantiateUsingFactoryMethod(AbstractAutowireCapableBeanFactory.java:1173) [spring-beans-4.3.12.RELEASE.jar:4.3.12.RELEASE]
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBeanInstance(AbstractAutowireCapableBeanFactory.java:1067) [spring-beans-4.3.12.RELEASE.jar:4.3.12.RELEASE]
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:513) [spring-beans-4.3.12.RELEASE.jar:4.3.12.RELEASE]
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:483) [spring-beans-4.3.12.RELEASE.jar:4.3.12.RELEASE]
+	at org.springframework.beans.factory.support.AbstractBeanFactory$1.getObject(AbstractBeanFactory.java:306) [spring-beans-4.3.12.RELEASE.jar:4.3.12.RELEASE]
+	at org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.getSingleton(DefaultSingletonBeanRegistry.java:230) [spring-beans-4.3.12.RELEASE.jar:4.3.12.RELEASE]
+	at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:302) [spring-beans-4.3.12.RELEASE.jar:4.3.12.RELEASE]
+	at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:202) [spring-beans-4.3.12.RELEASE.jar:4.3.12.RELEASE]
+	at org.springframework.beans.factory.config.DependencyDescriptor.resolveCandidate(DependencyDescriptor.java:208) [spring-beans-4.3.12.RELEASE.jar:4.3.12.RELEASE]
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.doResolveDependency(DefaultListableBeanFactory.java:1138) [spring-beans-4.3.12.RELEASE.jar:4.3.12.RELEASE]
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.resolveDependency(DefaultListableBeanFactory.java:1066) [spring-beans-4.3.12.RELEASE.jar:4.3.12.RELEASE]
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.autowireByType(AbstractAutowireCapableBeanFactory.java:1342) [spring-beans-4.3.12.RELEASE.jar:4.3.12.RELEASE]
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.populateBean(AbstractAutowireCapableBeanFactory.java:1249) [spring-beans-4.3.12.RELEASE.jar:4.3.12.RELEASE]
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:553) [spring-beans-4.3.12.RELEASE.jar:4.3.12.RELEASE]
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:483) [spring-beans-4.3.12.RELEASE.jar:4.3.12.RELEASE]
+	at org.springframework.beans.factory.support.AbstractBeanFactory$1.getObject(AbstractBeanFactory.java:306) [spring-beans-4.3.12.RELEASE.jar:4.3.12.RELEASE]
+	at org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.getSingleton(DefaultSingletonBeanRegistry.java:230) [spring-beans-4.3.12.RELEASE.jar:4.3.12.RELEASE]
+	at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:302) [spring-beans-4.3.12.RELEASE.jar:4.3.12.RELEASE]
+	at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:202) [spring-beans-4.3.12.RELEASE.jar:4.3.12.RELEASE]
+	at org.springframework.beans.factory.config.DependencyDescriptor.resolveCandidate(DependencyDescriptor.java:208) [spring-beans-4.3.12.RELEASE.jar:4.3.12.RELEASE]
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.doResolveDependency(DefaultListableBeanFactory.java:1138) [spring-beans-4.3.12.RELEASE.jar:4.3.12.RELEASE]
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.resolveDependency(DefaultListableBeanFactory.java:1066) [spring-beans-4.3.12.RELEASE.jar:4.3.12.RELEASE]
+	at org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor$AutowiredFieldElement.inject(AutowiredAnnotationBeanPostProcessor.java:585) [spring-beans-4.3.12.RELEASE.jar:4.3.12.RELEASE]
+	at org.springframework.beans.factory.annotation.InjectionMetadata.inject(InjectionMetadata.java:88) [spring-beans-4.3.12.RELEASE.jar:4.3.12.RELEASE]
+	at org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor.postProcessPropertyValues(AutowiredAnnotationBeanPostProcessor.java:366) [spring-beans-4.3.12.RELEASE.jar:4.3.12.RELEASE]
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.populateBean(AbstractAutowireCapableBeanFactory.java:1264) [spring-beans-4.3.12.RELEASE.jar:4.3.12.RELEASE]
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:553) [spring-beans-4.3.12.RELEASE.jar:4.3.12.RELEASE]
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:483) [spring-beans-4.3.12.RELEASE.jar:4.3.12.RELEASE]
+	at org.springframework.beans.factory.support.AbstractBeanFactory$1.getObject(AbstractBeanFactory.java:306) [spring-beans-4.3.12.RELEASE.jar:4.3.12.RELEASE]
+	at org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.getSingleton(DefaultSingletonBeanRegistry.java:230) [spring-beans-4.3.12.RELEASE.jar:4.3.12.RELEASE]
+	at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:302) [spring-beans-4.3.12.RELEASE.jar:4.3.12.RELEASE]
+	at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:202) [spring-beans-4.3.12.RELEASE.jar:4.3.12.RELEASE]
+	at org.springframework.beans.factory.config.DependencyDescriptor.resolveCandidate(DependencyDescriptor.java:208) [spring-beans-4.3.12.RELEASE.jar:4.3.12.RELEASE]
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.doResolveDependency(DefaultListableBeanFactory.java:1138) [spring-beans-4.3.12.RELEASE.jar:4.3.12.RELEASE]
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.resolveDependency(DefaultListableBeanFactory.java:1066) [spring-beans-4.3.12.RELEASE.jar:4.3.12.RELEASE]
+	at org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor$AutowiredFieldElement.inject(AutowiredAnnotationBeanPostProcessor.java:585) [spring-beans-4.3.12.RELEASE.jar:4.3.12.RELEASE]
+	at org.springframework.beans.factory.annotation.InjectionMetadata.inject(InjectionMetadata.java:88) [spring-beans-4.3.12.RELEASE.jar:4.3.12.RELEASE]
+	at org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor.postProcessPropertyValues(AutowiredAnnotationBeanPostProcessor.java:366) [spring-beans-4.3.12.RELEASE.jar:4.3.12.RELEASE]
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.populateBean(AbstractAutowireCapableBeanFactory.java:1264) [spring-beans-4.3.12.RELEASE.jar:4.3.12.RELEASE]
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:553) [spring-beans-4.3.12.RELEASE.jar:4.3.12.RELEASE]
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:483) [spring-beans-4.3.12.RELEASE.jar:4.3.12.RELEASE]
+	at org.springframework.beans.factory.support.AbstractBeanFactory$1.getObject(AbstractBeanFactory.java:306) [spring-beans-4.3.12.RELEASE.jar:4.3.12.RELEASE]
+	at org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.getSingleton(DefaultSingletonBeanRegistry.java:230) [spring-beans-4.3.12.RELEASE.jar:4.3.12.RELEASE]
+	at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:302) [spring-beans-4.3.12.RELEASE.jar:4.3.12.RELEASE]
+	at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:202) [spring-beans-4.3.12.RELEASE.jar:4.3.12.RELEASE]
+	at org.springframework.beans.factory.config.DependencyDescriptor.resolveCandidate(DependencyDescriptor.java:208) [spring-beans-4.3.12.RELEASE.jar:4.3.12.RELEASE]
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.doResolveDependency(DefaultListableBeanFactory.java:1138) [spring-beans-4.3.12.RELEASE.jar:4.3.12.RELEASE]
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.resolveDependency(DefaultListableBeanFactory.java:1066) [spring-beans-4.3.12.RELEASE.jar:4.3.12.RELEASE]
+	at org.springframework.beans.factory.support.ConstructorResolver.resolveAutowiredArgument(ConstructorResolver.java:835) [spring-beans-4.3.12.RELEASE.jar:4.3.12.RELEASE]
+	at org.springframework.beans.factory.support.ConstructorResolver.createArgumentArray(ConstructorResolver.java:741) [spring-beans-4.3.12.RELEASE.jar:4.3.12.RELEASE]
+	at org.springframework.beans.factory.support.ConstructorResolver.instantiateUsingFactoryMethod(ConstructorResolver.java:467) [spring-beans-4.3.12.RELEASE.jar:4.3.12.RELEASE]
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.instantiateUsingFactoryMethod(AbstractAutowireCapableBeanFactory.java:1173) [spring-beans-4.3.12.RELEASE.jar:4.3.12.RELEASE]
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBeanInstance(AbstractAutowireCapableBeanFactory.java:1067) [spring-beans-4.3.12.RELEASE.jar:4.3.12.RELEASE]
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:513) [spring-beans-4.3.12.RELEASE.jar:4.3.12.RELEASE]
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:483) [spring-beans-4.3.12.RELEASE.jar:4.3.12.RELEASE]
+	at org.springframework.beans.factory.support.AbstractBeanFactory$1.getObject(AbstractBeanFactory.java:306) [spring-beans-4.3.12.RELEASE.jar:4.3.12.RELEASE]
+	at org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.getSingleton(DefaultSingletonBeanRegistry.java:230) [spring-beans-4.3.12.RELEASE.jar:4.3.12.RELEASE]
+	at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:302) [spring-beans-4.3.12.RELEASE.jar:4.3.12.RELEASE]
+	at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:202) [spring-beans-4.3.12.RELEASE.jar:4.3.12.RELEASE]
+	at org.springframework.beans.factory.config.DependencyDescriptor.resolveCandidate(DependencyDescriptor.java:208) [spring-beans-4.3.12.RELEASE.jar:4.3.12.RELEASE]
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.doResolveDependency(DefaultListableBeanFactory.java:1138) [spring-beans-4.3.12.RELEASE.jar:4.3.12.RELEASE]
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.resolveDependency(DefaultListableBeanFactory.java:1066) [spring-beans-4.3.12.RELEASE.jar:4.3.12.RELEASE]
+	at org.springframework.beans.factory.support.ConstructorResolver.resolveAutowiredArgument(ConstructorResolver.java:835) [spring-beans-4.3.12.RELEASE.jar:4.3.12.RELEASE]
+	at org.springframework.beans.factory.support.ConstructorResolver.createArgumentArray(ConstructorResolver.java:741) [spring-beans-4.3.12.RELEASE.jar:4.3.12.RELEASE]
+	at org.springframework.beans.factory.support.ConstructorResolver.instantiateUsingFactoryMethod(ConstructorResolver.java:467) [spring-beans-4.3.12.RELEASE.jar:4.3.12.RELEASE]
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.instantiateUsingFactoryMethod(AbstractAutowireCapableBeanFactory.java:1173) [spring-beans-4.3.12.RELEASE.jar:4.3.12.RELEASE]
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBeanInstance(AbstractAutowireCapableBeanFactory.java:1067) [spring-beans-4.3.12.RELEASE.jar:4.3.12.RELEASE]
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.getSingletonFactoryBeanForTypeCheck(AbstractAutowireCapableBeanFactory.java:923) [spring-beans-4.3.12.RELEASE.jar:4.3.12.RELEASE]
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.getTypeForFactoryBean(AbstractAutowireCapableBeanFactory.java:804) [spring-beans-4.3.12.RELEASE.jar:4.3.12.RELEASE]
+	at org.springframework.beans.factory.support.AbstractBeanFactory.isTypeMatch(AbstractBeanFactory.java:558) [spring-beans-4.3.12.RELEASE.jar:4.3.12.RELEASE]
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.doGetBeanNamesForType(DefaultListableBeanFactory.java:432) [spring-beans-4.3.12.RELEASE.jar:4.3.12.RELEASE]
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.getBeanNamesForType(DefaultListableBeanFactory.java:395) [spring-beans-4.3.12.RELEASE.jar:4.3.12.RELEASE]
+	at org.springframework.beans.factory.BeanFactoryUtils.beanNamesForTypeIncludingAncestors(BeanFactoryUtils.java:220) [spring-beans-4.3.12.RELEASE.jar:4.3.12.RELEASE]
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.findAutowireCandidates(DefaultListableBeanFactory.java:1267) [spring-beans-4.3.12.RELEASE.jar:4.3.12.RELEASE]
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.doResolveDependency(DefaultListableBeanFactory.java:1101) [spring-beans-4.3.12.RELEASE.jar:4.3.12.RELEASE]
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.resolveDependency(DefaultListableBeanFactory.java:1066) [spring-beans-4.3.12.RELEASE.jar:4.3.12.RELEASE]
+	at org.springframework.beans.factory.support.ConstructorResolver.resolveAutowiredArgument(ConstructorResolver.java:835) [spring-beans-4.3.12.RELEASE.jar:4.3.12.RELEASE]
+	at org.springframework.beans.factory.support.ConstructorResolver.createArgumentArray(ConstructorResolver.java:741) [spring-beans-4.3.12.RELEASE.jar:4.3.12.RELEASE]
+	at org.springframework.beans.factory.support.ConstructorResolver.instantiateUsingFactoryMethod(ConstructorResolver.java:467) [spring-beans-4.3.12.RELEASE.jar:4.3.12.RELEASE]
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.instantiateUsingFactoryMethod(AbstractAutowireCapableBeanFactory.java:1173) [spring-beans-4.3.12.RELEASE.jar:4.3.12.RELEASE]
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBeanInstance(AbstractAutowireCapableBeanFactory.java:1067) [spring-beans-4.3.12.RELEASE.jar:4.3.12.RELEASE]
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:513) [spring-beans-4.3.12.RELEASE.jar:4.3.12.RELEASE]
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:483) [spring-beans-4.3.12.RELEASE.jar:4.3.12.RELEASE]
+	at org.springframework.beans.factory.support.AbstractBeanFactory$1.getObject(AbstractBeanFactory.java:306) [spring-beans-4.3.12.RELEASE.jar:4.3.12.RELEASE]
+	at org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.getSingleton(DefaultSingletonBeanRegistry.java:230) [spring-beans-4.3.12.RELEASE.jar:4.3.12.RELEASE]
+	at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:302) [spring-beans-4.3.12.RELEASE.jar:4.3.12.RELEASE]
+	at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:202) [spring-beans-4.3.12.RELEASE.jar:4.3.12.RELEASE]
+	at org.springframework.context.support.PostProcessorRegistrationDelegate.registerBeanPostProcessors(PostProcessorRegistrationDelegate.java:225) [spring-context-4.3.12.RELEASE.jar:4.3.12.RELEASE]
+	at org.springframework.context.support.AbstractApplicationContext.registerBeanPostProcessors(AbstractApplicationContext.java:703) [spring-context-4.3.12.RELEASE.jar:4.3.12.RELEASE]
+	at org.springframework.context.support.AbstractApplicationContext.refresh(AbstractApplicationContext.java:528) [spring-context-4.3.12.RELEASE.jar:4.3.12.RELEASE]
+	at org.springframework.boot.context.embedded.EmbeddedWebApplicationContext.refresh(EmbeddedWebApplicationContext.java:122) [spring-boot-1.5.8.RELEASE.jar:1.5.8.RELEASE]
+	at org.springframework.boot.SpringApplication.refresh(SpringApplication.java:693) [spring-boot-1.5.8.RELEASE.jar:1.5.8.RELEASE]
+	at org.springframework.boot.SpringApplication.refreshContext(SpringApplication.java:360) [spring-boot-1.5.8.RELEASE.jar:1.5.8.RELEASE]
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:303) [spring-boot-1.5.8.RELEASE.jar:1.5.8.RELEASE]
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1118) [spring-boot-1.5.8.RELEASE.jar:1.5.8.RELEASE]
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1107) [spring-boot-1.5.8.RELEASE.jar:1.5.8.RELEASE]
+	at com.efounder.JEnterprise.BESApplication.main(BESApplication.java:49) [classes/:?]
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method) ~[?:1.8.0_76-ea]
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62) ~[?:1.8.0_76-ea]
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43) ~[?:1.8.0_76-ea]
+	at java.lang.reflect.Method.invoke(Method.java:498) ~[?:1.8.0_76-ea]
+	at org.springframework.boot.devtools.restart.RestartLauncher.run(RestartLauncher.java:49) [spring-boot-devtools-1.5.8.RELEASE.jar:1.5.8.RELEASE]
+[17:37:00:784] [WARN] - com.netflix.config.sources.URLConfigurationSource.<init>(URLConfigurationSource.java:121) - No URLs will be polled as dynamic configuration sources.

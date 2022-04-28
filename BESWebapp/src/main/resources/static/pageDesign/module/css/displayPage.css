@@ -1,0 +1,17 @@
+.design_unit{
+    margin-left:10px;
+}
+
+/*图形样式*/
+#design_svg .design_shape{
+   cursor:default!important;
+}
+
+/*去掉tabindex=0点击出现白框样式*/
+.design_initial_position,.design_img {
+    outline:none!important;
+}
+/*表格组件拖动图标隐藏*/
+.design_table_div .table_move_img{
+    display: none;
+}

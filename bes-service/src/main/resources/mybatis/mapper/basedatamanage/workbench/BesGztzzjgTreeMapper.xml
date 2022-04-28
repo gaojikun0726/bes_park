@@ -1,0 +1,593 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper
+	namespace="com.efounder.JEnterprise.mapper.basedatamanage.workbench.BesGztzzjgTreeMapper">
+	<resultMap id="BaseResultMap"
+		type="com.efounder.JEnterprise.model.BesWorkbench.BesGztzzjgTree">
+		<id column="F_ID" property="fId" jdbcType="VARCHAR" />
+		<result column="F_NAME" property="fName" jdbcType="VARCHAR" />
+		<result column="F_PID" property="fPid" jdbcType="VARCHAR" />
+		<result column="F_IMGURL" property="fImgurl" jdbcType="VARCHAR" />
+		<result column="F_LX" property="fImgurl" jdbcType="VARCHAR" />
+		<result column="F_CRDATE" property="fCrdate"
+			jdbcType="TIMESTAMP" />
+		<result column="F_CHDATE" property="fChdate"
+			jdbcType="TIMESTAMP" />
+	</resultMap>
+
+	<resultMap id="BTQBesHouseholdData" type="com.efounder.JEnterprise.model.dataAnalysises.BesHouseholdData">
+		<id column="F_ID" property="fId" jdbcType="VARCHAR" />
+		<result column="F_FHBH" property="fFhbh" jdbcType="VARCHAR" />
+		<result column="F_DNBH" property="fDnbh" jdbcType="VARCHAR" />
+		<result column="F_CJSJ" property="fCjsj" jdbcType="TIMESTAMP" />
+		<result column="F_DATA" property="fData" jdbcType="VARCHAR" />
+		<result column="F_TYPE" property="fType" jdbcType="VARCHAR" />
+		<result column="F_ALL_MONEY" property="fAllMoney" jdbcType="VARCHAR" />
+		<result column="F_COAL_AMOUNT" property="fCoalAmount" jdbcType="VARCHAR" />
+		<result column="F_CO2" property="fCo2" jdbcType="VARCHAR" />
+		<result column="F_PERMAN_DATA" property="fPermanData" jdbcType="VARCHAR" />
+		<result column="F_PERMAN_MONEY" property="fPermanMoney" jdbcType="VARCHAR" />
+		<result column="F_UNITAREA_DATA" property="fUnitareaData" jdbcType="VARCHAR" />
+		<result column="F_UNITAREA_MONEY" property="fUnitareaMoney" jdbcType="VARCHAR" />
+		<result column="F_FHLX" property="fFhlx" jdbcType="VARCHAR" />
+		<result column="F_CRDATE" property="fCrdate" jdbcType="TIMESTAMP" />
+		<result column="F_CHDATE" property="fChdate" jdbcType="TIMESTAMP" />
+		<result column="F_YQBH" property="fYqbh" />
+		<result column="F_FHMC" property="fFhmc" />
+		<result column="rows" property="rows" />
+	</resultMap>
+
+	<sql id="Base_Column_List">
+		F_ID, F_NAME, F_PID, date_format(F_CRDATE,'%Y-%m-%d
+		%H:%i:%s')fCrdate
+		,date_format(F_CHDATE,'%Y-%m-%d %H:%i:%s')fChdate
+		,F_IMGURL
+	</sql>
+
+	<select id="selectByPrimaryKey" resultMap="BaseResultMap"
+		parameterType="java.lang.String">
+		select
+		<include refid="Base_Column_List" />
+		from bes_gztzzjg_tree
+		where F_ID = #{fId,jdbcType=VARCHAR}
+	</select>
+
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+		delete from
+		bes_gztzzjg_tree
+		where F_ID = #{fId,jdbcType=VARCHAR}
+	</delete>
+
+	<insert id="insert"
+		parameterType="com.efounder.JEnterprise.model.BesWorkbench.BesGztzzjgTree">
+		insert into bes_gztzzjg_tree (F_ID, F_NAME, F_PID,
+		F_CRDATE, F_CHDATE)
+		values (#{fId,jdbcType=VARCHAR},
+		#{fName,jdbcType=VARCHAR},
+		#{fPid,jdbcType=VARCHAR},
+		#{fCrdate,jdbcType=TIMESTAMP}, #{fChdate,jdbcType=TIMESTAMP})
+	</insert>
+
+	<insert id="insertSelective"
+		parameterType="com.efounder.JEnterprise.model.BesWorkbench.BesGztzzjgTree">
+		insert into bes_gztzzjg_tree
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="fId != null">
+				F_ID,
+			</if>
+			<if test="fName != null">
+				F_NAME,
+			</if>
+			<if test="fPid != null">
+				F_PID,
+			</if>
+			<if test="fCrdate != null">
+				F_CRDATE,
+			</if>
+			<if test="fChdate != null">
+				F_CHDATE,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="fId != null">
+				#{fId,jdbcType=VARCHAR},
+			</if>
+			<if test="fName != null">
+				#{fName,jdbcType=VARCHAR},
+			</if>
+			<if test="fPid != null">
+				#{fPid,jdbcType=VARCHAR},
+			</if>
+			<if test="fCrdate != null">
+				#{fCrdate,jdbcType=TIMESTAMP},
+			</if>
+			<if test="fChdate != null">
+				#{fChdate,jdbcType=TIMESTAMP},
+			</if>
+		</trim>
+	</insert>
+
+	<update id="updateByPrimaryKeySelective"
+		parameterType="com.efounder.JEnterprise.model.BesWorkbench.BesGztzzjgTree">
+		update bes_gztzzjg_tree
+		<set>
+			<if test="fName != null">
+				F_NAME = #{fName,jdbcType=VARCHAR},
+			</if>
+			<if test="fPid != null">
+				F_PID = #{fPid,jdbcType=VARCHAR},
+			</if>
+			<if test="fCrdate != null">
+				F_CRDATE = #{fCrdate,jdbcType=TIMESTAMP},
+			</if>
+			<if test="fChdate != null">
+				F_CHDATE = #{fChdate,jdbcType=TIMESTAMP},
+			</if>
+		</set>
+		where F_ID = #{fId,jdbcType=VARCHAR}
+	</update>
+
+	<update id="updateByPrimaryKey"
+		parameterType="com.efounder.JEnterprise.model.BesWorkbench.BesGztzzjgTree">
+		update bes_gztzzjg_tree
+		set F_NAME =
+		#{fName,jdbcType=VARCHAR},
+		F_PID = #{fPid,jdbcType=VARCHAR},
+		F_CRDATE =
+		#{fCrdate,jdbcType=TIMESTAMP},
+		F_CHDATE = #{fChdate,jdbcType=TIMESTAMP}
+		where F_ID = #{fId,jdbcType=VARCHAR}
+	</update>
+	<!-- 添加 -->
+	<insert id="add_workbenchTree"
+		parameterType="com.efounder.JEnterprise.model.BesWorkbench.BesGztzzjgTree">
+		insert into bes_gztzzjg_tree(F_ID, F_NAME, F_PID,
+		F_CRDATE, F_IMGURL, F_LX)
+		values(#{fId}, #{fName}, #{fPid}, #{fCrdate},
+		#{fImgurl}, #{fLx})
+	</insert>
+
+	<!-- 编辑 -->
+	<update id="edit_workbenchTree"
+		parameterType="com.efounder.JEnterprise.model.BesWorkbench.BesGztzzjgTree">
+		update bes_gztzzjg_tree
+		set
+		F_NAME=#{fName},
+		F_CHDATE=#{fChdate}, F_IMGURL=#{fImgurl} ,F_LX =#{fLx}
+		where F_ID =
+		#{fId}
+	</update>
+
+	<!-- 查询 -->
+	<select id="serch_workdenchTree" resultMap="BaseResultMap"
+		parameterType="java.lang.String">
+		select
+		F_ID, F_NAME, F_IMGURL, F_LX
+		from bes_gztzzjg_tree
+		where 1=1 and F_ID = #{bh}
+	</select>
+
+	<!-- 查询img的url -->
+	<select id="changeImage" resultMap="BaseResultMap"
+		parameterType="java.lang.String">
+		select F_IMGURL from bes_gztfhzzjg where F_FHBH = #{id}
+	</select>
+
+	<!-- 删除ID自身 -->
+	<delete id="deleteSelf"
+		parameterType="com.efounder.JEnterprise.model.BesWorkbench.BesGztzzjgTree">
+		delete from bes_gztzzjg_tree where F_ID = #{id}
+	</delete>
+
+	<!-- 删除子节点 批量删除 -->
+	<delete id="deleteSon"
+		parameterType="com.efounder.JEnterprise.model.BesWorkbench.BesGztzzjgTree">
+		delete from bes_gztzzjg_tree where F_ID in
+		<foreach collection="list" item="Id" separator="," open="("
+			close=")">
+			#{Id}
+		</foreach>
+	</delete>
+
+	<!-- 查询子id -->
+	<select id="getnodId" resultType="java.util.HashMap"
+		parameterType="java.lang.String">
+		SELECT
+		<include refid="Base_Column_List" />
+		FROM bes_gztzzjg_tree A WHERE A.F_PID=#{id}
+	</select>
+
+	<!-- 根据传的nodeId查询table -->
+	<select id="RefreshTable" resultType="java.util.HashMap"
+		parameterType="java.lang.String">
+		select
+		<include refid="Base_Column_List" />
+		from bes_gztzzjg_tree where F_PID = #{nodeId}
+	</select>
+
+	<!-- 工作台组织机构树查询 -->
+	<select id="getzzjg_tree" resultType="java.util.HashMap"
+		parameterType="java.lang.String">
+		select F_ID id ,F_NAME text ,F_PID pid ,f_imgurl
+		url,f_lx lx,f_fhbh fhbh
+		from bes_gztzzjg_tree
+	</select>
+
+	<!-- 环比查询数据 -->
+	<select id="bqData" resultMap="BTQBesHouseholdData">
+		select * from bes_household_data
+		where f_fhbh = #{fId}
+      <![CDATA[ and date_format(f_cjsj, '%Y-%m-%d') >= #{fCjsj_start} ]]> 
+      <![CDATA[ and date_format(f_cjsj ,'%Y-%m-%d') <= #{fCjsj_end} ]]>
+		and f_type=#{fType} limit 1
+	</select>
+
+	<!-- 环比同期数据 -->
+	<select id="tqData" resultMap="BTQBesHouseholdData">
+		select * from bes_household_data
+		where f_fhbh=#{fId} 
+      <![CDATA[ and date_format(f_cjsj, '%Y-%m-%d') >= #{ftbhb_sametime_start} ]]> 
+      <![CDATA[ and date_format(f_cjsj ,'%Y-%m-%d') <= #{ftbhb_sametime_end} ]]>
+		and f_type=#{fType} limit 1
+	</select>
+	
+	<select id="monthbqData" resultMap="BTQBesHouseholdData">
+        select * from bes_household_data
+        where f_fhbh = #{fId}
+      <![CDATA[ and date_format(f_cjsj, '%Y-%m') >= #{fCjsj_start} ]]> 
+      <![CDATA[ and date_format(f_cjsj ,'%Y-%m') <= #{fCjsj_end} ]]>
+        and f_type=#{fType} limit 1
+    </select>
+
+    <!-- 环比同期数据 -->
+    <select id="monthtqData" resultMap="BTQBesHouseholdData">
+        select * from bes_household_data
+        where f_fhbh=#{fId} 
+      <![CDATA[ and date_format(f_cjsj, '%Y-%m') >= #{ftbhb_sametime_start} ]]> 
+      <![CDATA[ and date_format(f_cjsj ,'%Y-%m') <= #{ftbhb_sametime_end} ]]>
+        and f_type=#{fType} limit 1
+    </select>
+
+	<!-- 今天总能耗 -->
+	<select id="TodayAllData" resultMap="BTQBesHouseholdData">
+		select * from bes_household_data
+		where f_fhbh=#{fId} 
+      <![CDATA[ and date_format(f_cjsj, '%Y-%m-%d') >= #{fCjsj_start} ]]> 
+      <![CDATA[ and date_format(f_cjsj ,'%Y-%m-%d') <= #{fCjsj_end} ]]>
+		and f_type=#{fType}
+	</select>
+	
+	<select id="getFhEnergyData" resultMap="BTQBesHouseholdData">
+        select * from bes_household_data
+        where f_fhbh=#{fId}
+        and f_cjdate = #{fCjsj_start}
+        and f_type=#{fType}
+    </select>
+    
+    <select id="getAllFhEnergyData" resultMap="BTQBesHouseholdData">
+        select * from bes_household_data
+        where f_fhbh=#{fId}
+      <![CDATA[ and date_format(f_cjsj, '%Y') = #{fCjsj_end} ]]> 
+        and f_type='3'
+    </select>
+    
+    <select id="getLastYear" resultMap="BTQBesHouseholdData" parameterType="java.lang.String">
+        select * from bes_household_data
+        where f_fhbh=#{fId} 
+      <![CDATA[ and date_format(f_cjsj, '%Y') = #{lastyear} ]]> 
+        and f_type='3'
+    </select>
+    
+    <select id="getLastMonth" resultMap="BTQBesHouseholdData" parameterType="java.lang.String">
+        select * from bes_household_data
+        where f_fhbh=#{fId} 
+      <![CDATA[ and date_format(f_cjsj, '%Y-%m') = #{lastmonth} ]]> 
+        and f_type='2'
+    </select>
+    
+    <select id="getMonth" resultMap="BTQBesHouseholdData" parameterType="java.lang.String">
+        select * from bes_household_data
+        where f_fhbh=#{fId} 
+      <![CDATA[ and date_format(f_cjsj, '%Y-%m') = #{month} ]]> 
+        and f_type='2'
+    </select>
+    
+    <select id="getYesterday" resultMap="BTQBesHouseholdData" parameterType="java.lang.String">
+        select * from bes_household_data
+        where f_fhbh=#{fId}
+        and f_cjdate = #{yesterday}
+        and f_type='1'
+    </select>
+    
+    <select id="getpeakEnergy" resultType="String">
+        select max(round(F_DATA,2))F_DATA from bes_household_data
+        where f_fhbh=#{fId}
+        and f_cjdate = #{fCjsj_start}
+        and f_type='0'
+    </select>
+    
+    <select id="Getdbsysname" resultType="HashMap" parameterType="java.lang.String">
+	    select F_DBSYS_NAME from bes_branch_ammeter_rlgl 
+	    where f_zlbh in 
+	    (select f_zlbh from bes_household_branch_rlgl where f_fhbh = #{fId})
+    </select>
+    
+    <select id="Getpower" resultType="String">
+      select SUM(CAST(F_DATA as SIGNED)) F_DATA from bes_original_data
+      where 1=1
+      <![CDATA[ and date_format(f_cjsj, '%Y-%m-%d %H:%i:%s') = #{timenew} ]]> 
+      and F_DNBH = #{nhbh} 
+      and f_dbsys_name in
+      <foreach collection="dbsysnameList" item="dbsysnameList" separator="," open="("
+            close=")">
+            #{dbsysnameList}
+      </foreach>
+      order by f_cjsj desc 
+    </select>
+    
+    <select id="GetTimeList" resultType="String" parameterType="java.lang.String">
+      select date_format(f_cjsj,'%Y-%m-%d %H:%i:%s') from bes_original_data
+      where 1=1
+      <![CDATA[ and date_format(f_cjsj, '%Y-%m-%d %H') = #{currentTime} ]]> 
+      and F_DNBH = #{nhbh}
+      order by f_cjsj desc limit 1
+    </select>
+    
+    <select id="GetTodayRankEnergy" resultMap="BTQBesHouseholdData" parameterType="java.lang.String">
+        select F_FHMC,F_CJSJ,F_DATA,F_FHLX from (
+        select c.F_FHMC F_FHMC,a.F_CJSJ F_CJSJ,	a.F_DATA F_DATA,c.F_FHLX F_FHLX from bes_household_data a
+		left join bes_household_conf c on c.F_FHBH=a.F_FHBH
+		where a.F_TYPE='1' and a.f_fhbh <![CDATA[ <> ]]> #{fFhbh} and c.F_PFHBH= #{fFhbh}
+<!-- 		and a.f_cjdate = #{fCjsj_start} -->
+		<![CDATA[ and date_format(a.f_cjsj, '%Y-%m-%d') = #{fCjsj_start} ]]>
+		ORDER BY a.f_data+0 DESC limit ${count}
+		)w
+		order by f_data+0 ASC
+    </select>
+    
+    <select id="GetMonthRankEnergy" resultMap="BTQBesHouseholdData" parameterType="java.lang.String">
+        select F_FHMC,F_CJSJ,F_DATA from (
+        select c.F_FHMC F_FHMC,a.F_CJSJ F_CJSJ,	a.F_DATA F_DATA from bes_household_data a
+        left join bes_household_conf c on c.F_FHBH=a.F_FHBH
+        where a.F_TYPE='2' and a.f_fhbh <![CDATA[ <> ]]> #{fFhbh} and c.F_PFHBH=#{fFhbh}
+        <![CDATA[ and date_format(a.f_cjsj, '%Y-%m-%d') >= #{month_start} ]]>
+        <![CDATA[ and date_format(a.f_cjsj, '%Y-%m-%d') <= #{month_end} ]]>  
+        ORDER BY a.f_data+0 DESC limit ${count}
+        )w
+        order by f_data+0 ASC
+    </select>
+
+<!--sunzhiyuan	根据能源编号和园区编号查询子节点-->
+	<select id="getHouseHoldInfo" parameterType="string" resultType="java.util.Map">
+		SELECT
+			*
+		from
+			bes_household_conf
+		where
+			f_nybh = #{fNybh}
+		AND
+			f_yqbh = #{yqbh}
+		AND
+			F_PFHBH= #{fFhbh}
+		limit 5
+	</select>
+
+<!-- sunzhiyuan   第三第四个节点的数据 根据分户编号和园区编号查询-->
+	<select id="getHouseHoldPersonData" parameterType="string" resultType="java.util.Map">
+		SELECT
+			*
+		FROM
+			bes_household_data
+		WHERE
+			F_FHBH = #{fhbh}
+		AND F_YQBH = #{yqbh}
+		AND F_TYPE = '2'
+		and F_CJSJ
+		BETWEEN #{month_start}
+        AND #{month_end}
+	</select>
+
+
+    <select id="GetYqRankEnergy" resultMap="BTQBesHouseholdData" parameterType="java.lang.String">
+        select F_FHMC,F_CJSJ,F_DATA from (
+        select c.F_FHMC F_FHMC,a.F_CJSJ F_CJSJ,	a.F_DATA F_DATA from bes_household_data a
+        left join bes_household_conf c on c.F_FHBH=a.F_FHBH
+        where a.F_FHBH in (select f_fhbh from bes_household_conf c where c.F_PFHBH is null or c.F_PFHBH='' and c.F_NYBH=#{fNybh} )
+        and a.F_TYPE='2' 
+        <![CDATA[ and date_format(a.f_cjsj, '%Y-%m-%d') >= #{month_start} ]]>
+        <![CDATA[ and date_format(a.f_cjsj, '%Y-%m-%d') <= #{month_end} ]]>  
+        ORDER BY a.f_data+0 DESC limit ${count}
+        )w
+        order by f_data+0 ASC;
+    </select>
+    
+    <select id="GetWaringReal" resultType="java.util.HashMap" >
+        SELECT * FROM bes_waring_real where 1=1 and 
+        f_level in 
+        <foreach collection="array" item="levelArray" separator="," open="("  close=")">
+            #{levelArray}
+        </foreach>
+        order by f_atime desc limit ${limit}
+    </select>   
+    
+    
+    <select id="getleftInfo" resultType="java.util.HashMap" >
+        SELECT F_YQBH,F_YQMC,F_NODE_CODE,F_ALL_AREA ,F_NODE_CODE,
+        	date_format(F_EQUIPMENT_RUNTIME,'%Y-%m-%d %H:%i:%s') F_EQUIPMENT_RUNTIME,
+        	F_PERSON_NUMS,date_format(F_BUILD_TIME, '%Y') as F_BUILD_TIME
+        FROM bes_park 
+        where F_YQBH = #{yqbh}
+    </select>
+
+	<!--wanghongjie start 20200717 查询含有相关能源的园区-->
+	<select id="energyList" resultType="java.util.Map">
+		select * from bes_household_conf where F_NYBH = #{nybh}
+		<![CDATA[ and F_FHBH <= 100 ]]>
+	</select>
+
+	<!--sunzhiyuan 查询含有特定能源下所有的园区-->
+	<select id="getEnergyListByYq" parameterType="string" resultType="java.util.Map">
+		select * from bes_household_conf where F_NYBH = #{nybh}
+		and F_YQBH = #{yqbh}
+		<![CDATA[ and F_FHBH <= 100 ]]>
+	</select>
+
+	<!--wanghongjie start 20200717 查询当前园区的今日能耗-->
+	<select id="parkEnergyMap" resultMap="BTQBesHouseholdData">
+		 select F_FHMC,F_CJSJ,F_DATA from (
+        select c.F_FHMC F_FHMC,a.F_CJSJ F_CJSJ,	a.F_DATA F_DATA from bes_household_data a
+		left join bes_household_conf c on c.F_FHBH=a.F_FHBH
+		where a.F_TYPE='1'  and c.F_FHBH = #{f_fhbh}
+		<![CDATA[ and date_format(a.f_cjsj, '%Y-%m-%d') = #{fCjsj_start} ]]>
+		)w
+	</select>
+
+<!--	BETWEEN #{firstDay}-->
+<!--	AND #{endDay}-->
+
+	<!--sunzhiyuan 根据能源类型查询当前园区月能耗-->
+	<select id="MounthParkEnergyMap" parameterType="map" resultType="map">
+		SELECT
+			f_data
+		FROM
+			bes_energy_data
+		WHERE
+			F_YQBH = #{yqbh}
+		AND
+			F_TYPE= '2'
+		AND
+			F_NYBH = #{fNybh}
+		and F_CJSJ
+		BETWEEN #{month_start}
+        AND #{month_end}
+		order by f_data desc
+	</select>
+
+	<select id="getHouseConfPerson" parameterType="string" resultType="double">
+		SELECT
+			F_PERSON_NUMS
+		FROM
+			bes_household_conf
+		WHERE
+			F_FHBH = #{fhbh}
+	</select>
+
+	<!--wanghongjie start 20200723 查询当前点击的分户下的子节点-->
+	<select id="selectBesHouseholdChild" resultType="java.util.HashMap" parameterType="string">
+		select a.*,b.F_NYMC  from bes_household_conf a,bes_energy_type b where a.F_PFHBH = #{fFhbh}  and a.F_NYBH = b.F_NYBH
+	</select>
+	<!--wanghongjie start 20200723 根据能源编号和园区编号查询当前分户园区的信息-->
+	<select id="selectBesHouseholdByYqbh" resultType="java.util.Map">
+		select * from bes_household_conf where F_NYBH = #{nybh}
+		<if test='yqbh != null and yqbh != "" and yqbh != "0"'>
+			and F_YQBH = #{yqbh}
+		</if>
+		<![CDATA[ and F_FHBH <= 100 ]]> ORDER BY F_FHBH DESC
+	</select>
+
+	<select id="selectEnergyDataByYear" resultType="java.util.Map" parameterType="string">
+		SELECT
+			f_data
+		from
+			bes_energy_data
+		where
+			F_NYBH = #{nybh}
+		AND
+			F_TYPE = #{type}
+		AND
+			F_CJSJ = #{firstDay}
+	</select>
+
+
+	<select id="selectEnergyDataMaxByMonth" resultType="string" parameterType="string">
+		SELECT
+			max(F_DATA)
+			as hData
+		FROM
+			bes_energy_data
+		WHERE
+			F_NYBH = #{nybh}
+		AND F_TYPE	= '2'
+		and F_CJSJ
+		BETWEEN #{firstDay}
+        AND #{endYearData}
+	</select>
+
+
+	<select id="selectSubitemData"  resultType="string">
+		SELECT
+			F_DATA
+		FROM
+			bes_subitem_data
+		where
+			F_FXBH = #{fxbh}
+		and
+			F_TYPE = '3'
+		AND F_CJSJ
+		BETWEEN #{firstDay}
+        AND #{endDay}
+		limit 1
+	</select>
+
+
+	<delete id="deleteSubyearData" parameterType="java.lang.String">
+		truncate table bes_subyear_data
+	</delete>
+
+	<insert id="insertSubyearData" parameterType="com.efounder.JEnterprise.model.BesSubyearData">
+		insert into bes_subyear_data (F_ID,F_FXBH,F_FXMC,F_ZZJGBH,F_YQBH,F_NYBH,F_YDATA,F_CRDATE,F_CHDATE)
+        values
+		<foreach collection="list" item="item" index="index" separator=",">
+			(#{item.F_ID,jdbcType=VARCHAR},
+			#{item.F_FXBH,jdbcType=VARCHAR},
+			#{item.F_FXMC,jdbcType=VARCHAR},
+			#{item.F_ZZJGBH,jdbcType=VARCHAR},
+			#{item.F_YQBH,jdbcType=VARCHAR},
+			#{item.F_NYBH,jdbcType=VARCHAR},
+			#{item.F_YDATA,jdbcType=VARCHAR},
+			current_timestamp(),
+			current_timestamp()
+			)
+		</foreach>
+	</insert>
+
+
+	<select id="selectSubyearData" resultType="map">
+		select
+		 a.f_fxbh,
+		 a.f_fxmc,
+		 b.f_unit,
+		 b.f_nymc
+		from
+		bes_subyear_data a
+		left join
+		bes_energy_type b
+		on a.F_NYBH = b.f_nybh
+		where F_UNIT is not null
+		and f_nymc is not null
+		limit 8
+	</select>
+	<!--如果当前分户编号下没有子节点,则显示父节点下的子节点-->
+	<select id="selectPfhbh" resultType="java.lang.String">
+		select F_PFHBH from bes_household_conf where F_FHBH  = #{fFhbh}
+	</select>
+	<select id="getHouseHoldFhbh" parameterType="string" resultType="string">
+		select
+		F_PFHBH
+		from
+		 bes_household_conf
+		where
+		F_FHBH = #{fFhbh}
+	</select>
+
+	<update id="updateSubyearDataYdata" parameterType="string">
+		update bes_subyear_data
+		set F_YDATA = #{f_ydata}
+		where F_FXBH = #{fxbh}
+	</update>
+
+	<!--查询第一个分户的单位-->
+	<select id="selectUnitByFHBH" resultType="java.lang.String">
+		select F_FHLX FROM  bes_household_conf WHERE F_FHBH = #{fFhbh}
+	</select>
+</mapper>

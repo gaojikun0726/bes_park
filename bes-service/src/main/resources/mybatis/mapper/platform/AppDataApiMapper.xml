@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.efounder.JEnterprise.platform.mapper.AppDataApiMapper" >
+
+    <!--查询支路年能耗统计-->
+    <select id="getBranchYearEnergy" resultType="java.util.Map">
+		   SELECT c.f_zlbh,c.f_zlmc,date_format(d.f_cjsj,'%Y') f_cjsj,round(f_data,2) f_data
+		FROM bes_branch_data d
+		inner join bes_branch_conf c
+		on d.f_zlbh = c.f_zlbh
+		where d.f_type = '3'
+		and date_format(d.f_cjsj,'%Y') = date_format(#{time},'%Y')
+		and c.f_nybh = #{fNybh}
+		and c.f_zlbh = #{branchId}
+	</select>
+
+    <!--查询支路月能耗统计-->
+    <select id="getBranchMonthEnergy" resultType="java.util.Map">
+		SELECT c.f_zlbh,c.f_zlmc,date_format(d.f_cjsj,'%Y-%m') f_cjsj,round(f_data,2) f_data
+		FROM bes_branch_data d
+		inner join bes_branch_conf c
+		on d.f_zlbh = c.f_zlbh
+		where d.f_type = '2'
+		and date_format(d.f_cjsj,'%Y-%m') = date_format(#{time},'%Y-%m')
+		and c.f_nybh = #{fNybh}
+		and c.f_zlbh = #{branchId}
+	</select>
+
+    <!--查询支路日能耗统计-->
+    <select id="getBranchDayEnergy" resultType="java.util.Map">
+		SELECT c.f_zlbh,c.f_zlmc,date_format(d.f_cjsj,'%Y-%m-%d') f_cjsj,round(f_data,2) f_data
+		FROM bes_branch_data d
+		inner join bes_branch_conf c
+		on d.f_zlbh = c.f_zlbh
+		where d.f_type = '1'
+		and date_format(d.f_cjsj,'%Y-%m-%d') = date_format(#{time},'%Y-%m-%d')
+		and c.f_nybh = #{fNybh}
+		and c.f_zlbh = #{branchId}
+	</select>
+
+	<!--根据支路查询月排行数据-->
+	<select id="getBranchMonthRankData" resultType="java.util.Map">
+			SELECT c.f_zlbh,c.f_zlmc,date_format(d.f_cjsj,'%Y-%m') f_cjsj,round(f_data,2) f_data
+		FROM bes_branch_data d
+		inner join bes_branch_conf c
+		on d.f_zlbh = c.f_zlbh
+		where d.f_type = '2'
+		and date_format(d.f_cjsj,'%Y-%m') = date_format(#{time},'%Y-%m')
+		and c.f_nybh = #{fNybh}
+		and c.f_zlbh in
+		<foreach collection="array" item="item" open="(" close=")" separator=",">
+			#{item}
+		</foreach>
+		order by f_data desc
+		limit #{rankNum}
+	</select>
+
+	<!--获取园区支路月排行-->
+	<select id="getParkBranchMonthRank" resultType="java.util.Map">
+		SELECT c.f_zlbh,c.f_zlmc,date_format(d.f_cjsj,'%Y-%m') f_cjsj,ifnull(round(f_data,2),0) f_data
+		FROM bes_branch_data d
+		inner join bes_branch_conf c
+		on d.f_zlbh = c.f_zlbh
+		where d.f_type = '2'
+		and date_format(d.f_cjsj,'%Y-%m') = date_format(#{time},'%Y-%m')
+		and c.f_nybh = #{fNybh}
+		and c.f_pzlbh = #{branchParentId}
+		order by f_data desc
+		limit #{rankNum}
+	</select>
+</mapper>

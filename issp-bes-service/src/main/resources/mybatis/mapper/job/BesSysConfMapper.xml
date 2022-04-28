@@ -1,0 +1,200 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.efounder.JEnterprise.mapper.collectorJob.BesSysConfMapper" >
+
+    <resultMap id="BesSysConfMap" type="com.efounder.JEnterprise.model.collectorJob.BESSysConf" >
+        <id column="F_GUID" property="fGuid" jdbcType="VARCHAR" />
+        <result column="F_ALARMOPERATION" property="fAlarmoperation" jdbcType="VARCHAR" />
+        <result column="F_IMPORTIME" property="fImportime" jdbcType="TIMESTAMP" />
+        <result column="F_EXPORTIME" property="fExportime" jdbcType="TIMESTAMP" />
+        <result column="F_SQLFILE" property="fSqlfile" jdbcType="VARCHAR" />
+        <result column="F_COLLECTION_CYCLE" property="fCollectionCycle" jdbcType="VARCHAR" />
+        <result column="F_HOUSE_PLAN_CYCLE" property="fHousePlanCycle" jdbcType="VARCHAR" />
+        <result column="F_CALCULATETIME" property="fCalculatetime" jdbcType="VARCHAR" />
+        <result column="F_LASTRUNTIME" property="fLastruntime" jdbcType="VARCHAR" />
+        <result column="F_STARTTIME" property="fStarttime" jdbcType="VARCHAR" />
+        <result column="F_ENDTIME" property="fEndtime" jdbcType="VARCHAR" />
+        <result column="F_REALTIMEDATAFLAG" property="fRealtimedataflag" jdbcType="VARCHAR" />
+        <result column="F_HIS_START_TIME" property="fHisStartTime" jdbcType="VARCHAR" />
+        <result column="F_HIS_END_TIME" property="fHisEndTime" jdbcType="VARCHAR" />
+    </resultMap>
+
+	<!-- 查询报警的第一条数据 从bes_sys_conf表-->
+	<select id="selectSysConfAlarm" resultType="java.lang.String">
+		SELECT F_ALARMOPERATION FROM bes_sys_conf LIMIT 1
+	</select>	
+
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+        delete from bes_sys_conf
+        where F_GUID = #{fGuid,jdbcType=VARCHAR}
+    </delete>
+
+    <insert id="insert" parameterType="com.efounder.JEnterprise.model.collectorJob.BESSysConf" >
+        insert into bes_sys_conf (F_GUID, F_ALARMOPERATION, F_IMPORTIME, 
+            F_EXPORTIME, F_SQLFILE, F_COLLECTION_CYCLE, 
+            F_HOUSE_PLAN_CYCLE, F_CALCULATETIME, F_LASTRUNTIME, 
+            F_STARTTIME, F_ENDTIME, F_REALTIMEDATAFLAG, 
+            F_HIS_START_TIME, F_HIS_END_TIME)
+        values (#{fGuid,jdbcType=VARCHAR}, #{fAlarmoperation,jdbcType=VARCHAR}, #{fImportime,jdbcType=TIMESTAMP}, 
+            #{fExportime,jdbcType=TIMESTAMP}, #{fSqlfile,jdbcType=VARCHAR}, #{fCollectionCycle,jdbcType=VARCHAR}, 
+            #{fHousePlanCycle,jdbcType=VARCHAR}, #{fCalculatetime,jdbcType=VARCHAR}, #{fLastruntime,jdbcType=VARCHAR}, 
+            #{fStarttime,jdbcType=VARCHAR}, #{fEndtime,jdbcType=VARCHAR}, #{fRealtimedataflag,jdbcType=VARCHAR}, 
+            #{fHisStartTime,jdbcType=VARCHAR}, #{fHisEndTime,jdbcType=VARCHAR})
+    </insert>
+
+    <insert id="insertSelective" parameterType="com.efounder.JEnterprise.model.collectorJob.BESSysConf" >
+        insert into bes_sys_conf
+        <trim prefix="(" suffix=")" suffixOverrides="," >
+            <if test="fGuid != null" >
+                F_GUID,
+            </if>
+            <if test="fAlarmoperation != null" >
+                F_ALARMOPERATION,
+            </if>
+            <if test="fImportime != null" >
+                F_IMPORTIME,
+            </if>
+            <if test="fExportime != null" >
+                F_EXPORTIME,
+            </if>
+            <if test="fSqlfile != null" >
+                F_SQLFILE,
+            </if>
+            <if test="fCollectionCycle != null" >
+                F_COLLECTION_CYCLE,
+            </if>
+            <if test="fHousePlanCycle != null" >
+                F_HOUSE_PLAN_CYCLE,
+            </if>
+            <if test="fCalculatetime != null" >
+                F_CALCULATETIME,
+            </if>
+            <if test="fLastruntime != null" >
+                F_LASTRUNTIME,
+            </if>
+            <if test="fStarttime != null" >
+                F_STARTTIME,
+            </if>
+            <if test="fEndtime != null" >
+                F_ENDTIME,
+            </if>
+            <if test="fRealtimedataflag != null" >
+                F_REALTIMEDATAFLAG,
+            </if>
+            <if test="fHisStartTime != null" >
+                F_HIS_START_TIME,
+            </if>
+            <if test="fHisEndTime != null" >
+                F_HIS_END_TIME,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides="," >
+            <if test="fGuid != null" >
+                #{fGuid,jdbcType=VARCHAR},
+            </if>
+            <if test="fAlarmoperation != null" >
+                #{fAlarmoperation,jdbcType=VARCHAR},
+            </if>
+            <if test="fImportime != null" >
+                #{fImportime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="fExportime != null" >
+                #{fExportime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="fSqlfile != null" >
+                #{fSqlfile,jdbcType=VARCHAR},
+            </if>
+            <if test="fCollectionCycle != null" >
+                #{fCollectionCycle,jdbcType=VARCHAR},
+            </if>
+            <if test="fHousePlanCycle != null" >
+                #{fHousePlanCycle,jdbcType=VARCHAR},
+            </if>
+            <if test="fCalculatetime != null" >
+                #{fCalculatetime,jdbcType=VARCHAR},
+            </if>
+            <if test="fLastruntime != null" >
+                #{fLastruntime,jdbcType=VARCHAR},
+            </if>
+            <if test="fStarttime != null" >
+                #{fStarttime,jdbcType=VARCHAR},
+            </if>
+            <if test="fEndtime != null" >
+                #{fEndtime,jdbcType=VARCHAR},
+            </if>
+            <if test="fRealtimedataflag != null" >
+                #{fRealtimedataflag,jdbcType=VARCHAR},
+            </if>
+            <if test="fHisStartTime != null" >
+                #{fHisStartTime,jdbcType=VARCHAR},
+            </if>
+            <if test="fHisEndTime != null" >
+                #{fHisEndTime,jdbcType=VARCHAR},
+            </if>
+        </trim>
+    </insert>
+
+    <update id="updateByPrimaryKeySelective" parameterType="com.efounder.JEnterprise.model.collectorJob.BESSysConf" >
+        update bes_sys_conf
+        <set >
+            <if test="fAlarmoperation != null" >
+                F_ALARMOPERATION = #{fAlarmoperation,jdbcType=VARCHAR},
+            </if>
+            <if test="fImportime != null" >
+                F_IMPORTIME = #{fImportime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="fExportime != null" >
+                F_EXPORTIME = #{fExportime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="fSqlfile != null" >
+                F_SQLFILE = #{fSqlfile,jdbcType=VARCHAR},
+            </if>
+            <if test="fCollectionCycle != null" >
+                F_COLLECTION_CYCLE = #{fCollectionCycle,jdbcType=VARCHAR},
+            </if>
+            <if test="fHousePlanCycle != null" >
+                F_HOUSE_PLAN_CYCLE = #{fHousePlanCycle,jdbcType=VARCHAR},
+            </if>
+            <if test="fCalculatetime != null" >
+                F_CALCULATETIME = #{fCalculatetime,jdbcType=VARCHAR},
+            </if>
+            <if test="fLastruntime != null" >
+                F_LASTRUNTIME = #{fLastruntime,jdbcType=VARCHAR},
+            </if>
+            <if test="fStarttime != null" >
+                F_STARTTIME = #{fStarttime,jdbcType=VARCHAR},
+            </if>
+            <if test="fEndtime != null" >
+                F_ENDTIME = #{fEndtime,jdbcType=VARCHAR},
+            </if>
+            <if test="fRealtimedataflag != null" >
+                F_REALTIMEDATAFLAG = #{fRealtimedataflag,jdbcType=VARCHAR},
+            </if>
+            <if test="fHisStartTime != null" >
+                F_HIS_START_TIME = #{fHisStartTime,jdbcType=VARCHAR},
+            </if>
+            <if test="fHisEndTime != null" >
+                F_HIS_END_TIME = #{fHisEndTime,jdbcType=VARCHAR},
+            </if>
+        </set>
+        where F_GUID = #{fGuid,jdbcType=VARCHAR}
+    </update>
+
+    <update id="updateByPrimaryKey" parameterType="com.efounder.JEnterprise.model.collectorJob.BESSysConf" >
+        update bes_sys_conf
+        set F_ALARMOPERATION = #{fAlarmoperation,jdbcType=VARCHAR},
+            F_IMPORTIME = #{fImportime,jdbcType=TIMESTAMP},
+            F_EXPORTIME = #{fExportime,jdbcType=TIMESTAMP},
+            F_SQLFILE = #{fSqlfile,jdbcType=VARCHAR},
+            F_COLLECTION_CYCLE = #{fCollectionCycle,jdbcType=VARCHAR},
+            F_HOUSE_PLAN_CYCLE = #{fHousePlanCycle,jdbcType=VARCHAR},
+            F_CALCULATETIME = #{fCalculatetime,jdbcType=VARCHAR},
+            F_LASTRUNTIME = #{fLastruntime,jdbcType=VARCHAR},
+            F_STARTTIME = #{fStarttime,jdbcType=VARCHAR},
+            F_ENDTIME = #{fEndtime,jdbcType=VARCHAR},
+            F_REALTIMEDATAFLAG = #{fRealtimedataflag,jdbcType=VARCHAR},
+            F_HIS_START_TIME = #{fHisStartTime,jdbcType=VARCHAR},
+            F_HIS_END_TIME = #{fHisEndTime,jdbcType=VARCHAR}
+        where F_GUID = #{fGuid,jdbcType=VARCHAR}
+    </update>
+</mapper>

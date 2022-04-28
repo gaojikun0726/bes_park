@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.efounder.JEnterprise.mapper.basedatamanage.eqmanage.BESEquipmentTypeMapper" >
+  
+  <resultMap id="equipmentTypeMap" type="com.efounder.JEnterprise.model.basedatamanage.eqmanage.BESEquipmentType" >    
+    <result column="F_TYPE" property="f_type"  />
+    <result column="F_SBMC" property="f_sbmc"  />
+    <result column="F_SBLXBH" property="f_sblxbh"  />
+    <result column="F_BRANDID" property="f_brandid"  />
+    <result column="F_REMARK" property="f_remark"  />
+    <result column="F_CRDATE" property="f_crdate" />
+    <result column="F_CHDATE" property="f_chdate"  />
+    <result column="F_SBLXMC" property="f_sblxmc"  />
+  </resultMap>
+  
+    <sql id="find_xxx">
+	    <![CDATA[
+			SELECT DISTINCT b.f_sbmc as f_sblxmc,a.F_TYPE,a.F_SBMC,a.F_SBLXBH,a.F_BRANDID,a.F_REMARK,date_format(a.F_CRDATE,'%Y-%m-%d %H:%i:%s' ) F_CRDATE,date_format(a.F_CHDATE,'%Y-%m-%d %H:%i:%s' ) F_CHDATE
+	    ]]>
+  </sql>
+  <sql id="from_xxx">
+	    <![CDATA[
+	    	FROM bes_equipment_type a LEFT JOIN bes_equipment_mold b ON a.F_SBLXBH = b.F_TYPE
+	    ]]>
+  </sql>
+  
+  <!-- 通过传入type对应sblxbh查询信息 -->
+   <select id="seleqtypechildren" resultMap="equipmentTypeMap" parameterType="String" >
+     <include refid="find_xxx" />
+	<include refid="from_xxx" />
+	 where F_SBLXBH = #{f_sblxbh} order by F_TYPE
+    </select>
+  
+  
+  <select id="findemTByPage" parameterType="string" resultMap="equipmentTypeMap">
+  	<include refid="find_xxx" />
+	<include refid="from_xxx" />
+		<where>
+		1=1
+			<if test="f_sblxbh != null and f_sblxbh != ''"> 
+			and a.F_SBLXBH in (${f_sblxbh})
+			</if>
+			<if test="keywords != null and keywords != ''"> 
+			and CONCAT(a.`F_SBMC` ) LIKE CONCAT('%',#{keywords},'%')
+			</if>
+		</where>
+		order by a.F_CHDATE
+  </select>  
+
+	
+  <select id="findEmtById" resultMap="equipmentTypeMap" parameterType="java.lang.String" >
+    <include refid="find_xxx" />
+    <include refid="from_xxx" />
+    where a.F_TYPE = #{f_type}
+  </select>
+  <!-- 通过品牌id查找设备类型列表 -->
+  <select id="getEquipmentTypeList" resultMap="equipmentTypeMap" parameterType="java.lang.String" >
+    <include refid="find_xxx" />
+    from bes_equipment_type
+    where F_BRANDID = #{f_brandid}
+  </select>
+  
+  <delete id="delEquipmentType" parameterType="java.lang.String" >
+    delete from bes_equipment_type
+    where F_TYPE = #{f_type}
+  </delete>
+  
+  <insert id="addEquipmentType" parameterType="com.efounder.JEnterprise.model.basedatamanage.eqmanage.BESEquipmentType" >
+    insert into bes_equipment_type (F_TYPE, F_SBMC, F_SBLXBH, F_BRANDID, F_REMARK, F_CRDATE, 
+      F_CHDATE)
+    values (#{f_type}, #{f_sbmc}, #{f_sblxbh}, #{f_brandid}, #{f_remark}, current_timestamp(),current_timestamp())
+  </insert>
+  
+  
+  <update id="upEmt" parameterType="com.efounder.JEnterprise.model.basedatamanage.eqmanage.BESEquipmentType" >
+    update bes_equipment_type
+    <set >
+      <if test="f_sbmc != null" >
+        F_SBMC = #{f_sbmc},
+      </if>
+ <if test="f_sblxbh != null" >
+        F_SBLXBH = #{f_sblxbh},
+      </if>
+       <if test="f_brandid != null" >
+        F_BRANDID = #{f_brandid},
+      </if>
+       <if test="f_remark != null" >
+        F_REMARK = #{f_remark},
+      </if>
+        F_CHDATE =NOW()
+    </set>
+    where F_TYPE = #{f_type}
+  </update>
+  
+  <select id="getbh" parameterType="string" resultMap="equipmentTypeMap">
+		SELECT F_SBLXBH FROM bes_equipment_type 
+		<![CDATA[
+	    	WHERE 1=1
+	    ]]>
+	    <if test="f_type != null and f_type !=''">
+				AND F_TYPE =#{f_type} 
+			</if>
+	</select>
+
+<!-- 获取做大id -->
+	<select id="getMaxId" parameterType="String" resultType="String">
+		 SELECT  max(F_TYPE) as maxId  FROM bes_equipment_type
+	</select>
+	
+<!--   设备类型维护树 -->
+   <select id="loadAll" resultType="java.util.HashMap" parameterType="java.lang.String" >
+	   select f_type id ,f_sbmc text ,f_ptype pid
+	   from bes_equipment_mold
+   </select>
+<!--    设备类型查询 -->
+  <select id="findSblxPage" parameterType="string" resultMap="equipmentTypeMap">
+  	select * from bes_equipment_type
+		<where>
+		1=1
+			<if test="f_sblxbh != null and f_sblxbh != ''"> 
+			and CONCAT(`F_TYPE`,'##',`F_SBMC` ) LIKE CONCAT('%',#{f_sblxbh},'%')
+			</if>
+			<if test="treeId != null and treeId != ''"> 
+			and F_SBLXBH = #{treeId}
+			</if>
+		</where>
+  </select>
+<!-- 树table -->
+ <select id="tree_table" parameterType="java.lang.String" resultMap="equipmentTypeMap">
+  	select * from bes_equipment_type
+<!-- 		<where> -->
+<!-- 		1=1 -->
+<!-- 			<if test="treeId != null and treeId != ''">  -->
+<!-- 			and F_SBLXBH = #{treeId} -->
+<!-- 			</if> -->
+<!-- 		</where> -->
+  </select>
+</mapper>

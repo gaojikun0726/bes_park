@@ -1,0 +1,3 @@
+[08:36:54:028] [ERROR] - com.efounder.JEnterprise.timer.manage.PduStatusManage.getOnlineData(PduStatusManage.java:143) - 在线状态的PDU设备数据获取方法-请求报错:Connect to localhost:8060 [localhost/127.0.0.1, localhost/0:0:0:0:0:0:0:1] failed: Connection refused: connect
+[08:37:58:094] [ERROR] - com.efounder.JEnterprise.timer.manage.PduStatusManage.getOnlineData(PduStatusManage.java:143) - 在线状态的PDU设备数据获取方法-请求报错:Connect to localhost:8060 [localhost/127.0.0.1, localhost/0:0:0:0:0:0:0:1] failed: Connection refused: connect
+[08:39:02:172] [ERROR] - com.efounder.JEnterprise.timer.manage.PduStatusManage.getOnlineData(PduStatusManage.java:143) - 在线状态的PDU设备数据获取方法-请求报错:Connect to localhost:8060 [localhost/127.0.0.1, localhost/0:0:0:0:0:0:0:1] failed: Connection refused: connect

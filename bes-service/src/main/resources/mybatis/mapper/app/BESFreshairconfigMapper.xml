@@ -1,0 +1,258 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.efounder.JEnterprise.mapper.app.BESFreshairconfigMapper" >
+
+
+  <sql id="selectF">
+         id,
+         name,
+         freshair_address,
+         unit_start_and_stop,
+         unit_operating_status,
+         crew_manual_status,
+         unit_fault_status,
+         damper_opening_control,
+         damper_opening_feedback,
+         damper_open,
+         damper_off,
+         air_valve_opens_in_place,
+         air_valve_closed_in_place,
+         water_valve_opening_control,
+         water_valve_opening_feedback,
+         supply_air_temperature,
+         supply_air_humidity,
+         fresh_air_temperature,
+         fresh_air_humidity,
+         humidification_opening_control,
+         humidification_opening_feedback,
+         humidification_on,
+         humidification_off,
+         carbon_dioxide,
+         antifreeze_alarm,
+         filter_screen_pressure_difference_alarm,
+         fan_pressure_difference,
+
+         unit_start_and_stop_display,
+         unit_operating_status_display,
+         crew_manual_status_display,
+         unit_fault_status_display,
+         damper_opening_control_display,
+         damper_opening_feedback_display,
+         damper_open_display,
+         damper_off_display,
+         air_valve_opens_in_place_display,
+         air_valve_closed_in_place_display,
+         water_valve_opening_control_display,
+         water_valve_opening_feedback_display,
+         supply_air_temperature_display,
+         supply_air_humidity_display,
+         fresh_air_temperature_display,
+         fresh_air_humidity_display,
+         humidification_opening_control_display,
+         humidification_opening_feedback_display,
+         humidification_on_display,
+         humidification_off_display,
+         carbon_dioxide_display,
+         antifreeze_alarm_display,
+         filter_screen_pressure_difference_alarm_display,
+         fan_pressure_difference_display
+
+
+  </sql>
+
+  <select id="selectFreshair" parameterType="map" resultType="map">
+    select
+    <include refid="selectF"/>
+      from api_freshair_config
+    <where>
+        1=1
+        <if test="id != null and id != ''">and id = #{id}</if>
+        <if test="name != null and name != ''">and name = #{name}</if>
+        <if test="freshair_address != null and freshair_address != ''">and freshair_address = #{freshair_address}</if>
+    </where>
+  </select>
+
+     <select id="selectFreshairByID" parameterType="string" resultType="map">
+         select
+         <include refid="selectF"/>
+         from api_freshair_config
+         where id = #{id}
+     </select>
+
+    <update id="updateFreshair" parameterType="map">
+        update api_freshair_config
+        <set>
+            <if test="name != null and name != ''">name = #{name},</if>
+            <if test="freshair_address != null and freshair_address != ''">freshair_address = #{freshair_address},</if>
+            <if test="unit_start_and_stop != null and unit_start_and_stop != ''">unit_start_and_stop = #{unit_start_and_stop},</if>
+            <if test="unit_operating_status != null and unit_operating_status != ''"> unit_operating_status = #{unit_operating_status},</if>
+            <if test="crew_manual_status != null and crew_manual_status != ''"> crew_manual_status = #{crew_manual_status},</if>
+            <if test="unit_fault_status != null and unit_fault_status != ''"> unit_fault_status = #{unit_fault_status},</if>
+            <if test="damper_opening_control != null and damper_opening_control != ''"> damper_opening_control = #{damper_opening_control},</if>
+            <if test="damper_opening_feedback != null and damper_opening_feedback != ''"> damper_opening_feedback = #{damper_opening_feedback},</if>
+            <if test="damper_open != null and damper_open != ''"> damper_open = #{damper_open},</if>
+            <if test="damper_off != null and damper_off != ''">damper_off = #{damper_off},</if>
+            <if test="air_valve_opens_in_place != null and air_valve_opens_in_place != ''"> air_valve_opens_in_place = #{air_valve_opens_in_place},</if>
+            <if test="air_valve_closed_in_place != null and air_valve_closed_in_place != ''"> air_valve_closed_in_place = #{air_valve_closed_in_place},</if>
+            <if test="water_valve_opening_control != null and water_valve_opening_control != ''"> water_valve_opening_control = #{water_valve_opening_control},</if>
+            <if test="water_valve_opening_feedback != null and water_valve_opening_feedback != ''"> water_valve_opening_feedback = #{water_valve_opening_feedback},</if>
+            <if test="supply_air_temperature != null and supply_air_temperature != ''"> supply_air_temperature = #{supply_air_temperature},</if>
+            <if test="supply_air_humidity != null and supply_air_humidity != ''"> supply_air_humidity = #{supply_air_humidity},</if>
+            <if test="fresh_air_temperature != null and fresh_air_temperature != ''"> fresh_air_temperature = #{fresh_air_temperature},</if>
+            <if test="fresh_air_humidity != null and fresh_air_humidity != ''"> fresh_air_humidity = #{fresh_air_humidity},</if>
+            <if test="humidification_opening_control != null and humidification_opening_control != ''"> humidification_opening_control = #{humidification_opening_control},</if>
+            <if test="humidification_opening_feedback != null and humidification_opening_feedback != ''"> humidification_opening_feedback = #{humidification_opening_feedback},</if>
+            <if test="humidification_on != null and humidification_on != ''"> humidification_on = #{humidification_on},</if>
+            <if test="humidification_off != null and humidification_off != ''"> humidification_off = #{humidification_off},</if>
+            <if test="carbon_dioxide != null and carbon_dioxide != ''"> carbon_dioxide = #{carbon_dioxide},</if>
+            <if test="antifreeze_alarm != null and antifreeze_alarm != ''"> antifreeze_alarm = #{antifreeze_alarm},</if>
+            <if test="filter_screen_pressure_difference_alarm != null and filter_screen_pressure_difference_alarm != ''"> filter_screen_pressure_difference_alarm = #{filter_screen_pressure_difference_alarm},</if>
+            <if test="fan_pressure_difference != null and fan_pressure_difference != ''"> fan_pressure_difference = #{fan_pressure_difference},</if>
+
+            <if test="unit_start_and_stop_display != null and unit_start_and_stop_display != ''"> unit_start_and_stop_display = #{unit_start_and_stop_display},</if>
+            <if test="unit_operating_status_display != null and unit_operating_status_display != ''"> unit_operating_status_display = #{unit_operating_status_display},</if>
+            <if test="crew_manual_status_display != null and crew_manual_status_display != ''"> crew_manual_status_display = #{crew_manual_status_display},</if>
+            <if test="unit_fault_status_display != null and unit_fault_status_display != ''"> unit_fault_status_display = #{unit_fault_status_display},</if>
+            <if test="damper_opening_control_display != null and damper_opening_control_display != ''"> damper_opening_control_display = #{damper_opening_control_display},</if>
+            <if test="damper_opening_feedback_display != null and damper_opening_feedback_display != ''"> damper_opening_feedback_display = #{damper_opening_feedback_display},</if>
+            <if test="damper_open_display != null and damper_open_display != ''"> damper_open_display = #{damper_open_display},</if>
+            <if test="damper_off_display != null and damper_off_display != ''"> damper_off_display = #{damper_off_display},</if>
+            <if test="air_valve_opens_in_place_display != null and air_valve_opens_in_place_display != ''"> air_valve_opens_in_place_display = #{air_valve_opens_in_place_display},</if>
+            <if test="air_valve_closed_in_place_display != null and air_valve_closed_in_place_display != ''"> air_valve_closed_in_place_display = #{air_valve_closed_in_place_display},</if>
+            <if test="water_valve_opening_control_display != null and water_valve_opening_control_display != ''"> water_valve_opening_control_display = #{water_valve_opening_control_display},</if>
+            <if test="water_valve_opening_feedback_display != null and water_valve_opening_feedback_display != ''"> water_valve_opening_feedback_display = #{water_valve_opening_feedback_display},</if>
+            <if test="supply_air_temperature_display != null and supply_air_temperature_display != ''"> supply_air_temperature_display = #{supply_air_temperature_display},</if>
+            <if test="supply_air_humidity_display != null and supply_air_humidity_display != ''"> supply_air_humidity_display = #{supply_air_humidity_display},</if>
+            <if test="fresh_air_temperature_display != null and fresh_air_temperature_display != ''"> fresh_air_temperature_display = #{fresh_air_temperature_display},</if>
+            <if test="fresh_air_humidity_display != null and fresh_air_humidity_display != ''"> fresh_air_humidity_display = #{fresh_air_humidity_display},</if>
+            <if test="humidification_opening_control_display != null and humidification_opening_control_display != ''"> humidification_opening_control_display = #{humidification_opening_control_display},</if>
+            <if test="humidification_opening_feedback_display != null and humidification_opening_feedback_display != ''"> humidification_opening_feedback_display = #{humidification_opening_feedback_display},</if>
+            <if test="humidification_on_display != null and humidification_on_display != ''"> humidification_on_display = #{humidification_on_display},</if>
+            <if test="humidification_off_display != null and humidification_off_display != ''"> humidification_off_display = #{humidification_off_display},</if>
+            <if test="carbon_dioxide_display != null and carbon_dioxide_display != ''"> carbon_dioxide_display = #{carbon_dioxide_display},</if>
+            <if test="antifreeze_alarm_display != null and antifreeze_alarm_display != ''"> antifreeze_alarm_display = #{antifreeze_alarm_display},</if>
+            <if test="filter_screen_pressure_difference_alarm_display != null and filter_screen_pressure_difference_alarm_display != ''"> filter_screen_pressure_difference_alarm_display = #{filter_screen_pressure_difference_alarm_display},</if>
+            <if test="fan_pressure_difference_display != null and fan_pressure_difference_display != ''"> fan_pressure_difference_display = #{fan_pressure_difference_display},</if>
+        </set>
+        where id = #{id}
+    </update>
+
+    <insert id="insertFreshair" parameterType="map">
+        insert into api_freshair_config
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="name != null and name != ''">name,</if>
+            <if test="freshair_address != null and freshair_address != ''">freshair_address,</if>
+            <if test="unit_start_and_stop != null and unit_start_and_stop != ''">unit_start_and_stop,</if>
+            <if test="unit_operating_status != null and unit_operating_status != ''"> unit_operating_status,</if>
+            <if test="crew_manual_status != null and crew_manual_status != ''"> crew_manual_status,</if>
+            <if test="unit_fault_status != null and unit_fault_status != ''"> unit_fault_status,</if>
+            <if test="damper_opening_control != null and damper_opening_control != ''"> damper_opening_control,</if>
+            <if test="damper_opening_feedback != null and damper_opening_feedback != ''"> damper_opening_feedback,</if>
+            <if test="damper_open != null and damper_open != ''"> damper_open,</if>
+            <if test="damper_off != null and damper_off != ''">damper_off,</if>
+            <if test="air_valve_opens_in_place != null and air_valve_opens_in_place != ''"> air_valve_opens_in_place,</if>
+            <if test="air_valve_closed_in_place != null and air_valve_closed_in_place != ''"> air_valve_closed_in_place,</if>
+            <if test="water_valve_opening_control != null and water_valve_opening_control != ''"> water_valve_opening_control,</if>
+            <if test="water_valve_opening_feedback != null and water_valve_opening_feedback != ''"> water_valve_opening_feedback,</if>
+            <if test="supply_air_temperature != null and supply_air_temperature != ''"> supply_air_temperature,</if>
+            <if test="supply_air_humidity != null and supply_air_humidity != ''"> supply_air_humidity,</if>
+            <if test="fresh_air_temperature != null and fresh_air_temperature != ''"> fresh_air_temperature,</if>
+            <if test="fresh_air_humidity != null and fresh_air_humidity != ''"> fresh_air_humidity,</if>
+            <if test="humidification_opening_control != null and humidification_opening_control != ''"> humidification_opening_control,</if>
+            <if test="humidification_opening_feedback != null and humidification_opening_feedback != ''"> humidification_opening_feedback,</if>
+            <if test="humidification_on != null and humidification_on != ''"> humidification_on,</if>
+            <if test="humidification_off != null and humidification_off != ''"> humidification_off,</if>
+            <if test="carbon_dioxide != null and carbon_dioxide != ''"> carbon_dioxide,</if>
+            <if test="antifreeze_alarm != null and antifreeze_alarm != ''"> antifreeze_alarm,</if>
+            <if test="filter_screen_pressure_difference_alarm != null and filter_screen_pressure_difference_alarm != ''"> filter_screen_pressure_difference_alarm,</if>
+            <if test="fan_pressure_difference != null and fan_pressure_difference != ''"> fan_pressure_difference,</if>
+
+            <if test="unit_start_and_stop_display != null and unit_start_and_stop_display != ''"> unit_start_and_stop_display,</if>
+            <if test="unit_operating_status_display != null and unit_operating_status_display != ''"> unit_operating_status_display,</if>
+            <if test="crew_manual_status_display != null and crew_manual_status_display != ''"> crew_manual_status_display,</if>
+            <if test="unit_fault_status_display != null and unit_fault_status_display != ''"> unit_fault_status_display,</if>
+            <if test="damper_opening_control_display != null and damper_opening_control_display != ''"> damper_opening_control_display,</if>
+            <if test="damper_opening_feedback_display != null and damper_opening_feedback_display != ''"> damper_opening_feedback_display,</if>
+            <if test="damper_open_display != null and damper_open_display != ''"> damper_open_display,</if>
+            <if test="damper_off_display != null and damper_off_display != ''"> damper_off_display,</if>
+            <if test="air_valve_opens_in_place_display != null and air_valve_opens_in_place_display != ''"> air_valve_opens_in_place_display,</if>
+            <if test="air_valve_closed_in_place_display != null and air_valve_closed_in_place_display != ''"> air_valve_closed_in_place_display,</if>
+            <if test="water_valve_opening_control_display != null and water_valve_opening_control_display != ''"> water_valve_opening_control_display,</if>
+            <if test="water_valve_opening_feedback_display != null and water_valve_opening_feedback_display != ''"> water_valve_opening_feedback_display,</if>
+            <if test="supply_air_temperature_display != null and supply_air_temperature_display != ''"> supply_air_temperature_display,</if>
+            <if test="supply_air_humidity_display != null and supply_air_humidity_display != ''"> supply_air_humidity_display,</if>
+            <if test="fresh_air_temperature_display != null and fresh_air_temperature_display != ''"> fresh_air_temperature_display,</if>
+            <if test="fresh_air_humidity_display != null and fresh_air_humidity_display != ''"> fresh_air_humidity_display,</if>
+            <if test="humidification_opening_control_display != null and humidification_opening_control_display != ''"> humidification_opening_control_display,</if>
+            <if test="humidification_opening_feedback_display != null and humidification_opening_feedback_display != ''"> humidification_opening_feedback_display,</if>
+            <if test="humidification_on_display != null and humidification_on_display != ''"> humidification_on_display,</if>
+            <if test="humidification_off_display != null and humidification_off_display != ''"> humidification_off_display,</if>
+            <if test="carbon_dioxide_display != null and carbon_dioxide_display != ''"> carbon_dioxide_display,</if>
+            <if test="antifreeze_alarm_display != null and antifreeze_alarm_display != ''"> antifreeze_alarm_display,</if>
+            <if test="filter_screen_pressure_difference_alarm_display != null and filter_screen_pressure_difference_alarm_display != ''"> filter_screen_pressure_difference_alarm_display,</if>
+            <if test="fan_pressure_difference_display != null and fan_pressure_difference_display != ''"> fan_pressure_difference_display</if>
+
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides="," >
+            <if test="name != null and name != ''">#{name},</if>
+            <if test="freshair_address != null and freshair_address != ''">#{freshair_address},</if>
+            <if test="unit_start_and_stop != null and unit_start_and_stop != ''">#{unit_start_and_stop},</if>
+            <if test="unit_operating_status != null and unit_operating_status != ''">#{unit_operating_status},</if>
+            <if test="crew_manual_status != null and crew_manual_status != ''">#{crew_manual_status},</if>
+            <if test="unit_fault_status != null and unit_fault_status != ''">#{unit_fault_status},</if>
+            <if test="damper_opening_control != null and damper_opening_control != ''">#{damper_opening_control},</if>
+            <if test="damper_opening_feedback != null and damper_opening_feedback != ''">#{damper_opening_feedback},</if>
+            <if test="damper_open != null and damper_open != ''">#{damper_open},</if>
+            <if test="damper_off != null and damper_off != ''">#{damper_off},</if>
+            <if test="air_valve_opens_in_place != null and air_valve_opens_in_place != ''">#{air_valve_opens_in_place},</if>
+            <if test="air_valve_closed_in_place != null and air_valve_closed_in_place != ''">#{air_valve_closed_in_place},</if>
+            <if test="water_valve_opening_control != null and water_valve_opening_control != ''">#{water_valve_opening_control},</if>
+            <if test="water_valve_opening_feedback != null and water_valve_opening_feedback != ''">#{water_valve_opening_feedback},</if>
+            <if test="supply_air_temperature != null and supply_air_temperature != ''">#{supply_air_temperature},</if>
+            <if test="supply_air_humidity != null and supply_air_humidity != ''">#{supply_air_humidity},</if>
+            <if test="fresh_air_temperature != null and fresh_air_temperature != ''">#{fresh_air_temperature},</if>
+            <if test="fresh_air_humidity != null and fresh_air_humidity != ''">#{fresh_air_humidity},</if>
+            <if test="humidification_opening_control != null and humidification_opening_control != ''">#{humidification_opening_control},</if>
+            <if test="humidification_opening_feedback != null and humidification_opening_feedback != ''">#{humidification_opening_feedback},</if>
+            <if test="humidification_on != null and humidification_on != ''">#{humidification_on},</if>
+            <if test="humidification_off != null and humidification_off != ''">#{humidification_off},</if>
+            <if test="carbon_dioxide != null and carbon_dioxide != ''">#{carbon_dioxide},</if>
+            <if test="antifreeze_alarm != null and antifreeze_alarm != ''">#{antifreeze_alarm},</if>
+            <if test="filter_screen_pressure_difference_alarm != null and filter_screen_pressure_difference_alarm != ''">#{filter_screen_pressure_difference_alarm},</if>
+            <if test="fan_pressure_difference != null and fan_pressure_difference != ''">#{fan_pressure_difference},</if>
+
+            <if test="unit_start_and_stop_display != null and unit_start_and_stop_display != ''">#{unit_start_and_stop_display},</if>
+            <if test="unit_operating_status_display != null and unit_operating_status_display != ''">#{unit_operating_status_display},</if>
+            <if test="crew_manual_status_display != null and crew_manual_status_display != ''">#{crew_manual_status_display},</if>
+            <if test="unit_fault_status_display != null and unit_fault_status_display != ''">#{unit_fault_status_display},</if>
+            <if test="damper_opening_control_display != null and damper_opening_control_display != ''">#{damper_opening_control_display},</if>
+            <if test="damper_opening_feedback_display != null and damper_opening_feedback_display != ''">#{damper_opening_feedback_display},</if>
+            <if test="damper_open_display != null and damper_open_display != ''">#{damper_open_display},</if>
+            <if test="damper_off_display != null and damper_off_display != ''">#{damper_off_display},</if>
+            <if test="air_valve_opens_in_place_display != null and air_valve_opens_in_place_display != ''">#{air_valve_opens_in_place_display},</if>
+            <if test="air_valve_closed_in_place_display != null and air_valve_closed_in_place_display != ''">#{air_valve_closed_in_place_display},</if>
+            <if test="water_valve_opening_control_display != null and water_valve_opening_control_display != ''">#{water_valve_opening_control_display},</if>
+            <if test="water_valve_opening_feedback_display != null and water_valve_opening_feedback_display != ''">#{water_valve_opening_feedback_display},</if>
+            <if test="supply_air_temperature_display != null and supply_air_temperature_display != ''">#{supply_air_temperature_display},</if>
+            <if test="supply_air_humidity_display != null and supply_air_humidity_display != ''">#{supply_air_humidity_display},</if>
+            <if test="fresh_air_temperature_display != null and fresh_air_temperature_display != ''">#{fresh_air_temperature_display},</if>
+            <if test="fresh_air_humidity_display != null and fresh_air_humidity_display != ''">#{fresh_air_humidity_display},</if>
+            <if test="humidification_opening_control_display != null and humidification_opening_control_display != ''">#{humidification_opening_control_display},</if>
+            <if test="humidification_opening_feedback_display != null and humidification_opening_feedback_display != ''">#{humidification_opening_feedback_display},</if>
+            <if test="humidification_on_display != null and humidification_on_display != ''">#{humidification_on_display},</if>
+            <if test="humidification_off_display != null and humidification_off_display != ''">#{humidification_off_display},</if>
+            <if test="carbon_dioxide_display != null and carbon_dioxide_display != ''">#{carbon_dioxide_display},</if>
+            <if test="antifreeze_alarm_display != null and antifreeze_alarm_display != ''">#{antifreeze_alarm_display},</if>
+            <if test="filter_screen_pressure_difference_alarm_display != null and filter_screen_pressure_difference_alarm_display != ''">   #{filter_screen_pressure_difference_alarm_display},</if>
+            <if test="fan_pressure_difference_display != null and fan_pressure_difference_display != ''">#{fan_pressure_difference_display}</if>
+
+        </trim>
+    </insert>
+
+    <delete id="deleteFreshairByID" parameterType="string">
+        delete from api_freshair_config
+        where id = #{id}
+    </delete>
+
+
+</mapper>

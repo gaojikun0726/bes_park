@@ -1,0 +1,762 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.efounder.JEnterprise.mapper.dataAnalysises.BesBranchDataMapper">
+
+    <resultMap id="BesBranchDataMap" type="com.efounder.JEnterprise.model.dataAnalysises.BesBranchData">
+        <id column="F_ID" property="fId" jdbcType="VARCHAR"/>
+        <result column="F_ZLBH" property="fZlbh" jdbcType="VARCHAR"/>
+        <result column="F_DNBH" property="fDnbh" jdbcType="VARCHAR"/>
+        <result column="F_CJSJ" property="fCjsj" jdbcType="VARCHAR"/>
+        <result column="F_DATA" property="fData" jdbcType="VARCHAR"/>
+        <result column="F_TYPE" property="fType" jdbcType="VARCHAR"/>
+        <result column="F_ALL_MONEY" property="fAllMoney" jdbcType="VARCHAR"/>
+        <result column="F_COAL_AMOUNT" property="fCoalAmount" jdbcType="VARCHAR"/>
+        <result column="F_CO2" property="fCo2" jdbcType="VARCHAR"/>
+        <result column="F_CRDATE" property="fCrdate" jdbcType="TIMESTAMP"/>
+        <result column="F_CHDATE" property="fChdate" jdbcType="TIMESTAMP"/>
+        <result column="rows" property="rows"/>
+        <result column="F_ZLMC" property="fZlmc"/>
+        <result column="F_UNIT" property="fUnit"/>
+    </resultMap>
+
+    <!-- 查询支路记录是否存在 -->
+    <select id="queryBranchExists" parameterType="string" resultMap="BesBranchDataMap">
+		select COUNT(*) as `rows` from bes_branch_data
+		where
+		F_ZLBH=#{fZlbh} and F_CJSJ=#{fCjsj} and F_TYPE=#{fType}
+	</select>
+
+    <!-- 计算支路数据 -->
+    <select id="queryBranchData" resultType="java.util.HashMap">
+    	SELECT
+			SUM(a.F_DATA) AS F_DATA,
+			a.F_ZLBH
+		FROM
+		(
+			SELECT DISTINCT
+				F_ZLBH,
+				F_DATA,
+				F_CJSJ,
+				F_TYPE
+			FROM
+				bes_branch_data
+			WHERE
+				F_CJSJ BETWEEN #{startTime} and #{endTime}
+			and F_TYPE=#{type}
+		) a GROUP BY a.F_ZLBH
+	</select>
+
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+        delete from bes_branch_data
+        where F_ID = #{fId,jdbcType=VARCHAR}
+    </delete>
+
+    <!-- 保存支路统计数据 -->
+    <insert id="saveBranchData" parameterType="com.efounder.JEnterprise.model.dataAnalysises.BesBranchData">
+        insert into bes_branch_data
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="fId != null">
+                F_ID,
+            </if>
+            <if test="fZlbh != null">
+                F_ZLBH,
+            </if>
+            <if test="fDnbh != null">
+                F_DNBH,
+            </if>
+            <if test="fCjsj != null">
+                F_CJSJ,
+            </if>
+            <if test="fData != null">
+                F_DATA,
+            </if>
+            <if test="fType != null">
+                F_TYPE,
+            </if>
+            <if test="fAllMoney != null">
+                F_ALL_MONEY,
+            </if>
+            <if test="fCoalAmount != null">
+                F_COAL_AMOUNT,
+            </if>
+            <if test="fCo2 != null">
+                F_CO2,
+            </if>
+            <if test="fPermanData != null">
+                F_PERMAN_DATA,
+            </if>
+            <if test="fPermanMoney != null">
+                F_PERMAN_MONEY,
+            </if>
+            <if test="fUnitareData != null">
+                F_UNITAREA_DATA,
+            </if>
+            <if test="fUnitareMoney != null">
+                F_UNITAREA_MONEY,
+            </if>
+            F_CRDATE,
+            F_CHDATE,
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="fId != null">
+                #{fId},
+            </if>
+            <if test="fZlbh != null">
+                #{fZlbh},
+            </if>
+            <if test="fDnbh != null">
+                #{fDnbh},
+            </if>
+            <if test="fCjsj != null">
+                #{fCjsj},
+            </if>
+            <if test="fData != null">
+                #{fData},
+            </if>
+            <if test="fType != null">
+                #{fType},
+            </if>
+            <if test="fAllMoney != null">
+                #{fAllMoney},
+            </if>
+            <if test="fCoalAmount != null">
+                #{fCoalAmount},
+            </if>
+            <if test="fCo2 != null">
+                #{fCo2},
+            </if>
+            <if test="fPermanData != null">
+                #{fPermanData},
+            </if>
+            <if test="fPermanMoney != null">
+                #{fPermanMoney},
+            </if>
+            <if test="fUnitareData != null">
+                #{fUnitareData},
+            </if>
+            <if test="fUnitareMoney != null">
+                #{fUnitareMoney},
+            </if>
+            current_timestamp(),
+
+            current_timestamp(),
+        </trim>
+    </insert>
+    <!-- 更新支路统计数据 -->
+    <update id="updateBranch" parameterType="com.efounder.JEnterprise.model.dataAnalysises.BesBranchData">
+        update bes_branch_data
+        <set>
+            <if test="fDnbh != null">
+                F_DNBH = #{fDnbh,jdbcType=VARCHAR},
+            </if>
+            <if test="fData != null">
+                F_DATA = #{fData,jdbcType=VARCHAR},
+            </if>
+            <if test="fAllMoney != null">
+                F_ALL_MONEY = #{fAllMoney,jdbcType=VARCHAR},
+            </if>
+            <if test="fCoalAmount != null">
+                F_COAL_AMOUNT = #{fCoalAmount,jdbcType=VARCHAR},
+            </if>
+            <if test="fCo2 != null">
+                F_CO2 = #{fCo2,jdbcType=VARCHAR},
+            </if>
+            <if test="fPermanData != null">
+                F_PERMAN_DATA = #{fPermanData},
+            </if>
+            <if test="fPermanMoney != null">
+                F_PERMAN_MONEY = #{fPermanMoney},
+            </if>
+            <if test="fUnitareData != null">
+                F_UNITAREA_DATA = #{fUnitareData},
+            </if>
+            <if test="fUnitareMoney != null">
+                F_UNITAREA_MONEY = #{fUnitareMoney},
+            </if>
+
+            F_CHDATE = current_timestamp(),
+        </set>
+        where F_ZLBH = #{fZlbh}
+        and F_CJSJ = #{fCjsj}
+        and F_TYPE = #{fType}
+    </update>
+
+    <!-- 更新支路统计数据 -->
+    <update id="updateBranchData" parameterType="com.efounder.JEnterprise.model.dataAnalysises.BesBranchData">
+        update bes_branch_data
+        <set>
+            <if test="fDnbh != null">
+                F_DNBH = #{fDnbh,jdbcType=VARCHAR},
+            </if>
+            <if test="fData != null">
+                F_DATA = F_DATA + #{fData},
+            </if>
+            <if test="fAllMoney != null">
+                F_ALL_MONEY = #{fAllMoney,jdbcType=VARCHAR},
+            </if>
+            <if test="fCoalAmount != null">
+                F_COAL_AMOUNT = #{fCoalAmount,jdbcType=VARCHAR},
+            </if>
+            <if test="fCo2 != null">
+                F_CO2 = #{fCo2,jdbcType=VARCHAR},
+            </if>
+            <if test="fPermanData != null">
+                F_PERMAN_DATA = #{fPermanData},
+            </if>
+            <if test="fPermanMoney != null">
+                F_PERMAN_MONEY = #{fPermanMoney},
+            </if>
+            <if test="fUnitareData != null">
+                F_UNITAREA_DATA = #{fUnitareData},
+            </if>
+            <if test="fUnitareMoney != null">
+                F_UNITAREA_MONEY = #{fUnitareMoney},
+            </if>
+
+            F_CHDATE = current_timestamp(),
+        </set>
+        where F_ZLBH = #{fZlbh}
+        and F_CJSJ = #{fCjsj}
+        and F_TYPE = #{fType}
+    </update>
+
+    <!-- 获取tab-list -->
+    <select id="getZl_tablist" resultType="java.util.HashMap">
+		SELECT	r.f_nybh ID,b.f_nymc NAME 	
+	    from bes_park_energytype_rlgl r left join bes_energy_type b on b.f_nybh=r.f_nybh
+  	    where r.f_yqbh='0000' order by CAST(b.f_nybh as SIGNED)
+	</select>
+    <!-- 加载部分支路信息 -->
+    <select id="loadAll" resultType="java.util.HashMap">
+        select
+        C.F_ZLBH ID,C.F_PZLBH PID,C.F_ZLMC NAME,C.F_JS JS,(select f_zlmc from bes_branch_conf WHERE C.F_PZLBH =
+        F_ZLBH)PNAME
+        from bes_branch_conf C
+        <where>
+            1=1
+            <if test="fZzjgbh != null and fZzjgbh != ''">
+                AND F_ZZJGBH = #{fZzjgbh}
+            </if>
+            <if test="fnybh != null and fnybh != ''">
+                AND F_NYBH = #{fnybh}
+            </if>
+            <if test="groupbh != null and groupbh.size() > 0">
+                AND F_ZZJG_ID in
+                <foreach item="item" index="index" collection="groupbh"
+                         open="(" separator="," close=")">
+                    #{item}
+                </foreach>
+            </if>
+            <if test='userId!= null and userId!= ""'>
+                and F_USER_NAME = #{userId}
+            </if>
+        </where>
+        order by F_ZLBH
+    </select>
+
+    <select id="loadAllDep" resultType="java.util.HashMap">
+        SELECT
+		F_ID,
+	F_ZZJGBH ID,
+	F_ZZJGMC NAME,
+CASE WHEN F_PZZJGBH = '001001' THEN
+		'' ELSE F_PZZJGBH
+	END  PID,
+	F_JS JS,
+        (select F_ZZJGMC from es_zzjg WHERE F_ZZJGBH = a.F_ZZJGBH)PNAME
+FROM
+	es_zzjg a
+WHERE
+	(F_PZZJGBH = '001001030' AND F_ZZJGBH != '001001030024' AND F_ZZJGBH != '001001030025')
+	OR F_PZZJGBH IN ( SELECT F_ZZJGBH FROM es_zzjg WHERE F_PZZJGBH = '001001030' AND F_ZZJGBH != '001001030024' AND F_ZZJGBH != '001001030025')
+	OR F_ZZJGBH = '001001030'
+    </select>
+
+    <!--查询支路信息 根据支路id -->
+    <select id="pin_xmap" resultType="java.util.HashMap">
+        select
+        F_ZLBH ID,F_PZLBH PID,F_ZLMC NAME
+        from bes_branch_conf
+        <where>
+            F_ZLBH = #{zlbh}
+        </where>
+    </select>
+
+    <!--1.1 时间颗粒度 时-->
+    <select id="sjkld_s_bt" resultType="java.util.HashMap">
+        select
+        distinct ${sjgs} sj
+        from bes_branch_data
+        <where>
+            <!-- 	    	and F_DNBH = #{nhlx}    -->
+            and
+            f_type = #{sjkld} and F_ZLBH in
+            <foreach item="zlbh" index="index" collection="zlbh"
+                     open="(" separator="," close=") ">
+                #{zlbh}
+            </foreach>
+            <if test="time_start !=null and time_start !='' ">
+                <![CDATA[ and DATE_FORMAT(F_CJSJ, '%Y-%m-%d')  >=  #{time_start}  ]]>
+            </if>
+            <if test="time_end !=null and time_end !='' ">
+                <![CDATA[ and DATE_FORMAT(F_CJSJ, '%Y-%m-%d') <=  #{time_end}  ]]>
+            </if>
+        </where>
+        order by F_CJSJ asc
+    </select>
+
+    <select id="sjkld_s_bt_s" resultType="java.util.HashMap">
+        select
+        distinct DATE_FORMAT(F_CJSJ, '%Y-%m-%d %H:%i:%S') sj
+        from bes_branch_data
+        <where>
+            and
+            f_type = #{sjkld} and F_ZLBH in
+            <foreach item="zlbh" index="index" collection="zlbh"
+                     open="(" separator="," close=")">
+                #{zlbh}
+            </foreach>
+            and ${sjgs} = #{btsj}
+            <if test="time_start !=null and time_start !='' ">
+                <![CDATA[ and DATE_FORMAT(F_CJSJ, '%Y-%m-%d')  >=  #{time_start}  ]]>
+            </if>
+            <if test="time_end !=null and time_end !='' ">
+                <![CDATA[ and DATE_FORMAT(F_CJSJ, '%Y-%m-%d') <=  #{time_end}  ]]>
+            </if>
+        </where>
+        order by F_CJSJ asc
+    </select>
+
+    <select id="sjkld_s_bt_nr" resultType="java.util.HashMap">
+        select
+        F_CJSJ sj,${dwhs} data,f_zlbh id
+        from bes_branch_data
+        <where>
+            <!-- 	    	and F_DNBH = #{nhlx} -->
+            and f_type = #{sjkld}
+            and f_zlbh = #{zlid} and f_cjsj=#{sj}
+        </where>
+        order by F_CJSJ asc limit 1
+    </select>
+
+    <!-- 根据支路id获取支路名称 -->
+    <select id="getzlmc" resultType="String" parameterType="java.lang.String">
+        select F_ZLMC from bes_branch_conf
+        <where>
+            and F_ZLBH = #{zlid}
+        </where>
+    </select>
+
+    <!--     重写数据分析后台逻辑 1.0 根据条件查询所有数据 -->
+    <select id="bqAllData" parameterType="string" resultType="HashMap">
+        select F_ZLBH ,${dwhs} as data,f_cjsj from bes_branch_data
+        where F_ZLBH in
+        <foreach item="zlbh" index="index" collection="zlbh"
+                 open="(" separator="," close=")">
+            #{zlbh}
+        </foreach>
+        and f_type = #{sjkld}
+        <if test="time_start !=null and time_start !='' ">
+            <![CDATA[ and DATE_FORMAT(F_CJSJ, '%Y-%m-%d')  >=  #{time_start}  ]]>
+        </if>
+        <if test="time_end !=null and time_end !='' ">
+            <![CDATA[ and DATE_FORMAT(F_CJSJ, '%Y-%m-%d') <=  #{time_end}  ]]>
+        </if>
+        group by f_zlbh,f_cjsj
+        order by f_cjsj asc
+    </select>
+
+    <select id="tqAllData" parameterType="string" resultType="HashMap">
+        select F_ZLBH as f_zlbh ,${dwhs} as data,f_cjsj from bes_branch_data
+        where F_ZLBH in
+        <foreach item="zlbh" index="index" collection="zlbh"
+                 open="(" separator="," close=")">
+            #{zlbh}
+        </foreach>
+        and f_type = #{sjkld}
+        <if test="time_start !=null and time_start !='' ">
+            <![CDATA[ and DATE_FORMAT(F_CJSJ, '%Y-%m-%d')  >=  #{tqtime_start}  ]]>
+        </if>
+        <if test="time_end !=null and time_end !='' ">
+            <![CDATA[ and DATE_FORMAT(F_CJSJ, '%Y-%m-%d') <=  #{tqtime_end}  ]]>
+        </if>
+        order by f_cjsj asc
+    </select>
+
+
+    <!--根据支路编号和时间查询数据库bes_branch_data表中是否有数据-->
+    <select id="selectWhetherFdata" resultType="java.util.Map">
+        select f_data from bes_branch_data
+        where f_zlbh= #{zlbh}
+        and f_cjsj = #{time}
+        and f_type = #{f_type}
+    </select>
+
+    <!-- 查询分户分项数据 -->
+    <select id="getBranchData" parameterType="string" resultType="java.util.Map">
+        select f_data, f_zlbh from bes_branch_data
+        where
+         f_cjsj = #{time}
+        and f_type = #{type}
+
+    </select>
+
+    <!--加载能源统计分析-支路用能-用能统计分析-->
+    <select id="searchstatisAnalyOfEnergyConsumptionData" resultMap="BesBranchDataMap">
+        select
+        a.F_ZLBH,
+        a.F_DNBH,
+        a.F_DATA,
+        a.F_TYPE,
+        date_format(a.F_CJSJ,'%Y-%m-%d %H:%i:%s') F_CJSJ,
+        b.F_ZLMC,
+        c.F_UNIT
+        from bes_branch_data a left join bes_branch_conf b on a.F_ZLBH=b.F_ZLBH
+        left join bes_energy_type c on a.F_DNBH=c.F_NYBH
+        <where>
+            1 = 1
+            <if test="fType !=null and fType != ''">
+                and a.F_TYPE = #{fType}
+            </if>
+            <if test="nhlx !=null and nhlx != ''">
+                and a.F_DNBH = #{nhlx}
+            </if>
+            <if test="time_start !=null and time_start != ''">
+                <![CDATA[ and a.F_CJSJ >= #{time_start}  ]]>
+            </if>
+            <if test="time_end !=null and time_end != ''">
+                <![CDATA[  and a.F_CJSJ <= #{time_end}   ]]>
+            </if>
+            <if test="zlbhs != null and zlbhs.size() > 0">
+                and a.F_ZLBH in
+                <foreach item="item" index="index" collection="zlbhs"
+                         open="(" separator="," close=")">
+                    #{item}
+                </foreach>
+            </if>
+        </where>
+        ORDER BY a.F_CJSJ
+    </select>
+
+    <!--加载能源统计分析-支路用能-部门用能统计分析-->
+    <!--<select id="searchstatisAnalyOfEnergyConsumptionDataDep" resultMap="BesBranchDataMap">
+        (
+        SELECT a.F_ZLBH, a.F_DNBH, a.F_DATA, a.F_TYPE, date_format( a.F_CJSJ, '%Y-%m-%d %H:%i:%s' ) F_CJSJ, b.F_ZLMC,
+        c.F_UNIT
+        FROM bes_branch_data a
+        LEFT JOIN bes_branch_conf b ON a.F_ZLBH = b.F_ZLBH
+        LEFT JOIN bes_energy_type c ON a.F_DNBH = c.F_NYBH
+        <where>
+            1 = 1
+            <if test="fType !=null and fType != ''">
+                and a.F_TYPE = #{fType}
+            </if>
+            <if test="nhlx !=null and nhlx != ''">
+                and a.F_DNBH = #{nhlx}
+            </if>
+            <if test="time_start !=null and time_start != ''">
+                <![CDATA[ and a.F_CJSJ >= #{time_start}  ]]>
+            </if>
+            <if test="time_end !=null and time_end != ''">
+                <![CDATA[  and a.F_CJSJ <= #{time_end}   ]]>
+            </if>
+            <if test="branchList != null and branchList.size() > 0">
+                and a.F_ZLBH in
+                <foreach item="item" index="index" collection="branchList"
+                         open="(" separator="," close=")">
+                    #{item.bh}
+                </foreach>
+            </if>
+        </where>
+        ORDER BY a.F_CJSJ
+        )
+        UNION ALL
+        (
+        SELECT a.F_DBSYS_NAME F_ZLBH, a.F_DNBH, a.F_DATA, a.F_TYPE, date_format( a.F_CJSJ, '%Y-%m-%d %H:%i:%s' ) F_CJSJ, b.F_NICK_NAME F_ZLMC,
+        'kwh' F_UNIT
+        FROM bes_original_data a
+        LEFT JOIN bes_ammeter b ON a.F_DBSYS_NAME = b.F_SYS_NAME
+        <where>
+            1 = 1
+            <if test="nhlx !=null and nhlx != ''">
+                and a.F_DNBH = #{nhlx}
+            </if>
+            <if test="time_start !=null and time_start != ''">
+                <![CDATA[ and a.F_CJSJ >= #{time_start}  ]]>
+            </if>
+            <if test="time_end !=null and time_end != ''">
+                <![CDATA[  and a.F_CJSJ <= #{time_end}   ]]>
+            </if>
+            <if test="ammeterList != null and ammeterList.size() > 0">
+                and a.F_DBSYS_NAME in
+                <foreach item="itemm" index="index" collection="ammeterList"
+                         open="(" separator="," close=")">
+                    #{itemm.bh}
+                </foreach>
+            </if>
+        </where>
+        ORDER BY a.F_CJSJ
+        )
+    </select>-->
+
+    <select id="searchstatisAnalyOfEnergyConsumptionDataDep" resultMap="BesBranchDataMap">
+        SELECT F_ZLBH,F_DNBH,SUM(F_DATA) F_DATA,F_type,F_CJSJ,F_ZLMC,F_UNIT FROM
+        ( (
+        SELECT a.F_ZLBH, a.F_DNBH, a.F_DATA, a.F_TYPE, date_format( a.F_CJSJ, '%Y-%m-%d %H:%i:%s' ) F_CJSJ, b.F_ZLMC,
+        c.F_UNIT
+        FROM bes_branch_data a
+        LEFT JOIN bes_branch_conf b ON a.F_ZLBH = b.F_ZLBH
+        LEFT JOIN bes_energy_type c ON a.F_DNBH = c.F_NYBH
+        <where>
+            1 = 1
+            <if test="fType !=null and fType != ''">
+                and a.F_TYPE = #{fType}
+            </if>
+            <if test="nhlx !=null and nhlx != ''">
+                and a.F_DNBH = #{nhlx}
+            </if>
+            <if test="time_start !=null and time_start != ''">
+                <![CDATA[ and a.F_CJSJ >= #{time_start}  ]]>
+            </if>
+            <if test="time_end !=null and time_end != ''">
+                <![CDATA[  and a.F_CJSJ <= #{time_end}   ]]>
+            </if>
+            <if test="branchList != null and branchList.size() > 0">
+                and a.F_ZLBH in
+                <foreach item="item" index="index" collection="branchList"
+                         open="(" separator="," close=")">
+                    #{item.bh}
+                </foreach>
+            </if>
+        </where>
+        GROUP BY a.F_CJSJ
+        )
+        UNION ALL
+        (
+        SELECT a.F_DBSYS_NAME F_ZLBH, a.F_DNBH, SUM(a.F_DATA) F_DATA, a.F_TYPE, date_format( a.F_CJSJ, '%Y-%m-%d %H:%i:%s' ) F_CJSJ, b.F_NICK_NAME F_ZLMC,
+        'kwh' F_UNIT
+        FROM bes_monitoring_data a
+        LEFT JOIN bes_ammeter b ON a.F_DBSYS_NAME = b.F_SYS_NAME
+        <where>
+            1 = 1
+            <if test="fType !=null and fType != ''">
+                and a.F_TYPE = #{fType}
+            </if>
+            <if test="nhlx !=null and nhlx != ''">
+                and a.F_DNBH = #{nhlx}
+            </if>
+            <if test="time_start !=null and time_start != ''">
+                <![CDATA[ and a.F_CJSJ >= #{time_start}  ]]>
+            </if>
+            <if test="time_end !=null and time_end != ''">
+                <![CDATA[  and a.F_CJSJ <= #{time_end}   ]]>
+            </if>
+            <if test="ammeterList != null and ammeterList.size() > 0">
+                and a.F_DBSYS_NAME in
+                <foreach item="itemm" index="index" collection="ammeterList"
+                         open="(" separator="," close=")">
+                    #{itemm.bh}
+                </foreach>
+            </if>
+        </where>
+        GROUP BY a.F_CJSJ
+        ) ) c
+        <if test="fType == '0'.toString() or fType == 0">
+            GROUP BY date_format(F_CJSJ, '%Y-%m-%d %H')
+        </if>
+        <if test="fType == '1'.toString() or fType == 1">
+            GROUP BY date_format(F_CJSJ,'%Y-%m-%d')
+        </if>
+        <if test="fType == '2'.toString() or fType == 2">
+            GROUP BY date_format(F_CJSJ,'%Y-%m')
+        </if>
+        <if test="fType == '3'.toString() or fType == 3">
+            GROUP BY date_format(F_CJSJ,'%Y')
+        </if>
+    </select>
+
+    <select id="queryAllDepByStrategy" resultType="java.util.Map">
+        SELECT a.*,CASE WHEN ISNULL(b.F_NUMBER) THEN 0 ELSE b.F_NUMBER END F_NUMBER FROM bes_strategy_department a
+        LEFT JOIN bes_department_number b ON a.f_department_id = b.F_DEP_ID WHERE a.f_strategy_id = #{strategyId} AND a.f_level &gt; '1'
+    </select>
+
+    <select id="queryAllBranchByDepList" resultType="java.util.Map">
+        SELECT F_ZLBH bh,F_ZLXS xs FROM bes_department_data where F_ZLBH IS NOT NULL AND F_DEP_ID = #{DepId} GROUP BY F_ZLBH
+    </select>
+
+    <select id="queryAllAmmeterByDepList" resultType="java.util.Map">
+        SELECT F_DBSYS_NAME bh,F_DBXS xs FROM bes_department_data where F_DBSYS_NAME IS NOT NULL AND F_DEP_ID = #{DepId} GROUP BY F_DBSYS_NAME
+    </select>
+
+    <select id="queryDepDataByList" resultType="java.util.Map">
+        SELECT F_ZLBH,F_DATA FROM
+        ( (
+        SELECT a.F_ZLBH,SUM(a.F_DATA) F_DATA
+        FROM bes_branch_data a
+        <where>
+            1 = 1
+            <if test="fType !=null and fType != ''">
+                and a.F_TYPE = #{fType}
+            </if>
+            <if test="nhlx !=null and nhlx != ''">
+                and a.F_DNBH = #{nhlx}
+            </if>
+            <if test="time_start !=null and time_start != ''">
+                <![CDATA[ and a.F_CJSJ >= #{time_start}  ]]>
+            </if>
+            <if test="time_end !=null and time_end != ''">
+                <![CDATA[  and a.F_CJSJ <= #{time_end}   ]]>
+            </if>
+            <if test="branchList != null and branchList.size() > 0">
+                and a.F_ZLBH in
+                <foreach item="item" index="index" collection="branchList"
+                         open="(" separator="," close=")">
+                    #{item.bh}
+                </foreach>
+            </if>
+        </where>
+        GROUP BY a.F_ZLBH
+        )
+        UNION ALL
+        (
+        SELECT a.F_DBSYS_NAME F_ZLBH,SUM(a.F_DATA) F_DATA
+        FROM bes_monitoring_data a
+        <where>
+            1 = 1
+            <if test="fType !=null and fType != ''">
+                and a.F_TYPE = #{fType}
+            </if>
+            <if test="nhlx !=null and nhlx != ''">
+                and a.F_DNBH = #{nhlx}
+            </if>
+            <if test="time_start !=null and time_start != ''">
+                <![CDATA[ and a.F_CJSJ >= #{time_start}  ]]>
+            </if>
+            <if test="time_end !=null and time_end != ''">
+                <![CDATA[  and a.F_CJSJ <= #{time_end}   ]]>
+            </if>
+            <if test="ammeterList != null and ammeterList.size() > 0">
+                and a.F_DBSYS_NAME in
+                <foreach item="itemm" index="index" collection="ammeterList"
+                         open="(" separator="," close=")">
+                    #{itemm.bh}
+                </foreach>
+            </if>
+        </where>
+        GROUP BY a.F_DBSYS_NAME
+        ) ) c
+    </select>
+
+
+    <!--获取本期数据-->
+    <select id="yoyAndMoMAnalysisBQ" resultMap="BesBranchDataMap">
+        select
+        a.F_ZLBH,
+        a.F_DNBH,
+        a.F_DATA,
+        a.F_TYPE,
+        date_format(a.F_CJSJ,'%Y-%m-%d %H:%i:%s') F_CJSJ,
+        b.F_ZLMC,
+        c.F_UNIT
+        from bes_branch_data a left join bes_branch_conf b on a.F_ZLBH=b.F_ZLBH
+        left join bes_energy_type c on a.F_DNBH=c.F_NYBH
+        <where>
+            1 = 1
+            <if test="fType !=null and fType != ''">
+                and a.F_TYPE = #{fType}
+            </if>
+            <if test="nhlx !=null and nhlx != ''">
+                and a.F_DNBH = #{nhlx}
+            </if>
+            <if test="time_start !=null and time_start != ''">
+                <![CDATA[ and a.F_CJSJ >= #{time_start}  ]]>
+            </if>
+            <if test="time_end !=null and time_end != ''">
+                <![CDATA[  and a.F_CJSJ <= #{time_end}   ]]>
+            </if>
+            <if test="zlbhs != null and zlbhs.size() > 0">
+                and a.F_ZLBH in
+                <foreach item="item" index="index" collection="zlbhs"
+                         open="(" separator="," close=")">
+                    #{item}
+                </foreach>
+            </if>
+        </where>
+        ORDER BY a.F_CJSJ
+    </select>
+
+    <!--获得同期数据-->
+    <select id="yoyAndMoMAnalysisTQ" resultMap="BesBranchDataMap">
+        select
+        a.F_ZLBH,
+        a.F_DNBH,
+        a.F_DATA,
+        a.F_TYPE,
+        date_format(a.F_CJSJ,'%Y-%m-%d %H:%i:%s') F_CJSJ,
+        b.F_ZLMC,
+        c.F_UNIT
+        from bes_branch_data a left join bes_branch_conf b on a.F_ZLBH=b.F_ZLBH
+        left join bes_energy_type c on a.F_DNBH=c.F_NYBH
+        <where>
+            1 = 1
+            <if test="fType !=null and fType != ''">
+                and a.F_TYPE = #{fType}
+            </if>
+            <if test="nhlx !=null and nhlx != ''">
+                and a.F_DNBH = #{nhlx}
+            </if>
+            <if test="tqtime_start !=null and tqtime_start != ''">
+                <![CDATA[ and a.F_CJSJ >= #{tqtime_start}  ]]>
+            </if>
+            <if test="tqtime_end !=null and tqtime_end != ''">
+                <![CDATA[  and a.F_CJSJ <= #{tqtime_end}   ]]>
+            </if>
+            <if test="zlbhs != null and zlbhs.size() > 0">
+                and a.F_ZLBH in
+                <foreach item="item" index="index" collection="zlbhs"
+                         open="(" separator="," close=")">
+                    #{item}
+                </foreach>
+            </if>
+        </where>
+        ORDER BY a.F_CJSJ
+    </select>
+
+    <select id="queryAllBranch" resultType="java.util.Map">
+        SELECT F_ZLBH bh,F_ZLXS xs FROM bes_department_data
+        <where>
+            F_ZLBH IS NOT NULL
+            <if test="list != null and list.size() > 0">
+                AND F_DEP_ID IN
+                <foreach item="item" index="index" collection="list"
+                         open="(" separator="," close=")">
+                    #{item}
+                </foreach>
+            </if>
+        </where>
+    </select>
+
+    <select id="queryAllBranchByDep" resultType="java.util.Map">
+        SELECT F_ZLBH bh,F_ZLXS xs FROM bes_department_data where F_ZLBH IS NOT NULL AND F_DEP_ID = #{str}
+    </select>
+
+    <select id="queryAllAmmeter" resultType="java.util.Map">
+        SELECT F_DBSYS_NAME bh,F_DBXS xs FROM bes_department_data
+        <where>
+            F_DBSYS_NAME IS NOT NULL
+            <if test="list != null and list.size() > 0">
+                AND F_DEP_ID IN
+                <foreach item="item" index="index" collection="list"
+                         open="(" separator="," close=")">
+                    #{item}
+                </foreach>
+            </if>
+        </where>
+    </select>
+
+    <select id="queryAllAmmeterByDep" resultType="java.util.Map">
+        SELECT F_DBSYS_NAME bh,F_DBXS xs FROM bes_department_data where F_DBSYS_NAME IS NOT NULL AND F_DEP_ID = #{str}
+    </select>
+
+
+</mapper>

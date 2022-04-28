@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.efounder.JEnterprise.mapper.strongAndWeakElectricityIntegration.ColdHeatSourceMapper">
+
+	<resultMap id="coldHeatSourceMap" type="com.efounder.JEnterprise.model.strongAndWeakElectricityIntegration.ColdHeatSourceVo">
+		<result column="F_NAME" property="f_name" />
+		<result column="F_DQZT" property="f_dqzt" />
+		<result column="F_LSCKWD" property="f_lsckwd" />
+		<result column="F_LSRKWD" property="f_lsrkwd" />
+		<result column="F_LQSCKWD" property="f_lqsckwd" />
+		<result column="F_LQSRKWD" property="f_lqsrkwd" />
+		<result column="F_DQLL" property="f_dqll" />
+	</resultMap>
+	<!-- 根据设备类型编号加载报警等级 -->
+	<select id="paging"  resultMap="coldHeatSourceMap">
+		SELECT F_NAME,F_DQZT,F_LSCKWD,F_LSRKWD,F_LQSCKWD,F_LQSRKWD,F_DQLL FROM STRONGANDWEAKELECTRICITYINTEGRATION_COLDHEATSOURCE
+		limit #{page},#{limit}
+	</select>
+	<!-- 编辑前加载数据 -->
+	<select id="pageCount" resultType="java.lang.Integer"> 
+	    SELECT COUNT(*) from STRONGANDWEAKELECTRICITYINTEGRATION_COLDHEATSOURCE
+	</select>
+</mapper>
+
+

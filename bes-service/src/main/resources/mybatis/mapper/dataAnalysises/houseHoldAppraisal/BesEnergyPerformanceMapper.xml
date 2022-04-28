@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.efounder.JEnterprise.mapper.dataAnalysises.BesEnergyPerformanceMapper" >
+
+    <resultMap id="BesEnergyPerformanceMap" type="com.efounder.JEnterprise.model.dataAnalysises.BesEnergyPerformance" >
+    </resultMap>
+
+<!-- 获取能源绩效考核数据 -->
+<select id="searchEnergyPerformance" parameterType="string" resultType="com.efounder.JEnterprise.model.dataAnalysises.BesEnergyPerformance">
+	select
+	a.F_FHBH as fPlanFhbh,
+	FORMAT(sum(a.F_DATA),2) as fAllEnegry,
+	FORMAT(sum(a.F_ALL_MONEY),2) as fAllMoney,
+	FORMAT(sum(a.F_COAL_AMOUNT),2) as fCoalAmount,
+	FORMAT(sum(a.F_PERMAN_DATA),2) as fPermanData,
+	FORMAT(sum(a.F_PERMAN_MONEY),2) as fPermanMoney,
+	FORMAT(sum(a.F_UNITAREA_DATA),2) as fUnitareaData,
+	FORMAT(sum(a.F_UNITAREA_MONEY),2) as  fUnitareaMoney,
+	FORMAT(sum(a.F_CO2),2) as fCo2,
+	b.F_FHMC as fFhmc
+	from  bes_household_data a left join bes_household_conf b on a.f_fHbh=b.f_fHbh
+	<where>
+	 a.F_TYPE = '2'
+        <if test="fCjsj_start !=null and fCjsj_start != ''">
+        	<![CDATA[  and DATE_FORMAT(a.F_CJSJ, '%Y-%m') >=  
+                        #{fCjsj_start}   ]]>
+        </if>
+        <if test="fCjsj_end !=null and fCjsj_end != ''">
+        	<![CDATA[  and DATE_FORMAT(a.F_CJSJ, '%Y-%m') <= 
+                        #{fCjsj_end}]]>
+        </if>
+        <if test="fFhbhs != null and fFhbhs.size() > 0">
+             and b.F_FHBH in
+	             <foreach item="item" index="index" collection="fFhbhs" 
+	                    open="(" separator="," close=")">
+	                  #{item}
+	             </foreach>
+
+        </if>
+		group by b.F_FHBH
+		order by b.F_FHBH
+	</where>
+  </select>
+
+
+
+	<!-- 获取能源绩效考核数据 -->
+	<select id="searchEnergyPlanPerformance" parameterType="string" resultType="com.efounder.JEnterprise.model.dataAnalysises.BesEnergyPerformance">
+		select
+		a.F_FHBH as fPlanFhbh,
+		FORMAT(sum(a.F_ALLENERGY),2) as fPlanAllEnegry,
+		FORMAT(sum(a.F_ALL_MONEY),2) as fPlanAllMoney,
+		FORMAT(sum(a.F_COAL_AMOUNT),2) as fPlanCoalAmount,
+		FORMAT(sum(a.F_PERMAN_DATA),2) as fPlanPermanData,
+		FORMAT(sum(a.F_PERMAN_MONEY),2) as fPlanPermanMoney,
+		FORMAT(sum(a.F_UNITAREA_DATA),2) as fPlanUnitareaData,
+		FORMAT(sum(a.F_UNITAREA_MONEY),2) as  fPlanUnitareaMoney,
+		FORMAT(sum(a.F_CO2),2) as fPlanCo2
+		from  bes_household_plan a
+		<where>
+			1=1
+		<if test="fCjsj_start_year!=null">
+			<![CDATA[  and a.F_PYEAR>=#{fCjsj_start_year} ]]>
+		</if>
+		<if test="fCjsj_end_year!=null">
+			<![CDATA[  and a.F_PYEAR<=#{fCjsj_end_year} ]]>
+		</if>
+			<if test="fCjsj_start_month!=null">
+				<![CDATA[  and a.F_PMONTH>=#{fCjsj_start_month} ]]>
+			</if>
+			<if test="fCjsj_end_month!=null">
+				<![CDATA[  and a.F_PMONTH<=#{fCjsj_end_month} ]]>
+			</if>
+			<if test="fFhbhs != null and fFhbhs.size() > 0">
+				and a.F_FHBH in
+				<foreach item="item" index="index" collection="fFhbhs"
+						 open="(" separator="," close=")">
+					#{item}
+				</foreach>
+			</if>
+			group by a.F_FHBH
+			order by a.F_FHBH
+		</where>
+	</select>
+  
+</mapper>

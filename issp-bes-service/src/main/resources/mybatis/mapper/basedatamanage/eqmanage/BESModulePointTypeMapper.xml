@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.efounder.JEnterprise.mapper.basedatamanage.eqmanage.BESModulePointTypeMapper">
+
+	<resultMap id="BESModulePointTypeMap" type="com.efounder.JEnterprise.model.basedatamanage.eqmanage.BESModulePointType">
+		<result column="F_ID" property="fId" />
+		<result column="F_MODULEPOINT_TYPE" property="fModulepointType" />
+		<result column="F_DESCRIPTION" property="fDescription" />
+		<result column="F_CRDATE" property="fCrdate" />
+		<result column="F_CHDATE" property="fChdate" />
+	</resultMap>
+
+	<sql id="Base_Column_List" >
+        F_ID, F_MODULEPOINT_TYPE, F_DESCRIPTION, date_format(F_CRDATE,'%Y-%m-%d %H:%i:%s' ) F_CRDATE ,date_format(F_CHDATE,'%Y-%m-%d %H:%i:%s' ) F_CHDATE
+    </sql>
+
+	<sql id="find_xxx">
+	    <![CDATA[
+			SELECT F_ID , F_MODULEPOINT_TYPE , F_DESCRIPTION ,date_format(F_CRDATE,'%Y-%m-%d %H:%i:%s' ) F_CRDATE ,date_format(F_CHDATE,'%Y-%m-%d %H:%i:%s' ) F_CHDATE
+	    ]]>
+	</sql>
+
+	<sql id="from_xxx">
+	    <![CDATA[
+	    	FROM bes_modulepoint_type
+	    ]]>
+	</sql>
+
+	<sql id="where_xxx">
+	    <![CDATA[
+	    	WHERE 1=1
+	    ]]>
+	</sql>
+	<!-- 根据id查询 -->
+	<select id="findById" parameterType="string" resultMap="BESModulePointTypeMap">
+		<include refid="find_xxx" />
+		<include refid="from_xxx" />
+		<![CDATA[
+			WHERE F_ID=#{fId}
+		]]>
+	</select>
+
+    <!-- 增加编码结构信息 -->
+
+    <insert id="insModulepointType" parameterType="com.efounder.JEnterprise.model.basedatamanage.eqmanage.BESModulePointType" >
+        insert into bes_modulepoint_type
+        <trim prefix="(" suffix=")" suffixOverrides="," >
+            <if test="fId != null" >
+                F_ID,
+            </if>
+            <if test="fModulepointType != null" >
+                F_MODULEPOINT_TYPE,
+            </if>
+            <if test="fDescription != null" >
+                F_DESCRIPTION,
+            </if>
+            <if test="fCrdate != null" >
+                F_CRDATE,
+            </if>
+            <if test="fChdate != null" >
+                F_CHDATE,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides="," >
+            <if test="fId != null" >
+                #{fId,jdbcType=VARCHAR},
+            </if>
+            <if test="fModulepointType != null" >
+                #{fModulepointType,jdbcType=VARCHAR},
+            </if>
+            <if test="fDescription != null" >
+                #{fDescription,jdbcType=VARCHAR},
+            </if>
+            <if test="fCrdate != null" >
+                #{fCrdate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="fChdate != null" >
+                #{fChdate,jdbcType=TIMESTAMP},
+            </if>
+        </trim>
+    </insert>
+
+    	<!-- 根据主键删除编码结构信息 -->
+    	<delete id="delModulepointType" parameterType="java.lang.String" >
+        delete from bes_modulepoint_type
+        where F_ID = #{fId,jdbcType=VARCHAR}
+    	</delete>
+
+    <!--删除之前查询是否存在关联约束：模块点与设备树节点存在关联关系-->
+    <select id="queryRelationType" parameterType="java.lang.String" resultType="java.lang.Integer">
+        select count(*) from bes_ep_module_type_rlgl
+        where F_MODULEPOINT_ID = #{fId,jdbcType=VARCHAR}
+    </select>
+
+    <!-- 查询单行编码结构信息回显 -->
+    <select id="selectModulepointType" resultMap="BESModulePointTypeMap" parameterType="java.lang.String" >
+        select
+        <include refid="Base_Column_List" />
+        from bes_modulepoint_type
+        where F_ID = #{fId,jdbcType=VARCHAR}
+    </select>
+
+    <!-- 修改编码结构新 -->
+
+     <update id="updfModulepointType"
+	parameterType="com.efounder.JEnterprise.model.basedatamanage.eqmanage.BESModulePointType">
+	update bes_modulepoint_type
+        <set >
+            <if test="fModulepointType != null" >
+                F_MODULEPOINT_TYPE = #{fModulepointType,jdbcType=VARCHAR},
+            </if>
+            <if test="fDescription != null" >
+                F_DESCRIPTION = #{fDescription,jdbcType=VARCHAR},
+            </if>
+            <if test="fChdate != null" >
+                F_CHDATE = #{fChdate,jdbcType=TIMESTAMP},
+            </if>
+        </set>
+        where F_ID = #{fId,jdbcType=VARCHAR}
+    </update>
+
+    <!-- 分页与搜索 -->
+
+    <select id="selModulepointTypepage" resultMap="BESModulePointTypeMap" parameterType="java.lang.String" >
+    select
+    <include refid="Base_Column_List" />
+    from bes_modulepoint_type
+		<where>
+		1=1
+			<if test="keywords != null and keywords != ''">
+			and CONCAT(`F_MODULEPOINT_TYPE` ) LIKE CONCAT('%',#{keywords},'%')
+			</if>
+		</where>
+		order by F_CRDATE
+  </select>
+
+</mapper>

@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.efounder.JEnterprise.platform.mapper.AccessDataMapper" >
+
+
+    <!--删除全部用户数据-->
+    <delete id="deleteAllUser">
+        delete from es_user
+    </delete>
+
+    <!--新增用户接口数据-->
+    <insert id="insertUserList">
+        insert into es_user ( F_YHBH, F_PASS, F_SALT, F_NAME, F_COMPANY,
+        F_ZZJGBH, F_YQBH, F_PHONE, F_EMAIL, F_HEADIMG, F_CRDATE,
+         F_CHDATE, F_ID )
+         values
+        <foreach collection="list" item="item" separator=",">
+            (#{item.f_yhbh},#{item.f_pass},#{item.salt},#{item.f_name},#{item.f_company},
+            #{item.f_zzjgbh},'',#{item.f_phone},#{item.f_email},#{item.f_headimg},null,
+            null,#{item.f_id}
+            )
+        </foreach>
+    </insert>
+
+
+    <!--删除全部角色数据-->
+    <delete id="deleteAllRole">
+        delete from es_role
+    </delete>
+
+    <!--新增角色接口数据-->
+    <insert id="insertRoleList">
+        insert into es_role ( F_GUID, F_ROLEBH, F_ROLEMC, F_REMARK, F_CRDATE, F_CHDATE)
+        values
+        <foreach collection="list" item="item" separator=",">
+            (#{item.id},'',#{item.name},#{item.remark},null,null )
+        </foreach>
+    </insert>
+
+    <!--删除全部组织机构数据-->
+    <delete id="deleteAllDept">
+      delete from es_zzjg
+    </delete>
+
+    <!--新增组织机构接口数据-->
+    <!--type字段以C00或c00开头，已与中台确认 2020-12-17-->
+    <insert id="insertDeptList">
+      insert into es_zzjg
+        (F_ZZJGBH, F_ZZJGMC, F_PZZJGBH, F_REMARK,
+        F_JS, F_MX, F_CRDATE, F_CHDATE, F_ID)
+      values
+        <foreach collection="list" item="item" separator=",">
+            (#{item.id},#{item.name},#{item.pid},'',
+            replace(upper(#{item.type}),'C00',''),'',#{item.createDate},#{item.updateDate},#{item.pkid} )
+        </foreach>
+    </insert>
+
+    <!--删除全部角色菜单关联关系数据-->
+    <delete id="deleteAllRoleMenu">
+        delete from es_role_gnqx
+    </delete>
+
+    <!--新增角色菜单关联关系接口数据-->
+    <!--F_SH 审核字段设置为 已审核 -->
+    <insert id="insertRoleMenuList">
+        insert into es_role_gnqx (F_ROLEBH, F_GNZDID, F_SH, F_CRDATE, F_CHDATE)
+        values
+        <foreach collection="list" item="item" separator=",">
+            (#{item.roleId},#{item.menuId},'1',null,null )
+        </foreach>
+    </insert>
+
+    <!--删除全部的资产信息-->
+    <delete id="deleteAllAssetsByCode">
+        delete from opm_assets_info
+    </delete>
+
+    <!--根据资产类型编码删除资产信息-->
+    <delete id="deleteAssetsByCode">
+        delete from opm_assets_info
+        where categoryCode = #{categoryCode}
+    </delete>
+
+    <!--插入固定资产信息表-->
+    <insert id="insertAssetsInfo">
+      insert into  opm_assets_info
+        (id, name, code, identifyFlag, status,
+        purpose, serialNo, positionId, positionType, positionDesc,
+        deviceOwner, responsibleCompany, responsibleDept, responsiblePerson, user,
+        categoryId, categoryCode, applicationNo, recordDate, storageDate,
+        price, band, modal, specification, material,
+        weight, weightUnit, hasDelete, remark, creator,
+        createDate, updater, updateDate)
+        VALUES
+        <foreach collection="list" item="item" separator=",">
+            (
+            #{item.id},#{item.name},#{item.code},#{item.identifyFlag},#{item.status},
+            #{item.purpose},#{item.serialNo},#{item.positionId},#{item.positionType},#{item.positionDesc},
+            #{item.deviceOwner},#{item.responsibleCompany},#{item.responsibleDept},#{item.responsiblePerson},#{item.user},
+            #{item.categoryId},#{item.categoryCode},#{item.applicationNo},#{item.recordDate},#{item.storageDate},
+            <choose>
+                <when test="item.price != null and item.price != ''">
+                    #{item.price},
+                </when>
+                <otherwise>
+                    0,
+                </otherwise>
+            </choose>
+            #{item.band},#{item.modal},#{item.specification},#{item.material},
+            <choose>
+                <when test="item.weight != null and item.weight != ''">
+                    #{item.weight},
+                </when>
+                <otherwise>
+                    0,
+                </otherwise>
+            </choose>
+
+            #{item.weightUnit},#{item.hasDelete},#{item.remark},#{item.creator},
+            #{item.createDate},#{item.updater},#{item.updateDate}
+            )
+        </foreach>
+    </insert>
+
+    <!--根据资产类型编码获取已删除的资产信息-->
+    <select id="getDeleteAssetsByCode" resultType="java.util.Map">
+        select id,name from opm_assets_info
+        where hasDelete = '1'
+    </select>
+
+
+    <!--查询需要插入到设备表中的资产数据-->
+    <select id="queryDeviceByTypeCode" resultType="java.util.Map">
+        select a.id, a.name, a.code,a.categoryCode,t.id device_type_id,a.positionId site,a.remark comments,
+        a.createDate create_time,a.updateDate update_time
+        from opm_assets_info a
+        inner join bes_device_type t on  a.categoryCode = t.code
+        where a.hasDelete = '0'
+    </select>
+
+    <!--将资产数据插入到设备表中-->
+    <insert id="insertDeviceList">
+        insert into bes_device(id, device_type_id, code, name, site, comments, create_time, update_time)
+        VALUES
+        <foreach collection="list" item="item" separator=",">
+            (#{item.id},#{item.device_type_id},#{item.code},#{item.name},#{item.site},#{item.comments},#{item.create_time},#{item.update_time})
+        </foreach>
+    </insert>
+
+    <!--插入设备表数据前删除原有数据-->
+    <delete id="delAllDevice">
+        delete from bes_device
+    </delete>
+
+</mapper>

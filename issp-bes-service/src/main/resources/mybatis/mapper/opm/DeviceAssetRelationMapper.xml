@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.efounder.JEnterprise.mapper.opm.DeviceAssetRelationMapper" >
+
+
+    <!--根据sysname查询关联的资产设备-->
+    <select id="queryRelationBySysname" resultType="java.util.Map">
+        select uuid() as busCode,t.code as deviceCode,
+        t.name as deviceName,t.categoryCode as deviceType,
+        #{alertMsg} as alertRemarks,'0' as alertGrade,
+        #{faultCode} as faultCode,#{faultName} as faultName,
+        date_format(sysdate(),'%Y-%m-%d %H:%i:%s') as triggerTime,t.positionId as addressId,
+        '0' as status,#{source} as source
+        from bes_device_function_point p
+        inner join bes_device d on p.device_id = d.id
+        inner join opm_assets_info t on t.id = d.id
+        where t.hasDelete = '0'
+        and p.sysName = #{sysname}
+    </select>
+
+</mapper>

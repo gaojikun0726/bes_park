@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.efounder.JEnterprise.mapper.systemcenter.logmanage.ESSysQxOperateLogMapper">
+
+<resultMap  id="SysQxOperateMap" type="com.efounder.JEnterprise.model.systemcenter.logmanage.ESSysQxOperateLog">
+        <result column="ID" property="id" />
+		<result column="F_OPTYPE" property="fOptype" />
+		<result column="F_OPTYPE1" property="fOptype1" />
+		<result column="F_OPCONTENT" property="fOpcontent" />
+		<result column="F_OPNAME" property="fOpname" />
+		<result column="F_OPTIME" property="fOptime" />
+		<result column="F_CRDATE" property="fCrdate" />
+		<result column="F_CHDATE" property="fChdate" />
+</resultMap>
+
+<sql id="find_xxx">
+ <![CDATA[
+	  SELECT 
+	    ID,
+	    F_OPTYPE,
+	     CASE F_OPTYPE WHEN '3' THEN '删除' WHEN '2' THEN '修改' WHEN '1' THEN '新增' WHEN '0' THEN '查看' WHEN '11' THEN '功能权限分配' WHEN '12' THEN '功能权限审核' WHEN '13' THEN '功能权限取消分配' END AS F_OPTYPE1,
+	  	F_OPCONTENT,
+	    F_OPNAME,
+	    date_format(F_OPTIME,'%Y-%m-%d %H:%i:%s' )F_OPTIME,
+        date_format(F_CRDATE,'%Y-%m-%d %H:%i:%s' )F_CRDATE ,date_format(F_CHDATE,'%Y-%m-%d %H:%i:%s' )F_CHDATE
+	  ]]>
+</sql>
+<sql id="from_xxx">
+	    <![CDATA[
+	      FROM es_qx_operate_log
+	    ]]>
+	</sql>
+
+    <!-- 多个条件连接查询 -->
+	<select id="getqxlmcxList" resultMap="SysQxOperateMap" parameterType="java.lang.String">
+		<include refid="find_xxx" />
+		<include refid="from_xxx" />
+		where 1=1 
+		<if test="fOpcontent != null and fOpcontent != '' ">
+				and F_OPCONTENT like '%${fOpcontent}%'
+			</if>
+		<if test="fOpname != null and fOpname != '' " >
+				and F_OPNAME LIKE '%${fOpname}%'
+			</if>
+		<if test="fOptype != null and fOptype != '' ">
+				and F_OPTYPE = #{fOptype}
+			</if>	
+		<if test="startTime != null and startTime != '' ">
+				<![CDATA[
+					and F_OPTIME >= #{startTime}
+				]]>
+			</if>
+		<if test="endTime != null and endTime != '' ">
+				<![CDATA[
+					and F_OPTIME <= #{endTime}
+				]]>
+			</if>
+	</select>
+
+	<select id="lookqxopcontent" parameterType="String" resultMap="SysQxOperateMap">
+		<include refid="find_xxx" />
+		<include refid="from_xxx" />
+		 where id = #{fid}
+	</select>
+	
+	<!-- 添加权限日志 -->
+	<insert id="insertOperateLog" parameterType="com.efounder.JEnterprise.model.systemcenter.logmanage.ESSysQxOperateLog" >
+        insert into es_qx_operate_log (ID, F_OPTYPE, F_OPCONTENT, 
+            F_OPNAME, F_OPTIME, F_CRDATE,F_CHDATE)
+        values (#{id}, #{fOptype}, #{fOpcontent}, #{fOpname}, NOW(), NOW(), NOW())
+    </insert>
+
+	<!--分页显示系统权限日志信息 -->
+	<select id="loadsysQxOperateloglists" parameterType="String" resultMap="SysQxOperateMap">
+		<include refid="find_xxx" />
+		<include refid="from_xxx" />
+		<where>
+			1=1
+			<if test="keywords != null and keywords != ''">
+				and CONCAT(a.`f_username`,'##',a.`f_rolemc`) LIKE CONCAT('%',#{keywords},'%')
+			</if>
+		</where>
+		order by F_CHDATE desc
+	</select>
+
+</mapper>

@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.efounder.JEnterprise.mapper.app.AirconditioningConfigMapper" >
+
+    <sql id="col_name">
+      id                             id,
+      name                           name,
+      airconditioning_address        ktAddress,
+      airconditioning_mode           ktMode,
+      airconditioning_windspeed      ktWindspeed,
+      airconditioning_switch         ktSwitch,
+      airconditioning_temperature    ktTemperature,
+      airconditioning_displaytemperature    ktxsTemperature,
+      airconditioning_mode_system           ktModeSystem,
+      airconditioning_windspeed_system      ktWindspeedSystem,
+      airconditioning_switch_system         ktSwitchSystem,
+      airconditioning_temperature_system    ktTemperatureSystem,
+      airconditioning_displaytemperature_system    ktxsTemperatureSystem
+
+	</sql>
+
+    <sql id="table_name">
+        api_airconditioning_config
+    </sql>
+
+    <insert id="insert">
+
+        insert into
+        <include refid="table_name"/>
+
+        (
+            name,
+            airconditioning_address,
+            airconditioning_mode,
+            airconditioning_windspeed,
+            airconditioning_switch,
+            airconditioning_temperature,
+            airconditioning_displaytemperature,
+            airconditioning_mode_system,
+            airconditioning_windspeed_system,
+            airconditioning_switch_system,
+            airconditioning_temperature_system,
+            airconditioning_displaytemperature_system
+        )
+        values
+        (
+
+            #{name},
+            #{ktAddress},
+            #{ktMode},
+            #{ktWindspeed},
+            #{ktSwitch},
+            #{ktTemperature},
+            #{ktxsTemperature},
+            #{ktModeSystem},
+            #{ktWindspeedSystem},
+            #{ktSwitchSystem},
+            #{ktTemperatureSystem},
+            #{ktxsTemperatureSystem}
+
+        )
+
+
+    </insert>
+
+    <select id="findList" resultType="com.efounder.JEnterprise.model.app.AirconditioningConfigModel">
+
+        select
+
+        <include refid="col_name"/>
+
+        from
+
+        <include refid="table_name"/>
+        <where>
+
+            <if test="id != null and id != ''" >
+                id    =   #{id}
+            </if>
+
+            <if test="name != null and name != ''" >
+                and name  =   #{name}
+            </if>
+
+        </where>
+
+    </select>
+
+
+    <update id="update">
+
+        update
+          <include refid="table_name"/>
+
+		set
+         name                      =   #{name},
+         airconditioning_address               =   #{ktAddress},
+         airconditioning_mode                  =   #{ktMode},
+         airconditioning_windspeed             =   #{ktWindspeed},
+         airconditioning_switch                =   #{ktSwitch},
+         airconditioning_temperature           =   #{ktTemperature},
+         airconditioning_displaytemperature           =   #{ktxsTemperature},
+         airconditioning_mode_system                  =   #{ktModeSystem},
+         airconditioning_windspeed_system             =   #{ktWindspeedSystem},
+         airconditioning_switch_system                =   #{ktSwitchSystem},
+         airconditioning_temperature_system           =   #{ktTemperatureSystem},
+         airconditioning_displaytemperature_system           =   #{ktxsTemperatureSystem}
+
+        where
+
+            id              =         #{id}
+    </update>
+
+    <delete id="delete">
+
+        delete from
+          <include refid="table_name"/>
+        where
+             id = #{id}
+    </delete>
+
+    <insert id="insertAirconditioning">
+        insert into
+        <include refid="table_name"/>
+        (
+        name,
+        airconditioning_address,
+        airconditioning_mode,
+        airconditioning_mode_system,
+        airconditioning_windspeed,
+        airconditioning_windspeed_system,
+        airconditioning_switch,
+        airconditioning_switch_system,
+        airconditioning_temperature,
+        airconditioning_temperature_system,
+        airconditioning_displaytemperature,
+        airconditioning_displaytemperature_system
+        )
+        values
+        (
+        #{name},
+        #{airconditioningAddress},
+        #{airconditioningMode},
+        #{airconditioningModeSystem},
+        #{airconditioningWindspeed},
+        #{airconditioningWindspeedSystem},
+        #{airconditioningSwitch},
+        #{airconditioningSwitchSystem},
+        #{airconditioningTemperature},
+        #{airconditioningTemperatureSystem},
+        #{airconditioningDisplaytemperature},
+        #{airconditioningDisplaytemperatureSystem}
+        )
+    </insert>
+    
+</mapper>

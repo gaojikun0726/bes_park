@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.efounder.JEnterprise.mapper.systemcenter.logmanage.ESSysLoginLogMapper">
+	<resultMap id="SysLoginLogMap1"
+		type="com.efounder.JEnterprise.model.systemcenter.logmanage.ESSysLoginLog">
+		<result column="F_ID" property="f_id" />
+		<result column="F_YHBH" property="f_yhbh" />
+		<result column="F_USERNAME" property="f_username" />
+		<result column="F_ZZJGID" property="f_zzjgid" />
+		<result column="F_ZZJGMC" property="f_zzjgmc" />
+		<result column="F_ROLEBH" property="f_rolebh" />
+		<result column="F_ROLEMC" property="f_rolemc" />
+		<result column="F_TYPE" property="f_type" />
+		<result column="F_TYPE1" property="f_type1" />
+		<result column="F_LOGINTIME" property="f_logintime" />
+		<result column="F_CRDATE" property="f_crdate" />
+		<result column="F_CHDATE" property="f_chdate" />
+
+	</resultMap>
+
+	<sql id="find_xxx">
+	  <![CDATA[
+	  SELECT
+	    a.F_ID,
+	    a.F_YHBH,
+	    a.F_USERNAME,
+	    a.F_ROLEBH,
+	    a.F_ROLEMC,
+        a.F_TYPE,
+        CASE F_TYPE WHEN '2' THEN '浏览器异常关闭' WHEN '1' THEN '退出' WHEN '0' THEN '登录' END AS F_TYPE1,
+        date_format(a.F_LOGINTIME,'%Y-%m-%d %H:%i:%s' )F_LOGINTIME,
+        a.F_ZZJGID,
+        b.F_ZZJGMC,
+        date_format(a.F_CRDATE,'%Y-%m-%d %H:%i:%s' )F_CRDATE ,date_format(a.F_CHDATE,'%Y-%m-%d %H:%i:%s' )F_CHDATE
+	  ]]>
+	</sql>
+	<sql id="from_xxx">
+	    <![CDATA[
+	      FROM es_sys_login_log a LEFT JOIN es_zzjg b ON a.F_ZZJGID = b.F_ID
+	    ]]>
+	</sql>
+
+	<!--分页显示系统登录日志信息 -->
+	<select id="loadsysLoginlogByKey" parameterType="String" resultMap="SysLoginLogMap1">
+		<include refid="find_xxx" />
+		<include refid="from_xxx" />
+		<where>
+			1=1
+			<if test="keywords != null and keywords != ''">
+				and CONCAT(a.`f_username`,'##',a.`f_rolemc`) LIKE CONCAT('%',#{keywords},'%')
+			</if>
+		</where>
+		  order by F_CHDATE desc
+	</select>
+
+
+	<!-- 用户登录时插入登录信息 -->
+	<insert id="addSysLoginLogid"
+		parameterType="com.efounder.JEnterprise.model.systemcenter.logmanage.ESSysLoginLog">
+		INSERT INTO
+		es_sys_login_log(F_ID,F_YHBH,F_USERNAME,F_ZZJGID,F_ROLEBH,F_ROLEMC,F_TYPE,F_LOGINTIME,F_CRDATE,F_CHDATE)
+		values(#{f_id},#{f_yhbh},#{f_username},#{f_zzjgid},#{f_rolebh},#{f_rolemc},#{f_type},#{f_logintime},NOW(),NOW())
+	</insert>
+
+
+
+
+
+
+
+
+
+
+
+
+
+</mapper>

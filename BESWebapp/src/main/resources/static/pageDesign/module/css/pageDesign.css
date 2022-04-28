@@ -1,0 +1,424 @@
+/*<#--改变选中文本的背景色------start-->*/
+    /*!*::-moz-selection {*!*/
+    /*!*background: #26a69a;*!*/
+    /*!*color: #ffffff;*!*/
+    /*!*}*!*/
+    /*!*::selection {*!*/
+    /*!*background: #26a69a;*!*/
+    /*!*color: #ffffff;*!*/
+    /*!*}*!*/
+/*<#--改变选中文本的背景色--------end-->*/
+
+/*.btn{*/
+    /*font-size: 2.1vh;*/
+/*}*/
+.design_attr_circle{
+    position:absolute;
+    /*top:100px;
+    right:100px;*/
+    right:12px;
+    width:40px;
+    height:40px;
+    z-index:10;
+    margin-top:-10px;
+    display:inline!important;
+}
+
+.design_attr_circle:hover{
+    transform: scale(1.1);
+    -webkit-transition: 0.5s;
+    transition: 0.5s;
+    cursor:pointer;
+}
+.design_attr_circle:active{
+    /*margin-top:3px;*/
+}
+.design_attr_circle i.layui-icon{
+    width:100%;
+    height:100%;
+}
+.design_attr_circle img{
+    width:40px;
+    height:40px;
+}
+/*工具栏的样式*/
+.design_toolbar_div{
+    position:absolute;
+    top:100px;
+    right:100px;
+    width:57vw;
+    z-index:10;
+}
+.design_toolbar_div .modal-body{
+    padding:10px;
+}
+.design_toolbar_div h4.modal-title{
+    margin-top:0;
+}
+.design_toolbar_div .modal-header{
+    padding: 0.7vw;
+}
+.toolbar{
+    position:absolute;
+    background-color: #0e4863;
+    /*float:right;*/
+    /*margin-right:100px;*/
+    top:100px;
+    right:100px;
+    width:30vw;
+    border: 2px solid #0e4863;
+    border-radius: 4px;
+    box-shadow: 0 0 8px #0e4863;
+}
+#design_toolbar .header{
+    width:100%;
+    height:30px;
+    background-color: #108ca7;
+    padding: 5px;
+}
+.design_toolbar_div .mainToolDiv{
+    height: 70%;overflow-x: hidden;overflow-y: auto;display: flex;
+}
+.design_toolbar_div .moreToolDiv{
+    display: flex;
+}
+.design_toolbar_div .addIcon{
+    font-size: 1.2vw;
+}
+.design_toolbar_div .toolItem{
+    display: flex;flex-direction: column;text-align: center;
+    margin-right:5px;
+    /*width:32px;*/
+}
+.design_toolbar_div .toolItem img{
+    width:2.6vw;
+}
+/*背景颜色按钮样式*/
+.design_toolbar_div .bgTool{
+    width:2.6vw;
+}
+.design_toolbar_div .toolItem span{
+    font-size:1vw;
+    display: none;
+}
+
+/*开关按钮的样式*/
+.switchDiv{
+    display: inline-block;
+    float: right;
+    font-weight: 100;
+    font-size: 0.8vw;
+    width: 3vw;
+    margin-right: 1vw;
+}
+    /*height: 4vh;*/
+    /*margin-top: -1.5vh;*/
+
+.switchDiv .layui-form-switch{
+    margin-top:0;
+    width: 3.5vw;
+    height: 2vw;
+    /*height: 2.5vh;*/
+    /*line-height: 2.5vh;*/
+    /*margin-top: 2px;*/
+    /*margin-right: 3px;*/
+}
+/*.switchDiv.layui-form-switch em{*/
+    /*top:0;*/
+/*}*/
+.switchDiv .layui-form-switch i{
+    top: 0.3vh;
+    width: 1.5vw;
+    height: 1.5vw;
+}
+
+
+.layui-form-onswitch i {
+    margin-left: -2vw;
+}
+
+#design_bgColor{
+    position: absolute;
+    left: 0;
+    top: 0;
+    opacity: 0;
+}
+#design_bgColor > div{
+    width:32px;
+    height:32px;
+}
+.uploadText {
+    position: absolute;
+    /*width: 100px;*/
+    /*height: 100px;*/
+    /*background-color: red;*/
+}
+
+
+/*.design_area_demo */
+.design_selected{
+    box-shadow: 0 0 15px #03a9f4;
+}
+.design_change_text{
+    /*box-shadow: 0 0 15px #7cdd6c;*/
+    box-shadow: 0 0 15px #80877e;
+}
+
+
+
+#design_area_demo .ui-icon-gripsmall-diagonal-se{
+    display:none !important;
+    z-index:1!important;
+}
+/*关联弹窗样式*/
+.design_relative_win{
+    padding: 10px 20px 10px 10px;
+}
+.design_relative_win .choosePointBtn{
+    width:5.5vw !important;
+    display:inline!important;
+}
+.design_relative_win .relativePointName{
+    width: 60%!important;
+    margin-right: 20px;
+    display:inline!important;
+}
+
+.design_relative_win table{
+    text-align: center;
+    margin: 10px 20px;
+}
+.design_relative_win table tr td{
+    padding:5px;
+}
+
+/*!*三列表格样式*!*/
+/*.design_relative_win table tr td:nth-child(even){*/
+    /*width:35%;*/
+/*}*/
+
+/*四列表格样式(文本框)*/
+.design_relative_win.textbox_relative_win table tr td:nth-child(even){
+    width:25%;
+}
+/*文本框关联弹窗中--下拉框样式*/
+
+#design_textbox_relative .layui-unselect dl { max-height:150px; }
+
+
+/*场景按钮选中行的input样式*/
+.design_scene_selected_input{
+    background: #34a2d4;
+    color: #ffffff;
+    border-color: #34a2d4;
+}
+
+
+/**
+图形样式
+ */
+
+#design_svg line,#design_svg rect,#design_svg circle{
+    cursor:move;
+}
+#design_shape_container rect:hover{
+    fill: #3ab8f7;
+    stroke:#3ab8f7;
+}
+#design_svg .design_shape:hover{
+    stroke: #3ab8f7;
+    stroke-width: 5px;
+}
+
+/*-----------------属性页样式---------------------------*/
+
+/*#attributeWin{*/
+    /*opacity: 0.9;*/
+/*}*/
+
+#moduleBgColor .layui-colorpicker,.textboxBgColor .layui-colorpicker{
+    width: 60px;
+    height: 35px;
+    border: 0 solid #e6e6e6;
+}
+
+/*左对齐*/
+.left_layout{
+    position: absolute;
+    left: 0;
+}
+/*右对齐*/
+.right_layout{
+    position: absolute;
+    right: 0;
+    /* left: 0;*/
+    /*去掉left属性*/
+}
+/*居中对齐的样式*/
+.center_layout {
+    position: absolute;
+    left: 0;
+    right: 0;
+    margin-left: auto;
+    margin-right: auto;
+    /*width: 100px; !* 要设定宽度 *!*/
+}
+/*-----------------属性页样式---------------------------*/
+
+/*图片修改保持纵横比*/
+#design_editImgWin .layui-form-checkbox{
+    display: inline!important;
+}
+
+/*表格样式*/
+.design_table.table-bordered > tbody > tr > td:hover{
+    background-color:#01AAED;
+}
+/*.design_table.table-bordered > tbody > tr > td:nth-child(1):hover{*/
+    /*background-color:#01AAED;*/
+/*}*/
+/*.design_table.table-bordered > tbody > tr:nth-child(1) td:hover{*/
+    /*background-color:#01AAED;*/
+/*}*/
+.design_table.table-bordered > tbody > tr > td.selected {
+    box-shadow: 0 0 15px #03a9f4;
+    background-color: #eee !important;
+}
+.design_table.design_debug_btn{
+    top:0;
+}
+
+
+/*图片关联点配置表格样式*/
+#design_img_relative_table thead th{
+    text-align: center;
+}
+
+/*图片关联配置---上传图片的样式*/
+#design_img_relative .uploadDiv{
+    position: relative;width:32px;height: 32px;margin: 0 auto;
+    top:10px;
+}
+#design_img_relative .uploadIcon{
+    position:absolute;width:100%;top:0;left:0;
+}
+#design_img_relative .uploadBtn {
+    position:absolute;
+    width:100%;height:100%;top:0;left:0;
+    opacity: 0;
+}
+
+
+/*文本框关联弹窗--配置列表样式*/
+ .configDiv{
+    margin:0 auto;
+    width:94%;
+}
+ /*配置数据区域滚动效果*/
+ .configDiv .dataDiv,.configDiv .intervalDataDiv{
+     text-align: left;
+     height:24vh;
+     overflow: auto;
+ }
+ .stateDiv,.intervalDiv{
+     text-align: left;
+ }
+.configDiv .plusBtn{
+    margin-top: 6px;
+    margin-left: 20px;
+}
+.configDiv input{
+    display: inline;
+    text-align:center;
+}
+.configDiv input.form-control[readonly]{
+    background-color:#ffffff;
+}
+.configDiv .text {
+    width: 166px;
+    /*float:left;*/
+}
+.configDiv .num,.configDiv .bgColor{
+    margin-left:10px;
+    width:100px;
+}
+
+.configDiv .configRow{
+    margin-top:15px;
+}
+.configDiv .dataDiv .num,.configDiv .intervalDataDiv .num{
+    margin-left:10px;
+}
+
+.configDiv .plusBtn:focus{
+/* outline: 5px auto -webkit-focus-ring-color; */
+/* outline-offset: -2px;*/
+    outline-offset: unset!important;
+    outline: none;
+}
+
+.configDiv .selected_input {
+    background-color: #34a2d4!important;
+    color: #ffffff;
+    border-color: #34a2d4;
+}
+
+.configDiv .bgDiv{
+    text-align: center;display: inline-block;
+    width: 78px;
+    margin-left:10px;
+}
+.layui-form-item .configDiv .layui-inline{
+    margin-right:0!important;
+}
+
+.intervalDiv .text,.intervalDataDiv .text{
+    width:166px;
+}
+.configDiv .num{
+    width:138px;
+}
+.configDiv .bgColor{
+    width:78px;
+}
+
+.intervalDataDiv .numDiv{
+    display:inline-block;
+    background: #ffffff;
+    height: 34px;
+    padding: 6px 0;
+    font-size: 14px;
+    line-height: 1.42857143;
+    color: #555;
+    border: 1px solid #1ab394 ;
+    border-radius: 4px;
+    margin-left:10px;
+}
+.intervalDataDiv .numDiv input{
+    width:40px;
+    border:none;
+}
+
+.intervalDataDiv .numDiv .unit{
+    width:40px;
+    display: inline-block;
+}
+
+#design_img_relative .configDiv .bgDiv{
+    position:relative;
+}
+
+/*字体设置弹窗样式*/
+#textSettingTable td{
+    padding-bottom: 5px;
+    padding-top: 5px;
+}
+
+#design_text_setting_win .design_win_btn_div{
+    margin-top: 27%;
+}
+
+
+#design_text_setting_win .layui-anim.layui-anim-upbit{
+    max-height: 215px;
+}

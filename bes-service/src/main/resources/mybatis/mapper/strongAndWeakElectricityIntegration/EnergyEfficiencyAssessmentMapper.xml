@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.efounder.JEnterprise.mapper.strongAndWeakElectricityIntegration.EnergyEfficiencyAssessmentMapper">
+
+	<!--区分所有点的f_type节点类型-->
+	<select id="getRelateNodeListType" resultType="java.util.HashMap">
+		select f_type,group_concat(f_sys_name) sysname from bes_sbpz_struct
+		where 1 = 1
+		and f_sys_name in
+		<foreach collection="sysnameArray" index="index" item="item" close=")" open="(" separator=",">
+			#{item}
+		</foreach>
+		group by f_type
+	</select>
+
+	<!--查询饼图所有关联点位公式信息-->
+	<select id="queryAllPieRelativeInfo" resultType="java.util.HashMap">
+		select * from a_design_pie_info
+		where 1 = 1
+		and id in
+		<foreach collection="piePointArray" index="index" item="item" close=")" open="(" separator=",">
+			#{item}
+		</foreach>
+	</select>
+
+	<!-- 查询该节点的实体表名 -->
+	<select id="findRelativeNodeTable" parameterType="String" resultType="String">
+		 select F_NODE_TABLE from bes_sbtree_nodetype
+		 where
+		 F_NODE_TYPE = (select F_TYPE from bes_sbpz_struct where F_SYS_NAME_OLD = #{f_sys_name} || F_SYS_NAME=#{f_sys_name})
+	</select>
+
+	<!--查询各种类型的节点的信息-->
+	<select id="queryRelativeTypeNodeList" resultType="java.util.Map">
+		SELECT tb.* FROM ${type_table}  tb
+		where  1= 1
+		and tb.f_sys_name in
+		<foreach collection="typeList" index="index" item="item" close=")" open="(" separator=",">
+			#{item}
+		</foreach>
+	</select>
+
+
+	<!--查询各种类型的节点的信息-->
+	<select id="queryLableRelativeTypeNodeList" resultType="java.util.Map">
+		SELECT tb.* FROM ${type_table}  tb
+		where  1= 1
+		and tb.f_sys_name  = #{sysName}
+	</select>
+
+
+	<!--查询各种类型的节点的信息-->
+	<select id="queryPieRelativeInfo" resultType="java.util.Map">
+		SELECT * FROM a_design_pie_info
+		where  1= 1
+		and name = #{name}
+	</select>
+
+
+	<!--新增设计页面-->
+	<insert id="addPieRelativeInfo">
+    insert into a_design_pie_info (id,name,expression,relativePoint)values (#{id},#{name},#{expression},#{relativePoint})
+  </insert>
+
+
+	<update id="updatePieRelativeInfo">
+    update a_design_pie_info set
+    name = #{name},
+    expression = #{expression},
+    relativePoint = #{relativePoint}
+    where id = #{id}
+  </update>
+
+
+
+</mapper>
+
+

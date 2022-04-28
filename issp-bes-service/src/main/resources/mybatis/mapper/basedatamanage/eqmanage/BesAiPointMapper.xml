@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.efounder.JEnterprise.mapper.basedatamanage.eqmanage.BesAiPointMapper" >
+  <resultMap id="BESAiPointMap" type="com.efounder.JEnterprise.model.basedatamanage.eqmanage.BesAiPoint" >
+    <id column="F_GUID" property="f_guid" />
+    <result column="F_GUID" property="f_guid" />
+    <result column="F_SBID" property="f_sbid" />
+    <result column="F_STRUCT_ID" property="f_struct_id" />
+    <result column="F_SYS_NAME_OLD" property="f_sys_name_old" />
+    <result column="F_SYS_NAME" property="f_sys_name" />
+    <result column="F_NICK_NAME" property="f_nick_name" />
+    <result column="F_ENABLED" property="f_enabled" />
+    <result column="F_CHANNEL_INDEX" property="f_channel_index" />
+    <result column="F_ENGINEER_UNIT" property="f_engineer_unit" />
+    <result column="F_NODE_TYPE" property="f_node_type" />
+    <result column="F_SINNAL_TYPE" property="f_sinnal_type" />
+    <result column="F_MIN_VAL" property="f_min_val" />
+    <result column="F_MAX_VAL" property="f_max_val" />
+    <result column="F_ACCURACY" property="f_accuracy" />
+    <result column="F_REVERSED" property="f_reversed" />
+    <result column="F_WORK_MODE" property="f_work_mode" />
+    <result column="F_ALARM_ENABLE" property="f_alarm_enable" />
+    <result column="F_ALARM_TYPE" property="f_alarm_type" />
+    <result column="F_HIGH_LIMIT" property="f_high_limit" />
+    <result column="F_LOW_LIMIT" property="f_low_limit" />
+    <result column="F_ALARM_PRIORITY" property="f_alarm_priority" />
+    <result column="F_INIT_VAL" property="f_init_val" />
+    <result column="F_DESCRIPTION" property="f_description" />
+    <result column="F_YQBH" property="f_yqbh" />
+    <result column="F_ENERGYSTATICS" property="f_energystatics" />
+    <result column="F_STATICSTIME" property="f_staticstime" />
+    <result column="F_CRDATE" property="f_crdate" />
+    <result column="F_CHDATE" property="f_chdate" />
+    <result column="F_AI_STATE" property="f_ai_state" />
+    <result column="F_ENERGY_TYPE" property="f_energy_type" />
+
+  </resultMap>
+  <sql id="Base_Column_List" >
+      F_GUID,
+      F_SBID,
+      F_STRUCT_ID,
+      F_SYS_NAME_OLD,
+      F_SYS_NAME,
+      F_NICK_NAME,
+      F_ENABLED,
+      F_CHANNEL_INDEX,
+      F_ENGINEER_UNIT,
+      F_NODE_TYPE,
+      F_SINNAL_TYPE,
+      F_MIN_VAL,
+      F_MAX_VAL,
+      F_ACCURACY,
+      F_REVERSED,
+      F_WORK_MODE,
+      F_ALARM_ENABLE,
+      F_ALARM_TYPE,
+      F_HIGH_LIMIT,
+      F_LOW_LIMIT,
+      F_ALARM_PRIORITY,
+      F_INIT_VAL,
+      F_DESCRIPTION,
+      F_YQBH,
+      F_ENERGYSTATICS,
+      F_STATICSTIME,
+      F_CRDATE,
+      F_CHDATE,
+      F_AI_STATE,
+      F_ENERGY_TYPE
+
+  </sql>
+
+  <!-- 查询虚点根据 -->
+  <select id="queryAiPoint" resultMap="BESAiPointMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from bes_analog_input
+    	<![CDATA[
+			WHERE F_SYS_NAME = #{f_sys_name}
+		]]>
+  </select>
+
+  <!--获取所有虚点数据-->
+  <select id="loadAll" resultMap="BESAiPointMap">
+    select
+    <include refid="Base_Column_List" />
+    from bes_analog_input
+  </select>
+
+</mapper>

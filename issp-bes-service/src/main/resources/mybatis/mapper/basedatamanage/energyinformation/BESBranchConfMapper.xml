@@ -1,0 +1,440 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.efounder.JEnterprise.mapper.basedatamanage.energyinformation.BESBranchConfMapper" >
+
+  <resultMap id="BranchConfMap" type="com.efounder.JEnterprise.model.basedatamanage.energyinformation.BESBranchConf" >
+    <id column="F_ZLBH" property="fZlbh" />
+    <result column="F_ZLMC" property="fZlmc" />
+    <result column="F_PZLBH" property="fPzlbh" />
+    <result column="F_JS" property="fJs" />
+    <result column="F_REAL_BH" property="fRealBh" />
+    <result column="F_LOCATION" property="fLocation" />
+    <result column="F_RATED_POWER" property="fRatedPower" />
+    <result column="F_NYBH" property="fNybh" />
+    <result column="F_ZZJGBH" property="fZzjgbh" />
+    <result column="F_YQBH" property="fYqbh" />
+    <result column="F_CRDATE" property="fCrdate" />
+    <result column="F_CHDATE" property="fChdate" />
+    <result column="F_EQUIPMENT" property="fEquipment" />
+    <result column="F_EQUIPMENT_SET" property="fEquipmentSet" />
+      <result column="F_USER_NAME" property="fUserName" />
+      <result column="F_ZZJG_ID" property="fZzjgId" />
+  </resultMap>
+
+    <resultMap id="BESBARMap" type="com.efounder.JEnterprise.model.basedatamanage.energyinformation.BESBranch_Ammeter_Rlgl" >
+        <id column="F_DBSYS_NAME" property="fDbsysName" />
+        <id column="F_ZLBH" property="fZlbh" />
+        <result column="F_OPERATOR" property="fOperator" />
+        <result column="F_CRDATE" property="fCrdate" />
+        <result column="F_CHDATE" property="fChdate" />
+    </resultMap>
+    <sql id="Base_Column_List_Ext" >
+    F_DBSYS_NAME, F_ZLBH,F_OPERATOR, F_CRDATE, F_CHDATE
+  </sql>
+  <resultMap id="BESBARMap_real" type="com.efounder.JEnterprise.model.basedatamanage.energyinformation.BESElectric_params">
+      <id column="F_DNBH" property="fDnbh"/>
+      <result column="F_DNMC" property="fDnmc"/>
+  </resultMap>
+        <resultMap id="BESAmmeterMap" type="com.efounder.JEnterprise.model.basedatamanage.eqmanage.BESAmmeter" >
+            <id column="F_SYS_NAME" property="fSysName" />
+            <result column="F_NICK_NAME" property="fNickName" />
+            <result column="F_SBID" property="fSbid" />
+            <result column="F_ENABLED" property="fEnabled" />
+            <result column="F_SSQY" property="fSsqy" />
+            <result column="F_AZWZ" property="fAzwz" />
+            <result column="F_WLDZ" property="fWldz" />
+            <result column="F_DESCRIPTION" property="fDescription" />
+            <result column="F_TYPE" property="fType" />
+            <result column="F_COMM_RATE" property="fCommRate" />
+            <result column="F_PROTOCOL_TYPE" property="fProtocolType" />
+            <result column="F_CJFABH" property="fCjfabh" />
+            <result column="F_BLXBH" property="fBlxbh" />
+            <result column="F_CRDATE" property="fCrdate" />
+            <result column="F_CHDATE" property="fChdate" />
+            <result column="F_ONLINESTATE" property="fOnlinestate" />
+            <result column="F_ONLINE_STATE" property="fOnlineState" />
+            <result column="F_AMMETER_STATE" property="fAmmeterState" />
+        </resultMap>
+        <sql id="Base_Column_List_11" >
+    F_SYS_NAME, F_NICK_NAME, F_SBID, F_ENABLED, F_SSQY, F_AZWZ, F_WLDZ, F_DESCRIPTION, F_TYPE,
+    F_COMM_RATE, F_PROTOCOL_TYPE, F_CJFABH, F_BLXBH, F_CRDATE, F_CHDATE
+  </sql>
+  
+  <sql id="Base_Column_List" >
+   F_ZLBH, F_ZLMC, F_PZLBH, F_JS, F_REAL_BH, F_LOCATION, F_RATED_POWER, F_NYBH,
+    F_ZZJGBH ,F_YQBH,date_format(F_CRDATE,'%Y-%m-%d %H:%i:%s' ) F_CRDATE ,date_format(F_CHDATE,'%Y-%m-%d %H:%i:%s' ) F_CHDATE,
+    F_EQUIPMENT,F_EQUIPMENT_SET,F_USER_NAME,F_ZZJG_ID
+  </sql>
+  
+  <select id="getBranchConfList" resultMap="BranchConfMap" parameterType="com.efounder.JEnterprise.model.basedatamanage.energyinformation.BESBranchConf" >
+    select 
+    <include refid="Base_Column_List" />
+    from bes_branch_conf 
+    <where>
+		1=1 
+		<if test="keywords != null and keywords != ''"> 
+			 and CONCAT(`F_ZLBH`,'##',`F_ZLMC` ) LIKE CONCAT('%',#{keywords},'%')
+		</if>
+		<if test="fYqbh != null and fYqbh != ''"> 
+			 and F_YQBH = #{fYqbh} 
+		</if>
+    	<if test="fZzjgbh != null and fZzjgbh != ''"> 
+			 and F_ZZJGBH = #{fZzjgbh} 
+		</if>
+		<if test="fNybh != null and fNybh != ''"> 
+			 and F_NYBH = #{fNybh}
+		</if>
+	</where>
+    order by F_ZLBH
+  </select>
+  
+ <!--  <select id="getYqbhBranchConfList" resultMap="BranchConfMap" parameterType="com.efounder.JEnterprise.model.basedatamanage.energyinformation.BESBranchConf" >
+    select 
+    <include refid="Base_Column_List" />
+    from bes_branch_conf
+    <where>
+		1=1 
+		<if test="keywords != null and keywords != ''"> 
+			 and CONCAT(`F_ZLBH`,'##',`F_ZLMC` ) LIKE CONCAT('%',#{keywords},'%')
+		</if>
+    	<if test="fYqbh != null and fYqbh != ''"> 
+			 and F_YQBH = #{fYqbh} 
+		</if>
+		<if test="fNybh != null and fNybh != ''"> 
+			 and F_NYBH = #{fNybh}
+		</if>
+	</where>
+    order by F_ZLBH
+  </select> -->
+  <!-- 加载全部支路信息 -->
+  <select id="loadAll" resultMap="BranchConfMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from bes_branch_conf 
+    <where>
+    	<if test="fnybh != null and fnybh != ''">
+          F_NYBH = #{fnybh}
+		</if>
+        <if test="fZzjgbh != null and fZzjgbh.size() > 0">
+          AND F_ZZJGBH in
+          <foreach item="item" index="index" collection="fZzjgbh"
+                   open="(" separator="," close=")">
+            #{item}
+          </foreach>
+        </if>
+        <if test='userId!= null and userId!= ""'>
+          and USER_ID = #{userId}
+        </if>
+	</where> 
+    order by F_ZLBH
+  </select>
+  
+  <!-- 加载全部支路信息 -->
+  <select id="loadAllYqbh" resultMap="BranchConfMap" parameterType="java.lang.String" >
+      select
+      <include refid="Base_Column_List" />
+      from bes_branch_conf
+      where 1=1
+      <if test="fYqbh != null and fYqbh != ''">
+          and F_YQBH = #{fYqbh}
+      </if>
+      <if test="fNybh != null and fNybh != ''">
+          and F_NYBH = #{fNybh}
+      </if>
+      <if test="groupbh != null and groupbh.size() > 0">
+          AND F_ZZJG_ID in
+          <foreach item="item" index="index" collection="groupbh"
+                   open="(" separator="," close=")">
+              #{item}
+          </foreach>
+      </if>
+      <if test='userId!= null and userId!= ""'>
+          and F_USER_NAME = #{userId}
+      </if>
+      order by F_ZLBH
+  </select>
+  
+  <!-- 查找子节点 -->
+  <select id="findChildByZlbh" resultMap="BranchConfMap" parameterType="java.lang.String" >
+    select a.F_ZLBH, a.F_ZLMC,a.F_PZLBH, a.F_JS, a.F_REAL_BH, a.F_LOCATION, a.F_RATED_POWER, a.F_NYBH, a.F_EQUIPMENT,b.F_FXMC as F_EQUIPMENT_SET,
+    a.F_ZZJGBH ,a.F_YQBH,date_format(a.F_CRDATE,'%Y-%m-%d %H:%i:%s' ) F_CRDATE ,date_format(a.F_CHDATE,'%Y-%m-%d %H:%i:%s' ) F_CHDATE
+    from bes_branch_conf a LEFT JOIN bes_subitem_conf b on a.F_EQUIPMENT_SET = b.F_FXBH
+    <where>
+		F_PZLBH = #{fZlbh} 
+	</where>
+		order by F_ZLBH
+  </select>
+  
+  
+  <select id="queryBranch" resultMap="BranchConfMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    	from bes_branch_conf  
+    <where>
+		F_ZLBH = #{newBh} 
+	</where>
+  </select>
+
+  <select id="querySelfChildByZlbh" resultMap="BranchConfMap" parameterType="java.lang.String" >
+      (select
+      <include refid="Base_Column_List" />
+      from bes_branch_conf
+      <where>
+          1 = 1
+          <if test="groupbh != null and groupbh.size() > 0">
+              and F_ZZJG_ID in
+              <foreach item="item" index="index" collection="groupbh"
+                       open="(" separator="," close=")">
+                  #{item}
+              </foreach>
+          </if>
+          <if test='userId!= null and userId!= ""'>
+              and F_USER_NAME = #{userId}
+          </if>
+          AND F_ZLBH = #{fZlbh}
+      </where>
+      )
+      UNION (
+      select
+      <include refid="Base_Column_List" />
+      from bes_branch_conf
+      <where>
+          1 = 1
+          <if test="groupbh != null and groupbh.size() > 0">
+              and F_ZZJG_ID in
+              <foreach item="item" index="index" collection="groupbh"
+                       open="(" separator="," close=")">
+                  #{item}
+              </foreach>
+          </if>
+          <if test='userId!= null and userId!= ""'>
+              and F_USER_NAME = #{userId}
+          </if>
+          AND F_PZLBH = #{fZlbh}
+      </where>
+      )
+      order by F_ZLBH
+  </select>
+
+  <select id="getBranchConf" resultMap="BranchConfMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    	from bes_branch_conf  
+    <where>
+		F_ZLBH = #{fZlbh} 
+	</where>
+  </select>
+  
+  <!-- 删除支路 -->
+  <delete id="del_branch" parameterType="java.lang.String" >
+    delete from bes_branch_conf
+    where F_ZLBH = #{fZlbh}
+  </delete>
+  <!-- 添加支路 -->
+  <insert id="addBranch" parameterType="com.efounder.JEnterprise.model.basedatamanage.energyinformation.BESBranchConf" >
+      insert into bes_branch_conf (F_ZLBH, F_ZLMC, F_PZLBH,
+      F_JS, F_REAL_BH, F_EQUIPMENT,F_EQUIPMENT_SET,
+      F_LOCATION, F_RATED_POWER, F_NYBH,
+      F_ZZJGBH, F_CRDATE, F_CHDATE,F_YQBH,F_JL
+      <if test="fUserName != null || fUserName != ''">
+          ,F_USER_NAME
+      </if>
+      <if test="fZzjgId != null || fZzjgId != ''">
+          ,F_ZZJG_ID
+      </if>
+      )
+      values (#{fZlbh}, #{fZlmc}, #{fPzlbh},
+      #{fJs}, #{fRealBh}, #{fEquipment},#{fEquipmentSet},
+      #{fLocation}, #{fRatedPower}, #{fNybh},
+      #{fZzjgbh},  current_timestamp(),current_timestamp(),#{fYqbh},#{fJl}
+      <if test="fUserName != null || fUserName != ''">
+          ,#{fUserName}
+      </if>
+      <if test="fZzjgId != null || fZzjgId != ''">
+          ,#{fZzjgId}
+      </if>
+      )
+  </insert>
+  
+  <!-- 编辑支路信息 -->
+  <update id="edit_branch" parameterType="com.efounder.JEnterprise.model.basedatamanage.energyinformation.BESBranchConf" >
+    update bes_branch_conf
+    <set >
+      <if test="fZlmc != null" >
+        F_ZLMC = #{fZlmc},
+      </if>
+      <if test="fRealBh != null" >
+        F_REAL_BH = #{fRealBh},
+      </if>
+      <if test="fLocation != null" >
+        F_LOCATION = #{fLocation},
+      </if>
+      <if test="fRatedPower != null" >
+        F_RATED_POWER = #{fRatedPower},
+      </if>
+      <if test="fEquipment != null" >
+        F_EQUIPMENT = #{fEquipment},
+      </if>
+      <if test="fEquipmentSet != null" >
+        F_EQUIPMENT_SET = #{fEquipmentSet},
+      </if>
+      <if test="fNybh != null" >
+        F_NYBH = #{fNybh},
+      </if>
+      <if test="fYqbh != null" >
+        F_YQBH = #{fYqbh},
+      </if>
+      <if test="fZzjgbh != null" >
+        F_ZZJGBH = #{fZzjgbh},
+      </if>
+        <if test="fUserName != null || fUserName != ''">
+            F_USER_NAME = #{fUserName},
+        </if>
+        <if test="fZzjgId != null || fZzjgId != ''">
+            F_ZZJG_ID = #{fZzjgId},
+        </if>
+		F_CHDATE = current_timestamp()
+    </set>
+    where F_ZLBH = #{fZlbh}
+  </update>
+  
+  
+  <update id="updateByPrimaryKey" parameterType="com.efounder.JEnterprise.model.basedatamanage.energyinformation.BESBranchConf" >
+    update bes_branch_conf
+    set F_ZLMC = #{fZlmc,jdbcType=VARCHAR},
+      F_PZLBH = #{fPzlbh,jdbcType=VARCHAR},
+      F_JS = #{fJs,jdbcType=VARCHAR},
+      F_REAL_BH = #{fRealBh,jdbcType=VARCHAR},
+      F_LOCATION = #{fLocation,jdbcType=VARCHAR},
+      F_RATED_POWER = #{fRatedPower,jdbcType=VARCHAR},
+      F_NYBH = #{fNybh,jdbcType=VARCHAR},
+      F_ZZJGBH = #{fZzjgbh,jdbcType=VARCHAR},
+      F_CRDATE = #{fCrdate,jdbcType=TIMESTAMP},
+      F_CHDATE = #{fChdate,jdbcType=TIMESTAMP}
+    where F_ZLBH = #{fZlbh,jdbcType=VARCHAR}
+  </update>
+
+    <select id="queryBARList" resultMap="BESBARMap" parameterType="com.efounder.JEnterprise.model.basedatamanage.energyinformation.BESBranch_Ammeter_Rlgl" >
+        select
+        <include refid="Base_Column_List_Ext" />
+        from bes_branch_ammeter_rlgl
+        where F_ZLBH = #{fZlbh}
+    </select>
+
+    <select id="queryAmmeter" resultType="java.util.Map" parameterType="java.lang.String" >
+       select f_sys_name id,F_NICK_NAME name,F_SYS_NAME_OLD old,F_WLDZ wldz from  bes_ammeter
+        <![CDATA[
+			WHERE F_SYS_NAME_OLD = #{keywords}
+		]]>
+    </select>
+
+  <select id="queryBARList_rlgl" resultMap="BESBARMap_real" parameterType="java.lang.String" >
+    select a.F_DNBH,a.F_DNMC  from bes_electric_params a where F_DNBH in
+(select F_NHBH from bes_electric_coll_rlgl where F_CJFABH =
+(select F_CJFABH from bes_coll_method where F_CJFAMC =
+(select F_CJFAMC from  bes_ammeter
+where  F_SYS_NAME_OLD = #{parentId})));
+  </select>
+  <!--查询是否级联-->
+  <select id="selectf_jl" resultType="java.lang.String">
+        select f_jl from bes_branch_conf where F_ZLBH = #{fZlbh}
+    </select>
+  <!--修改是否级联-->
+  <update id="changef_jl">
+      update bes_branch_conf set F_JL = #{fJl} where F_ZLBH = #{fZlbh}
+    </update>
+
+  <!--查询当前支路编号的信息-->
+  <select id="selectf_pzlbh" resultType="java.util.Map" parameterType="com.efounder.JEnterprise.model.basedatamanage.energyinformation.BESBranch_Ammeter_Rlgl">
+    select * from bes_branch_conf where F_ZLBH = #{fZlbh}
+  </select>
+  <!--查询父节点的信息-->
+  <select id="selectf_pzlbhs" resultType="java.util.Map">
+    select * from bes_branch_conf where F_ZLBH = #{pzlbh}
+  </select>
+  <select id="selectf_pzlbh_down" resultType="java.util.Map" parameterType="com.efounder.JEnterprise.model.basedatamanage.energyinformation.BESBranch_Ammeter_Rlgl">
+    select * from bes_branch_conf where F_PZLBH = #{fZlbh}
+  </select>
+
+  <!--判断支路名称是否重复-->
+  <select id="selectfzlmc"  resultMap="BranchConfMap">
+      select
+      *
+      from bes_branch_conf where f_zlmc = #{getfZlmc}
+    </select>
+
+  <!--删除前判断分户中是否添加此支路-->
+  <select id="selectHouseholdDeploy" resultType="java.util.Map">
+      select * from bes_household_branch_rlgl where F_ZLBH = #{fZlbh}
+    </select>
+
+  <!--删除前判断分项中是否添加此支路-->
+  <select id="selectSubOptionDeploy" resultType="java.util.Map">
+    select * from bes_subitem_branch_rlgl where F_ZLBH = #{fZlbh}
+  </select>
+
+  <!--删除前判断支路报警配置中是否关联此支路-->
+  <select id="selectBranchAlarmDeploy" resultType="java.util.Map">
+    select * from bes_branch_conf_alert where F_ZLBH = #{fZlbh}
+  </select>
+
+    <!--删除前判断支路与电表关系表中是否关联电表-->
+    <select id="selectBranchAmmeterDeploy" resultType="java.util.Map">
+        select F_DBSYS_NAME FROM bes_branch_ammeter_rlgl WHERE F_ZLBH = #{fZlbh}
+    </select>
+
+    <select id="loadAllBranchAmmeterRlgl" resultType="com.efounder.JEnterprise.model.basedatamanage.energyinformation.BESBranch_Ammeter_Rlgl">
+
+        select
+            F_ZLBH fZlbh,
+            F_DBSYS_NAME fDbsysName,
+            F_OPERATOR fOperator,
+            F_CRDATE fCrdate,
+            F_CHDATE fChdate,
+            F_AMTTER_GUID fAmtterGuid
+
+        FROM bes_branch_ammeter_rlgl
+
+    </select>
+
+    <!-- 删除支路电表操作记录 -->
+    <delete id="delBranchAmmeterLog" parameterType="java.lang.String" >
+    delete from bes_branch_ammeter_log
+    where F_ZLBH = #{fZlbh}
+  </delete>
+
+
+    <!--wanghongjie 2022/04/23 修改支路树结构表-->
+    <update id="updateBranch_conf">
+        update bes_branch_conf
+        <set>
+            F_ZLBH = #{nodeId1},
+            F_PZLBH = #{nodeId}
+        </set>
+        <where>
+            F_ZLBH = #{nodeTreeId}
+        </where>
+    </update>
+
+    <!--wanghongjie 2022/04/23 修改支路电表表-->
+    <update id="updateBranch_ammeter_rlgl">
+        update bes_branch_ammeter_rlgl
+        <set>
+            F_ZLBH = #{nodeId1}
+        </set>
+        <where>
+            F_ZLBH = #{nodeTreeId}
+        </where>
+    </update>
+
+    <!-- wanghongjie 2022/04/23 修改支路数据表-->
+    <update id="updateBranch_data">
+        update bes_branch_data
+        <set>
+            F_ZLBH = #{nodeId1}
+        </set>
+        <where>
+            F_ZLBH = #{nodeTreeId}
+        </where>
+    </update>
+</mapper>

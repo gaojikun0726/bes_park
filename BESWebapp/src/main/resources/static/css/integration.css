@@ -1,0 +1,59 @@
+.orangebtn {
+	color: #fef4e9;
+	border: solid 1px #da7c0c;
+	background: #f78d1d;
+	background: -webkit-gradient(linear, left top, left bottom, from(#faa51a), to(#f47a20));
+	background: -moz-linear-gradient(top,  #faa51a,  #f47a20);
+	filter:  progid:DXImageTransform.Microsoft.gradient(startColorstr='#faa51a', endColorstr='#f47a20');
+}
+.orangebtn:hover {
+	background: #f47c20;
+	background: -webkit-gradient(linear, left top, left bottom, from(#f88e11), to(#f06015));
+	background: -moz-linear-gradient(top,  #f88e11,  #f06015);
+	filter:  progid:DXImageTransform.Microsoft.gradient(startColorstr='#f88e11', endColorstr='#f06015');
+}
+.orangebtn:active {
+	color: #fcd3a5;
+	background: -webkit-gradient(linear, left top, left bottom, from(#f47a20), to(#faa51a));
+	background: -moz-linear-gradient(top,  #f47a20,  #faa51a);
+	filter:  progid:DXImageTransform.Microsoft.gradient(startColorstr='#f47a20', endColorstr='#faa51a');
+}
+.circle {
+	
+	float:left;margin-left:25px;text-align:center;width: 100px;height: 100px;-moz-border-radius: 100px / 50px;-webkit-border-radius: 100px / 50px;border-radius: 100px / 50px;
+}
+
+/* 蓝色圆圈div渐变设置 */
+.bluediv {
+	color:#fef4e9;
+	border: solid 1px #cdd7f7;
+	background: #f78d1d;
+	background: -webkit-gradient(linear, left top, left bottom, from(#1b49f9), to(#539dde));
+	background: -moz-linear-gradient(top, #1b49f9,  #539dde);
+	filter:  progid:DXImageTransform.Microsoft.gradient(startColorstr='#1b49f9', endColorstr='#539dde');
+}
+/* 橘色圆圈div渐变设置 */
+.orangediv {
+	color: #fef4e9;
+	border: solid 1px #da7c0c;
+	background: #f78d1d;
+	background: -webkit-gradient(linear, left top, left bottom, from(#e87903), to(#f9ba44));
+	background: -moz-linear-gradient(top,  #e87903,  #f9ba44);
+	filter:  progid:DXImageTransform.Microsoft.gradient(startColorstr='#e87903', endColorstr='#f9ba44');
+}
+/* 绿色圆圈div渐变设置 */
+.greendiv {
+	color:#fef4e9;
+	border: solid 1px #cdd7f7;
+	background: #f78d1d;
+	background: -webkit-gradient(linear, left top, left bottom, from(#45af05), to(#8ef152));
+	background: -moz-linear-gradient(top, #45af05,  #8ef152);
+	filter:  progid:DXImageTransform.Microsoft.gradient(startColorstr='#45af05', endColorstr='#8ef152');
+}
+/* 设置隐藏表格td边界 */
+.hidentable td{
+	border: solid 1px #ffffff;
+}
+.hidentabletr1{
+	background:#f4f8f8;
+}

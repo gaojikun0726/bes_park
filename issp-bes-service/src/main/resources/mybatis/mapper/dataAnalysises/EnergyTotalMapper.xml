@@ -1,0 +1,184 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.efounder.JEnterprise.mapper.dataAnalysises.EnergyTotalMapper" >
+
+
+    <!--按照时间查询某天的能耗统计（以分户为单位计算）-->
+    <select id="getDailyTotalEnergy" resultType="java.util.Map">
+         select date_format(d.f_cjsj,'%Y-%m-%d') f_cjsj, SUM(d.F_DATA) f_data
+        from bes_household_data d left join bes_household_conf c on d.f_fhbh = c.f_fhbh
+        where (c.F_PFHBH = '' or c.F_PFHBH is null)
+		and d.f_type = #{fType}
+	    and date_format(d.f_cjsj,'%Y-%m-%d') = #{fCjsj}
+	    and c.f_nybh = #{fNybh}
+    </select>
+
+
+    <!--按照时间查询某月的能耗统计-->
+    <select id="getMonthTotalEnergy" resultType="java.util.Map">
+        select sum(d.f_data) f_data,date_format(d.f_cjsj,'%Y-%m') f_cjsj
+		from bes_household_data d left join bes_household_conf c on d.f_fhbh = c.f_fhbh
+        where (c.F_PFHBH = '' or c.F_PFHBH is null)
+		and d.f_type = #{fType}
+		and date_format(d.f_cjsj,'%Y-%m') = #{fCjsj}
+		and c.f_nybh = #{fNybh}
+    </select>
+
+
+    <!--按照时间查询某年的能耗统计-->
+    <select id="getYearTotalEnergy" resultType="java.util.Map">
+        select sum(d.f_data) f_data,date_format(d.f_cjsj,'%Y') f_cjsj
+		from bes_household_data d left join bes_household_conf c on d.f_fhbh = c.f_fhbh
+        where (c.F_PFHBH = '' or c.F_PFHBH is null)
+		and d.f_type = #{fType}
+		and date_format(d.f_cjsj,'%Y') = #{fCjsj}
+		and c.f_nybh = #{fNybh}
+    </select>
+
+    <!--查询年能耗统计-->
+    <select id="getYearEnergy" resultType="java.util.Map">
+       select c.f_fhbh,c.f_fhmc,date_format(d.f_cjsj,'%Y') f_cjsj,round(f_data,2) f_data
+	   from bes_household_data d left join bes_household_conf c on d.f_fhbh = c.f_fhbh
+       where (c.F_PFHBH = '' or c.F_PFHBH is null)
+	   and d.f_type = 3
+	   and date_format(d.f_cjsj,'%Y') = date_format(#{time},'%Y')
+	   and c.f_nybh = #{fNybh}
+    </select>
+
+    <!--查询月能耗统计-->
+    <select id="getMonthEnergy" resultType="java.util.Map">
+        select c.f_fhbh,c.f_fhmc,date_format(d.f_cjsj,'%Y-%m') f_cjsj,round(f_data,2) f_data
+		from bes_household_data d left join bes_household_conf c on d.f_fhbh = c.f_fhbh
+        where (c.F_PFHBH = '' or c.F_PFHBH is null)
+		and d.f_type = 2
+		and date_format(d.f_cjsj,'%Y-%m') = date_format(#{time},'%Y-%m')
+		and c.f_nybh = #{fNybh}
+    </select>
+
+    <!--查询日能耗统计-->
+    <select id="getDayEnergy" resultType="java.util.Map">
+        select c.f_fhbh,c.f_fhmc,date_format(d.f_cjsj,'%Y-%m-%d') f_cjsj,round(f_data,2) f_data
+		from bes_household_data d left join bes_household_conf c on d.f_fhbh = c.f_fhbh
+        where (c.F_PFHBH = '' or c.F_PFHBH is null)
+		and d.f_type = 1
+		and date_format(d.f_cjsj,'%Y-%m-%d') = date_format(#{time},'%Y-%m-%d')
+		and c.f_nybh = #{fNybh}
+    </select>
+
+    <!--查询年度能耗趋势-->
+    <select id="getAnnualEnergyTrend" resultType="java.util.Map">
+       select c.f_fhbh,c.f_fhmc,date_format(d.f_cjsj,'%Y-%m') f_cjsj,round(f_data,2) f_data
+	   from bes_household_data d left join bes_household_conf c on d.f_fhbh = c.f_fhbh
+       where (c.F_PFHBH = '' or c.F_PFHBH is null)
+	   and d.f_type = 2
+	   and date_format(d.f_cjsj,'%Y') = date_format(#{time},'%Y')
+	   and c.f_nybh = #{fNybh}
+
+    </select>
+
+    <!--查询月环比能耗数据-->
+    <select id="getMonthLinkData" resultType="java.util.Map">
+         select c.f_fhbh,c.f_fhmc,c.f_cjsj,ifnull(round(d.f_data,2),0) f_data from
+		(		select c.f_fhbh,c.f_fhmc,t.f_cjsj from
+					(
+					  select date_format(date_sub(#{time},interval 1 month),'%Y-%m') f_cjsj
+						union
+						select date_format(#{time},'%Y-%m') f_cjsj
+					) t
+				left join bes_household_conf c on 1 = 1
+				where
+				  (c.F_PFHBH = '' or c.F_PFHBH is null)
+				  and c.f_nybh = #{fNybh}
+		) c
+		left join
+		(
+			select d.f_fhbh,d.f_cjsj,d.f_data from
+			bes_household_data d
+			where d.f_type = 2
+		)
+		d on d.f_fhbh = c.f_fhbh and c.f_cjsj = date_format(d.f_cjsj,'%Y-%m')
+    </select>
+
+    <!--查询月同比能耗数据-->
+    <select id="getSameMonthComparedData" resultType="java.util.Map">
+		  select c.f_fhbh,c.f_fhmc,c.f_cjsj,ifnull(round(d.f_data,2),0) f_data from
+		(		select c.f_fhbh,c.f_fhmc,t.f_cjsj from
+					(
+					  select date_format(date_sub(#{time}, interval 1 year),'%Y-%m') f_cjsj
+						union
+						select date_format(#{time},'%Y-%m') f_cjsj
+					) t
+				left join bes_household_conf c on 1 = 1
+					where
+						(c.F_PFHBH = '' or c.F_PFHBH is null)
+							and c.f_nybh = #{fNybh}
+		  ) c
+		left join
+		(
+			select d.f_fhbh,d.f_cjsj,d.f_data from
+			bes_household_data d
+			where d.f_type = 2
+		)
+		d on d.f_fhbh = c.f_fhbh and c.f_cjsj = date_format(d.f_cjsj,'%Y-%m')
+    </select>
+
+
+    <!--查询分时能耗统计-->
+    <select id="getLiveEnergyData" resultType="java.util.Map">
+        		select c.f_fhbh,c.f_fhmc,date_format(d.f_cjsj,'%Y-%m-%d %H:%i:%s') f_cjsj,round(f_data,2) f_data
+				  from bes_household_data d left join bes_household_conf c on d.f_fhbh = c.f_fhbh
+        where
+				(c.F_PFHBH = '' or c.F_PFHBH is null)
+				and d.f_type = 0
+				and date_format(d.f_cjsj,'%Y-%m-%d') = date_format(#{time},'%Y-%m-%d')
+				and c.f_nybh = #{fNybh}
+    </select>
+
+
+	<!--本周的每日能耗数据统计-->
+	<select id="getWeekByDayEnergy" resultType="java.util.Map">
+		select c.f_fhbh,c.f_fhmc,date_format(d.f_cjsj,'%Y-%m-%d') f_cjsj,round(f_data,2) f_data
+		from bes_household_data d left join bes_household_conf c on d.f_fhbh = c.f_fhbh
+		where (c.F_PFHBH = '' or c.F_PFHBH is null)
+		and d.f_type = 1
+		and date_format(d.f_cjsj,'%Y-%m-%d') >= DATE_SUB(#{time},INTERVAL WEEKDAY(#{time}) day)
+		and date_format(d.f_cjsj,'%Y-%m-%d') &lt;= DATE_ADD(#{time},INTERVAL 6 - WEEKDAY(#{time}) day)
+		and c.f_nybh = #{fNybh}
+    </select>
+
+
+	<!--获取各单位能耗统计排行-->
+	<!--分户配置需要满足条件：分户一级节点是（整个园区），二级节点是各个单位-->
+	<!--暂时统计前10位-->
+	<select id="getCompanyMonthRank" resultType="java.util.Map">
+		select c.f_fhbh,c.f_fhmc,date_format(d.f_cjsj,'%Y-%m') f_cjsj,round(f_data,2) f_data
+		from bes_household_data d
+		inner join
+			(select f_fhbh,f_fhmc,f_nybh from bes_household_conf where f_pfhbh in
+				(select f_fhbh from bes_household_conf c where c.F_PFHBH = '' or c.F_PFHBH is null)
+			) c
+		on d.f_fhbh = c.f_fhbh
+		where d.f_type = 2
+		and date_format(d.f_cjsj,'%Y-%m') = date_format(#{time},'%Y-%m')
+		and c.f_nybh = #{fNybh}
+		order by f_data desc
+		limit #{count}
+	</select>
+
+
+	<!--获取各楼宇的按日能耗统计-->
+	<!--支路配置需要满足条件：支路一级节点是整个园区，二级节点是各个楼宇（比如1#东塔、2#A区）-->
+	<select id="getBuildingEnergyByDay" resultType="java.util.Map">
+		SELECT c.f_zlbh,c.f_zlmc,date_format(d.f_cjsj,'%Y-%m-%d') f_cjsj,round(f_data,2) f_data
+		FROM bes_branch_data d
+		inner join
+		(select f_zlbh,f_zlmc,f_nybh from bes_branch_conf where f_pzlbh in
+			(select f_zlbh from bes_branch_conf where f_pzlbh is null or f_pzlbh = '')
+		) c
+		on d.f_zlbh = c.f_zlbh
+		where d.f_type = '1'
+		and date_format(d.f_cjsj,'%Y-%m-%d') = date_format(#{time},'%Y-%m-%d')
+		and c.f_nybh = #{fNybh}
+	</select>
+
+</mapper>

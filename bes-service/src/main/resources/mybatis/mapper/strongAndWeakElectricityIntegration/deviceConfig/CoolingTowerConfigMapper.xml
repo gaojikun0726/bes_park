@@ -1,0 +1,255 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.efounder.JEnterprise.mapper.strongAndWeakElectricityIntegration.deviceConfig.CoolingTowerConfigMapper" >
+
+    <sql id="col_name">
+    id                                          id,
+    name                                        name,
+    operating_mode                              operatingMode,
+    fault_state                                 faultState,
+    operation_hours                             operationHours,
+    inlet_valve_open_arrives                    inletValveOpenArrives,
+    inlet_valve_close_arrives                   inletValveCloseArrives,
+    outlet_valve_open_arrives                   outletValveOpenArrives,
+    outlet_valve_close_arrives                  outletValveCloseArrives,
+    inlet_valve_fault                           inletValveFault,
+    outlet_valve_fault                          outletValveFault,
+    fan_fault                                   fanFault,
+    running_status                              runningStatus,
+    operating_mode_display                      operatingModeDisplay,
+    fault_state_display                         faultStateDisplay,
+    operation_hours_display                     operationHoursDisplay,
+    inlet_valve_open_arrives_display            inletValveOpenArrivesDisplay,
+    inlet_valve_close_arrives_display           inletValveCloseArrivesDisplay,
+    outlet_valve_open_arrives_display           outletValveOpenArrivesDisplay,
+    outlet_valve_close_arrives_display          outletValveCloseArrivesDisplay,
+    inlet_valve_fault_display                   inletValveFaultDisplay,
+    outlet_valve_fault_display                  outletValveFaultDisplay,
+    fan_fault_display                           fanFaultDisplay,
+    running_status_display                      runningStatusDisplay,
+    electric_meter_number                       electric_meter_number
+	</sql>
+
+    <sql id="col_name_town">
+    c.id                                          id,
+    c.name                                        name,
+    c.operating_mode                              operatingMode,
+    c.fault_state                                 faultState,
+    c.operation_hours                             operationHours,
+    c.inlet_valve_open_arrives                    inletValveOpenArrives,
+    c.inlet_valve_close_arrives                   inletValveCloseArrives,
+    c.outlet_valve_open_arrives                   outletValveOpenArrives,
+    c.outlet_valve_close_arrives                  outletValveCloseArrives,
+    c.inlet_valve_fault                           inletValveFault,
+    c.outlet_valve_fault                          outletValveFault,
+    c.fan_fault                                   fanFault,
+    c.running_status                              runningStatus,
+    c.operating_mode_display                      operatingModeDisplay,
+    c.fault_state_display                         faultStateDisplay,
+    c.operation_hours_display                     operationHoursDisplay,
+    c.inlet_valve_open_arrives_display            inletValveOpenArrivesDisplay,
+    c.inlet_valve_close_arrives_display           inletValveCloseArrivesDisplay,
+    c.outlet_valve_open_arrives_display           outletValveOpenArrivesDisplay,
+    c.outlet_valve_close_arrives_display          outletValveCloseArrivesDisplay,
+    c.inlet_valve_fault_display                   inletValveFaultDisplay,
+    c.outlet_valve_fault_display                  outletValveFaultDisplay,
+    c.fan_fault_display                           fanFaultDisplay,
+    c.running_status_display                      runningStatusDisplay,
+    c.electric_meter_number                       electric_meter_number,
+    s.id                                          ids,
+    s.name                                        names,
+    s.cabinet_name                                cabinet_name,
+    s.instant_energy                              instant_energy,
+    s.total_energy                                total_energy,
+    s.a_phase_voltage                             a_phase_voltage,
+    s.b_phase_voltage                             b_phase_voltage,
+    s.c_phase_voltage                             c_phase_voltage,
+    s.a_phase_current                             a_phase_current,
+    s.b_phase_current                             b_phase_current,
+    s.c_phase_current                             c_phase_current,
+    s.instant_energy_display                      instant_energy_display,
+    s.total_energy_display                        total_energy_display,
+    s.a_phase_voltage_display                     a_phase_voltage_display,
+    s.b_phase_voltage_display                     b_phase_voltage_display,
+    s.c_phase_voltage_display                     c_phase_voltage_display,
+    s.a_phase_current_display                     a_phase_current_display,
+    s.b_phase_current_display                     b_phase_current_display,
+    s.c_phase_current_display                     c_phase_current_display
+	</sql>
+
+    <sql id="table_name">
+        strongandweakelectricityintegration_coolingtowerconfig
+    </sql>
+
+    <insert id="insert">
+
+        insert into
+        <include refid="table_name"/>
+
+        (
+            name,
+            operating_mode,
+            fault_state,
+            operation_hours,
+            inlet_valve_open_arrives,
+            inlet_valve_close_arrives,
+            outlet_valve_open_arrives,
+            outlet_valve_close_arrives,
+            inlet_valve_fault,
+            outlet_valve_fault,
+            fan_fault,
+            running_status,
+            operating_mode_display,
+            fault_state_display,
+            operation_hours_display,
+            inlet_valve_open_arrives_display,
+            inlet_valve_close_arrives_display,
+            outlet_valve_open_arrives_display,
+            outlet_valve_close_arrives_display,
+            inlet_valve_fault_display,
+            outlet_valve_fault_display,
+            fan_fault_display,
+            running_status_display,
+            electric_meter_number
+        )
+        values
+        (
+
+            #{name},
+            #{operatingMode},
+            #{faultState},
+            #{operationHours},
+            #{inletValveOpenArrives},
+            #{inletValveCloseArrives},
+            #{outletValveOpenArrives},
+            #{outletValveCloseArrives},
+            #{inletValveFault},
+            #{outletValveFault},
+            #{fanFault},
+            #{runningStatus},
+            #{operatingModeDisplay},
+            #{faultStateDisplay},
+            #{operationHoursDisplay},
+            #{inletValveOpenArrivesDisplay},
+            #{inletValveCloseArrivesDisplay},
+            #{outletValveOpenArrivesDisplay},
+            #{outletValveCloseArrivesDisplay},
+            #{inletValveFaultDisplay},
+            #{outletValveFaultDisplay},
+            #{fanFaultDisplay},
+            #{runningStatusDisplay},
+            #{electric_meter_number}
+
+        )
+
+
+    </insert>
+
+    <select id="queryColdCooling" resultType="com.efounder.JEnterprise.model.strongAndWeakElectricityIntegration.deviceConfig.CoolingTowerConfigModel">
+
+        select
+
+        <include refid="col_name_town"/>
+
+        from
+
+        strongandweakelectricityintegration_coolingtowerconfig c,strongandweakelectricityintegration_ammeterconfig s
+        <where>
+            c.electric_meter_number  =   s.id
+            <if test="id != null and id != ''" >
+                and c.id    =   #{id}
+            </if>
+
+            <if test="name != null and name != ''" >
+                and c.name  =   #{name}
+            </if>
+
+        </where>
+
+    </select>
+
+    <select id="findList" resultType="com.efounder.JEnterprise.model.strongAndWeakElectricityIntegration.deviceConfig.CoolingTowerConfigModel">
+
+        select
+
+        <include refid="col_name"/>
+
+        from
+
+        <include refid="table_name"/>
+        <where>
+
+            <if test="id != null and id != ''" >
+                id    =   #{id}
+            </if>
+
+            <if test="name != null and name != ''" >
+                and name  =   #{name}
+            </if>
+
+        </where>
+
+    </select>
+
+
+    <update id="update">
+
+        update
+          <include refid="table_name"/>
+
+		set
+        name                                =   #{name},
+        operating_mode                      =   #{operatingMode},
+        fault_state                         =   #{faultState},
+        operation_hours                     =   #{operationHours},
+        inlet_valve_open_arrives            =   #{inletValveOpenArrives},
+        inlet_valve_close_arrives           =   #{inletValveCloseArrives},
+        outlet_valve_open_arrives           =   #{outletValveOpenArrives},
+        outlet_valve_close_arrives          =   #{outletValveCloseArrives},
+        inlet_valve_fault                   =   #{inletValveFault},
+        outlet_valve_fault                  =   #{outletValveFault},
+        fan_fault                           =   #{fanFault},
+        running_status                      =   #{runningStatus},
+        operating_mode_display              =   #{operatingModeDisplay},
+        fault_state_display                 =   #{faultStateDisplay},
+        operation_hours_display             =   #{operationHoursDisplay},
+        inlet_valve_open_arrives_display    =   #{inletValveOpenArrivesDisplay},
+        inlet_valve_close_arrives_display   =   #{inletValveCloseArrivesDisplay},
+        outlet_valve_open_arrives_display   =   #{outletValveOpenArrivesDisplay},
+        outlet_valve_close_arrives_display  =   #{outletValveCloseArrivesDisplay},
+        inlet_valve_fault_display           =   #{inletValveFaultDisplay},
+        outlet_valve_fault_display          =   #{outletValveFaultDisplay},
+        fan_fault_display                   =   #{fanFaultDisplay},
+        running_status_display              =   #{runningStatusDisplay},
+        electric_meter_number               =   #{electric_meter_number}
+
+        where
+
+            id              =         #{id}
+    </update>
+
+    <delete id="delete">
+
+        delete from
+          <include refid="table_name"/>
+        where
+             id = #{id}
+    </delete>
+
+    <!--查询强弱电页面展示通用配置表strongandweakelectricityintegration_commonconfig是否有配置的信息-->
+    <select id="findlistcommonconfig" resultType="java.util.Map">
+        select * from strongandweakelectricityintegration_commonconfig where F_EQUIPMENT_ID = #{id}
+    </select>
+    <!--强弱电页面展示通用配置表  左侧的topstrongandweakelectricityintegration_commonconfig_top是否有配置的信息-->
+    <select id="findlistcommonconfig_top" resultType="java.util.Map">
+        select * from strongandweakelectricityintegration_commonconfig_top where F_EQUIPMENT_ID = #{id}
+    </select>
+
+    <delete id="deletecommonconfigById">
+        delete from strongandweakelectricityintegration_commonconfig where F_EQUIPMENT_ID = #{id}
+    </delete>
+    <delete id="deletecommonconfig_topById">
+        delete from strongandweakelectricityintegration_commonconfig_top where F_EQUIPMENT_ID = #{id}
+    </delete>
+    
+</mapper>

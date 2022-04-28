@@ -1,0 +1,294 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.efounder.JEnterprise.zhdg.dao.PointDao">
+
+    <!-- 可根据自己的需求，是否要使用 -->
+    <resultMap type="com.efounder.JEnterprise.zhdg.entity.PointEntity" id="pointMap">
+                    <result property="fGuid" column="F_GUID"/>
+                    <result property="fCode" column="F_CODE"/>
+                    <result property="fPointName" column="F_POINT_NAME"/>
+                    <result property="fPointIp" column="F_POINT_IP"/>
+                    <result property="fLongitude" column="F_LONGITUDE"/>
+                    <result property="fLatitude" column="F_LATITUDE"/>
+                    <result property="fRegionId" column="F_REGION_ID"/>
+                    <result property="fRegionName" column="F_REGION_NAME"/>
+                    <result property="fRemark" column="F_REMARK"/>
+                    <result property="fIsUse" column="F_IS_USE"/>
+                    <result property="fStatus" column="F_STATUS"/>
+                    <result property="fCrdate" column="F_CRDATE"/>
+                    <result property="fChdate" column="F_CHDATE"/>
+        <result property="screenCode" column="F_SCREEN_CODE"/>
+        <result property="pduIp" column="PDU_IP"/>
+        <result property="soundIp" column="SOUND_IP"/>
+        <result property="mainboardIp" column="MAINBOARD_IP"/>
+        <result property="cameraIp" column="CAMERA_IP"/>
+        <result property="alarmIp" column="ALARM_IP"/>
+            </resultMap>
+
+    <sql id="Base_Column_List">
+        select F_GUID, F_CODE, F_POINT_NAME, F_POINT_IP, F_LONGITUDE, F_LATITUDE, F_REGION_ID, F_REMARK, F_IS_USE, F_STATUS, F_CRDATE, F_CHDATE,F_SCREEN_CODE, PDU_IP, SOUND_IP, MAINBOARD_IP, CAMERA_IP, ALARM_IP from seb_point
+    </sql>
+
+    <!-- 关键字查询，分页查询 -->
+    <select id="getSearch" resultMap="pointMap" parameterType="java.lang.String">
+        SELECT S.F_GUID, S.F_CODE, S.F_POINT_NAME, S.F_POINT_IP, S.F_LONGITUDE, S.F_LATITUDE, S.F_REGION_ID, S.F_REMARK, S.F_IS_USE,
+        S.F_STATUS, S.F_CRDATE, S.F_CHDATE,R.F_REGION_NAME,S.F_SCREEN_CODE, PDU_IP, SOUND_IP, MAINBOARD_IP, CAMERA_IP, ALARM_IP
+        FROM SEB_POINT S
+        LEFT JOIN SEB_REGION R ON S.F_REGION_ID = R.F_ID
+        <where>
+            1=1
+            <if test="keywords != null and keywords != ''">
+                and S.F_CODE like CONCAT ('%', #{keywords},'%')
+                or S.F_POINT_NAME like CONCAT ('%', #{keywords},'%')
+            </if>
+        </where>
+        order by s.f_code asc
+    </select>
+
+    <select id="getSearchById" resultMap="pointMap" parameterType="java.lang.String">
+        <include refid="Base_Column_List"/>
+        <where>
+            F_GUID = #{FGuid}
+        </where>
+    </select>
+
+    <select id="getSearchByFcode" resultMap="pointMap" parameterType="java.lang.String">
+        SELECT S.F_GUID, S.F_CODE, S.F_POINT_NAME, S.F_POINT_IP, S.F_LONGITUDE, S.F_LATITUDE, S.F_REGION_ID, S.F_REMARK, S.F_IS_USE,
+        S.F_STATUS, S.F_CRDATE, S.F_CHDATE,R.F_REGION_NAME,S.F_SCREEN_CODE, PDU_IP, SOUND_IP, MAINBOARD_IP, CAMERA_IP, ALARM_IP
+        FROM SEB_POINT S
+        LEFT JOIN SEB_REGION R ON S.F_REGION_ID = R.F_ID
+        <where>
+            S.F_CODE = #{fCode}
+        </where>
+    </select>
+
+    <select id="GetofflinePointList" resultMap="pointMap">
+        <include refid="Base_Column_List"/>
+        <where>
+            F_STATUS = '2'
+        </where>
+    </select>
+
+    <insert id="add" parameterType="com.efounder.JEnterprise.zhdg.entity.PointEntity">
+        insert into seb_point
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+        <if test="FGuid != null ">F_GUID,
+        </if>
+        <if test="FCode != null ">F_CODE,
+        </if>
+        <if test="FPointName != null ">F_POINT_NAME,
+        </if>
+        <if test="FPointIp != null ">F_POINT_IP,
+        </if>
+        <if test="FLongitude != null ">F_LONGITUDE,
+        </if>
+        <if test="FLatitude != null ">F_LATITUDE,
+        </if>
+        <if test="FRegionId != null ">F_REGION_ID,
+        </if>
+        <if test="FRemark != null ">F_REMARK,
+        </if>
+        <if test="FIsUse != null ">F_IS_USE,
+        </if>
+        <if test="FStatus != null ">F_STATUS,
+        </if>
+        <if test="FCrdate != null ">F_CRDATE,
+        </if>
+        <if test="FChdate != null ">F_CHDATE,
+        </if>
+            <if test="screenCode != null ">F_SCREEN_CODE,
+            </if>
+            <if test="pduIp != null ">PDU_IP,
+            </if>
+            <if test="soundIp != null ">SOUND_IP,
+            </if>
+            <if test="mainboardIp != null ">MAINBOARD_IP,
+            </if>
+            <if test="cameraIp != null ">CAMERA_IP,
+            </if>
+            <if test="alarmIp != null ">ALARM_IP,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+        <if test="FGuid != null ">#{FGuid},
+        </if>
+        <if test="FCode != null ">#{FCode},
+        </if>
+        <if test="FPointName != null ">#{FPointName},
+        </if>
+        <if test="FPointIp != null ">#{FPointIp},
+        </if>
+        <if test="FLongitude != null ">#{FLongitude},
+        </if>
+        <if test="FLatitude != null ">#{FLatitude},
+        </if>
+        <if test="FRegionId != null ">#{FRegionId},
+        </if>
+        <if test="FRemark != null ">#{FRemark},
+        </if>
+        <if test="FIsUse != null ">#{FIsUse},
+        </if>
+        <if test="FStatus != null ">#{FStatus},
+        </if>
+        <if test="FCrdate != null ">#{FCrdate},
+        </if>
+        <if test="FChdate != null ">#{FChdate},
+        </if>
+            <if test="screenCode != null ">#{screenCode},
+            </if>
+            <if test="pduIp != null ">#{pduIp},
+            </if>
+            <if test="soundIp != null ">#{soundIp},
+            </if>
+            <if test="mainboardIp != null ">#{mainboardIp},
+            </if>
+            <if test="cameraIp != null ">#{cameraIp},
+            </if>
+            <if test="alarmIp != null ">#{alarmIp},
+            </if>
+        </trim>
+    </insert>
+
+    <update id="update" parameterType="com.efounder.JEnterprise.zhdg.entity.PointEntity">
+        update seb_point
+        <trim prefix="SET" suffixOverrides=",">
+         <if test="FGuid != null">F_GUID = #{FGuid},</if>
+         <if test="FCode != null">F_CODE = #{FCode},</if>
+         <if test="FPointName != null">F_POINT_NAME = #{FPointName},</if>
+         <if test="FPointIp != null">F_POINT_IP = #{FPointIp},</if>
+         <if test="FLongitude != null">F_LONGITUDE = #{FLongitude},</if>
+         <if test="FLatitude != null">F_LATITUDE = #{FLatitude},</if>
+         <if test="FRegionId != null">F_REGION_ID = #{FRegionId},</if>
+         <if test="FRemark != null">F_REMARK = #{FRemark},</if>
+         <if test="FIsUse != null">F_IS_USE = #{FIsUse},</if>
+         <if test="FStatus != null">F_STATUS = #{FStatus},</if>
+         <if test="FCrdate != null">F_CRDATE = #{FCrdate},</if>
+         <if test="FChdate != null">F_CHDATE = #{FChdate},</if>
+            <if test="screenCode != null ">F_SCREEN_CODE = #{screenCode},
+            </if>
+            <if test="pduIp != null ">PDU_IP = #{pduIp},
+            </if>
+            <if test="soundIp != null ">SOUND_IP = #{soundIp},
+            </if>
+            <if test="mainboardIp != null ">MAINBOARD_IP = #{mainboardIp},
+            </if>
+            <if test="cameraIp != null ">CAMERA_IP = #{cameraIp},
+            </if>
+            <if test="alarmIp != null ">ALARM_IP = #{alarmIp},
+            </if>
+        </trim>
+        where F_GUID = #{FGuid}
+    </update>
+
+    <!--修改点位状态-改为离线状态-->
+    <update id="updatePointStatus">
+        update seb_point set F_STATUS = '2'
+        where F_CODE in
+        <foreach item="offlineList" collection="list" open="(" separator="," close=")">
+            #{offlineList}
+        </foreach>
+    </update>
+
+    <!--修改点位状态-改为报警状态-->
+    <update id="updatePointsWarnStatus">
+        update seb_point set F_STATUS = '1'
+        where F_CODE in
+        <foreach item="list" collection="list" open="(" separator="," close=")">
+            #{list}
+        </foreach>
+    </update>
+
+    <!--修改点位状态-改为在线状态-->
+    <update id="updatePointsStatus">
+        update seb_point set F_STATUS = '0'
+        where F_CODE in
+        <foreach item="fCode" collection="list" open="(" separator="," close=")">
+            #{fCode}
+        </foreach>
+    </update>
+
+    <!--修改所有点位状态-改为离线状态-->
+    <update id="updateAllPointsStatus">
+        update seb_point set F_STATUS = '2'
+    </update>
+
+    <delete id="delete" parameterType="java.lang.String" >
+        delete from seb_point where F_GUID = #{FGuid}
+    </delete>
+
+    <!--查询唯一编码是否重复-->
+    <select id="querySameCode" resultType="java.lang.Integer">
+        select count(*) from seb_point
+        <where>
+            F_CODE = #{fCode}
+            <if test="fGuid != null and fGuid != ''">
+                and F_GUID != #{fGuid}
+            </if>
+        </where>
+    </select>
+
+    <!--查询IP地址是否重复-->
+    <!--校验时IP地址两端添加特殊符号，避免IP地址的一部分相同，比如192.168.1.1与192.168.1.11-->
+    <select id="querySameIp" resultType="java.lang.Integer">
+        select count(*) from seb_point
+        <where>
+            ( concat('#',F_POINT_IP,'#',PDU_IP,'#', SOUND_IP,'#', MAINBOARD_IP,'#', CAMERA_IP,'#', ALARM_IP,'#') LIKE concat('%','#',#{fPointIp},'#','%')
+              OR
+              concat('#',F_POINT_IP,'#',PDU_IP,'#', SOUND_IP,'#', MAINBOARD_IP,'#', CAMERA_IP,'#', ALARM_IP,'#') LIKE concat('%','#',#{pduIp},'#','%')
+              OR
+              concat('#',F_POINT_IP,'#',PDU_IP,'#', SOUND_IP,'#', MAINBOARD_IP,'#', CAMERA_IP,'#', ALARM_IP,'#') LIKE concat('%','#',#{soundIp},'#','%')
+              OR
+              concat('#',F_POINT_IP,'#',PDU_IP,'#', SOUND_IP,'#', MAINBOARD_IP,'#', CAMERA_IP,'#', ALARM_IP,'#') LIKE concat('%','#',#{mainboardIp},'#','%')
+              OR
+              concat('#',F_POINT_IP,'#',PDU_IP,'#', SOUND_IP,'#', MAINBOARD_IP,'#', CAMERA_IP,'#', ALARM_IP,'#') LIKE concat('%','#',#{cameraIp},'#','%')
+              OR
+              concat('#',F_POINT_IP,'#',PDU_IP,'#', SOUND_IP,'#', MAINBOARD_IP,'#', CAMERA_IP,'#', ALARM_IP,'#') LIKE concat('%','#',#{alarmIp},'#','%')
+            )
+            <if test="fGuid != null and fGuid != ''">
+                and F_GUID != #{fGuid}
+            </if>
+        </where>
+    </select>
+
+    <!--根据大屏编码查询灯杆开关编码-->
+    <select id="queryCodeByScreenCode" resultType="java.lang.String">
+        select F_CODE
+        FROM SEB_POINT
+        WHERE F_SCREEN_CODE = #{screenCode}
+    </select>
+
+    <!--根据显示屏IP地址查询关联的PDU IP地址-->
+    <select id="queryPduIpByScreenIp" resultType="java.lang.String">
+        select PDU_IP
+        FROM SEB_POINT
+        WHERE F_POINT_IP = #{screenIp}
+    </select>
+
+    <!--根据PDU IP地址查询关联的显示屏IP地址-->
+    <select id="queryScreenIpByPduIp" resultType="java.lang.String">
+        select F_POINT_IP
+        FROM SEB_POINT
+        WHERE PDU_IP = #{pduIp}
+    </select>
+
+    <!--查询所有的PDU_IP-->
+    <select id="queryAllPduIp" resultType="java.lang.String">
+        select PDU_IP
+        FROM SEB_POINT
+    </select>
+
+    <!--查询所有气象的ip、状态数据-->
+    <select id="getWeatherData" resultType="java.util.Map">
+        select MAINBOARD_IP,F_STATUS
+        from SEB_POINT
+    </select>
+
+    <!--保存所有气象的ip、状态数据-->
+    <update id="saveWeatherStatus" parameterType="java.util.Map">
+        <foreach index="key" item="value" collection="map.entrySet()" open="" separator=";" close="">
+            update seb_point set F_STATUS = #{key}
+            where MAINBOARD_IP = #{value}
+        </foreach>
+    </update>
+</mapper>

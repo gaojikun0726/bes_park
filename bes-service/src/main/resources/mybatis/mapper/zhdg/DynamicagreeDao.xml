@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.efounder.JEnterprise.zhdg.dao.DynamicagreeDao">
+
+    <!-- 可根据自己的需求，是否要使用 -->
+    <resultMap type="com.efounder.JEnterprise.zhdg.entity.DynamicagreeEntity" id="dynamicagreeMap">
+                    <result property="id" column="id"/>
+                    <result property="ordercode" column="orderCode"/>
+                    <result property="agreeid" column="agreeid"/>
+                    <result property="name" column="name"/>
+                    <result property="oname" column="oname"/>
+                    <result property="start" column="start"/>
+                    <result property="end" column="end"/>
+                    <result property="analysisposition" column="analysisPosition"/>
+                    <result property="position" column="position"/>
+                    <result property="warnid" column="warnid"/>
+                    <result property="handleid" column="handleid"/>
+                    <result property="handleidname"    column="handleidname"/>
+                    <result property="state" column="state"/>
+                    <result property="warnName" column="warnName"/>
+            </resultMap>
+
+    <sql id="Base_Column_List">
+        select id, orderCode, agreeid, name, oname, start, end, analysisPosition, position, warnid, handleid, state from seb_dynamicagree
+    </sql>
+
+    <!-- 关键字查询，分页查询 -->
+    <select id="getSearch" resultMap="dynamicagreeMap" parameterType="java.lang.String">
+        select s.id, s.orderCode, s.agreeid, s.name, s.oname, s.start, s.end, s.analysisPosition, s.position, s.warnid,
+        s.handleid, s.state,t.warntype as warnName, a.name as handleidname from seb_dynamicagree s
+        left join seb_agreehandle a on a.id = s.handleid
+        left join seb_warntype t on t.id = s.warnid
+        <where>
+            1=1
+            <if test="keywords != null and keywords != ''">
+                and S.ID like CONCAT ('%', #{keywords},'%')
+                or S.NAME like CONCAT ('%', #{keywords},'%')
+            </if>
+        </where>
+        ORDER BY S.START ASC
+    </select>
+
+    <select id="getSearchById" resultMap="dynamicagreeMap" parameterType="java.lang.String">
+        <include refid="Base_Column_List"/>
+        <where>
+            id = #{id}
+        </where>
+    </select>
+
+    <select id="GetDynamicAgreeList" resultType="com.efounder.JEnterprise.zhdg.entity.DynamicagreeEntity">
+        SELECT d.id id,d.orderCode orderCode,
+        d.agreeid agreeid,d.name name,d.oname oname,
+        d.start start,d.end end,d.warnid warnid,d.handleid handleid,
+        h.name handleidname,
+        d.analysisPosition analysisPosition,
+        d.position
+        FROM seb_dynamicagree d
+        left join seb_agreehandle h on d.handleid = h.id
+        where 1=1 and d.orderCode = #{configCode}
+        and d.state = '0'
+    </select>
+
+    <insert id="add" parameterType="com.efounder.JEnterprise.zhdg.entity.DynamicagreeEntity">
+        insert into seb_dynamicagree
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null ">id,
+            </if>
+            <if test="ordercode != null ">orderCode,
+            </if>
+            <if test="agreeid != null ">agreeid,
+            </if>
+            <if test="name != null ">name,
+            </if>
+            <if test="oname != null ">oname,
+            </if>
+            <if test="start != null ">start,
+            </if>
+            <if test="end != null ">end,
+            </if>
+            <if test="analysisposition != null ">analysisPosition,
+            </if>
+            <if test="position != null ">position,
+            </if>
+            <if test="warnid != null ">warnid,
+            </if>
+            <if test="handleid != null ">handleid,
+            </if>
+            <if test="state != null ">state,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null ">#{id},
+            </if>
+            <if test="ordercode != null ">#{ordercode},
+            </if>
+            <if test="agreeid != null ">#{agreeid},
+            </if>
+            <if test="name != null ">#{name},
+            </if>
+            <if test="oname != null ">#{oname},
+            </if>
+            <if test="start != null ">#{start},
+            </if>
+            <if test="end != null ">#{end},
+            </if>
+            <if test="analysisposition != null ">#{analysisposition},
+            </if>
+            <if test="position != null ">#{position},
+            </if>
+            <if test="warnid != null ">#{warnid},
+            </if>
+            <if test="handleid != null ">#{handleid},
+            </if>
+            <if test="state != null ">#{state},
+            </if>
+        </trim>
+    </insert>
+
+    <update id="update" parameterType="com.efounder.JEnterprise.zhdg.entity.DynamicagreeEntity">
+        update seb_dynamicagree
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="id != null">id = #{id},</if>
+            <if test="ordercode != null">orderCode = #{ordercode},</if>
+            <if test="agreeid != null">agreeid = #{agreeid},</if>
+            <if test="name != null">name = #{name},</if>
+            <if test="oname != null">oname = #{oname},</if>
+            <if test="start != null">start = #{start},</if>
+            <if test="end != null">end = #{end},</if>
+            <if test="analysisposition != null">analysisPosition = #{analysisposition},</if>
+            <if test="position != null">position = #{position},</if>
+            warnid = #{warnid},
+<!--            <if test="warnid != null">warnid = #{warnid},</if>-->
+            <if test="handleid != null">handleid = #{handleid},</if>
+            <if test="state != null">state = #{state},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="delete" parameterType="java.lang.String" >
+        delete from seb_dynamicagree where id = #{id}
+    </delete>
+
+</mapper>

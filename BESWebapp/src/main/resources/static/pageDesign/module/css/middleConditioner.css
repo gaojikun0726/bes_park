@@ -1,0 +1,289 @@
+.design_middle_conditioner.list_img,.design_middle_conditioner.icon_win_img{
+    width:300px;
+}
+.design_middle_conditioner img.bg_img{
+    width:100%;
+}
+.design_middle_conditioner.icon_img img.gray_img{
+    display: none;
+}
+.design_middle_conditioner .screenDiv{
+    position: absolute;
+    top: 0;
+    width: 300px;
+    height: 300px;
+    /*padding: 10px 10px 30px;*/
+    padding: 27px 27px 45px;
+    color:#8FE3F7;
+}
+.design_middle_conditioner .topDiv{
+    /*height:60px;*/
+    height: 40px;
+    position: relative;
+    margin: 15px 10px 10px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    font-size: 13px;
+}
+.design_middle_conditioner .middleDiv{
+    position: relative;
+    /*height:120px;*/
+    /*padding: 10px;*/
+    /*margin-top: 15px;*/
+    height: 100px;
+    margin: 25px 10px 10px;
+    /* padding: 10px; */
+    font-family: 微软雅黑,sans-serif;
+}
+
+.design_middle_conditioner .bottomDiv{
+    position: absolute;
+    top: 210px;
+    margin: 10px;
+    /*margin-top:15px;*/
+    height: 25px;
+    /*display: flex;*/
+    /*justify-content: space-between;*/
+}
+.design_middle_conditioner .bottomItem{
+    position: absolute;
+    width:21px;
+}
+.design_middle_conditioner .bottomItem img{
+    width:100%;
+}
+
+.design_middle_conditioner .topItem {
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+    /*font-size: 12px;*/
+    /*top: 5px;*/
+    /*width:18px;*/
+}
+.design_middle_conditioner .topItem img{
+    width: 20px;
+    height: 20px;
+    /*margin-bottom: 3px;*/
+    margin: 0 auto;
+}
+.design_middle_conditioner .network{
+    left:0;
+}
+.design_middle_conditioner .cooling{
+    left:40px;
+}
+.design_middle_conditioner .heating{
+    left:80px;
+}
+.design_middle_conditioner .energy{
+    left:120px;
+}
+.design_middle_conditioner .manual{
+    left:160px;
+}
+/*鼠标点击切换锁定状态*/
+.design_middle_conditioner .lock,.design_middle_conditioner .unlock{
+    left: 190px;
+    cursor: pointer;
+    width: 40px;
+}
+
+.design_middle_conditioner .temperature_text{
+    display: inline-block;
+    font-size: 12px;
+}
+.design_middle_conditioner .setDiv{
+    display: none;
+}
+.design_middle_conditioner .set_text{
+    margin-left: 50px;
+}
+.design_middle_conditioner .indoor_icon img{
+    width: 15px;
+}
+.design_middle_conditioner .set_icon img{
+    width:8px;
+}
+.design_middle_conditioner .indoorDiv{
+    font-family: 微软雅黑,sans-serif;
+}
+.design_middle_conditioner .indoor_integer,.design_middle_conditioner .set_integer{
+    position: absolute;
+    /*font-size: 72px;*/
+    /*top: 9px;*/
+    /*left: 23px;*/
+    font-size: 68px;
+    left: 13px;
+    top: 4px;
+
+}
+.design_middle_conditioner .indoor_decimal,.design_middle_conditioner .set_decimal{
+    position: absolute;
+    /*left: 100px;*/
+    /*top: 48px;*/
+    /*font-size: 37px;*/
+    /*left: 83px;*/
+    left:90px;
+    top: 45px;
+    font-size: 32px;
+}
+.design_middle_conditioner .temperature_unit{
+    position: absolute;
+    /*left: 86px;*/
+    left:94px;
+    top: 23px;
+    font-size: 22px;
+}
+
+/*.design_middle_conditioner .num_right{*/
+    /*left:94px;*/
+/*}*/
+.design_middle_conditioner .leftDiv{
+    width: 52%;
+    float: left;
+}
+.design_middle_conditioner .rightDiv{
+    width: 48%;
+    float: right;
+}
+.design_middle_conditioner .speed_text{
+    position: relative;
+    /*display: flex;*/
+    /*justify-content: space-between;*/
+    font-size:12px;
+    top:2px;
+    width:100%;
+    height:13px;
+}
+.design_middle_conditioner .speed_text div{
+    /*display: inline-block;*/
+    position: absolute;
+}
+.design_middle_conditioner .speed_text .auto{
+    left:0;
+}
+.design_middle_conditioner .speed_text .low_speed{
+    left:25px;
+}
+.design_middle_conditioner .speed_text .middle_speed{
+    left:50px;
+}
+.design_middle_conditioner .speed_text .high_speed{
+    left:75px;
+}
+.design_middle_conditioner .speed_icon{
+    height:40px;
+    padding-top: 5px;
+    margin-left:10px;
+}
+.design_middle_conditioner .speed_text{
+    margin-left:10px;
+}
+.design_middle_conditioner .high_icon,.design_middle_conditioner .middle_icon{
+    display: none;
+}
+.design_middle_conditioner .high_icon img{
+    width:70px;
+}
+.design_middle_conditioner .low_icon img{
+    width:50px;
+}
+.design_middle_conditioner .middle_icon img{
+    width:70px;
+}
+.design_middle_conditioner .timeDiv{
+    width: 113px;
+    height: 30px;
+    margin-left: 5px;
+}
+.design_middle_conditioner .timeDiv,.design_middle_conditioner .energyDiv{
+    position: absolute;
+}
+.design_middle_conditioner .energyDiv{
+    display: none;
+}
+.design_middle_conditioner .clock{
+    position: absolute;
+    top: 10px;
+    /*left:6px;*/
+    left:4px;
+    display: none;
+}
+.design_middle_conditioner .clock img{
+    width: 20px;
+}
+.design_middle_conditioner .timing_num{
+    position: absolute;
+    left: 26px;
+    font-size: 24px;
+    font-family: 微软雅黑,sans-serif;
+}
+.design_middle_conditioner .timing_num .hour{
+    position: absolute;
+    left:0;
+}
+.design_middle_conditioner .timing_num .separator{
+    position: absolute;
+    left:29px;
+}
+.design_middle_conditioner .timing_num .minute{
+    float:right;
+    position: absolute;
+    left:35px;
+}
+.design_middle_conditioner .energy_num{
+    font-size: 24px;
+    font-family: 微软雅黑,sans-serif;
+}
+.design_middle_conditioner .timeDiv .timing_text{
+    display: none;
+}
+.design_middle_conditioner .timeDiv .timing_text,.design_middle_conditioner .energy_unit{
+    /*float: right;*/
+    font-size: 8px;
+    position: absolute;
+    left:90px;
+}
+.design_middle_conditioner .timeDiv .on{
+    top: 6px;
+}
+.design_middle_conditioner .timeDiv .off,.design_middle_conditioner .energy_unit{
+    top: 16px;
+}
+
+/*能耗*/
+.design_middle_conditioner .energy_text{
+    font-size: 8px;
+    position: absolute;
+    width:25px;
+    left: 9px;
+    top:-5px;
+}
+.design_middle_conditioner .energy_num.ahead{
+    position: absolute;
+    left: 31px;
+}
+.design_middle_conditioner .energy_num.behind{
+    position: absolute;
+    left: 59px;
+}
+
+/*底部按键样式*/
+.design_middle_conditioner .modeBtn{
+    left:0;
+}
+.design_middle_conditioner .speedBtn{
+    left:51px;
+}
+.design_middle_conditioner .switchBtn{
+    left:102px;
+}
+.design_middle_conditioner .upBtn{
+    left:153px;
+}
+.design_middle_conditioner .downBtn{
+    left:204px;
+}

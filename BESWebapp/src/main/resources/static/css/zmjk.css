@@ -1,0 +1,644 @@
+/* 灯光关闭状态 */
+.online{
+/*     background: url("static/images/jk_button1.gif") no-repeat center; */
+	border:2px solid #e6cb07;
+	color: #e6cb07;
+}
+.offline{
+	border:2px solid #b3b39f;
+	color: #b3b39f;
+}
+.partonline{
+	border:2px solid #f55b12;
+	color: #f55b12;
+}
+/* 灯光开关按钮 */
+.switch-button{
+    background-color: rgba(30, 98, 140, 0.98); 
+    background-size: 95px 40px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+    border-radius: 3px;
+}
+
+/* 开关按钮 */
+.small-button{
+	background: #052249;
+    /* background-size: 50px 25px; */
+/*     width: 3vw; */
+/*     border: solid 2px #9acdcd; */
+    margin-left: 1vw;
+    height: 2.9vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 12px;
+    position: absolute;
+}
+/* 房间号图标 */
+.room-button{
+	/* background: url("static/images/room_button.png") no-repeat center; */
+	background-size: 80px 20px;
+/* 	width: 4vw; */
+    height: 3vh;
+/*     border: solid 2px #9acdcd; */
+    background: #1d638c;
+/*     display: flex; */
+/*     justify-content: center; */
+    align-items: center;
+    position: absolute;
+}
+.corridor-button{
+	/* background: url("static/images/room_button.png") no-repeat center; */
+	background-size: 80px 20px;
+/* 	width: 4vw; */
+    height: 3vh;
+/*     border: solid 2px #9acdcd;  */
+    background: #1e5d82;
+/*     display: flex; */
+/*     justify-content: center; */
+    align-items: center;
+    position: absolute;
+    cursor : default;
+}
+.circle-button{
+    width: 35px;
+    height: 35px;
+    align-items: center;
+    position: absolute;
+}
+.circleonline{
+	background: url("../images/zmjk/online.png") no-repeat center;
+}
+.circleoffline{
+	background: url("../images/zmjk/offline.png") no-repeat center;
+}
+.circlepartonline{
+	background: url("../images/zmjk/partonline.png") no-repeat center;
+}
+.left-top{
+	height: 32%;
+	width: 18%;
+	border:0px solid #000;
+	position: absolute;
+	left: 5%;
+}
+.center-top{
+	height: 24%;
+	width: 46%;
+	border:0px solid #000;
+	position: absolute;
+	left: 25%;
+}
+.center-center{
+	height: 50%;
+	width: 48%;
+	border:0px solid #000;
+	position: absolute;
+	left: 24%;
+	top: 27%;
+}
+.left-bottom{
+	height: 41%;
+	width: 17%;
+	border:0px solid #000;
+	position: absolute;
+	left: 6%;
+	bottom: 2%;
+}
+.buttom-buttom{
+	height: 22%;
+	width: 46%;
+	border:0px solid #000;
+	position: absolute;
+	left: 24%;
+	bottom: 0;
+}
+.right{
+	height: 91%;
+	width: 13%;
+	border:0px solid #000;
+	position: absolute;
+	right: 12%;
+	top: 8%;
+}
+.zm-left-top{
+    height: 54%;
+    width: 55%;
+/*     border: 1px solid #000; */
+    position: absolute;
+    margin-top: 1%;
+    left: 5%;
+}
+.zm-left-top>ul{
+    height: 12%;
+/*     border: 1px solid red; */
+    padding: 4px;
+}
+.zm-left-top>ul>li{
+    height: 100%;
+    display: inline-block;
+    padding-top: 1.1%;
+}
+.zm-left-top>ul>li:nth-child(1) {
+	padding-top: 1.3%;
+}
+.zm-left-top>ul>li:nth-child(2) {
+    position: absolute;
+    left: 10%;
+}
+.zm-switch-button{
+    background-color: rgba(30, 98, 140, 0.98); 
+    background-size: 95px 40px;
+    justify-content: center;
+    align-items: center;
+    border-radius: 3px;
+    
+    display: inline-block!important;
+    position: initial!important;
+}
+/* 点灯开关位置 */
+#mainswitch1FBTD{
+	position: absolute !important;
+    left: 25vw;
+    top: 52vh;
+}
+#mainswitch1FBTX{
+	position: absolute !important;
+    left: 15vw;
+    top: 52vh;
+}
+#IP1MT200{
+	position: absolute !important;
+    left: 15vw;
+    top: 57vh;
+    width: 4vw;
+}
+#mainswitch1FQDD{
+	position: absolute !important;
+    left: 25vw;
+    top: 38.5vh;
+    width: 4vw;
+}
+#IP1M8105{
+	position: absolute !important;
+    left: 2.5vw;
+    top: 35.5vh;
+    width: 4vw;
+}
+#IP1M8101{
+	position: absolute !important;
+    left: 35.5vw;
+    top: 57.5vh;
+    width: 5vw;
+}
+#IP1M8102{
+	position: absolute !important;
+    left: 41.5vw;
+    top: 52.5vh;
+    width: 5vw;
+}
+#IP1M8107{
+	position: absolute !important;
+    left: 41.5vw;
+    top: 57.5vh;
+    width: 5vw;
+}
+#IP1MT3601{
+	position: absolute !important;
+    left: 64.5vw;
+    top: 30.5vh;
+    width: 5vw;
+}
+#mainswitch1FMTDD{
+	position: absolute !important;
+    left: 58.5vw;
+    top: 54.5vh;
+    width: 5vw;
+}
+#IP1M8104{
+	position: absolute !important;
+    left: 64.5vw;
+    top: 54.5vh;
+    width: 5vw;
+}
+#IP1M4201{
+	position: absolute !important;
+    left: 48.5vw;
+    top: 8.5vh;
+    width: 5vw;
+}
+#mainswitch1FNTX{
+	position: absolute !important;
+    left: 54.5vw;
+    top: 8.5vh;
+    width: 5vw;
+}
+#mainswitch1FNTD{
+	position: absolute !important;
+    left: 54.5vw;
+    top: 12.5vh;
+    width: 5vw;
+}
+#mainswitch1FDT{
+	position: absolute !important;
+    left: 36vw;
+    top: 18vh;
+    width: 5vw;
+}
+#IP1M4203{
+	position: absolute !important;
+    left: 45vw;
+    top: 8vh;
+    width: 5vw;
+}
+#mainswitch1FZKKG{
+	position: absolute !important;
+    left: 13vw;
+    width: 5vw;
+}
+#mainswitch1FZKTG{
+	position: absolute !important;
+    left: 20vw;
+    width: 7vw;
+}
+#mainswitch02_zkzd{
+	position: absolute !important;
+    width: 5vw;
+    left: 22vw;
+    top: 7vh;
+}
+#mainswitch02_btqdd{
+	position: absolute !important;
+    width: 5vw;
+    left: 13vw;
+    top: 53vh;
+}
+#mainswitch02_btsd{
+	position: absolute !important;
+    width: 5vw;
+    left: 20vw;
+    top: 53vh;
+}
+#mainswitch02_btztd{
+	position: absolute !important;
+    width: 5vw;
+    left: 13vw;
+    top: 58vh;
+}
+#IP2M121011{
+	position: absolute !important;
+    width: 5vw;
+    left: 20vw;
+    top: 58vh;
+}
+#IP2M12500{
+	position: absolute !important;
+    width: 5vw;
+    left: 63.5vw;
+    top: 3vh;
+}
+#mainswitch02_dtjd{
+	position: absolute !important;
+    width: 5vw;
+    left: 36.3vw;
+    top: 24vh;
+}
+#IP2M8400{
+	position: absolute !important;
+    width: 7vw;
+    left: 38.3vw;
+    top: 7vh;
+}
+#IP2M12101{
+	position: absolute !important;
+    width: 5vw;
+    left: 33.3vw;
+    top: 49vh;
+}
+#IP2M12103{
+	position: absolute !important;
+    width: 5vw;
+    left: 39.3vw;
+    top: 49vh; 
+}
+#mainswitch02_ztddd{
+	position: absolute !important;
+    width: 5vw;
+    left: 33.3vw;
+    top: 54vh;
+}
+#IP2M12104{
+	position: absolute !important;
+    width: 5vw;
+    left: 39.3vw;
+    top: 54vh;
+}
+#mainswitch02_zttd{
+	position: absolute !important;
+    width: 5vw;
+    left: 45.3vw;
+    top: 49vh;
+}
+#mainswitch02_ntsd{
+	position: absolute !important;
+    width: 5vw;
+    left: 48.3vw;
+    top: 20vh;
+}
+#mainswitch02_ntqdd{
+	position: absolute !important;
+    width: 5vw;
+    left: 54.3vw;
+    top: 20vh;
+}
+#mainswitch02_ntddd{
+	position: absolute !important;
+    width: 5vw;
+    left: 48.3vw;
+    top: 24vh;
+}
+#IP2M12506{
+	position: absolute !important;
+    width: 5vw;
+    left: 54.3vw;
+    top: 24vh;
+}
+#IP2M12509{
+	position: absolute !important;
+    width: 5vw;
+    left: 48.3vw;
+    top: 28vh;
+}
+#mainswitch03_btqdd{
+	position: absolute !important;
+    width: 5vw;
+    left: 12.3vw;
+    top: 57vh;
+}
+#mainswitch03_btsd{
+	position: absolute !important;
+    width: 5vw;
+    left: 19.3vw;
+    top: 57vh;
+}
+#mainswitch03_btzdd{
+	position: absolute !important;
+    width: 5vw;
+    left: 12.3vw;
+    top: 62vh;
+}
+#IP3M122011{
+	position: absolute !important;
+    width: 5vw;
+    left: 19.3vw;
+    top: 62vh;
+}
+#IP3M12202{
+	position: absolute !important;
+    width: 5vw;
+    left: 33.3vw;
+    top: 52vh;
+}
+#IP3M12209{
+	position: absolute !important;
+    width: 5vw;
+    left: 33.3vw;
+    top: 57vh;
+}
+#IP3M12203{
+	position: absolute !important;
+    width: 5vw;
+    left: 40.3vw;
+    top: 57vh;
+}
+#IP3M12204{
+	position: absolute !important;
+    width: 5vw;
+    left: 40.3vw;
+    top: 52vh;
+}
+#IP3M12400{
+	position: absolute !important;
+    width: 5vw;
+    left: 48.3vw;
+    top: 20vh;
+}
+#mainswitch03_ntqdd{
+	position: absolute !important;
+    width: 5vw;
+    left: 54.3vw;
+    top: 20vh;
+}
+#IP3M12406{
+	position: absolute !important;
+    width: 5vw;
+    left: 48.3vw;
+    top: 24vh;
+}
+#IP3M12403{
+	position: absolute !important;
+    width: 5vw;
+    left: 54.3vw;
+    top: 24vh;
+}
+#IP3M12401{
+	position: absolute !important;
+    width: 5vw;
+    left: 54.3vw;
+    top: 28vh;
+}
+#IP3M12302{
+	position: absolute !important;
+    width: 5vw;
+    left: 48.3vw;
+    top: 28vh;
+}
+#mainswitch03_td{
+	position: absolute !important;
+    width: 3vw;
+    left: 48.3vw;
+    top: 33vh;
+}
+#mainswitch03_dtk{
+	position: absolute !important;
+    width: 5vw;
+    left: 36.3vw;
+    top: 24.5vh;
+}
+#IP3M12304{
+	position: absolute !important;
+    width: 1.5vw;
+    left: 46.1vw;
+    top: 0.5vh;
+}
+#mainswitch03_zkzd{
+	position: absolute !important;
+    width: 5vw;
+    left: 24vw;
+    top: 7.5vh;
+}
+#IP4M12203{
+	position: absolute !important;
+    width: 5vw;
+    left: 58vw;
+    top: 14.5vh;
+}
+#mainswitch4FDT{
+	position: absolute !important;
+    width: 5vw;
+    left: 37vw;
+    top: 35.5vh;
+}
+#IP4M12206{
+	position: absolute !important;
+    width: 5vw;
+    left: 43vw;
+    top: 18.5vh;
+}
+#IP4M12204{
+	position: absolute !important;
+    width: 5vw;
+    left: 43vw;
+    top: 24.5vh;
+}
+#IP4M12209{
+	position: absolute !important;
+    width: 5vw;
+    left: 40vw;
+    top: 32.5vh;
+}
+#IP4M12205{
+	position: absolute !important;
+    width: 5vw;
+    left: 48vw;
+    top: 32.5vh;
+}
+#IP4M12210{
+	position: absolute !important;
+    width: 5vw;
+    left: 48vw;
+    top: 37.5vh;
+}
+#IP4M12211{
+	position: absolute !important;
+    width: 5vw;
+    left: 40vw;
+    top: 37.5vh;
+}
+#mainswitch4F{
+	position: absolute !important;
+    width: 5vw;
+    left: 23vw;
+    top: 13.5vh;
+}
+#IP4M8101{
+	position: absolute !important;
+    width: 5vw;
+    left: 21vw;
+    top: 62vh;
+}
+#mainswitch5FZK1{
+	position: absolute !important;
+    width: 5vw;
+    left: 41vw;
+    top: 58vh;
+}
+#mainswitch5FZK2{
+	position: absolute !important;
+    width: 5vw;
+    left: 48vw;
+    top: 58vh;
+}
+#IP6M12207{
+	position: absolute !important;
+    width: 5vw;
+    left: 21vw;
+    top: 62vh;
+}
+#IP6M12203{
+	position: absolute !important;
+    width: 5vw;
+    left: 58vw;
+    top: 17vh;
+}
+#mainswitch6FDT{
+	position: absolute !important;
+    width: 5vw;
+    left: 37vw;
+    top: 35vh;
+}
+#IP6M12202{
+	position: absolute !important;
+    width: 5vw;
+    left: 40vw;
+    top: 40vh;
+}
+#IP6M12206{
+	position: absolute !important;
+    width: 5vw;
+    left: 46vw;
+    top: 40vh;
+}
+#IP6M12204{
+	position: absolute !important;
+    width: 5vw;
+    left: 52vw;
+    top: 40vh;
+}
+#mainswitch6F{
+	position: absolute !important;
+    width: 5vw;
+    left: 24vw;
+    top: 19vh;
+}
+#mainswitch7AL01{
+	position: absolute !important;
+    width: 5vw;
+    left: 38vw;
+    top: 49vh;
+}
+#mainswitch7AL03{
+	position: absolute !important;
+    width: 5vw;
+    left: 2vw;
+    top: 62vh;
+}
+#mainswitch7AL05{
+	position: absolute !important;
+    width: 5vw;
+    left: 47vw;
+    top: 32.5vh;
+}
+#mainswitch7AL06{
+	position: absolute !important;
+    width: 5vw;
+    left: 53vw;
+    top: 27vh;
+}
+#mainswitch7AL07{
+	position: absolute !important;
+    width: 5vw;
+    left: 59vw;
+    top: 21.5vh;
+}
+#mainswitch7AL08{
+	position: absolute !important;
+    width: 5vw;
+    left: 65vw;
+    top: 16vh;
+}
+#mainswitch7AL04{
+	position: absolute !important;
+    width: 5vw;
+    left: 47vw;
+    top: 43vh;
+}
+#mainswitch7F{
+	position: absolute !important;
+    width: 5vw;
+    left: 22vw;
+    top: 0vh;
+}

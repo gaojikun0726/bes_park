@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.efounder.JEnterprise.mapper.basedatamanage.energyinformation.BESSubitemConfTemplateMapper" >
+
+  <resultMap id="SubitemConfTemplateMap" type="com.efounder.JEnterprise.model.basedatamanage.energyinformation.BESSubitemConfTemplate" >
+    <result column="F_FXBH" property="fFxbh" />
+    <result column="F_FXMC" property="fFxmc" />
+    <result column="F_PFXBH" property="fPfxbh" />
+    <result column="F_JS" property="fJs" />
+    <result column="F_NYBH" property="fNybh" />
+    <result column="F_SUBITEM_CODE" property="fSubitemCode" />
+  </resultMap>
+  
+  <sql id="Base_Column_List" >
+    F_FXBH, F_FXMC, F_PFXBH, F_JS, F_NYBH,F_SUBITEM_CODE
+  </sql>
+
+  <!--获取分项配置模板的数据-->
+  <select id="besSubitemConfTemplates" resultMap="SubitemConfTemplateMap">
+    select
+    <include refid="Base_Column_List" />
+    from bes_subitem_conf_template
+    <where>
+      F_NYBH = #{fNybh}
+    </where>
+    ORDER BY F_SUBITEM_CODE  asc
+  </select>
+
+  <!--查询父节点的分项编号-->
+  <select id="selectFxbh" resultType="java.lang.String">
+    select f_fxbh from bes_subitem_conf where F_NYBH = #{fNybh} and F_YQBH = #{fYqbh} and F_BUDING_ID = #{buildingbh} and F_SUBITEM_CODE = #{fSubitemCode}
+  </select>
+
+
+</mapper>

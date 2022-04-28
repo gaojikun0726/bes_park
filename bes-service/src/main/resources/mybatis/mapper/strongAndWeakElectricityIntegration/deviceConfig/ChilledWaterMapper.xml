@@ -1,0 +1,591 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.efounder.JEnterprise.mapper.strongAndWeakElectricityIntegration.deviceConfig.ChilledWaterMapper" >
+    <sql id="col_name">
+      F_ID                      f_ID,
+      F_TYPE_ID                 f_TYPE_ID,
+      F_NAME                    f_NAME,
+      F_NHLJ                    f_NHLJ,
+      F_NHLJ_alias              f_NHLJ_alias,
+      F_SSGL                    f_SSGL,
+      F_SSGL_alias              f_SSGL_alias,
+      F_AXDL                    f_AXDL,
+      F_AXDL_alias              f_AXDL_alias,
+      F_BXDL                    f_BXDL,
+      F_BXDL_alias              f_BXDL_alias,
+      F_CXDL                    f_CXDL,
+      F_CXDL_alias              f_CXDL_alias,
+      F_SBGZMS                  f_SBGZMS,
+      F_SBGZMS_alias            f_SBGZMS_alias,
+      F_SBGZZT                  f_SBGZZT,
+      F_SBGZZT_alias            f_SBGZZT_alias,
+      F_SBQQXH                  f_SBQQXH,
+      F_SBQQXH_alias            f_SBQQXH_alias,
+      F_SBYXSJ                  f_SBYXSJ,
+      F_SBYXSJ_alias            f_SBYXSJ_alias,
+      F_SFKDW                   f_SFKDW,
+      F_SFKDW_alias             f_SFKDW_alias,
+      F_SFGDW                   f_SFGDW,
+      F_SFGDW_alias             f_SFGDW_alias,
+      F_BPYXZT                  f_BPYXZT,
+      F_BPYXZT_alias            f_BPYXZT_alias,
+      F_BPGZZT                  f_BPGZZT,
+      F_BPGZZT_alias            f_BPGZZT_alias,
+      F_BPQPLFK                 f_BPQPLFK,
+      F_BPQPLFK_alias           f_BPQPLFK_alias,
+      F_SLZT                    f_SLZT,
+      F_SLZT_alias              f_SLZT_alias,
+      F_SFGZZT                  f_SFGZZT,
+      F_SFGZZT_alias            f_SFGZZT_alias,
+      F_SBYXZT                  f_SBYXZT,
+      F_SBYXZT_alias            f_SBYXZT_alias,
+      F_Electric_meter_number   f_Electric_meter_number,
+      F_YXZSD                   f_YXZSD,
+      F_YXZSD_alias             f_YXZSD_alias,
+      F_GZZSD                   f_GZZSD,
+      F_GZZSD_alias             f_GZZSD_alias
+      /*id                         id,
+      name                       name,
+      cabinet_name               cabinet_name,
+      instant_energy             instant_energy,
+      total_energy               total_energy,
+      a_phase_voltage            a_phase_voltage,
+      b_phase_voltage            b_phase_voltage,
+      c_phase_voltage            c_phase_voltage,
+      a_phase_current            a_phase_current,
+      b_phase_current            b_phase_current,
+      c_phase_current            c_phase_current,
+      instant_energy_display     instant_energy_display,
+      total_energy_display       total_energy_display,
+      a_phase_voltage_display    a_phase_voltage_display,
+      b_phase_voltage_display    b_phase_voltage_display,
+      c_phase_voltage_display    c_phase_voltage_display,
+      a_phase_current_display    a_phase_current_display,
+      b_phase_current_display    b_phase_current_display,
+      c_phase_current_display    c_phase_current_display*/
+	</sql>
+
+    <sql id="col_name_Electric_meter_number">
+      id                        id,
+      name                      name,
+      cabinet_name              cabinetName,
+      instant_energy            instantEnergy,
+      total_energy              totalEnergy,
+      a_phase_voltage           aPhaseVoltage,
+      b_phase_voltage           bPhaseVoltage,
+      c_phase_voltage           cPhaseVoltage,
+      a_phase_current           aPhaseCurrent,
+      b_phase_current           bPhaseCurrent,
+      c_phase_current           cPhaseCurrent,
+      instant_energy_display    instantEnergyDisplay,
+      total_energy_display      totalEnergyDisplay,
+      a_phase_voltage_display   aPhaseVoltageDisplay,
+      b_phase_voltage_display   bPhaseVoltageDisplay,
+      c_phase_voltage_display   cPhaseVoltageDisplay,
+      a_phase_current_display   aPhaseCurrentDisplay,
+      b_phase_current_display   bPhaseCurrentDisplay,
+      c_phase_current_display   cPhaseCurrentDisplay
+
+	</sql>
+
+    <sql id="table_name">
+        chilled_water
+    </sql>
+
+    <select id="findList" resultType="com.efounder.JEnterprise.model.strongAndWeakElectricityIntegration.deviceConfig.ChilledWaterModel">
+
+        select
+
+        <include refid="col_name"/>
+
+        from
+
+        <include refid="table_name"/>
+        <where>
+
+            <if test="f_ID != null and f_ID != ''" >
+                F_ID    =   #{f_ID}
+            </if>
+
+            <if test="f_NAME != null and f_NAME != ''" >
+                and F_NAME  =   #{f_NAME}
+            </if>
+            <if test="f_TYPE_ID != null and f_TYPE_ID != ''" >
+                and F_TYPE_ID  =   #{f_TYPE_ID}
+            </if>
+
+        </where>
+
+    </select>
+
+    <select id="queryColdCooling" resultType="com.efounder.JEnterprise.model.strongAndWeakElectricityIntegration.deviceConfig.ChilledWaterModel">
+
+        select
+
+        c.*,s.*
+
+        from
+
+        chilled_water c,strongandweakelectricityintegration_ammeterconfig s
+        <where>
+            c.F_Electric_meter_number  =   s.id
+            <if test="F_ID != null and F_ID != ''" >
+                and c.F_ID    =   #{F_ID}
+            </if>
+
+            <if test="F_NAME != null and F_NAME != ''" >
+                and c.F_NAME  =   #{F_NAME}
+            </if>
+            <if test="F_TYPE_ID != null and F_TYPE_ID != ''" >
+                and c.F_TYPE_ID  =   #{F_TYPE_ID}
+            </if>
+        </where>
+
+    </select>
+
+    <insert id="insert">
+
+        insert into
+        <include refid="table_name"/>
+        (
+        <if test="f_NHLJ !=null and f_NHLJ !=''">
+            f_NHLJ,
+        </if>
+        <if test="f_NHLJ_alias !=null and f_NHLJ_alias !=''">
+            f_NHLJ_alias,
+        </if>
+        <if test="f_SSGL !=null and f_SSGL !=''">
+            f_SSGL,
+        </if>
+        <if test="f_SSGL_alias !=null and f_SSGL_alias !=''">
+            f_SSGL_alias,
+        </if>
+        <if test="f_AXDL !=null and f_AXDL !=''">
+            f_AXDL,
+        </if>
+        <if test="f_AXDL_alias !=null and f_AXDL_alias !=''">
+            f_AXDL_alias,
+        </if>
+        <if test="f_BXDL !=null and f_BXDL !=''">
+            f_BXDL,
+        </if>
+        <if test="f_BXDL_alias !=null and f_BXDL_alias !=''">
+            f_BXDL_alias,
+        </if>
+        <if test="f_CXDL !=null and f_CXDL !=''">
+            f_CXDL,
+        </if>
+        <if test="f_CXDL_alias !=null and f_CXDL_alias !=''">
+            f_CXDL_alias,
+        </if>
+        <if test="f_SBGZMS !=null and f_SBGZMS !=''">
+            f_SBGZMS,
+        </if>
+        <if test="f_SBGZMS_alias !=null and f_SBGZMS_alias !=''">
+            f_SBGZMS_alias,
+        </if>
+
+        <if test="f_SBGZZT !=null and f_SBGZZT !=''">
+            f_SBGZZT,
+        </if>
+        <if test="f_SBGZZT_alias !=null and f_SBGZZT_alias !=''">
+            f_SBGZZT_alias,
+        </if>
+        <if test="f_SBQQXH !=null and f_SBQQXH !=''">
+            f_SBQQXH,
+        </if>
+        <if test="f_SBQQXH_alias !=null and f_SBQQXH_alias !=''">
+            f_SBQQXH_alias,
+        </if>
+        <if test="f_SBYXSJ !=null and f_SBYXSJ !=''">
+            f_SBYXSJ,
+        </if>
+        <if test="f_SBYXSJ_alias !=null and f_SBYXSJ_alias !=''">
+            f_SBYXSJ_alias,
+        </if>
+
+
+
+        <if test="f_SFKDW !=null and f_SFKDW !=''">
+            f_SFKDW,
+        </if>
+        <if test="f_SFKDW_alias !=null and f_SFKDW_alias !=''">
+            f_SFKDW_alias,
+        </if>
+        <if test="f_SFGDW !=null and f_SFGDW !=''">
+            f_SFGDW,
+        </if>
+        <if test="f_SFGDW_alias !=null and f_SFGDW_alias !=''">
+            F_SFGDW_alias,
+        </if>
+        <if test="f_BPYXZT !=null and f_BPYXZT !=''">
+            F_BPYXZT,
+        </if>
+        <if test="f_BPYXZT_alias !=null and f_BPYXZT_alias !=''">
+            F_BPYXZT_alias,
+        </if>
+        <if test="f_BPGZZT !=null and f_BPGZZT !=''">
+            F_BPGZZT,
+        </if>
+        <if test="f_BPGZZT_alias !=null and f_BPGZZT_alias !=''">
+            F_BPGZZT_alias,
+        </if>
+        <if test="f_BPQPLFK !=null and f_BPQPLFK !=''">
+            F_BPQPLFK,
+        </if>
+        <if test="f_BPQPLFK_alias !=null and f_BPQPLFK_alias !=''">
+            F_BPQPLFK_alias,
+        </if>
+        <if test="f_SLZT !=null and f_SLZT !=''">
+            F_SLZT,
+        </if>
+        <if test="f_SLZT_alias !=null and f_SLZT_alias !=''">
+            F_SLZT_alias,
+        </if>
+        <if test="f_SFGZZT !=null and f_SFGZZT !=''">
+            F_SFGZZT,
+        </if>
+        <if test="f_SFGZZT_alias !=null and f_SFGZZT_alias !=''">
+            F_SFGZZT_alias,
+        </if>
+        <if test="f_SBYXZT !=null and f_SBYXZT !=''">
+            F_SBYXZT,
+        </if>
+        <if test="f_SBYXZT_alias !=null and f_SBYXZT_alias !=''">
+            F_SBYXZT_alias,
+        </if>
+        <if test="f_YXZSD !=null and f_YXZSD !=''">
+            F_YXZSD,
+        </if>
+        <if test="f_YXZSD_alias !=null and f_YXZSD_alias !=''">
+            F_YXZSD_alias,
+        </if>
+        <if test="f_GZZSD !=null and f_GZZSD !=''">
+            F_GZZSD,
+        </if>
+        <if test="f_GZZSD_alias !=null and f_GZZSD_alias !=''">
+            F_GZZSD_alias,
+        </if>
+        <if test="f_TYPE_ID !=null and f_TYPE_ID !=''">
+            F_TYPE_ID,
+        </if>
+        <if test="f_Electric_meter_number !=null and f_Electric_meter_number !=''">
+            F_Electric_meter_number,
+        </if>
+        F_NAME
+        )
+        values
+        (
+        <if test="f_NHLJ !=null and f_NHLJ !=''">
+            #{f_NHLJ},
+        </if>
+        <if test="f_NHLJ_alias !=null and f_NHLJ_alias !=''">
+            #{f_NHLJ_alias},
+        </if>
+        <if test="f_SSGL !=null and f_SSGL !=''">
+            #{f_SSGL},
+        </if>
+        <if test="f_SSGL_alias !=null and f_SSGL_alias !=''">
+            #{f_SSGL_alias},
+        </if>
+        <if test="f_AXDL !=null and f_AXDL !=''">
+            #{f_AXDL},
+        </if>
+        <if test="f_AXDL_alias !=null and f_AXDL_alias !=''">
+            #{f_AXDL_alias},
+        </if>
+        <if test="f_BXDL !=null and f_BXDL !=''">
+            #{f_BXDL},
+        </if>
+        <if test="f_BXDL_alias !=null and f_BXDL_alias !=''">
+            #{f_BXDL_alias},
+        </if>
+        <if test="f_CXDL !=null and f_CXDL !=''">
+            #{f_CXDL},
+        </if>
+        <if test="f_CXDL_alias !=null and f_CXDL_alias !=''">
+            #{f_CXDL_alias},
+        </if>
+        <if test="f_SBGZMS !=null and f_SBGZMS !=''">
+            #{f_SBGZMS},
+        </if>
+        <if test="f_SBGZMS_alias !=null and f_SBGZMS_alias !=''">
+            #{f_SBGZMS_alias},
+        </if>
+
+        <if test="f_SBGZZT !=null and f_SBGZZT !=''">
+            #{f_SBGZZT},
+        </if>
+        <if test="f_SBGZZT_alias !=null and f_SBGZZT_alias !=''">
+            #{f_SBGZZT_alias},
+        </if>
+        <if test="f_SBQQXH !=null and f_SBQQXH !=''">
+            #{f_SBQQXH},
+        </if>
+        <if test="f_SBQQXH_alias !=null and f_SBQQXH_alias !=''">
+            #{f_SBQQXH_alias},
+        </if>
+        <if test="f_SBYXSJ !=null and f_SBYXSJ !=''">
+            #{f_SBYXSJ},
+        </if>
+        <if test="f_SBYXSJ_alias !=null and f_SBYXSJ_alias !=''">
+            #{f_SBYXSJ_alias},
+        </if>
+
+        <if test="f_SFKDW !=null and f_SFKDW !=''">
+            #{f_SFKDW},
+        </if>
+        <if test="f_SFKDW_alias !=null and f_SFKDW_alias !=''">
+            #{f_SFKDW_alias},
+        </if>
+        <if test="f_SFGDW !=null and f_SFGDW !=''">
+            #{f_SFGDW},
+        </if>
+        <if test="f_SFGDW_alias !=null and f_SFGDW_alias !=''">
+            #{f_SFGDW_alias},
+        </if>
+        <if test="f_BPYXZT !=null and f_BPYXZT !=''">
+            #{f_BPYXZT},
+        </if>
+        <if test="f_BPYXZT_alias !=null and f_BPYXZT_alias !=''">
+            #{f_BPYXZT_alias},
+        </if>
+        <if test="f_BPGZZT !=null and f_BPGZZT !=''">
+            #{f_BPGZZT},
+        </if>
+        <if test="f_BPGZZT_alias !=null and f_BPGZZT_alias !=''">
+            #{f_BPGZZT_alias},
+        </if>
+        <if test="f_BPQPLFK !=null and f_BPQPLFK !=''">
+            #{f_BPQPLFK},
+        </if>
+        <if test="f_BPQPLFK_alias !=null and f_BPQPLFK_alias !=''">
+            #{f_BPQPLFK_alias},
+        </if>
+        <if test="f_SLZT !=null and f_SLZT !=''">
+            #{f_SLZT},
+        </if>
+        <if test="f_SLZT_alias !=null and f_SLZT_alias !=''">
+            #{f_SLZT_alias},
+        </if>
+        <if test="f_SFGZZT !=null and f_SFGZZT !=''">
+            #{f_SFGZZT},
+        </if>
+        <if test="f_SFGZZT_alias !=null and f_SFGZZT_alias !=''">
+            #{f_SFGZZT_alias},
+        </if>
+        <if test="f_SBYXZT !=null and f_SBYXZT !=''">
+            #{f_SBYXZT},
+        </if>
+        <if test="f_SBYXZT_alias !=null and f_SBYXZT_alias !=''">
+            #{f_SBYXZT_alias},
+        </if>
+        <if test="f_YXZSD !=null and f_YXZSD !=''">
+            #{f_YXZSD},
+        </if>
+        <if test="f_YXZSD_alias !=null and f_YXZSD_alias !=''">
+            #{f_YXZSD_alias},
+        </if>
+        <if test="f_GZZSD !=null and f_GZZSD !=''">
+            #{f_GZZSD},
+        </if>
+        <if test="f_GZZSD_alias !=null and f_GZZSD_alias !=''">
+            #{f_GZZSD_alias},
+        </if>
+        <if test="f_TYPE_ID !=null and f_TYPE_ID !=''">
+            #{f_TYPE_ID},
+        </if>
+        <if test="f_Electric_meter_number !=null and f_Electric_meter_number !=''">
+            #{f_Electric_meter_number},
+        </if>
+        #{f_NAME}
+
+        )
+
+
+    </insert>
+
+    <update id="update" >
+        update
+        <include refid="table_name"/>
+        set
+        <if test="f_NHLJ != null and f_NHLJ != ''" >
+            F_NHLJ          =      #{f_NHLJ},
+        </if>
+        <if test="f_NHLJ_alias != null and f_NHLJ_alias != ''" >
+            F_NHLJ_alias    =      #{f_NHLJ_alias},
+        </if>
+        <if test="f_SSGL != null and f_SSGL != ''" >
+            F_SSGL          =      #{f_SSGL},
+        </if>
+        <if test="f_SSGL_alias != null and f_SSGL_alias != ''" >
+            F_SSGL_alias    =      #{f_SSGL_alias},
+        </if>
+        <if test="f_AXDL != null and f_AXDL != ''" >
+            F_AXDL         =      #{f_AXDL},
+        </if>
+        <if test="f_AXDL_alias != null and f_AXDL_alias != ''" >
+            F_AXDL_alias   =      #{f_AXDL_alias},
+        </if>
+
+
+        <if test="f_BXDL != null and f_BXDL != ''" >
+            F_BXDL         =      #{f_BXDL},
+        </if>
+        <if test="f_BXDL_alias != null and f_BXDL_alias != ''" >
+            F_BXDL_alias   =      #{f_BXDL_alias},
+        </if>
+        <if test="f_CXDL != null and f_CXDL != ''" >
+            F_CXDL         =      #{f_CXDL},
+        </if>
+        <if test="f_CXDL_alias != null and f_CXDL_alias != ''" >
+            F_CXDL_alias   =      #{f_CXDL_alias},
+        </if>
+        <if test="f_SBGZMS != null and f_SBGZMS != ''" >
+            F_SBGZMS         =      #{f_SBGZMS},
+        </if>
+        <if test="f_SBGZMS_alias != null and f_SBGZMS_alias != ''" >
+            F_SBGZMS_alias   =      #{f_SBGZMS_alias},
+        </if>
+        <if test="f_SBGZZT != null and f_SBGZZT != ''" >
+            F_SBGZZT         =      #{f_SBGZZT},
+        </if>
+        <if test="f_SBGZZT_alias != null and f_SBGZZT_alias != ''" >
+            F_SBGZZT_alias   =      #{f_SBGZZT_alias},
+        </if>
+        <if test="f_SBQQXH != null and f_SBQQXH != ''" >
+            F_SBQQXH         =      #{f_SBQQXH},
+        </if>
+        <if test="f_SBQQXH_alias != null and f_SBQQXH_alias != ''" >
+            F_SBQQXH_alias   =      #{f_SBQQXH_alias},
+        </if>
+        <if test="f_SBYXSJ != null and f_SBYXSJ != ''" >
+            F_SBYXSJ         =      #{f_SBYXSJ},
+        </if>
+        <if test="f_SBYXSJ_alias != null and f_SBYXSJ_alias != ''" >
+            F_SBYXSJ_alias   =      #{f_SBYXSJ_alias},
+        </if>
+
+        <if test="f_SFKDW != null and f_SFKDW != ''" >
+            F_SFKDW        =      #{f_SFKDW},
+        </if>
+        <if test="f_SFKDW_alias != null and f_SFKDW_alias != ''" >
+            F_SFKDW_alias  =      #{f_SFKDW_alias},
+        </if>
+        <if test="f_SFGDW != null and f_SFGDW != ''" >
+            F_SFGDW        =      #{f_SFGDW},
+        </if>
+        <if test="f_SFGDW_alias != null and f_SFGDW_alias != ''" >
+            F_SFGDW_alias  =      #{f_SFGDW_alias},
+        </if>
+        <if test="f_BPYXZT != null and f_BPYXZT != ''" >
+            F_BPYXZT       =      #{f_BPYXZT},
+        </if>
+        <if test="f_BPYXZT_alias != null and f_BPYXZT_alias != ''" >
+            F_BPYXZT_alias =      #{f_BPYXZT_alias},
+        </if>
+        <if test="f_BPGZZT != null and f_BPGZZT != ''" >
+            F_BPGZZT       =      #{f_BPGZZT},
+        </if>
+        <if test="f_BPGZZT_alias != null and f_BPGZZT_alias != ''" >
+            F_BPGZZT_alias =      #{f_BPGZZT_alias},
+        </if>
+        <if test="f_BPQPLFK != null and f_BPQPLFK != ''" >
+            F_BPQPLFK      =      #{f_BPQPLFK},
+        </if>
+        <if test="f_BPQPLFK_alias != null and f_BPQPLFK_alias != ''" >
+            F_BPQPLFK_alias=      #{f_BPQPLFK_alias},
+        </if>
+        <if test="f_SLZT != null and f_SLZT != ''" >
+            F_SLZT         =      #{f_SLZT},
+        </if>
+        <if test="f_SLZT_alias != null and f_SLZT_alias != ''" >
+            F_SLZT_alias   =      #{f_SLZT_alias},
+        </if>
+
+        <if test="f_SFGZZT != null and f_SFGZZT != ''" >
+            F_SFGZZT       =      #{f_SFGZZT},
+        </if>
+        <if test="f_SFGZZT_alias != null and f_SFGZZT_alias != ''" >
+            F_SFGZZT_alias =      #{f_SFGZZT_alias},
+        </if>
+        <if test="f_SBYXZT != null and f_SBYXZT != ''" >
+            F_SBYXZT       =      #{f_SBYXZT},
+        </if>
+        <if test="f_SBYXZT_alias != null and f_SBYXZT_alias != ''" >
+            F_SBYXZT_alias =      #{f_SBYXZT_alias},
+        </if>
+        <if test="f_YXZSD != null and f_YXZSD != ''" >
+            F_YXZSD        =      #{f_YXZSD},
+        </if>
+        <if test="f_YXZSD_alias != null and f_YXZSD_alias != ''" >
+            F_YXZSD_alias  =      #{f_YXZSD_alias},
+        </if>
+        <if test="f_GZZSD != null and f_GZZSD != ''" >
+            F_GZZSD        =      #{f_GZZSD},
+        </if>
+        <if test="f_GZZSD_alias != null and f_GZZSD_alias != ''" >
+            F_GZZSD_alias  =      #{f_GZZSD_alias},
+        </if>
+
+
+        <if test="f_TYPE_ID != null and f_TYPE_ID != ''" >
+            F_TYPE_ID   =      #{f_TYPE_ID},
+        </if>
+        <if test="f_Electric_meter_number != null and f_Electric_meter_number != ''" >
+            F_Electric_meter_number   =      #{f_Electric_meter_number},
+        </if>
+            F_NAME         =      #{f_NAME}
+        where
+        F_ID=#{f_ID}
+    </update>
+
+    <delete id="delete">
+
+        delete from
+        <include refid="table_name"/>
+        where
+        F_ID = #{f_ID}
+    </delete>
+
+    <select id="detailedinformation" resultType="com.efounder.JEnterprise.model.strongAndWeakElectricityIntegration.deviceConfig.ChilledWaterModel">
+
+        select
+        <include refid="col_name"/>
+        from
+        <include refid="table_name"/>
+        where
+        F_ID = #{f_equipment_id}
+    </select>
+
+    <select id="electricMeterNnumber" resultType="com.efounder.JEnterprise.model.strongAndWeakElectricityIntegration.deviceConfig.AmmeterConfigModel">
+        select
+        <include refid="col_name_Electric_meter_number"/>
+        from strongandweakelectricityintegration_ammeterconfig
+        <where>
+            1=1
+        </where>
+    </select>
+    <!--根据冷冻水冷却水的id查询变频器运行状态-->
+    <select id="queryColdWarmWaterWithF_BPYXZT" resultType="java.lang.String">
+        select F_BPYXZT from chilled_water where F_ID = #{coldWarmWaterID}
+    </select>
+
+    <!--查询强弱电页面展示通用配置表strongandweakelectricityintegration_commonconfig是否有配置的信息-->
+    <select id="findlistcommonconfig" resultType="java.util.Map">
+        select * from strongandweakelectricityintegration_commonconfig where F_EQUIPMENT_ID = #{f_ID}
+    </select>
+    <!--强弱电页面展示通用配置表  左侧的topstrongandweakelectricityintegration_commonconfig_top是否有配置的信息-->
+    <select id="findlistcommonconfig_top" resultType="java.util.Map">
+        select * from strongandweakelectricityintegration_commonconfig_top where F_EQUIPMENT_ID = #{f_ID}
+    </select>
+
+    <delete id="deletecommonconfigById">
+        delete from strongandweakelectricityintegration_commonconfig where F_EQUIPMENT_ID = #{f_ID}
+    </delete>
+    <delete id="deletecommonconfig_topById">
+        delete from strongandweakelectricityintegration_commonconfig_top where F_EQUIPMENT_ID = #{f_ID}
+    </delete>
+
+
+</mapper>

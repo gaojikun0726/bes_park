@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.efounder.JEnterprise.mapper.strongAndWeakElectricityIntegration.AmmeterMapper">
+
+	<resultMap id="ammeterMap" type="com.efounder.JEnterprise.model.strongAndWeakElectricityIntegration.AmmeterVo">
+		<result column="F_NAME" property="f_name" />
+		<result column="F_DQSSNH" property="f_dqssnh" />
+		<result column="F_DQYJZDN" property="f_dqyjzdn" />
+		<result column="F_BYLJDN" property="f_byljdn" />
+		<result column="F_BYCBDS" property="f_bycbds" />
+		<result column="F_DQSJZDN" property="f_dqsjzdn" />
+		<result column="F_JDDS" property="f_jdds" />
+		<result column="F_ZJYCJDSJ" property="f_zjycjdsj" />
+	</resultMap>
+	
+	<!-- 根据设备类型编号加载报警等级 -->
+	<select id="paging"  resultMap="ammeterMap">
+		SELECT F_NAME,F_DQSSNH,F_DQYJZDN,F_BYLJDN,F_BYCBDS,F_DQSJZDN,F_JDDS,F_ZJYCJDSJ FROM STRONGANDWEAKELECTRICITYINTEGRATION_AMMETER
+		order by f_name
+		limit #{page},#{limit}
+	</select>
+	<!-- 编辑前加载数据 -->
+	<select id="pageCount" resultType="java.lang.Integer"> 
+	    SELECT COUNT(*) from STRONGANDWEAKELECTRICITYINTEGRATION_AMMETER
+	</select>
+</mapper>
+
+

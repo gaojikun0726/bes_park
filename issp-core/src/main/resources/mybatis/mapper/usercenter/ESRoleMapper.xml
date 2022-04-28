@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.efounder.JEnterprise.mapper.usercenter.ESRoleMapper">
+
+    <resultMap id="roleMap" type="com.efounder.JEnterprise.model.usercenter.ESRole">
+        <result column="F_GUID" property="f_guid"/>
+        <result column="F_ROLEBH" property="f_rolebh"/>
+        <result column="F_ROLEMC" property="f_rolemc"/>
+        <result column="F_REMARK" property="f_remark"/>
+        <result column="F_CRDATE" property="f_crdate"/>
+        <result column="F_CHDATE" property="f_chdate"/>
+        <result column="F_SCOPE_TYPE" property="scopeType"/>
+
+    </resultMap>
+
+    <resultMap id="userMap" type="com.efounder.JEnterprise.model.usercenter.ESUser">
+        <result column="F_YHBH" property="f_yhbh"/>
+        <result column="F_NAME" property="f_name"/>
+    </resultMap>
+
+    <sql id="find_xxx">
+	    <![CDATA[
+
+			SELECT F_GUID , F_ROLEBH , F_ROLEMC, F_REMARK , F_CRDATE ,F_CHDATE, F_SCOPE_TYPE
+
+        ]]>
+	</sql>
+
+    <sql id="from_xxx">
+	    <![CDATA[
+
+	    	FROM ES_ROLE
+
+        ]]>
+	</sql>
+
+    <sql id="where_xxx">
+	    <![CDATA[
+
+	    	WHERE 1=1
+
+        ]]>
+	</sql>
+
+    <select id="findRoleByRoleBh" parameterType="string" resultMap="roleMap">
+        <include refid="find_xxx"/>
+        <include refid="from_xxx"/>
+        where F_ROLEBH = #{f_rolebh}
+    </select>
+    <select id="findRoles" parameterType="string" resultMap="roleMap">
+        <include refid="find_xxx"/>
+        <include refid="from_xxx"/>
+        <![CDATA[
+			ORDER BY F_ROLEBH
+		]]>
+    </select>
+
+    <select id="findUserRole" parameterType="string" resultMap="roleMap">
+        <include refid="find_xxx"/>
+        <include refid="from_xxx"/>
+        <where>
+            1=1
+            <if test="keywords != null and keywords != ''">
+                and CONCAT(`f_rolebh`,'##',`f_rolemc` ) LIKE CONCAT('%',#{keywords},'%')
+            </if>
+        </where>
+    </select>
+
+    <select id="findRoleById" parameterType="string" resultMap="roleMap">
+        <include refid="find_xxx"/>
+        <include refid="from_xxx"/>
+        <![CDATA[
+			WHERE F_GUID = #{id}
+		]]>
+    </select>
+
+    <select id="findRoleByUserId" parameterType="string" resultMap="roleMap">
+		SELECT role.F_GUID ,role.F_ROLEBH , role.F_ROLEMC , role.F_REMARK, role.F_CRDATE, role.F_CHDATE FROM ES_ROLE AS role INNER JOIN ES_USER_ROLE_RLGL AS rlgl 
+		ON rlgl.F_ROLEGUID = role.F_ROLEBH AND rlgl.F_YHBH = #{userId} ORDER BY role.F_ROLEBH
+	</select>
+
+    <select id="findUserByRoleId" parameterType="string" resultMap="userMap">
+		SELECT u.F_YHBH, u.F_NAME FROM ES_USER AS u INNER JOIN ES_USER_ROLE_RLGL AS r ON r.F_YHBH = u.F_YHBH
+		AND r.F_ROLEBH = #{id} ORDER BY r.F_YHBH
+	</select>
+
+    <select id="findUserRoleByPage" parameterType="string" resultMap="roleMap">
+        <include refid="find_xxx"/>
+        <include refid="from_xxx"/>
+        <![CDATA[
+			ORDER BY F_ROLEBH
+		]]>
+    </select>
+
+    <insert id="addRole" parameterType="com.efounder.JEnterprise.model.usercenter.ESRole">
+        INSERT INTO ES_ROLE(F_GUID,F_ROLEBH,F_ROLEMC, F_REMARK,F_CRDATE, F_CHDATE) values(#{f_guid},#{f_rolebh},#{f_rolemc},#{f_remark},NOW(),NOW())  
+    </insert>
+
+    <delete id="delRole" parameterType="com.efounder.JEnterprise.model.usercenter.ESRole">
+		DELETE FROM ES_ROLE WHERE F_GUID = #{f_guid}
+	</delete>
+
+    <update id="update" parameterType="com.efounder.JEnterprise.model.usercenter.ESRole">
+        UPDATE ES_ROLE
+        set
+        F_ROLEMC = #{f_rolemc},
+        F_REMARK = #{f_remark},
+        F_SCOPE_TYPE = #{scopeType},
+        F_CHDATE=NOW()
+        WHERE F_ROLEBH = #{f_rolebh}
+
+    </update>
+
+    <update id="upRole" parameterType="com.efounder.JEnterprise.model.usercenter.ESRole">
+        UPDATE ES_ROLE
+        <set>
+            <if test="f_rolemc != null and f_rolemc!='' ">
+                F_ROLEMC = #{f_rolemc},
+            </if>
+            <if test="f_remark != null and f_remark!='' ">
+                F_REMARK = #{f_remark},
+            </if>
+            <if test="scopeType != null and scopeType!='' ">
+                F_SCOPE_TYPE = #{scopeType},
+            </if>
+            F_CHDATE=NOW()
+        </set>
+        WHERE F_ROLEBH = #{f_rolebh}
+    </update>
+    <select id="findMaxBmbh" parameterType="string" resultType="string">
+		select MAX(F_ROLEBH) from ES_ROLE
+	</select>
+
+    <select id="roleGroupIbfk" resultType="java.lang.Integer">
+	    SELECT COUNT(*) from  es_role_group where role_id = #{f_guid}
+	</select>
+</mapper>

@@ -1,0 +1,358 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.efounder.JEnterprise.mapper.basedatamanage.eqmanage.BESAmmeterMapper" >
+  <resultMap id="BESAmmeterMap" type="com.efounder.JEnterprise.model.basedatamanage.eqmanage.BESAmmeter" >
+    <id column="F_GUID" property="fGuid" />
+    <result column="F_SYS_NAME_OLD" property="fSysNameOld" />
+    <result column="F_SYS_NAME" property="fSysName" />
+    <result column="F_NICK_NAME" property="fNickName" />
+    <result column="F_SBID" property="fSbid" />
+    <result column="F_ENABLED" property="fEnabled" />
+    <result column="F_SSQY" property="fSsqy" />
+    <result column="F_AZWZ" property="fAzwz" />
+    <result column="F_WLDZ" property="fWldz" />
+    <result column="F_DESCRIPTION" property="fDescription" />
+    <result column="F_SBLXBH" property="fSblxbh" />
+    <result column="F_TYPE" property="fType" />
+    <result column="F_COMM_RATE" property="fCommRate" />
+    <result column="F_COMM_RATE_MC" property="fCommRateMc" />
+    <result column="F_PROTOCOL_TYPE" property="fProtocolType" />
+    <result column="F_PROTOCOL_TYPE_MC" property="fProtocolTypeMc" />
+    <result column="F_CJFABH" property="fCjfabh" />
+    <result column="F_CJFAMC" property="fCjfamc" />
+    <result column="F_BLXBH" property="fBlxbh" />
+    <result column="F_BLXMC" property="fBlxmc" />
+    <result column="F_COMMUNICATION_PORT" property="fCommunicationPort" />
+    <result column="F_YQBH" property="fYqbh" />
+    <result column="F_PERCENTAGE" property="fPercentage" />
+    <result column="F_AMMETER_STATE" property="fAmmeterState" />
+    <result column="F_ONLINE_STATE" property="fOnlineState" />
+    <result column="F_ONLINESTATE" property="fOnlinestate" />
+    <result column="F_CRDATE" property="fCrdate" />
+    <result column="F_CHDATE" property="fChdate" />
+    <result column="F_COM_DATA_BIT" property="fComDataBit" />
+    <result column="F_COM_PARITY_BIT" property="fComParityBit" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+       F_GUID,
+       F_SBID,
+       F_STRUCT_ID,
+       F_SYS_NAME_OLD,
+       F_SYS_NAME,
+       F_NICK_NAME,
+       F_ENABLED,
+       F_SSQY,
+       F_AZWZ,
+       F_WLDZ,
+       F_DESCRIPTION,
+       F_SBLXBH,
+       F_TYPE,
+       F_COMM_RATE,
+       F_COMM_RATE_MC,
+       F_PROTOCOL_TYPE,
+       F_PROTOCOL_TYPE_MC,
+       F_CJFABH,
+       F_CJFAMC,
+       F_BLXBH,
+       F_BLXMC,
+       F_COMMUNICATION_PORT,
+       F_YQBH,
+       F_PERCENTAGE,
+       F_AMMETER_STATE,
+       F_ONLINE_STATE,
+       F_ONLINESTATE,
+       F_CRDATE,
+       F_CHDATE,
+       F_COM_DATA_BIT,
+       F_COM_PARITY_BIT,
+       F_COM_STOP_BIT,
+       F_FUNCTION_CODE,
+       SHARE_METER
+
+  </sql>
+  <!-- 查询电表 -->
+  <select id="queryAmmeterList" resultMap="BESAmmeterMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from bes_ammeter
+	<where>
+		1=1 
+		<if test="keywords != null and keywords != ''">
+			 and CONCAT(`F_SYS_NAME`,'##',`F_NICK_NAME`) LIKE CONCAT('%',#{keywords},'%')
+		</if>
+	</where>
+		order by F_CHDATE
+  </select>
+  <!-- 查询电表 -->
+  <select id="queryAmmeter" resultMap="BESAmmeterMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from bes_ammeter
+    	<![CDATA[
+			WHERE F_SYS_NAME = #{keywords} || F_SYS_NAME_OLD = #{keywords}
+		]]>
+  </select>
+  <!-- 查询电表根据设备编号 -->
+  <select id="queryAmmeterBySbId" resultMap="BESAmmeterMap" parameterType="java.lang.String" >
+    select
+    <include refid="Base_Column_List" />
+    from bes_ammeter
+    	<![CDATA[
+			WHERE F_SBID = #{fSbid}
+		]]>
+  </select>
+
+
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from bes_ammeter
+    where F_SYS_NAME = #{fSysName,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.efounder.JEnterprise.model.basedatamanage.eqmanage.BESAmmeter" >
+    insert into bes_ammeter (F_SYS_NAME, F_NICK_NAME, F_ENABLED, 
+      F_SSQY, F_AZWZ, F_WLDZ, 
+      F_DESCRIPTION, F_TYPE, F_COMM_RATE, 
+      F_PROTOCOL_TYPE, F_CJFABH, F_BLXBH, 
+      F_CRDATE, F_CHDATE)
+    values (#{fSysName,jdbcType=VARCHAR}, #{fNickName,jdbcType=VARCHAR}, #{fEnabled,jdbcType=INTEGER}, 
+      #{fSsqy,jdbcType=VARCHAR}, #{fAzwz,jdbcType=VARCHAR}, #{fWldz,jdbcType=VARCHAR}, 
+      #{fDescription,jdbcType=VARCHAR}, #{fType,jdbcType=VARCHAR}, #{fCommRate,jdbcType=VARCHAR}, 
+      #{fProtocolType,jdbcType=VARCHAR}, #{fCjfabh,jdbcType=VARCHAR}, #{fBlxbh,jdbcType=VARCHAR}, 
+      #{fCrdate,jdbcType=TIMESTAMP}, #{fChdate,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.efounder.JEnterprise.model.basedatamanage.eqmanage.BESAmmeter" >
+    insert into bes_ammeter
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="fGuid != null" >
+        F_GUID,
+      </if>
+      <!--<if test="fSbid != null">
+        F_SBID,
+      </if>-->
+      <if test="fSysName != null" >
+        F_SYS_NAME,
+      </if>
+      <if test="fSysNameOld != null" >
+        F_SYS_NAME_OLD,
+      </if>
+      <if test="fNickName != null" >
+        F_NICK_NAME,
+      </if>
+      <if test="fEnabled != null" >
+        F_ENABLED,
+      </if>
+      <if test="fSsqy != null" >
+        F_SSQY,
+      </if>
+      <if test="fAzwz != null" >
+        F_AZWZ,
+      </if>
+      <if test="fWldz != null" >
+        F_WLDZ,
+      </if>
+      <if test="fDescription != null" >
+        F_DESCRIPTION,
+      </if>
+      <if test="fType != null" >
+        F_TYPE,
+      </if>
+      <if test="fCommRate != null" >
+        F_COMM_RATE,
+      </if>
+      <if test="fProtocolType != null" >
+        F_PROTOCOL_TYPE,
+      </if>
+      <if test="fCjfabh != null" >
+        F_CJFABH,
+      </if>
+      <if test="fBlxbh != null" >
+        F_BLXBH,
+      </if>
+      <if test="fYqbh != null" >
+        F_YQBH,
+      </if>
+      <if test="fCrdate != null" >
+        F_CRDATE,
+      </if>
+      <if test="fChdate != null" >
+        F_CHDATE,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="fGuid != null" >
+        #{fGuid,jdbcType=VARCHAR},
+      </if>
+     <!-- <if test="fSbid != null">
+        #{fSbid,jdbcType=VARCHAR},
+      </if>-->
+      <if test="fSysName != null" >
+        #{fSysName,jdbcType=VARCHAR},
+      </if>
+      <if test="fSysNameOld != null" >
+        #{fSysNameOld,jdbcType=VARCHAR},
+      </if>
+      <if test="fNickName != null" >
+        #{fNickName,jdbcType=VARCHAR},
+      </if>
+      <if test="fEnabled != null" >
+        #{fEnabled,jdbcType=INTEGER},
+      </if>
+      <if test="fSsqy != null" >
+        #{fSsqy,jdbcType=VARCHAR},
+      </if>
+      <if test="fAzwz != null" >
+        #{fAzwz,jdbcType=VARCHAR},
+      </if>
+      <if test="fWldz != null" >
+        #{fWldz,jdbcType=VARCHAR},
+      </if>
+      <if test="fDescription != null" >
+        #{fDescription,jdbcType=VARCHAR},
+      </if>
+      <if test="fType != null" >
+        #{fType,jdbcType=VARCHAR},
+      </if>
+      <if test="fCommRate != null" >
+        #{fCommRate,jdbcType=VARCHAR},
+      </if>
+      <if test="fProtocolType != null" >
+        #{fProtocolType,jdbcType=VARCHAR},
+      </if>
+      <if test="fCjfabh != null" >
+        #{fCjfabh,jdbcType=VARCHAR},
+      </if>
+      <if test="fBlxbh != null" >
+        #{fBlxbh,jdbcType=VARCHAR},
+      </if>
+      <if test="fYqbh != null" >
+        #{fYqbh,jdbcType=VARCHAR},
+      </if>
+      <if test="fCrdate != null" >
+        #{fCrdate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="fChdate != null" >
+        #{fChdate,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.efounder.JEnterprise.model.basedatamanage.eqmanage.BESAmmeter" >
+    update bes_ammeter
+    <set >
+      <if test="fNickName != null" >
+        F_NICK_NAME = #{fNickName,jdbcType=VARCHAR},
+      </if>
+      <if test="fEnabled != null" >
+        F_ENABLED = #{fEnabled},
+      </if>
+      <if test="fSsqy != null" >
+        F_SSQY = #{fSsqy,jdbcType=VARCHAR},
+      </if>
+      <if test="fAzwz != null" >
+        F_AZWZ = #{fAzwz,jdbcType=VARCHAR},
+      </if>
+      <if test="fWldz != null" >
+        F_WLDZ = #{fWldz,jdbcType=VARCHAR},
+      </if>
+      <if test="fDescription != null" >
+        F_DESCRIPTION = #{fDescription,jdbcType=VARCHAR},
+      </if>
+      <if test="fType != null" >
+        F_TYPE = #{fType,jdbcType=VARCHAR},
+      </if>
+      <if test="fCommRate != null" >
+        F_COMM_RATE = #{fCommRate,jdbcType=VARCHAR},
+      </if>
+      <if test="fProtocolType != null" >
+        F_PROTOCOL_TYPE = #{fProtocolType,jdbcType=VARCHAR},
+      </if>
+      <if test="fCjfabh != null" >
+        F_CJFABH = #{fCjfabh,jdbcType=VARCHAR},
+      </if>
+      <if test="fBlxbh != null" >
+        F_BLXBH = #{fBlxbh,jdbcType=VARCHAR},
+      </if>
+      <if test="fOnlinestate != null" >
+        F_ONLINESTATE = #{fOnlinestate,jdbcType=INTEGER},
+      </if>
+      <if test="fAmmeterState != null" >
+        F_AMMETER_STATE = #{fAmmeterState},
+      </if>
+      <if test="fOnlineState != null" >
+        F_ONLINE_STATE = #{fOnlineState},
+      </if>
+      <if test="fPort != null" >
+        F_COMMUNICATION_PORT = #{fPort},
+      </if>
+      <if test="fYqbh != null" >
+        F_YQBH = #{fYqbh},
+      </if>
+      <if test="fCrdate != null" >
+        F_CRDATE = #{fCrdate,jdbcType=TIMESTAMP},
+      </if>
+        F_CHDATE = current_timestamp(),
+    </set>
+    where F_SYS_NAME = #{fSysName,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKeySelectiveZt" parameterType="com.efounder.JEnterprise.model.basedatamanage.eqmanage.BESAmmeter" >
+    update bes_sbpz_struct set F_STATUS=#{fOnlineState},F_CHDATE = current_timestamp()
+    where F_SYS_NAME = #{fSysName,jdbcType=VARCHAR}
+  </update>
+  <update id="updateBySbid" parameterType="com.efounder.JEnterprise.model.basedatamanage.eqmanage.BESAmmeter" >
+    update bes_ammeter set F_AMMETER_STATE=#{fAmmeterState},F_CHDATE = current_timestamp()
+    where F_SBID = #{fSbid,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.efounder.JEnterprise.model.basedatamanage.eqmanage.BESAmmeter" >
+    update bes_ammeter
+    set F_NICK_NAME = #{fNickName,jdbcType=VARCHAR},
+      F_ENABLED = #{fEnabled,jdbcType=INTEGER},
+      F_SSQY = #{fSsqy,jdbcType=VARCHAR},
+      F_AZWZ = #{fAzwz,jdbcType=VARCHAR},
+      F_WLDZ = #{fWldz,jdbcType=VARCHAR},
+      F_DESCRIPTION = #{fDescription,jdbcType=VARCHAR},
+      F_TYPE = #{fType,jdbcType=VARCHAR},
+      F_COMM_RATE = #{fCommRate,jdbcType=VARCHAR},
+      F_PROTOCOL_TYPE = #{fProtocolType,jdbcType=VARCHAR},
+      F_CJFABH = #{fCjfabh,jdbcType=VARCHAR},
+      F_BLXBH = #{fBlxbh,jdbcType=VARCHAR},
+      F_CRDATE = #{fCrdate,jdbcType=TIMESTAMP},
+      F_CHDATE = #{fChdate,jdbcType=TIMESTAMP}
+    where F_SYS_NAME = #{fSysName,jdbcType=VARCHAR}
+  </update>
+
+  <!--查询全部或新增的仪表数据列表-->
+  <!--过滤掉DDC电表，F_WLDZ 正常电表物理地址不为空，DDC电表物理地址为空，不传给物业（中台）DDC电表数据-->
+  <!--查询出逻辑删除的数据-->
+  <!--电表增删改的时候都修改更新时间，用更新时间作为比较字段-->
+  <select id="getAmmeterList" resultType="java.util.Map">
+    select F_GUID guid,F_NICK_NAME meterName,F_DESCRIPTION remarks,F_BLXBH meterType,ifnull(SHARE_METER,'0') shareMeter,'' creator,'' updater,
+    date_format(F_CRDATE,'%Y-%m-%d %H:%i:%s' ) createTime,date_format(F_CHDATE,'%Y-%m-%d %H:%i:%s') updateTime, hasDelete
+    from
+    ( select F_GUID, F_SYS_NAME, F_NICK_NAME, F_DESCRIPTION,F_WLDZ, F_BLXBH, F_CRDATE, F_CHDATE, SHARE_METER, '0' hasDelete from bes_ammeter
+      union
+      select F_GUID, F_SYS_NAME, F_NICK_NAME, F_DESCRIPTION,F_WLDZ,F_BLXBH, F_CRDATE, F_CHDATE, SHARE_METER, '1' hasDelete from opm_ammeter_delete
+    ) t
+    where F_WLDZ is not null
+    <!--大于上次请求时间-->
+      <if test="lastTime != null and lastTime != ''">
+        and F_CHDATE > str_to_date(FROM_UNIXTIME(#{lastTime}), '%Y-%m-%d %H:%i:%s')
+      </if>
+  </select>
+
+  <!--保存一条【电表】删除的记录-->
+  <!--删除的时候修改更新时间-->
+  <insert id="insertAmmeterDelete">
+        insert into opm_ammeter_delete(F_GUID, F_SYS_NAME, F_NICK_NAME,
+        F_DESCRIPTION,F_WLDZ, F_BLXBH, F_CRDATE, F_CHDATE, SHARE_METER,ASSETS_CODE)
+        select F_GUID, F_SYS_NAME, F_NICK_NAME,
+        F_DESCRIPTION,F_WLDZ,F_BLXBH, F_CRDATE, sysdate(), SHARE_METER,ASSETS_CODE
+         from bes_ammeter
+        where F_SYS_NAME = #{sysName}
+    </insert>
+
+  <!--获取所有电表数据-->
+  <select id="loadAll" resultMap="BESAmmeterMap">
+    select
+    <include refid="Base_Column_List" />
+    from bes_ammeter
+  </select>
+
+</mapper>

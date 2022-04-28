@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.efounder.JEnterprise.mapper.usercenter.ESUserPostGnqxQueryMapper">
+
+	<resultMap id="es_postGnzdManageMap" type="com.efounder.JEnterprise.model.usercenter.ESGnzdManage">
+		<result column="F_GUID" property="f_guid" />
+		<result column="F_GNBH" property="f_gnbh" />
+		<result column="F_GNMC" property="f_gnmc" />
+		<result column="F_SH" property="f_sh" />
+		<result column="F_SORT" property="f_sort" />
+		<result column="F_JS" property="f_js" />
+		<result column="F_PGNBH" property="f_pgnbh" />
+		<result column="F_PGNMC" property="f_pgnmc" />
+		<result column="F_GNZDID" property="f_gnzdid" />
+		<result column="F_SQ" property="f_sq" />
+	</resultMap>
+    <select id="loadPostGnzdData" parameterType="string" resultMap="es_postGnzdManageMap">
+	
+		SELECT A.F_GNBH, A.F_PGNBH, A.F_GNMC,A.F_MKGUID, B.F_SH,B.F_GNZDID ,C.F_MKMC
+		FROM ES_GNZD A
+        LEFT JOIN ES_POST_GNQX B ON B.F_GNZDID = A.F_GUID 
+		LEFT JOIN es_home_module C ON A.F_MKGUID = C.F_GUID
+		WHERE
+		<![CDATA[  
+			 B.F_GWGUID = #{f_gwguid} ORDER BY A.F_MKGUID ASC 
+		]]>
+		
+	</select>
+	
+
+	
+       
+</mapper>

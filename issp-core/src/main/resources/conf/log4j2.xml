@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--日志级别以及优先级排序: OFF > FATAL > ERROR > WARN > INFO > DEBUG > TRACE > ALL -->
+<!--Configuration后面的status，这个用于设置log4j2自身内部的信息输出，可以不设置，当设置成trace时，你会看到log4j2内部各种详细输出 -->
+<!--monitorInterval：Log4j能够自动检测修改配置 文件和重新配置本身，设置间隔秒数 -->
+<configuration status="debug" monitorInterval="1800">
+
+	<!-- Log4j 2 包含了基于LMAX 分离库的下一代的异步日志系统，在多线程环境下，异步日志系统比 Log4j 1.x 和Logback 
+		提高了10倍性能提升（吞吐量和延迟率 ） -->
+
+	<properties>
+		<!-- 日志备份目录 -->
+		<property name="BACKUP_HOME">./logs</property>
+		<property name="basepath">${sys:user.home}</property>
+		
+	</properties>
+
+	<appenders>
+		<!-- 定义控制台输出 -->
+		<Console name="Console" target="SYSTEM_OUT" follow="true">
+		<PatternLayout pattern="%d{HH:mm:ss,SSS} (%F:%L) - %m%n" />
+ 			<!--<PatternLayout pattern="%d{HH:mm:ss,SSS} %r [%-6p] %c.%M(%F:%L) - %m%n" />-->
+			<!-- <PatternLayout pattern="%sn %d{yy/MM/dd HH:mm:ss,SSS} %r [%-6p] [%t] 
+				%c.%M(%F:%L) - %m%n" /> -->
+		</Console>
+
+		<!--文件会打印出所有信息，这个log每次运行程序会自动清空，由append属性决定，这个也挺有用的，适合临时测试用 -->
+		<File name="log" fileName="${BACKUP_HOME}/test.log" append="false">
+			<PatternLayout
+				pattern="%d{HH:mm:ss.SSS} %-5level %class{36} %L %M - %msg%xEx%n" />
+		</File>
+		<!-- 这个会打印出所有的info及以下级别的信息，每次大小超过size，则这size大小的日志会自动存入按年份-月份建立的文件夹下面并进行压缩，作为存档 -->
+		<RollingFile name="RollingFileInfo" fileName="${BACKUP_HOME}/logs/info.log"
+			filePattern="${BACKUP_HOME}/history_logs/$${date:yyyy-MM}/info-%d{yyyy-MM-dd}-%i.log">
+			<!--控制台只输出level及以上级别的信息（onMatch），其他的直接拒绝（onMismatch） -->
+			<ThresholdFilter level="info" onMatch="ACCEPT"
+				onMismatch="DENY" />
+			<PatternLayout pattern="[%d{HH:mm:ss:SSS}] [%p] - %l - %m%n" />
+			<Policies>
+				<!-- TimeBased Triggering Policy
+基于时间的触发策略。该策略主要是完成周期性的log文件封存工作。有两个参数：
+interval，integer型，指定两次封存动作之间的时间间隔。单位:以日志的命名精度来确定单位，
+比如上面的filePattern中的yyyy-MM-dd-HH 单位为小时，yyyy-MM-dd-HH-mm 单位为分钟
+modulate，boolean型，说明是否对封存时间进行调制。若modulate=true，则封存时间将以0点为边界进行偏移计算。
+比如，modulate=true，interval=4hours，那么假设上次封存日志的时间为03:00，则下次封存日志的时间为04:00，
+之后的封存时间依次为08:00，12:00，16:00，。。。 <TimeBasedTriggeringPolicy interval="1" modulate="true" /> -->
+				<TimeBasedTriggeringPolicy />
+				<SizeBasedTriggeringPolicy size="2 MB" />
+			</Policies>
+		</RollingFile>
+		<RollingFile name="RollingFileWarn" fileName="${BACKUP_HOME}/logs/warn.log"
+			filePattern="${BACKUP_HOME}/history_logs/$${date:yyyy-MM}/warn-%d{yyyy-MM-dd}-%i.log">
+			<ThresholdFilter level="warn" onMatch="ACCEPT"
+				onMismatch="DENY" />
+			<PatternLayout pattern="[%d{HH:mm:ss:SSS}] [%p] - %l - %m%n" />
+			<Policies>
+				<TimeBasedTriggeringPolicy />
+				<SizeBasedTriggeringPolicy size="2 MB" />
+			</Policies>
+			<!-- DefaultRolloverStrategy属性如不设置，则默认为最多同一文件夹下7个文件，这里设置了20 -->
+			<DefaultRolloverStrategy max="50" />
+		</RollingFile>
+		<RollingFile name="RollingFileError" fileName="${BACKUP_HOME}/logs/error.log"
+			filePattern="${BACKUP_HOME}/history_logs/$${date:yyyy-MM}/error-%d{yyyy-MM-dd}-%i.log">
+			<ThresholdFilter level="error" onMatch="ACCEPT"
+				onMismatch="DENY" />
+			<PatternLayout pattern="[%d{HH:mm:ss:SSS}] [%p] - %l - %m%n" />
+			<Policies>
+				<TimeBasedTriggeringPolicy />
+				<SizeBasedTriggeringPolicy size="2 MB" />
+			</Policies>
+		</RollingFile>
+	</appenders>
+
+	<loggers>
+		<!-- 3rdparty Loggers -->
+		<logger name="cn.springboot" level="debug" />
+		<logger name="org.springframework" level="info" />
+		<logger name="org.jboss" level="info" />
+		<logger name="org.fasterxml" level="info" />
+		<logger name="org.hibernate" level="info" />
+		<logger name="javax.el" level="info" />
+		<logger name="org.apache" level="info" />
+		<logger name="com.alibaba" level="info" />
+		<logger name="druid.sql" level="info" />
+		<logger name="freemarker" level="info" />
+		<logger name="org.mybatis" level="info" />
+		<logger name="org.springframework.data.redis" level="info" />
+
+		<!-- mybatis sql log -->
+		<logger name="org.apache.ibatis.jdbc.ScriptRunner" level="debug" />
+		<logger name="java.sql.Connection" level="debug" />
+		<logger name="java.sql.Statement" level="debug" />
+		<logger name="java.sql.PreparedStatement" level="debug" />
+		
+		<!-- mongoDB log -->
+		<logger name="org.mongodb.driver.cluster" level="OFF"/>
+		<logger name="org.mongodb.driver.protocol.query" level="debug"/>
+		<logger name="org.mongodb.driver.protocol.command" level="INFO"/>
+		<logger name="org.mongodb.driver.connection" level="INFO"/>
+		<!-- Root Logger -->
+		<root level="debug">
+			<appender-ref ref="Console" />
+			<appender-ref ref="RollingFileInfo" />
+			<appender-ref ref="RollingFileWarn" />
+			<appender-ref ref="RollingFileError" />
+		</root>
+
+	</loggers>
+
+</configuration>

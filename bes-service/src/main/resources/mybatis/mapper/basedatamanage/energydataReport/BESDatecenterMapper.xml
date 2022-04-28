@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.efounder.JEnterprise.mapper.basedatamanage.energydataReport.BESDatecenterMapper" >
+  <resultMap id="BESDatecenterType" type="com.efounder.JEnterprise.model.basedatamanage.energydataReport.BESDatecenterType" >
+  </resultMap>
+  
+  <sql id="Base_Column_List" >
+    F_DATACENTER_ID, F_DATACENTER_CODE,F_DATACENTER_NAME ,F_DATACENTER_IP,F_DATACENTER_PORT,F_DATACENTER_TYPE,
+    F_GOVERNING_BODY,F_DATACENTER_DESCRIBE,F_CONTACTPERSON,F_PHONE,date_format(F_CRDATE,'%Y-%m-%d %H:%i:%s' )F_CRDATE,
+    F_BUILDGROUPNAME,F_GROUPALIASNAME,F_GROUPDESC
+  </sql>
+  <!-- 关键字查询，分页查询 -->
+  <select id="getDatecenterList" resultMap="BESDatecenterType" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    ,(select t.F_DATACENTER_TYPE from bes_datacenter_type t where t.F_DATACENTER_TYPEID=c.F_DATACENTER_TYPE) LXMC
+    from bes_data_center c
+		<where>
+		1=1
+			<if test="keywords != null and keywords != ''"> 
+			and CONCAT(`F_DATACENTER_CODE`,'##',`F_DATACENTER_NAME` ) LIKE CONCAT('%',#{keywords},'%')
+			</if>
+		</where>    
+  </select>
+  
+  <select id="getDatecenterTypeList"  resultType="java.util.HashMap" >
+    select 
+    F_DATACENTER_TYPEID,F_DATACENTER_TYPE
+    from bes_datacenter_type
+		order by F_DATACENTER_TYPEID
+  </select>
+  
+  
+  <select id="getDatecenter" resultMap="BESDatecenterType" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from bes_data_center
+		<where>
+			 F_DATACENTER_ID = #{bh}
+		</where>   
+  </select>
+  <!--获取全部数据中心基本信息-->
+  <select id="getDateCenterList" resultMap="BESDatecenterType" parameterType="java.lang.String" >
+    select
+    <include refid="Base_Column_List" />
+    from bes_data_center
+  </select>
+
+  <delete id="del_Datecenter" parameterType="java.lang.String" >
+    delete from bes_data_center
+    where F_DATACENTER_ID = #{id}
+  </delete>
+  
+  <insert id="add_Datecenter" parameterType="com.efounder.JEnterprise.model.basedatamanage.energydataReport.BESDatecenterType" >
+    insert into bes_data_center
+    (F_DATACENTER_ID, F_DATACENTER_CODE,F_DATACENTER_NAME ,F_DATACENTER_IP,F_DATACENTER_PORT,F_DATACENTER_TYPE,F_GOVERNING_BODY,
+    F_DATACENTER_DESCRIBE,F_CONTACTPERSON,F_PHONE,F_BUILDGROUPNAME,F_GROUPALIASNAME,F_GROUPDESC,F_CRDATE)
+    values (#{F_DATACENTER_ID}, #{F_DATACENTER_CODE}, #{F_DATACENTER_NAME},#{F_DATACENTER_IP},#{F_DATACENTER_PORT},#{F_DATACENTER_TYPE},
+    #{F_GOVERNING_BODY},#{F_DATACENTER_DESCRIBE},#{F_CONTACTPERSON},#{F_PHONE},#{F_BUILDGROUPNAME},#{F_GROUPALIASNAME},#{F_GROUPDESC},current_timestamp())
+  </insert>
+
+  <update id="edit_Datecenter" parameterType="com.efounder.JEnterprise.model.basedatamanage.energydataReport.BESDatecenterType" >
+    update bes_data_center
+    <set >
+	F_DATACENTER_CODE= #{F_DATACENTER_CODE},F_DATACENTER_NAME= #{F_DATACENTER_NAME} ,F_DATACENTER_IP= #{F_DATACENTER_IP},
+	F_DATACENTER_PORT= #{F_DATACENTER_PORT},F_DATACENTER_TYPE= #{F_DATACENTER_TYPE},F_GOVERNING_BODY= #{F_GOVERNING_BODY},
+	F_DATACENTER_DESCRIBE= #{F_DATACENTER_DESCRIBE},F_CONTACTPERSON= #{F_CONTACTPERSON},F_PHONE= #{F_PHONE},
+    F_BUILDGROUPNAME= #{F_BUILDGROUPNAME},F_GROUPALIASNAME= #{F_GROUPALIASNAME},F_GROUPDESC= #{F_GROUPDESC},
+    F_CHDATE = current_timestamp()
+    </set>
+    where F_DATACENTER_ID = #{F_DATACENTER_ID}
+  </update>
+  
+  <insert id="insertSelective" parameterType="com.efounder.JEnterprise.model.basedatamanage.energydataReport.BESDatecenterType" >
+    insert into bes_data_center
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="fLxbh != null" >
+        F_LXBH,
+      </if>
+      <if test="fLxmc != null" >
+        F_LXMC,
+      </if>
+      <if test="fCrdate != null" >
+        F_CRDATE,
+      </if>
+      <if test="fChdate != null" >
+        F_CHDATE,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="fLxbh != null" >
+        #{fLxbh,jdbcType=VARCHAR},
+      </if>
+      <if test="fLxmc != null" >
+        #{fLxmc,jdbcType=VARCHAR},
+      </if>
+      <if test="fCrdate != null" >
+        #{fCrdate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="fChdate != null" >
+        #{fChdate,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKey" parameterType="com.efounder.JEnterprise.model.basedatamanage.energydataReport.BESDatecenterType" >
+    update bes_data_center
+    set F_LXMC = #{fLxmc,jdbcType=VARCHAR},
+      F_CRDATE = #{fCrdate,jdbcType=TIMESTAMP},
+      F_CHDATE = #{fChdate,jdbcType=TIMESTAMP}
+    where F_LXBH = #{fLxbh,jdbcType=VARCHAR}
+  </update>
+  <insert id="addDatecenterList"  useGeneratedKeys="true" keyProperty="F_DATACENTER_ID" parameterType="java.util.ArrayList">
+		INSERT INTO bes_data_center
+		(F_DATACENTER_ID, F_DATACENTER_CODE,F_DATACENTER_NAME ,F_DATACENTER_IP,F_DATACENTER_PORT,
+         F_DATACENTER_TYPE,F_GOVERNING_BODY,F_DATACENTER_DESCRIBE,F_CONTACTPERSON,F_PHONE,F_CRDATE,F_CHDATE)
+		VALUES
+		<foreach collection="list" item="item" index="index" separator=","> 
+        	(#{item.F_DATACENTER_ID},#{item.F_DATACENTER_CODE},#{item.F_DATACENTER_NAME},#{item.F_DATACENTER_IP},#{item.F_DATACENTER_PORT},
+             #{item.F_DATACENTER_TYPE},#{item.F_GOVERNING_BODY},#{item.F_DATACENTER_DESCRIBE}, #{item.F_CONTACTPERSON},#{item.F_PHONE},current_timestamp(),current_timestamp()) 
+    	</foreach> 
+	</insert>
+</mapper>

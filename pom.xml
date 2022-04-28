@@ -1,0 +1,41 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>com.energy</groupId>
+	<artifactId>energy</artifactId>
+	<!--<packaging>war</packaging>-->
+	<version>1.0.0</version>
+	<name>energy</name>
+	<url>http://maven.apache.org</url>
+
+	<modules>
+		<module>issp-starter-parent</module>
+		<module>issp-swagger-bootstrap-ui</module>
+		<module>issp-service</module>
+		<module>issp-core</module>
+		<module>issp-common-service</module>
+		<module>issp-bes-service</module>
+		<module>comm</module>
+		<module>bes-service</module>
+		<module>BESWebapp</module>
+	</modules>
+	<packaging>pom</packaging>
+	<build>
+		<finalName>energy</finalName>
+		<plugins>
+			<!-- Package as an executable jar/war -->
+			<plugin>
+				<groupId>org.springframework.boot</groupId>
+				<artifactId>spring-boot-maven-plugin</artifactId>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-surefire-plugin</artifactId>
+				<configuration>
+					<testFailureIgnore>true</testFailureIgnore>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
+</project>

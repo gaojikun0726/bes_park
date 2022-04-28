@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.efounder.JEnterprise.mapper.app.SocketConfigMapper" >
+
+  <resultMap id="SocketConfigModelMap" type="com.efounder.JEnterprise.model.app.SocketConfigModel" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="socket_address" property="socketAddress" jdbcType="VARCHAR" />
+    <result column="socket_switch" property="socketSwitch" jdbcType="VARCHAR" />
+    <result column="energy_consumption_value" property="energyConsumptionValue" jdbcType="VARCHAR" />
+    <result column="socket_switch_display" property="socketSwitchDisplay" jdbcType="VARCHAR" />
+    <result column="energy_consumption_value_display" property="energyConsumptionValueDisplay" jdbcType="VARCHAR" />
+  </resultMap>
+
+
+  <!--查询灯光配置列表-->
+  <select id="querySocketConfigList" resultMap="SocketConfigModelMap">
+    select id,name,socket_address,socket_switch,socket_switch_display,energy_consumption_value_display,energy_consumption_value from api_socket_config
+  </select>
+
+  <!--删除-->
+  <delete id="delete">
+    delete from api_socket_config where id = #{id}
+  </delete>
+
+<!--修改-->
+  <update id="update" parameterType="com.efounder.JEnterprise.model.app.SocketConfigModel">
+      update api_socket_config
+      <set>
+        <if test="name != null and name !=''">
+          name = #{name},
+        </if>
+        <if test="socketSwitch != null and socketSwitch !=''">
+          socket_switch = #{socketSwitch},
+        </if>
+        <if test="socketAddress != null and socketAddress !=''">
+          socket_address = #{socketAddress},
+        </if>
+        socket_switch_display = #{socketSwitchDisplay},
+        energy_consumption_value = #{energyConsumptionValue},
+        energy_consumption_value_display = #{energyConsumptionValueDisplay}
+      </set>
+    where id = #{id}
+  </update>
+
+  <!--新增-->
+  <insert id="insert" parameterType="com.efounder.JEnterprise.model.app.SocketConfigModel">
+    insert into api_socket_config(name,socket_address,socket_switch,socket_switch_display,energy_consumption_value,energy_consumption_value_display)
+    values(#{name},#{socketAddress},#{socketSwitch},#{socketSwitchDisplay},#{energyConsumptionValue},#{energyConsumptionValueDisplay})
+  </insert>
+
+  <!--查询-->
+  <select id="queryOne" resultMap="SocketConfigModelMap">
+    select id,name,socket_address ,socket_switch ,socket_switch_display,energy_consumption_value,energy_consumption_value_display from api_socket_config
+    where id = #{id}
+  </select>
+
+  <insert id="insertSocket">
+    insert into api_socket_config(
+    name,
+    socket_address,
+    socket_switch,
+    socket_switch_display,
+    energy_consumption_value,
+    energy_consumption_value_display
+    )
+    values(
+    #{name},
+    #{socketAddress},
+    #{socketSwitch},
+    #{socketSwitchDisplay},
+    #{energyConsumptionValue},
+    #{energyConsumptionValueDisplay}
+    )
+  </insert>
+
+</mapper>

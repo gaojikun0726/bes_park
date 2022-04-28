@@ -1,0 +1,210 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.efounder.JEnterprise.mapper.systemcenter.interfaceconfig.DeviceFunctionMapper">
+
+    <sql id="col_name_bes_device">
+      id                                            id,
+      device_type_id                                deviceTypeId,
+      code                                          code,
+      name                                          name,
+      unit                                          unit,
+      comments                                      comments,
+      DATE_FORMAT(create_time,'%Y-%m-%d %H:%i:%s')  createTime,
+      DATE_FORMAT(update_time,'%Y-%m-%d %H:%i:%s')  updateTime
+
+	</sql>
+
+    <sql id="col_name">
+      a.id                                            id,
+      a.device_type_id                                deviceTypeId,
+      a.code                                          code,
+      a.name                                          name,
+      a.unit                                          unit,
+      a.comments                                      comments,
+      DATE_FORMAT(a.create_time,'%Y-%m-%d %H:%i:%s')  createTime,
+      DATE_FORMAT(a.update_time,'%Y-%m-%d %H:%i:%s')  updateTime,
+      b.name                                          deviceType
+
+	</sql>
+
+    <sql id="table_name">
+        bes_device_function
+    </sql>
+
+    <sql id="table_name_type">
+        bes_device_type
+    </sql>
+
+    <select id="findAll" resultType="com.efounder.JEnterprise.model.systemcenter.Interfaceconfig.DeviceFunctionModel">
+        select
+        <include refid="col_name_bes_device"/>
+        from
+        <include refid="table_name"/>
+    </select>
+
+    <select id="queryPage"
+            resultType="com.efounder.JEnterprise.model.systemcenter.Interfaceconfig.DeviceFunctionModel">
+        select
+        <include refid="col_name"/>
+        from <include refid="table_name"/> a,<include refid="table_name_type"/> b
+        <where>
+            a.device_type_id = b.id
+            <if test='param != null and param != ""'>
+                and CONCAT(a.name,'##',a.code) LIKE CONCAT('%',#{param},'%')
+            </if>
+            <if test='deviceTypeId != null and deviceTypeId != ""'>
+                and a.device_type_id LIKE #{deviceTypeId}
+            </if>
+        </where>
+        order by a.create_time
+    </select>
+    <!--获取所有的设备类型-->
+    <select id="getDeviceType"
+            resultType="com.efounder.JEnterprise.model.systemcenter.Interfaceconfig.DeviceTypeModel">
+        select * from bes_device_type
+    </select>
+
+    <!--添加设备功能  主要是在主键是自增的情况下，添加成功后可以直接使用主键值，其中keyProperty的值是对象的属性值不是数据库表中的字段名-->
+    <insert id="create" useGeneratedKeys="true" keyProperty="id" >
+        insert into
+        bes_device_function
+        (
+        device_type_id,
+        code,
+        name,
+        unit,
+        comments,
+        create_time
+        ) values
+        (
+        #{deviceTypeId},
+        #{code},
+        #{name},
+        #{unit},
+        #{comments},
+        current_timestamp()
+        )
+    </insert>
+
+    <!--查询设备功能信息-->
+    <select id="query" resultType="com.efounder.JEnterprise.model.systemcenter.Interfaceconfig.DeviceFunctionModel">
+        select
+         <include refid="col_name_bes_device"/>
+         from
+        <include refid="table_name"/>
+        where id = #{id}
+    </select>
+
+    <!--修改设备功能信息-->
+    <update id="update">
+        update
+        <include refid="table_name"/>
+        <set>
+            device_type_id = #{deviceTypeId},
+            code = #{code},
+            name = #{name},
+            unit = #{unit},
+            comments =  #{comments},
+            update_time = current_timestamp()
+        </set>
+        where id = #{id}
+
+    </update>
+
+    <!--删除设备功能信息-->
+    <delete id="delete">
+        delete from
+        <include refid="table_name"/>
+        where id = #{id}
+    </delete>
+
+    <!--查询表中设备代码是否重复-->
+    <select id="selectCodeFromBesDevice" resultType="com.efounder.JEnterprise.model.systemcenter.Interfaceconfig.DeviceFunctionModel">
+        select * from
+        <include refid="table_name"/>
+        where code = #{code}
+    </select>
+
+    <!--根据设备功能id查询功能点位表中是否关联此设备功能-->
+    <select id="findDeviceFunctionPointList"
+            resultType="com.efounder.JEnterprise.model.systemcenter.Interfaceconfig.DeviceFunctionModel">
+        select * from bes_device_function_point where device_function_id = #{id}
+    </select>
+
+    <!--加载功能值的页面-->
+    <select id="query_valuePage"
+            resultType="com.efounder.JEnterprise.model.systemcenter.Interfaceconfig.DeviceFunctionValueModel">
+        select id,device_function_id deviceFunctionId,value,name,comments FROM bes_function_value
+        WHERE device_function_id = #{deviceFunctionId}
+    </select>
+
+    <!--添加功能值-->
+    <insert id="create_value">
+        insert into bes_function_value
+        (device_function_id,
+        name,
+        value,
+        comments,
+        create_time)
+        values
+        (#{deviceFunctionId},
+        #{name},
+        #{value},
+        #{comments},
+        current_timestamp())
+    </insert>
+
+    <!--回显功能值-->
+    <select id="query_value"
+            resultType="com.efounder.JEnterprise.model.systemcenter.Interfaceconfig.DeviceFunctionValueModel">
+        select id,device_function_id deviceFunctionId,value,name,comments FROM bes_function_value
+        WHERE id= #{id}
+    </select>
+
+    <!--获取全部功能值-->
+    <select id="findAllFunctionValue" resultType="com.efounder.JEnterprise.model.systemcenter.Interfaceconfig.DeviceFunctionValueModel">
+
+        select
+
+            id,
+            device_function_id deviceFunctionId,
+            `value`,
+            `name`,
+            comments
+
+        from
+
+        bes_function_value
+
+    </select>
+
+    <!--修改功能值-->
+    <update id="update_value">
+        update
+        bes_function_value
+        <set>
+            value = #{value},
+            name = #{name},
+            comments = #{comments},
+            update_time = current_timestamp()
+        </set>
+        where id = #{id}
+    </update>
+
+    <!--删除功能值-->
+    <delete id="delete_value">
+        delete from
+        bes_function_value
+        where id = #{id}
+    </delete>
+
+    <!--判断当前设备功能是否关联功能值-->
+    <select id="deviceFunctionValueModelList"
+            resultType="com.efounder.JEnterprise.model.systemcenter.Interfaceconfig.DeviceFunctionValueModel">
+        select id,device_function_id deviceFunctionId,value,name,comments
+        from bes_function_value
+        where
+        device_function_id = #{id}
+    </select>
+</mapper>

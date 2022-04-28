@@ -1,0 +1,441 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.efounder.JEnterprise.mapper.dataAnalysises.BesWainingRealInfoMapper" >
+
+    <resultMap id="BesWainingRealInfoMap" type="com.efounder.JEnterprise.model.dataAnalysises.BesWainingInfo" >
+        <id column="F_GUID" property="fGuid" jdbcType="VARCHAR" />
+        <result column="F_LOCATION" property="fLoction" jdbcType="VARCHAR" />
+        <result column="F_ALARMNAME" property="fAlarmName" jdbcType="VARCHAR" />
+        <result column="F_ACTUALVALUE" property="fActualValue" jdbcType="VARCHAR" />
+        <result column="F_PLANEVALUE" property="fPlanValue" jdbcType="VARCHAR" />
+        <result column="F_TIPINFO" property="fTipInfo" jdbcType="VARCHAR" />
+        <result column="F_ATIME" property="fATime" jdbcType="TIMESTAMP" />
+        <result column="F_TYPE" property="fType" jdbcType="VARCHAR" />
+        <result column="F_LEVEL" property="fLevel" jdbcType="VARCHAR" />
+        <result column="F_YQBH" property="fYqbh" jdbcType="VARCHAR" />
+        <result column="ALARM_LEVEL_NAME" property="levelName" jdbcType="VARCHAR" />
+        <result column="ALARM_TYPE_NAME" property="typeName" jdbcType="VARCHAR" />
+        <result column="F_CRDATE" property="fCrdate" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <sql id="Base_Column_List" >
+        a.F_GUID,a.F_LOCATION, a.F_ALARMNAME,a.F_ACTUALVALUE, a.F_PLANEVALUE,a. F_TIPINFO,a.F_ATIME,
+        a.F_TYPE,a.F_LEVEL,a.F_CRDATE,
+    </sql>
+
+
+    <!-- 获取报警信息数据 -->
+    <select id="getWarningRealInfoData" parameterType="string" resultMap="BesWainingRealInfoMap">
+        select
+        <include refid="Base_Column_List" />
+        b.ALARM_LEVEL_NAME,
+        c.ALARM_TYPE_NAME,
+        d.F_YQMC F_YQBH
+        from bes_waring_real a left join bes_alarm_level b on  a.F_LEVEL =b.ALARM_LEVEL_NUM
+       left join bes_alarm_type c on a.F_TYPE=c.ALARM_TYPE_NUM
+        left join bes_park d on a.F_YQBH = d.F_YQBH
+        <where>
+            1=1
+            <if test="fType !=null and fType != '' and fType != '1'">
+                and a.F_TYPE = #{fType}
+            </if>
+            <if test="fYqbh !=null and fYqbh != '' and fYqbh != 'selected'">
+                and a.F_YQBH = #{fYqbh}
+            </if>
+            <if test="fLevel !=null and fLevel != '' and fLevel !='qb' ">
+                and a.F_LEVEL = #{fLevel}
+            </if>
+            <if test="fOpearation !=null and fOpearation != ''">
+                and a.F_OPERATION = #{fOpearation}
+            </if>
+            <if test="startTime !=null and startTime != ''">
+                <![CDATA[  and DATE_FORMAT(a.F_ATIME, '%Y-%m-%d') >=
+                        DATE_FORMAT(#{startTime}, '%Y-%m-%d')   ]]>
+            </if>
+            <if test="endTime !=null and endTime != ''">
+                <![CDATA[  and DATE_FORMAT(a.F_ATIME, '%Y-%m-%d') <=
+                        DATE_FORMAT(#{endTime} , '%Y-%m-%d')    ]]>
+            </if>
+        </where>
+        ORDER BY a.F_LEVEL ASC, a.F_ATIME desc
+
+    </select>
+
+    <select id="getWarningRealInfoDataAll" parameterType="string" resultMap="BesWainingRealInfoMap">
+        select
+        <include refid="Base_Column_List" />
+        b.ALARM_LEVEL_NAME,
+        c.ALARM_TYPE_NAME,
+        d.F_YQMC F_YQBH
+        from bes_waring_real a left join bes_alarm_level b on  a.F_LEVEL =b.ALARM_LEVEL_NUM
+        left join bes_alarm_type c on a.F_TYPE=c.ALARM_TYPE_NUM
+        left join bes_park d on a.F_YQBH = d.F_YQBH
+        <where>
+            1=1
+            <if test="fYqbh !=null and fYqbh != '' and fYqbh != 'selected'">
+                and a.F_YQBH = #{fYqbh}
+            </if>
+            <if test="fLevel !=null and fLevel != '' and fLevel !='qb' ">
+                and a.F_LEVEL = #{fLevel}
+            </if>
+            <if test="fOpearation !=null and fOpearation != ''">
+                and a.F_OPERATION = #{fOpearation}
+            </if>
+            <if test="startTime !=null and startTime != ''">
+                <![CDATA[  and DATE_FORMAT(a.F_ATIME, '%Y-%m-%d') >=
+                        DATE_FORMAT(#{startTime}, '%Y-%m-%d')   ]]>
+            </if>
+            <if test="endTime !=null and endTime != ''">
+                <![CDATA[  and DATE_FORMAT(a.F_ATIME, '%Y-%m-%d') <=
+                        DATE_FORMAT(#{endTime} , '%Y-%m-%d')    ]]>
+            </if>
+        </where>
+        ORDER BY a.F_LEVEL ASC, a.F_ATIME desc
+
+    </select>
+
+    <!-- 报警处理操作 -->
+    <insert id="WarningDsipose"  parameterType="string" >
+    insert into bes_waring_info 
+    (F_GUID,F_LOCATION,F_ALARMNAME,F_ACTUALVALUE,F_PLANEVALUE,F_TIPINFO,F_ATIME,F_TYPE,
+	F_LEVEL,F_YQBH,F_CRDATE,F_OPERATION,F_OP_MAN) 
+	SELECT F_GUID,F_LOCATION,F_ALARMNAME,F_ACTUALVALUE,F_PLANEVALUE,F_TIPINFO,F_ATIME,F_TYPE,
+    F_LEVEL,F_YQBH,CURRENT_TIMESTAMP,#{f_operation},#{f_yhbh} FROM BES_WARING_REAL WHERE F_GUID = #{fGuid}
+  </insert>
+
+<!-- 处理完成删除实时表数据 -->
+    <delete id="DelWarningInfo" parameterType="java.lang.String" >
+        delete from BES_WARING_REAL
+        where F_GUID = #{fGuid}
+    </delete>
+
+	<!-- 新增报警信息 -->
+    <insert id="insertWarningInfo" parameterType="com.efounder.JEnterprise.model.dataAnalysises.BesWainingInfo" >
+        insert into bes_waring_real
+        <trim prefix="(" suffix=")" suffixOverrides="," >
+            <if test="fGuid != null" >
+                F_GUID,
+            </if>
+            <if test="fLoction != null" >
+                F_LOCATION,
+            </if>
+            <if test="fAlarmName != null" >
+                F_ALARMNAME,
+            </if>
+            <if test="fActualValue != null" >
+                F_ACTUALVALUE,
+            </if>
+            <if test="fPlanValue != null" >
+                F_PLANEVALUE,
+            </if>
+            <if test="fTipInfo != null" >
+                F_TIPINFO,
+            </if>
+            <if test="fATime != null" >
+                F_ATIME,
+            </if>
+            <if test="fOpearation != null" >
+                F_OPERATION,
+            </if>
+            <if test="fType != null" >
+                F_TYPE,
+            </if>
+            <if test="fYqbh != null" >
+                F_YQBH,
+            </if>
+            <if test="fLevel != null" >
+                F_LEVEL,
+            </if>
+                F_CRDATE,
+                F_CHDATE,
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides="," >
+            <if test="fGuid != null" >
+                #{fGuid,jdbcType=VARCHAR},
+            </if>
+            <if test="fLoction != null" >
+                #{fLoction,jdbcType=VARCHAR},
+            </if>
+            <if test="fAlarmName != null" >
+                #{fAlarmName,jdbcType=VARCHAR},
+            </if>
+            <if test="fActualValue != null" >
+                #{fActualValue,jdbcType=VARCHAR},
+            </if>
+            <if test="fPlanValue != null" >
+                #{fPlanValue,jdbcType=VARCHAR},
+            </if>
+            <if test="fTipInfo != null" >
+                #{fTipInfo,jdbcType=VARCHAR},
+            </if>
+            <if test="fATime != null" >
+                #{fATime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="fOpearation != null" >
+                #{fOpearation,jdbcType=VARCHAR},
+            </if>
+            <if test="fType != null" >
+                #{fType,jdbcType=VARCHAR},
+            </if>
+            <if test="fYqbh != null" >
+                #{fYqbh,jdbcType=VARCHAR},
+            </if>
+            <if test="fLevel != null" >
+                #{fLevel,jdbcType=VARCHAR},
+            </if>
+            	current_timestamp(),
+
+                current_timestamp(),
+        </trim>
+    </insert>
+
+    <select id="queryWarningRealList" parameterType="string" resultMap="BesWainingRealInfoMap">
+    	select * from bes_waring_real
+    	<where>
+            F_OPERATION = 1
+            <if test="fLoction !=null and fLoction != ''">
+                and F_LOCATION = #{fLoction}
+            </if>
+            <if test="fTipInfo !=null and fTipInfo != ''">
+                and F_TIPINFO = #{fTipInfo}
+            </if>          
+        </where>
+    </select>
+
+    <!--wanghongjie start 20200604 首页告警图标-查询实时报警数据-->
+    <select id="getAlarmWarnInfoByRecoverState" parameterType="string" resultMap="BesWainingRealInfoMap">
+        select
+        <include refid="Base_Column_List" />
+            b.ALARM_LEVEL_NAME,
+            c.ALARM_TYPE_NAME,
+            d.F_YQMC F_YQBH
+            from bes_waring_real a left join bes_alarm_level b on  a.F_LEVEL =b.ALARM_LEVEL_NUM
+            left join bes_alarm_type c on a.F_TYPE=c.ALARM_TYPE_NUM
+            left join bes_park d on a.F_YQBH = d.F_YQBH
+        <where>
+            1=1
+            <if test="f_operation != null and f_operation != ''">
+              and  a.F_OPERATION = #{f_operation}
+            </if>
+            <if test="type != null and type !='' and type != '0'">
+                and a.F_TYPE = #{type}
+            </if>
+            order by a.F_LEVEL ASC,a.F_ATIME DESC
+        </where>
+    </select>
+
+    <select id="getAlarmWarnInfoByRecoverStateAll" parameterType="string" resultMap="BesWainingRealInfoMap">
+        select
+        <include refid="Base_Column_List" />
+        b.ALARM_LEVEL_NAME,
+        c.ALARM_TYPE_NAME,
+        d.F_YQMC F_YQBH
+        from bes_waring_real a left join bes_alarm_level b on  a.F_LEVEL =b.ALARM_LEVEL_NUM
+        left join bes_alarm_type c on a.F_TYPE=c.ALARM_TYPE_NUM
+        left join bes_park d on a.F_YQBH = d.F_YQBH
+        <where>
+            1=1
+            <if test="f_operation != null and f_operation != ''">
+                and  a.F_OPERATION = #{f_operation}
+            </if>
+            order by a.F_LEVEL ASC,a.F_ATIME DESC
+        </where>
+    </select>
+
+    <!--wanghongjie start 20200604 获取未恢复的信息数-->
+    <select id="getNoRecoverCount" parameterType="string" resultType="java.util.HashMap">
+        <![CDATA[
+			SELECT COUNT(*) AS F_RECOVER_COUNT
+		]]>
+        from bes_waring_real a left join bes_alarm_level b on  a.F_LEVEL =b.ALARM_LEVEL_NUM
+        left join bes_alarm_type c on a.F_TYPE=c.ALARM_TYPE_NUM
+        where 1=1 and a.F_OPERATION = ${f_operation}
+    </select>
+    <!--wanghongjie start 20200603 插入bes_waring_real_data表,实时报警表-->
+    <insert id="insertWarningInfoData" parameterType="com.efounder.JEnterprise.model.dataAnalysises.BesWainingInfo" >
+        insert into bes_waring_real_data
+        <trim prefix="(" suffix=")" suffixOverrides="," >
+            <if test="fGuid != null" >
+                F_GUID,
+            </if>
+            <if test="fLoction != null" >
+                F_LOCATION,
+            </if>
+            <if test="fAlarmName != null" >
+                F_ALARMNAME,
+            </if>
+            <if test="fActualValue != null" >
+                F_ACTUALVALUE,
+            </if>
+            <if test="fPlanValue != null" >
+                F_PLANEVALUE,
+            </if>
+            <if test="fTipInfo != null" >
+                F_TIPINFO,
+            </if>
+            <if test="fATime != null" >
+                F_ATIME,
+            </if>
+            <if test="fOpearation != null" >
+                F_OPERATION,
+            </if>
+            <if test="fType != null" >
+                F_TYPE,
+            </if>
+            <if test="fYqbh != null" >
+                F_YQBH,
+            </if>
+            <if test="fLevel != null" >
+                F_LEVEL,
+            </if>
+            F_CRDATE,
+            F_CHDATE,
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides="," >
+            <if test="fGuid != null" >
+                #{fGuid,jdbcType=VARCHAR},
+            </if>
+            <if test="fLoction != null" >
+                #{fLoction,jdbcType=VARCHAR},
+            </if>
+            <if test="fAlarmName != null" >
+                #{fAlarmName,jdbcType=VARCHAR},
+            </if>
+            <if test="fActualValue != null" >
+                #{fActualValue,jdbcType=VARCHAR},
+            </if>
+            <if test="fPlanValue != null" >
+                #{fPlanValue,jdbcType=VARCHAR},
+            </if>
+            <if test="fTipInfo != null" >
+                #{fTipInfo,jdbcType=VARCHAR},
+            </if>
+            <if test="fATime != null" >
+                #{fATime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="fOpearation != null" >
+                #{fOpearation,jdbcType=VARCHAR},
+            </if>
+            <if test="fType != null" >
+                #{fType,jdbcType=VARCHAR},
+            </if>
+            <if test="fYqbh != null" >
+                #{fYqbh,jdbcType=VARCHAR},
+            </if>
+            <if test="fLevel != null" >
+                #{fLevel,jdbcType=VARCHAR},
+            </if>
+            current_timestamp(),
+
+            current_timestamp(),
+        </trim>
+    </insert>
+
+    <!--wanghongjie start 如果报警消息在实时报警表报警消息重复,则更新告警消息的值-->
+    <update id="updateWarningInfoData" parameterType="com.efounder.JEnterprise.model.dataAnalysises.BesWainingInfo">
+        update bes_waring_real
+        <set>
+            <if test="fActualValue != null and fActualValue != ''">
+                F_ACTUALVALUE = #{fActualValue,jdbcType=VARCHAR},
+            </if>
+            <if test="fPlanValue != null and fPlanValue != ''">
+                F_PLANEVALUE = #{fPlanValue,jdbcType=VARCHAR},
+            </if>
+            <if test="fTipInfo != null and fTipInfo != ''">
+                F_TIPINFO = #{fTipInfo,jdbcType=VARCHAR},
+            </if>
+            <if test="fATime != null and fATime != ''">
+                F_ATIME = #{fATime,jdbcType=VARCHAR},
+            </if>
+            <if test="fOpearation != null and fOpearation != ''">
+                F_OPERATION = #{fOpearation,jdbcType=VARCHAR},
+            </if>
+            <if test="fType != null and fType != ''">
+                F_TYPE = #{fType, jdbcType=VARCHAR},
+            </if>
+            <if test="fLevel != null and fLevel !=''">
+                F_LEVEL = #{fLevel,jdbcType=VARCHAR},
+            </if>
+            <if test="fYqbh != null and fYqbh != ''">
+                F_YQBH = #{fYqbh,jdbcType=VARCHAR}
+            </if>
+        </set>
+        WHERE F_LOCATION = #{fLoction}  and F_TIPINFO = #{fTipInfo}
+    </update>
+
+    <!--wanghongjie start 20200606 批量修改实时报警表的处理状态-->
+    <update id="updateWarningDsipose" parameterType="string">
+        update bes_waring_real
+        <set>
+            <if test="f_operation != null and f_operation != ''">
+                F_OPERATION = #{f_operation,jdbcType=VARCHAR},
+            </if>
+            F_CHDATE = current_timestamp,
+        </set>
+        WHERE F_GUID = #{fGuid}
+    </update>
+
+    <!--wanghongjie start 20200701 全部处理报警信息-->
+    <delete id="warningDsiposeAll" parameterType="com.alibaba.fastjson.JSONObject">
+        delete from BES_WARING_REAL
+        where F_YQBH = #{obj.fYqbh}
+        <if test='obj.fLevel != "qb"'>
+            and F_LEVEL = #{obj.fLevel}
+        </if>
+        <if test='obj.fType != "1"'>
+            and F_TYPE = #{obj.fType}
+        </if>
+        <if test="obj.startTime !=null and obj.startTime != ''">
+            <![CDATA[  and DATE_FORMAT(F_ATIME, '%Y-%m-%d') >=
+                        DATE_FORMAT(#{obj.startTime}, '%Y-%m-%d')   ]]>
+        </if>
+        <if test="obj.endTime !=null and obj.endTime != ''">
+            <![CDATA[  and DATE_FORMAT(F_ATIME, '%Y-%m-%d') <=
+                        DATE_FORMAT(#{obj.endTime} , '%Y-%m-%d')    ]]>
+        </if>
+       <!-- UPDATE bes_waring_real
+        set F_OPERATION = '0'
+        <where>
+            1=1
+            <if test="obj.fYqbh != null and obj.fYqbh != '' ">
+                and F_YQBH = #{obj.fYqbh}
+            </if>
+            <if test="obj.fType != null and obj.fType != '' and obj.fType != '0'">
+                and F_TYPE = #{obj.fType}
+            </if>
+            <if test="obj.fLevel != null and obj.fLevel != '' and obj.fLevel != 'qb'">
+                and F_LEVEL = #{obj.fLevel}
+            </if>
+            <if test="obj.startTime !=null and obj.startTime != ''">
+                <![CDATA[  and DATE_FORMAT(F_ATIME, '%Y-%m-%d') >=
+                        DATE_FORMAT(#{obj.startTime}, '%Y-%m-%d')   ]]>
+            </if>
+            <if test="obj.endTime !=null and obj.endTime != ''">
+                <![CDATA[  and DATE_FORMAT(F_ATIME, '%Y-%m-%d') <=
+                        DATE_FORMAT(#{obj.endTime} , '%Y-%m-%d')    ]]>
+            </if>
+        </where>-->
+    </delete>
+    <insert id="warningDsiposeAllByFtype" parameterType="com.alibaba.fastjson.JSONObject">
+        insert into bes_waring_info
+        (F_GUID,F_LOCATION,F_ALARMNAME,F_ACTUALVALUE,F_PLANEVALUE,F_TIPINFO,F_ATIME,F_TYPE,
+        F_LEVEL,F_YQBH,F_CRDATE,F_OPERATION,F_OP_MAN)
+        SELECT F_GUID,F_LOCATION,F_ALARMNAME,F_ACTUALVALUE,F_PLANEVALUE,F_TIPINFO,F_ATIME,F_TYPE,
+        F_LEVEL,F_YQBH,CURRENT_TIMESTAMP,"0",#{obj.user} FROM BES_WARING_REAL WHERE F_YQBH = #{obj.fYqbh}
+        <if test='obj.fLevel != "qb"'>
+            and F_LEVEL = #{obj.fLevel}
+        </if>
+        <if test='obj.fType != "1"'>
+            and F_TYPE = #{obj.fType}
+        </if>
+         <if test="obj.startTime !=null and obj.startTime != ''">
+        <![CDATA[  and DATE_FORMAT(F_ATIME, '%Y-%m-%d') >=
+                        DATE_FORMAT(#{obj.startTime}, '%Y-%m-%d')   ]]>
+        </if>
+        <if test="obj.endTime !=null and obj.endTime != ''">
+            <![CDATA[  and DATE_FORMAT(F_ATIME, '%Y-%m-%d') <=
+                        DATE_FORMAT(#{obj.endTime} , '%Y-%m-%d')    ]]>
+        </if>
+
+    </insert>
+</mapper>

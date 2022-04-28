@@ -1,0 +1,369 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.efounder.JEnterprise.mapper.basedatamanage.eqmanage.BesDdcMapper" >
+
+    <resultMap id="BesDdcResultMap" type="com.efounder.JEnterprise.model.basedatamanage.eqmanage.BesDdc" >
+    	<id column="F_GUID" property="fGuid" jdbcType="VARCHAR" />
+    	<result column="F_SBID" property="fSbid" jdbcType="VARCHAR" />
+        <result column="F_SYS_NAME" property="fSysName" jdbcType="VARCHAR" />
+        <result column="F_SYS_NAME_OLD" property="fSysNameOld" jdbcType="VARCHAR" />
+        <result column="F_NICK_NAME" property="fNickName" jdbcType="VARCHAR" />
+        <result column="F_ENABLED" property="fEnabled" jdbcType="INTEGER" />
+        <result column="F_SSQY" property="fSsqy" jdbcType="VARCHAR" />
+        <result column="F_NODE_TYPE" property="fNodeType" jdbcType="VARCHAR" />
+        <result column="F_SBLXBH" property="fSblxbh" jdbcType="VARCHAR" />
+        <result column="F_AZWZ" property="fAzwz" jdbcType="VARCHAR" />
+        <result column="F_DESCRIPTION" property="fDescription" jdbcType="VARCHAR" />
+        <result column="F_TYPE" property="fType" jdbcType="VARCHAR" />
+        <result column="F_IP_ADDR" property="fIpAddr" jdbcType="VARCHAR" />
+        <result column="F_PORT" property="fPort" jdbcType="VARCHAR" />
+        <result column="F_DDC_STATE" property="fDdcState" jdbcType="VARCHAR" />
+        <result column="F_ONLINE_STATE" property="fDdcOnlinestate" jdbcType="VARCHAR" />
+        <result column="F_YQBH" property="fYqbh" jdbcType="VARCHAR" />
+        <result column="F_CRDATE" property="fCrdate" jdbcType="TIMESTAMP" />
+        <result column="F_CHDATE" property="fChdate" jdbcType="TIMESTAMP" />
+        <result column="F_GATEWAY" property="fGateway" jdbcType="TIMESTAMP" />
+        <result column="F_MASK" property="fMask" jdbcType="TIMESTAMP" />
+        <result column="F_IP_MASTER" property="fIpMaster" jdbcType="TIMESTAMP" />
+        <result column="F_PORT_MASTER" property="fPortMaster" jdbcType="TIMESTAMP" />
+        <result column="F_CHANNEL_ID" property="fChannelId" jdbcType="TIMESTAMP" />
+        <result column="F_SAVE_PERIOD" property="fSavePeriod" jdbcType="TIMESTAMP" />
+    </resultMap>
+
+    <sql id="Base_Column_List" >
+          F_GUID,
+          F_SBID,
+          F_SYS_NAME_OLD,
+          F_SYS_NAME,
+          F_NICK_NAME,
+          F_ENABLED,
+          F_SSQY,
+          F_NODE_TYPE,
+          F_SBLXBH,
+          F_AZWZ,
+          F_DESCRIPTION,
+          F_TYPE,
+          F_IP_ADDR,
+          F_PORT,
+          F_DDC_STATE,
+          F_ONLINE_STATE,
+          F_YQBH,
+          F_CRDATE,
+          F_CHDATE,
+          F_GATEWAY,
+          F_MASK,
+          F_IP_MASTER,
+          F_PORT_MASTER,
+          F_CHANNEL_ID,
+          F_SAVE_PERIOD
+
+    </sql>
+	<!-- 查询DDC信息 -->
+    <select id="queryDDCInfo" resultType="java.util.HashMap" >
+        select 
+        <include refid="Base_Column_List" />
+        from bes_ddc
+        where F_SYS_NAME = #{fSysName}
+    </select>
+
+    <!-- 根据ip查询DDC信息 -->
+    <select id="queryDDCInfoByIp" resultType="java.util.HashMap" >
+        select
+        <include refid="Base_Column_List" />
+        from bes_ddc
+        where F_IP_ADDR = #{ipAdress}
+    </select>
+    <!-- 根据ChannelId查询DDC信息 -->
+    <select id="queryDDCInfoByChannelId" resultType="java.util.HashMap" >
+        select
+        <include refid="Base_Column_List" />
+        from bes_ddc
+        where  F_CHANNEL_ID = #{channelId}
+    </select>
+
+
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+        delete from bes_ddc
+        where F_SYS_NAME = #{fSysName,jdbcType=VARCHAR}
+    </delete>
+
+    <insert id="insert" parameterType="com.efounder.JEnterprise.model.basedatamanage.eqmanage.BesDdc" >
+        insert into bes_ddc (F_SYS_NAME, F_NICK_NAME, F_ENABLED, 
+            F_SSQY, F_NODE_TYPE, F_SBLXBH, 
+            F_AZWZ, F_DESCRIPTION, F_TYPE, 
+            F_IP_ADDR, F_PORT, F_CRDATE, 
+            F_CHDATE)
+        values (#{fSysName,jdbcType=VARCHAR}, #{fNickName,jdbcType=VARCHAR}, #{fEnabled,jdbcType=INTEGER}, 
+            #{fSsqy,jdbcType=VARCHAR}, #{fNodeType,jdbcType=VARCHAR}, #{fSblxbh,jdbcType=VARCHAR}, 
+            #{fAzwz,jdbcType=VARCHAR}, #{fDescription,jdbcType=VARCHAR}, #{fType,jdbcType=VARCHAR}, 
+            #{fIpAddr,jdbcType=VARCHAR}, #{fPort,jdbcType=VARCHAR}, #{fCrdate,jdbcType=TIMESTAMP}, 
+            #{fChdate,jdbcType=TIMESTAMP})
+    </insert>
+
+    <insert id="insertSelective" parameterType="com.efounder.JEnterprise.model.basedatamanage.eqmanage.BesDdc" >
+        insert into bes_ddc
+        <trim prefix="(" suffix=")" suffixOverrides="," >
+            <if test="fSysName != null" >
+                F_SYS_NAME,
+            </if>
+            <if test="fNickName != null" >
+                F_NICK_NAME,
+            </if>
+            <if test="fEnabled != null" >
+                F_ENABLED,
+            </if>
+            <if test="fSsqy != null" >
+                F_SSQY,
+            </if>
+            <if test="fNodeType != null" >
+                F_NODE_TYPE,
+            </if>
+            <if test="fSblxbh != null" >
+                F_SBLXBH,
+            </if>
+            <if test="fAzwz != null" >
+                F_AZWZ,
+            </if>
+            <if test="fDescription != null" >
+                F_DESCRIPTION,
+            </if>
+            <if test="fType != null" >
+                F_TYPE,
+            </if>
+            <if test="fIpAddr != null" >
+                F_IP_ADDR,
+            </if>
+            <if test="fPort != null" >
+                F_PORT,
+            </if>
+            <if test="fCrdate != null" >
+                F_CRDATE,
+            </if>
+            <if test="fChdate != null" >
+                F_CHDATE,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides="," >
+            <if test="fSysName != null" >
+                #{fSysName,jdbcType=VARCHAR},
+            </if>
+            <if test="fNickName != null" >
+                #{fNickName,jdbcType=VARCHAR},
+            </if>
+            <if test="fEnabled != null" >
+                #{fEnabled,jdbcType=INTEGER},
+            </if>
+            <if test="fSsqy != null" >
+                #{fSsqy,jdbcType=VARCHAR},
+            </if>
+            <if test="fNodeType != null" >
+                #{fNodeType,jdbcType=VARCHAR},
+            </if>
+            <if test="fSblxbh != null" >
+                #{fSblxbh,jdbcType=VARCHAR},
+            </if>
+            <if test="fAzwz != null" >
+                #{fAzwz,jdbcType=VARCHAR},
+            </if>
+            <if test="fDescription != null" >
+                #{fDescription,jdbcType=VARCHAR},
+            </if>
+            <if test="fType != null" >
+                #{fType,jdbcType=VARCHAR},
+            </if>
+            <if test="fIpAddr != null" >
+                #{fIpAddr,jdbcType=VARCHAR},
+            </if>
+            <if test="fPort != null" >
+                #{fPort,jdbcType=VARCHAR},
+            </if>
+            <if test="fCrdate != null" >
+                #{fCrdate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="fChdate != null" >
+                #{fChdate,jdbcType=TIMESTAMP},
+            </if>
+        </trim>
+    </insert>
+
+    <update id="updateByPrimaryKeySelective" parameterType="com.efounder.JEnterprise.model.basedatamanage.eqmanage.BesDdc" >
+        update bes_ddc
+        <set >
+            <if test="fNickName != null" >
+                F_NICK_NAME = #{fNickName,jdbcType=VARCHAR},
+            </if>
+            <if test="fEnabled != null" >
+                F_ENABLED = #{fEnabled,jdbcType=INTEGER},
+            </if>
+            <if test="fSsqy != null" >
+                F_SSQY = #{fSsqy,jdbcType=VARCHAR},
+            </if>
+            <if test="fNodeType != null" >
+                F_NODE_TYPE = #{fNodeType,jdbcType=VARCHAR},
+            </if>
+            <if test="fSblxbh != null" >
+                F_SBLXBH = #{fSblxbh,jdbcType=VARCHAR},
+            </if>
+            <if test="fAzwz != null" >
+                F_AZWZ = #{fAzwz,jdbcType=VARCHAR},
+            </if>
+            <if test="fDescription != null" >
+                F_DESCRIPTION = #{fDescription,jdbcType=VARCHAR},
+            </if>
+            <if test="fType != null" >
+                F_TYPE = #{fType,jdbcType=VARCHAR},
+            </if>
+            <if test="fIpAddr != null" >
+                F_IP_ADDR = #{fIpAddr,jdbcType=VARCHAR},
+            </if>
+            <if test="fPort != null" >
+                F_PORT = #{fPort,jdbcType=VARCHAR},
+            </if>
+            <if test="fDdcState != null" >
+                F_DDC_STATE = #{fDdcState,jdbcType=VARCHAR},
+            </if>
+            <if test="fDdcOnlinestate != null" >
+                F_ONLINE_STATE = #{fDdcOnlinestate,jdbcType=VARCHAR},
+            </if>
+            <if test="fCrdate != null" >
+                F_CRDATE = #{fCrdate,jdbcType=TIMESTAMP},
+            </if>
+                F_CHDATE = #{fChdate,jdbcType=TIMESTAMP}
+        </set>
+        where F_SYS_NAME = #{fSysName,jdbcType=VARCHAR}
+    </update>
+
+    <!--Start add by xiepufeng at 2020年5月13日-->
+    <update id="updateByGuidSelective" parameterType="com.efounder.JEnterprise.model.basedatamanage.eqmanage.BesDdc" >
+        update bes_ddc
+        <set >
+            <if test="fNickName != null" >
+                F_NICK_NAME = #{fNickName,jdbcType=VARCHAR},
+            </if>
+            <if test="fEnabled != null" >
+                F_ENABLED = #{fEnabled,jdbcType=INTEGER},
+            </if>
+            <if test="fSsqy != null" >
+                F_SSQY = #{fSsqy,jdbcType=VARCHAR},
+            </if>
+            <if test="fNodeType != null" >
+                F_NODE_TYPE = #{fNodeType,jdbcType=VARCHAR},
+            </if>
+            <if test="fSblxbh != null" >
+                F_SBLXBH = #{fSblxbh,jdbcType=VARCHAR},
+            </if>
+            <if test="fAzwz != null" >
+                F_AZWZ = #{fAzwz,jdbcType=VARCHAR},
+            </if>
+            <if test="fDescription != null" >
+                F_DESCRIPTION = #{fDescription,jdbcType=VARCHAR},
+            </if>
+            <if test="fType != null" >
+                F_TYPE = #{fType,jdbcType=VARCHAR},
+            </if>
+            <if test="fIpAddr != null" >
+                F_IP_ADDR = #{fIpAddr,jdbcType=VARCHAR},
+            </if>
+            <if test="fPort != null" >
+                F_PORT = #{fPort,jdbcType=VARCHAR},
+            </if>
+            <if test="fDdcState != null" >
+                F_DDC_STATE = #{fDdcState,jdbcType=VARCHAR},
+            </if>
+            <if test="fDdcOnlinestate != null" >
+                F_ONLINE_STATE = #{fDdcOnlinestate,jdbcType=VARCHAR},
+            </if>
+            <if test="fCrdate != null" >
+                F_CRDATE = #{fCrdate,jdbcType=TIMESTAMP}
+            </if>
+
+        </set>
+        <where>
+            <if  test="fGuid != null" >
+                F_GUID = #{fGuid}
+            </if>
+        </where>
+    </update>
+    <!--End add by xiepufeng at 2020年5月13日-->
+
+    <update id="updateByPrimaryKey" parameterType="com.efounder.JEnterprise.model.basedatamanage.eqmanage.BesDdc" >
+        update bes_ddc
+        set F_NICK_NAME = #{fNickName,jdbcType=VARCHAR},
+            F_ENABLED = #{fEnabled,jdbcType=INTEGER},
+            F_SSQY = #{fSsqy,jdbcType=VARCHAR},
+            F_NODE_TYPE = #{fNodeType,jdbcType=VARCHAR},
+            F_SBLXBH = #{fSblxbh,jdbcType=VARCHAR},
+            F_AZWZ = #{fAzwz,jdbcType=VARCHAR},
+            F_DESCRIPTION = #{fDescription,jdbcType=VARCHAR},
+            F_TYPE = #{fType,jdbcType=VARCHAR},
+            F_IP_ADDR = #{fIpAddr,jdbcType=VARCHAR},
+            F_PORT = #{fPort,jdbcType=VARCHAR},
+            F_CRDATE = #{fCrdate,jdbcType=TIMESTAMP},
+            F_CHDATE = #{fChdate,jdbcType=TIMESTAMP}
+        where F_SYS_NAME = #{fSysName,jdbcType=VARCHAR}
+    </update>
+
+    <select id="queryDDCMap" resultType="java.util.Map">
+        select * from bes_ddc where f_sys_name_old = #{f_sys_name}
+    </select>
+
+    <!--wanghongjie start 20200706 更新模块的同步状态-->
+    <update id="updateModule" parameterType="com.efounder.JEnterprise.model.basedatamanage.eqmanage.BesModule">
+        update bes_module
+        set F_MODULE_STATE = #{fModuleState,jdbcType=VARCHAR},
+            F_ONLINE_STATE = #{fOnlineState,jdbcType=VARCHAR}
+        where F_SBID = #{fSbid,jdbcType=VARCHAR}
+    </update>
+
+    <!--wanghongjie start 20200713 修改DDC控制器在bes_DDC表的信息-->
+    <update id="updateDDCChannelId" parameterType="com.efounder.JEnterprise.model.basedatamanage.eqmanage.BesDdc">
+        update bes_ddc
+        <set>
+            <if test=" fChannelId != null and fChannelId != '' "><!--通道id-->
+                F_CHANNEL_ID = #{fChannelId},
+            </if>
+            <if test=" fDdcState != null and fDdcState != '' "><!--同步状态-->
+                F_DDC_STATE = #{fDdcState},
+            </if>
+            F_CHDATE = current_timestamp()<!--修改时间-->
+        </set>
+        where F_GUID = #{fGuid}
+    </update>
+    <!--wanghongjie start 20200715  根据ip查询当前DDC控制器点是否存在-->
+    <select id="selectDDCPointMap" resultType="java.util.Map">
+        select * from bes_ddc where F_CHANNEL_ID = #{ip}
+    </select>
+
+    <!--wanghongjie start 20200715 根据id查询点位所属的点位表名-->
+    <select id="selectDDCPointTabNameMap" resultType="java.lang.String">
+        select F_NODE_TABLE FROM bes_sbtree_nodetype where F_NODE_TYPE = (
+        select f_type from bes_sbpz_struct where F_ID = #{id}
+        )
+    </select>
+
+    <!--wanghongjie start 20200715 根据id和点位表名查询相应的点位表信息是否存在-->
+    <select id="selectPointByIdMap" resultType="java.util.Map">
+        select * from ${tabName} where F_STRUCT_ID = #{id}
+    </select>
+
+    <!--wanghongjie start 20200715 根据id和点位表名查询相应的虚点位表信息是否存在-->
+    <select id="selectVPointByIdMap" resultType="java.util.Map">
+        select * from bes_vpoint where F_SBID = #{id}
+    </select>
+
+    <!--获取全部数据-->
+    <select id="loadAll" resultMap="BesDdcResultMap">
+        select
+        <include refid="Base_Column_List" />
+        from bes_ddc
+    </select>
+
+    <!--根据系统名称获取控制器信息-->
+    <select id="selectBySysName" resultMap="BesDdcResultMap" parameterType="java.lang.String" >
+        select
+        <include refid="Base_Column_List" />
+        from bes_ddc
+        where F_SYS_NAME = #{sysName}
+    </select>
+
+</mapper>

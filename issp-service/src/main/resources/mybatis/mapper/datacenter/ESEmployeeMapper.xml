@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.efounder.JEnterprise.mapper.datacenter.ESEmployeeMapper">
+	<resultMap id="esEmployeeMap" type="com.efounder.JEnterprise.model.datacenter.ESEmployee">
+		<result column="F_ZGBH" property="f_zgbh" />
+		<result column="F_ZGNAME" property="f_zgname" />
+		<result column="F_BMBH" property="f_bmbh" />
+		<result column="F_ZZJGBH" property="f_zzjgbh" />
+		<result column="F_SEX" property="f_sex" />
+		<result column="F_BIRTH_DATE" property="f_birth_date" />
+		<result column="F_IN_DATE" property="f_in_date" />
+		<result column="F_DUTY" property="f_duty" />
+		<result column="F_PHONE" property="f_phone" />
+		<result column="F_EMAIL" property="f_email" />
+		
+		<result column="F_CRDATE" property="f_crdate" />
+		<result column="F_CHDATE" property="f_chdate" />
+	</resultMap>
+		
+		
+	<sql id="find_xxx">
+	    <![CDATA[
+			SELECT F_ZGBH,F_ZGNAME,F_BMBH,F_ZZJGBH,F_SEX,F_DUTY,F_PHONE,F_EMAIL,
+			date_format(F_CRDATE,'%Y-%m-%d %H:%i:%s' )F_CRDATE,
+			date_format(F_CHDATE,'%Y-%m-%d %H:%i:%s' )F_CHDATE,
+			date_format(F_BIRTH_DATE,'%Y-%m-%d %H:%i:%s' )F_BIRTH_DATE,
+			date_format(F_IN_DATE,'%Y-%m-%d %H:%i:%s' )F_IN_DATE
+	   	]]>
+	</sql>
+	
+	<sql id="from_xxx">
+	    <![CDATA[
+	    	FROM es_employee
+	    ]]>
+	</sql>
+	
+	<!-- 查询全部 -->
+	<select id="loadList" parameterType="string" resultMap="esEmployeeMap">
+		<include refid="find_xxx" />
+		<include refid="from_xxx" />
+		 order by F_ZGBH
+	</select>
+	
+	<select id="findByPage" parameterType="string" resultMap="esEmployeeMap">
+  	<include refid="find_xxx" />
+	<include refid="from_xxx" />
+		<where>
+			1=1
+			<if test="keywords != null and keywords != ''"> 
+			and CONCAT(`F_ZGBH`,'##',`F_ZGNAME` ) LIKE CONCAT('%',#{keywords},'%')
+			</if>
+		</where>
+		order by F_CHDATE
+  	</select>
+  	
+  	<select id="findByZybh" parameterType="string" resultMap="esEmployeeMap">
+  		select * from es_employee  where F_ZGBH = #{f_zgbh}
+  	</select>
+  	
+  	<insert id="insert" parameterType="com.efounder.JEnterprise.model.datacenter.ESEmployee">
+		INSERT INTO es_employee(F_ZGBH,F_ZGNAME,F_BMBH,F_ZZJGBH,F_SEX,F_BIRTH_DATE,F_IN_DATE,F_DUTY,F_PHONE,F_EMAIL,F_CRDATE,F_CHDATE) 
+		VALUES(#{f_zgbh},#{f_zgname},#{f_bmbh},#{f_zzjgbh},#{f_sex},#{f_birth_date},#{f_in_date},#{f_duty},#{f_phone},#{f_email},current_timestamp(),current_timestamp())
+	</insert>
+	
+	<update id="update" parameterType="com.efounder.JEnterprise.model.datacenter.ESEmployee">
+		UPDATE es_employee
+		<set>
+			<if test="f_zgname != null and f_zgname != ''">
+				F_ZGNAME = #{f_zgname},
+			</if>
+			<if test="f_bmbh != null and f_bmbh != ''">
+				F_BMBH = #{f_bmbh},
+			</if>
+			<if test="f_zzjgbh != null and f_zzjgbh != ''">
+				F_ZZJGBH = #{f_zzjgbh},
+			</if>
+			<if test="f_sex != null and f_sex != ''">
+				F_SEX = #{f_sex},
+			</if>
+			<if test="f_birth_date != null and f_birth_date != ''">
+				F_BIRTH_DATE = #{f_birth_date},
+			</if>
+			<if test="f_in_date != null and f_in_date != ''">
+				F_IN_DATE = #{f_in_date},
+			</if>
+			<if test="f_duty != null and f_duty != ''">
+				F_DUTY = #{f_duty},
+			</if>
+			<if test="f_phone != null and f_phone != ''">
+				F_PHONE = #{f_phone},
+			</if>
+			<if test="f_email != null and f_email != ''">
+				F_EMAIL = #{f_email},
+			</if>
+			<if test="f_crdate != null and f_crdate != ''">
+				F_CRDATE = #{f_crdate},
+			</if>
+			<if test="f_chdate != null and f_chdate != ''">
+				F_CHDATE = #{f_chdate},
+			</if>
+		</set>
+		WHERE F_ZGBH=#{f_zgbh}
+	</update>
+	
+	<delete id="delByZgbh" parameterType="string">
+		DELETE FROM es_employee WHERE F_ZGBH = #{f_zgbh}
+	</delete>
+</mapper>

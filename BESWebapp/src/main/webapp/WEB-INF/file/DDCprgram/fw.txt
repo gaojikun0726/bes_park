@@ -1,0 +1,67 @@
+PPCL()
+{
+
+	//初始化
+	FreezeWaterPumpParamInit(4, FreezeWaterPumpRunState, FreezeWaterPumpRate, freezeWaterPumptroubleState, airconditioningRequest, 203);
+	FreezeWaterValveInit(FreezeWatervalveState11, FreezeWatervalveState12, FreezeWatervalveState13, FreezeWatervalveState14);
+	FreezeWaterRequest = 0;
+	//临时变量
+    PcpMalloc(tempPumpRate1,FreezeWaterPumpRate,4);	
+	PcpMalloc(tempTroubleState1,freezeWaterPumptroubleState,4);
+	PcpMalloc(tempvalveState11,FreezeWatervalveState11,4);
+	PcpMalloc(tempvalveState12,FreezeWatervalveState12,4);
+	PcpMalloc(tempvalveState13,FreezeWatervalveState13,4);
+	PcpMalloc(tempvalveState14,FreezeWatervalveState14,4);	
+		
+	TimerAcountInit( FreezeWaterRunTime, FreezeWaterPumpRunState, 0, 0, 0, 0);
+	START_COUNT();
+	
+	WHILE(1)
+	{
+			IF(FreezeWaterRequest == 2)
+			{
+				IF(FreezeWaterPumpRate != tempPumpRate1)
+				{
+					tempPumpRate1 = FreezeWaterPumpRate;
+					IF(FW1MODULE == 0)
+						airconditioningRequest = 1;
+				}
+				IF(tempvalveState11 != FreezeWatervalveState11)
+				{
+					tempvalveState11 = FreezeWatervalveState11;
+					IF(FW1MODULE == 0)
+						airconditioningRequest = 1;
+				}
+				IF(tempvalveState12 != FreezeWatervalveState12)
+				{
+					tempvalveState12 = FreezeWatervalveState12;
+					IF(FW1MODULE == 0)
+						airconditioningRequest = 1;
+				}
+				IF(tempvalveState13 != FreezeWatervalveState13)
+				{
+					tempvalveState13 = FreezeWatervalveState13;
+					IF(FW1MODULE == 0)
+						airconditioningRequest = 1;
+				}
+				IF(tempvalveState14 != FreezeWatervalveState14)
+				{
+					tempvalveState14 = FreezeWatervalveState14;
+					IF(FW1MODULE == 0)
+						airconditioningRequest = 1;
+				}	
+			}
+			IF(FreezeWaterRequest == 1)
+			{
+				FreezeWaterRequest = 0;
+				IF(FW1MODULE == 0)
+					airconditioningRequest = 0;
+			}
+			IF(FreezeWaterRequest == 3)
+			{
+				FreezeWaterRequest = 0;
+				airconditioningRequest = FreezeWaterRunTime;
+			}
+		
+	}
+}

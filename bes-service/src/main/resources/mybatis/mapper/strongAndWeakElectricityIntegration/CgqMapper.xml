@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.efounder.JEnterprise.mapper.strongAndWeakElectricityIntegration.CgqMapper">
+
+	<resultMap id="cgqMap" type="com.efounder.JEnterprise.model.strongAndWeakElectricityIntegration.CgqVo">
+		<result column="F_NAME" property="f_name" />
+		<result column="F_TYPE" property="f_type" />
+		<result column="F_DQZ" property="f_dqz" />
+	</resultMap>
+
+	<!-- 根据设备类型编号加载 -->
+	<select id="paging"  resultMap="cgqMap">
+		SELECT F_NAME,F_TYPE,F_DQZ FROM STRONGANDWEAKELECTRICITYINTEGRATION_CGQ
+		order by f_name
+		limit #{page},#{limit}
+	</select>
+	<!-- 编辑前加载数据 -->
+	<select id="pageCount" resultType="java.lang.Integer">
+	    SELECT COUNT(*) from STRONGANDWEAKELECTRICITYINTEGRATION_CGQ
+	</select>
+<!--	根据传感器类型获取列表-->
+	<select id="getCgqTypeList"  resultMap="cgqMap">
+		SELECT F_NAME,F_TYPE,F_DQZ FROM STRONGANDWEAKELECTRICITYINTEGRATION_CGQ
+		<where>
+
+			<if test="f_type != null and f_type != ''" >
+				and f_type  =   #{f_type}
+			</if>
+
+		</where>
+		order by f_name
+		limit #{page},#{limit}
+	</select>
+</mapper>
+
+

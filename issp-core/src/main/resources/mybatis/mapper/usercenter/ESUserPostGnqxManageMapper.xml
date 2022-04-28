@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.efounder.JEnterprise.mapper.usercenter.ESUserPostGnqxManageMapper">
+
+	<resultMap id="userPostGnqxMap" type="com.efounder.JEnterprise.model.usercenter.ESUserPostGnqxManage">
+		<result column="F_GWGUID" property="f_gwguid" />
+		<result column="F_GNZDID" property="f_gnzdid" />
+		<result column="F_SH" property="f_sh" />
+		<result column="F_CRDATE" property="f_crdate" />
+		<result column="F_CHDATE" property="f_chdate" />
+	</resultMap>
+	
+
+	<sql id="find_xxx">
+	    <![CDATA[
+			SELECT F_GWGUID ,F_GNZDID, F_SH ,date_format(F_CRDATE,'%Y-%m-%d %H:%i:%s' )F_CRDATE ,date_format(F_CHDATE,'%Y-%m-%d %H:%i:%s' )F_CHDATE
+	    ]]>
+	</sql>
+
+	<sql id="from_xxx">
+	    <![CDATA[
+	    	FROM ES_POST_GNQX
+	    ]]>
+	</sql>
+
+	<sql id="where_xxx">
+	    <![CDATA[
+	    	WHERE 1=1
+	    ]]>
+	</sql>
+
+	<select id="findUserPostGnqx" parameterType="string" resultMap="userPostGnqxMap">
+		<include refid="find_xxx" />
+		<include refid="from_xxx" />
+		<![CDATA[
+			ORDER BY F_CHDATE
+		]]>
+	</select>
+	
+	<select id="findUserPostGnqxByThreeId" parameterType="string" resultMap="userPostGnqxMap">
+		<include refid="find_xxx" />
+		<include refid="from_xxx" />
+		<![CDATA[
+			WHERE F_GWGUID = #{f_gwguid} and  F_QXBH = #{f_qxbh} and F_SJBH = #{f_sjbh}
+		]]>
+	</select>
+	<!-- <select id="findUserPostGnqxByGwbhAndQxbh" parameterType="string" resultMap="userPostGnqxMap">
+		<include refid="find_xxx" />
+		<include refid="from_xxx" />
+		<![CDATA[
+			WHERE F_GWGUID = #{f_gwguid} and F_QXBH = #{f_qxbh}
+		]]>
+	</select> -->
+    <select id="findUserPostGnqxByYhbhAndQxbh" parameterType="string" resultMap="userPostGnqxMap">
+		<include refid="find_xxx" />
+		 FROM  ${classifygnqxTb}
+		<![CDATA[
+			WHERE F_GWGUID = #{f_gwguid}
+		]]>
+	</select>
+
+	<select id="findUserPostGnqxByKey" parameterType="string" resultMap="userPostGnqxMap">
+		<include refid="find_xxx" />
+		<include refid="from_xxx" />
+		<where>
+		1=1 
+			<if test="keywords != null and keywords != ''"> 
+			 and CONCAT(`f_gwguid`,'##',`f_sjbh` ) LIKE CONCAT('%',#{keywords},'%')
+			 </if>
+		</where>
+	</select>
+	
+	
+	
+	
+	<!-- <insert id="addUserPostGnqx" parameterType="com.efounder.JEnterprise.mapper.usercenter.ESUserPostGnqxManageMapper"> 
+        INSERT INTO ES_POST_GNQX(
+        F_GWGUID,F_QXBH,F_SJBH,F_CRDATE, F_CHDATE) values(
+        #{f_gwguid},#{f_qxbh},#{f_sjbh},NOW(),NOW()) 
+    </insert> -->
+    
+   <!-- 	<delete id="delUserPostGnqx" parameterType="string">
+		delete a from ES_POST_GNQX a INNER JOIN es_gnzd b on b.F_GNBH = a.F_SJBH WHERE a.F_GWGUID=#{f_gwguid} and a.F_QXBH=#{f_qxbh}  and b.F_MKGUID =#{guid}
+	</delete> -->
+
+	<!-- <update id="upUserPostGnqx" parameterType="com.efounder.JEnterprise.mapper.usercenter.ESUserPostGnqxManageMapper">
+		UPDATE ES_POST_GNQX
+		<set>
+			<if test="f_gwguid != null and f_gwguid!='' ">
+				F_GWGUID = #{f_gwguid},
+			</if>
+			<if test="f_qxbh != null and f_qxbh!='' ">
+				F_QXBH = #{f_qxbh},
+			</if>
+			<if test="f_sjbh != null and f_sjbh!='' ">
+				F_SJBH = #{f_sjbh},
+			</if>
+			F_CHDATE=NOW() 
+		</set>
+		WHERE  F_GWGUID = #{f_gwguid} and F_QXBH = #{f_qxbh} and  F_SJBH = #{f_sjbh}
+	</update> -->
+	
+	<!-- 批量删除 -->
+    <delete id="delUserPostGnqx">
+        delete from ${tablename} where   F_GWGUID=#{f_gwguid} and F_GNZDID in
+        <foreach collection="list" item="item" separator="," open="(" close=")">
+          #{item.f_gnzdid}
+        </foreach>
+	</delete>
+	
+	<insert id="addUserPostGnqx"  parameterType="java.util.ArrayList">
+		INSERT INTO ${tablename}
+		(F_GWGUID, F_GNZDID, F_SH, F_CRDATE, F_CHDATE)
+		VALUES
+		<foreach collection="list" item="item" index="index" separator=","> 
+        	(#{item.f_gwguid},#{item.f_gnzdid},#{item.f_sh},current_timestamp(), current_timestamp()) 
+    	</foreach> 
+	</insert>
+	
+	<update id="upUserPostGnqx">
+			update ${tablename} 
+			<set>
+			 F_SH= '1'
+			</set>
+			WHERE F_GWGUID = #{f_gwguid} and F_GNZDID in 
+		 <foreach collection="list" item="item" separator="," open="("  close=")">
+			 #{item.f_gnzdid}
+		</foreach>
+	</update>
+
+</mapper>

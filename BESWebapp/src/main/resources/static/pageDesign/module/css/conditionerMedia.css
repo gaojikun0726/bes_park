@@ -1,0 +1,483 @@
+/*温控器的样式*/
+/*分辨率大于2000px*/
+
+.design_low_conditioner.design_initial_position.icon_win_img {
+    top: 1vw;
+    left: 1.5vh;
+}
+.design_low_conditioner.icon_img img{
+    width:3vw;
+}
+#design_low_conditioner_relative.design_relative_win .choosePointBtn{
+    width: 7vw !important;
+}
+
+/*中档温控器样式*/
+.design_middle_conditioner.design_initial_position.icon_win_img {
+    top: 1vw;
+    left: 1.5vh;
+}
+.design_middle_conditioner.icon_img img{
+    width:2.6vw;
+}
+/*鼠标不能点击*/
+.notCursor{
+    /*cursor: not-allowed!important;*/
+    pointer-events:none!important;
+}
+
+.design_low_conditioner .timing_open_num,.design_low_conditioner .timing_close_num{
+    display: none;
+}
+
+@media screen and (min-width:2000px){
+    .design_low_conditioner.list_img, .design_low_conditioner.icon_win_img{
+        width: 26vw!important;
+        border: 2px #b5b5b5 solid;
+        border-radius: 10px;
+    }
+    .design_low_conditioner.list_img img.bg_img,.design_low_conditioner.icon_win_img img.bg_img{
+        width:100%;
+    }
+
+    .design_low_conditioner .screenDiv{
+        position: absolute;
+        border-radius: 4px;
+        width:20.3vw;
+        height: 13.5vw;
+        top: 2.5vw;
+        left: 2.7vw;
+    }
+    .design_low_conditioner .topDiv{
+        position:relative;
+        width:100%;
+        text-align: center;
+        margin-left: 1vw;
+        height: 4vw;
+    }
+    .design_low_conditioner .topItem{
+        position: absolute;
+        display: flex;
+        flex-direction: column;
+        text-align: center;
+        top: 0.5vw;
+        width: 1.6vw;
+        font-size: 0.9vw;
+    }
+    .design_low_conditioner .topItem img{
+        height: 1.6vw;
+    }
+    .design_low_conditioner .high_speed {
+         left: 0;
+    }
+    .design_low_conditioner .middle_speed {
+        left: 3.3vw;
+    }
+    .design_low_conditioner .low_speed {
+        left: 6.6vw;
+    }
+    .design_low_conditioner .cooling {
+        left: 9.9vw;
+    }
+    .design_low_conditioner .heating {
+        left: 13.2vw;
+    }
+    .design_low_conditioner .energy {
+        left: 16.5vw;
+    }
+    .design_low_conditioner .middleDiv{
+        position:absolute;
+        width: 100%;
+        top: 3.5vw;
+        height: 7vw;
+        padding-left: 1vw;
+        padding-top: 0.3vw;
+    }
+    .design_low_conditioner .indoor_temperature {
+        position: absolute;
+        width: 65%;
+        left: 0;
+    }
+    .design_low_conditioner .indoor_text{
+        text-align: center;
+    }
+    .design_low_conditioner .set_remperature {
+        position: absolute;
+        left: 66%;
+    }
+    .design_low_conditioner .indoor_num {
+        position: absolute;
+        font-size: 5vw;
+        top: 0.5vw;
+        left: 0.5vw;
+    }
+    .design_low_conditioner .indoor_unit {
+        left: 78%;
+        position: absolute;
+        font-weight: 400;
+        top: 2vw;
+        font-size: 1.8vw;
+    }
+    .design_low_conditioner .set_text {
+        font-size: 1vw;
+    }
+    .design_low_conditioner .set_num{
+        font-weight: 500;
+        font-size: 2.4vw;
+        top: 1vw;
+        position: absolute;
+    }
+    .design_low_conditioner .set_unit {
+        position: absolute;
+        font-weight: 400;
+        top: 1.5vw;
+        font-size: 1.5vw;
+        left: 4.9vw;
+    }
+    .design_low_conditioner .logo {
+        position: absolute;
+        top: 4.5vw;
+        width: 4vw;
+        height: 2vw;
+    }
+    .design_low_conditioner .logo img {
+        width: 100%;
+        height: 100%;
+    }
+
+
+    .design_low_conditioner .bottomDiv {
+        position: absolute;
+        width: 100%;
+        height: 2.6vw;
+        top: 11vw;
+        margin-left: 1vw;
+    }
+    .design_low_conditioner .bottomDiv .topItem {
+        top: 0;
+    }
+    .design_low_conditioner .bottomDiv .topItem img {
+        width: 1.3vw;
+        height: 1.3vw;
+         margin-left: 0;
+    }
+    .design_low_conditioner .auto {
+        left: 0;
+    }
+    .design_low_conditioner .network {
+        left: 5vw;
+    }
+    .design_low_conditioner .lock , .design_low_conditioner .unlock {
+        left: 10vw;
+    }
+    .design_low_conditioner .timingDiv {
+        position: absolute;
+        left: 68%;
+    }
+    .design_low_conditioner .timing_num, .design_low_conditioner .timing_close_num, .design_low_conditioner .timing_open_num {
+        font-size: 1.5vw;
+        position: absolute;
+        top: -0.5vw;
+    }
+    .design_low_conditioner .timing_open {
+        font-size: 0.8vw;
+        position: absolute;
+        top: 1.5vw;
+        left: -0.4vw;
+         display: none;
+    }
+    .design_low_conditioner .timing_close {
+        font-size: 0.8vw;
+        position: absolute;
+        top: 1.5vw;
+        left: 2vw;
+         display: none;
+    }
+
+    .design_low_conditioner .buttonDiv {
+        position: absolute;
+        width: 100%;
+        top: 17.3vw;
+        height: 7vw;
+        padding: 0 1.8vw;
+    }
+    .design_low_conditioner .buttonDiv .btnItem {
+        position: absolute;
+        width: 6.8vw;
+        height: 2.2vw;
+        border-radius: 2vw;
+        cursor: pointer;
+    }
+    .design_low_conditioner .buttonDiv .modeBtn {
+        top: 0;
+    }
+    .design_low_conditioner .buttonDiv .speedBtn {
+        top: 4.6vw;
+    }
+    .design_low_conditioner .buttonDiv .upBtn {
+        left: 17.2vw;
+    }
+    .design_low_conditioner .buttonDiv .downBtn {
+        left: 17.2vw;
+        top: 4.6vw;
+    }
+    .design_low_conditioner .buttonDiv .switchBtn {
+        width: 6vw;
+        height: 6vw;
+        left: 9.9vw;
+        top: 0.5vw;
+        border-radius: 50%;
+    }
+
+
+
+    /*------------------中档温控器自适应样式----------------------------*/
+    .design_middle_conditioner.list_img, .design_middle_conditioner.icon_win_img{
+        width: 26vw!important;
+    }
+    .design_middle_conditioner img.bg_img{
+        width:100%;
+    }
+    .design_middle_conditioner .screenDiv {
+        position: absolute;
+        top: 0;
+        width: 26vw;
+        height: 26vw;
+        padding: 2.2vw 2.2vw 3.8vw;
+    }
+    .design_middle_conditioner .topDiv {
+        height: 4vw;
+        position: relative;
+        margin: 1vw;
+        display: flex;
+        flex-direction: row;
+        justify-content: space-around;
+        font-size: 1vw;
+    }
+    .design_middle_conditioner .topItem {
+        position: absolute;
+        display: flex;
+        flex-direction: column;
+        text-align: center;
+        font-size: 1vw;
+    }
+    .design_middle_conditioner .topItem img {
+        width: 2vw;
+        height: 2vw;
+        margin-bottom: 0.2vw;
+    }
+    .design_middle_conditioner .network {
+        left: 0;
+    }
+    .design_middle_conditioner .cooling {
+        left: 3.5vw;
+    }
+    .design_middle_conditioner .heating {
+        left: 7vw;
+    }
+    .design_middle_conditioner .energy {
+        left: 10.5vw;
+    }
+    .design_middle_conditioner .manual {
+        left: 14vw;
+    }
+    .design_middle_conditioner .lock, .design_middle_conditioner .unlock {
+        left: 17.5vw;
+    }
+
+    .design_middle_conditioner .middleDiv {
+        position: relative;
+        height: 8vw;
+        margin: 1.5vw 1vw 1.5vw;
+        font-family: 微软雅黑,sans-serif;
+    }
+    .design_middle_conditioner .temperature_text {
+        display: inline-block;
+        font-size: 1vw;
+    }
+.design_middle_conditioner .setDiv{
+    display: none;
+}
+
+    .design_middle_conditioner .indoor_icon img {
+        width: 1.5vw;
+    }
+    .design_middle_conditioner .indoor_integer, .design_middle_conditioner .set_integer {
+        position: absolute;
+        font-size: 5vw;
+        left: 1.5vw;
+        top: 2.3vw;
+    }
+    .design_middle_conditioner .indoor_decimal, .design_middle_conditioner .set_decimal {
+        position: absolute;
+        left: 7.6vw;
+        top: 5.1vw;
+        font-size: 2.5vw;
+    }
+    .design_middle_conditioner .temperature_unit {
+        position: absolute;
+        left: 8vw;
+        top: 3.6vw;
+        font-size: 1.6vw;
+    }
+    .design_middle_conditioner .set_text {
+        margin-left: 4.2vw;
+    }
+    .design_middle_conditioner .set_icon img {
+        width: 1vw;
+    }
+.design_middle_conditioner .leftDiv{
+    width: 52%;
+    float: left;
+}
+    .design_middle_conditioner .rightDiv {
+        width: 48%;
+        float: right;
+        padding-left: 1vw;
+    }
+    .design_middle_conditioner .speed_text {
+        position: relative;
+        margin-left: 0;
+        font-size: 1vw;
+        top: 0.3vw;
+        width: 100%;
+        height: 1.5vw;
+    }
+.design_middle_conditioner .speed_text div{
+    position: absolute;
+}
+    .design_middle_conditioner .speed_text .auto {
+        left: 0;
+    }
+    .design_middle_conditioner .speed_text .low_speed {
+        left: 2.1vw;
+    }
+    .design_middle_conditioner .speed_text .middle_speed {
+        left: 4.2vw;
+    }
+    .design_middle_conditioner .speed_text .high_speed {
+        left: 6.3vw;
+    }
+
+    .design_middle_conditioner .speed_icon {
+        height: 3vw;
+         padding-top: 0.5vw;
+        margin-left:0;
+    }
+.design_middle_conditioner .high_icon,.design_middle_conditioner .middle_icon{
+    display: none;
+}
+    .design_middle_conditioner .high_icon img {
+        width: 7vw;
+    }
+    .design_middle_conditioner .middle_icon img {
+        width: 7vw;
+    }
+    .design_middle_conditioner .low_icon img {
+        width: 5vw;
+    }
+
+
+    .design_middle_conditioner .timeDiv {
+        width: 8vw;
+        height: 3vw;
+        margin-left: 0;
+    }
+.design_middle_conditioner .timeDiv,.design_middle_conditioner .energyDiv{
+    position: absolute;
+}
+.design_middle_conditioner .energyDiv{
+    display: none;
+}
+    .design_middle_conditioner .clock {
+        position: absolute;
+        top: 1vw;
+        left: 0;
+        display: none;
+    }
+    .design_middle_conditioner .clock img {
+        width: 2vw;
+    }
+
+    .design_middle_conditioner .timing_num ,.design_middle_conditioner .energy_num{
+        position: absolute;
+        left: 2vw;
+        top: 0.4vw;
+        font-size: 2vw;
+        font-family: 微软雅黑,sans-serif;
+    }
+.design_middle_conditioner .timing_num .hour{
+    position: absolute;
+    left:0;
+}
+.design_middle_conditioner .timing_num .separator{
+    position: absolute;
+    left:29px;
+}
+.design_middle_conditioner .timing_num .minute{
+    float:right;
+    position: absolute;
+    left:35px;
+}
+.design_middle_conditioner .timeDiv .timing_text{
+    display: none;
+}
+    .design_middle_conditioner .timeDiv .timing_text, .design_middle_conditioner .energy_unit {
+        font-size: 0.8vw;
+        position: absolute;
+        left: 7.2vw;
+        top: 0.5vw;
+    }
+    .design_middle_conditioner .timeDiv .on {
+        top: 0.8vw;
+    }
+    .design_middle_conditioner .timeDiv .off, .design_middle_conditioner .energy_unit {
+        top: 1.7vw;
+    }
+    .design_middle_conditioner .energy_text {
+        font-size: 1vw;
+        position: absolute;
+        width: 2vw;
+        left: 0;
+        top: -0.2vw;
+    }
+    .design_middle_conditioner .energy_num.ahead {
+        position: absolute;
+        left: 2vw;
+    }
+    .design_middle_conditioner .energy_num.behind {
+        position: absolute;
+        left: 4.6vw;
+    }
+
+
+    .design_middle_conditioner .bottomDiv {
+        position: absolute;
+        top: 18vw;
+        margin: 1vw;
+        width: 20vw;
+        height: 4vw;
+    }
+    .design_middle_conditioner .bottomItem {
+        position: absolute;
+        width: 1.8vw;
+    }
+.design_middle_conditioner .bottomItem img{
+    width:100%;
+}
+    .design_middle_conditioner .modeBtn {
+        left: 0;
+    }
+    .design_middle_conditioner .speedBtn {
+        left: 4.5vw;
+    }
+    .design_middle_conditioner .switchBtn {
+        left: 9vw;
+    }
+    .design_middle_conditioner .upBtn {
+        left: 13.5vw;
+    }
+    .design_middle_conditioner .downBtn {
+        left: 18vw;
+    }
+}

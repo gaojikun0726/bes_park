@@ -1,0 +1,318 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.efounder.JEnterprise.platform.mapper.EquipmentListMapper" >
+
+    <resultMap type="com.efounder.JEnterprise.platform.model.EquipmentList" id="EquipmentListResult">
+        <result property="fId"    column="F_ID"    />
+        <result property="fSbb"    column="F_SBB"    />
+        <result property="fSbmc"    column="F_SBMC"    />
+        <result property="fBrandid"    column="F_BRANDID"    />
+        <result property="fBrandmc"    column="F_BRANDMC"    />
+        <result property="fXlid"    column="F_XLID"    />
+        <result property="fXlmc"    column="F_XLMC"    />
+        <result property="fSn"    column="F_SN"    />
+        <result property="fSblxType"    column="F_SBLX_TYPE"    />
+        <result property="fSbxhType"    column="F_SBXH_TYPE"    />
+        <result property="fSblemc"    column="F_SBLEMC"    />
+        <result property="fSbxhmc"    column="F_SBXHMC"    />
+        <result property="fRkdId"    column="F_RKD_ID"    />
+        <result property="fSsck"    column="F_SSCK"    />
+        <result property="fLacation"    column="F_LACATION"    />
+        <result property="fSydw"    column="F_SYDW"    />
+        <result property="fJbr"    column="F_JBR"    />
+        <result property="fLong"    column="F_LONG"    />
+        <result property="fLat"    column="F_LAT"    />
+        <result property="fScs"    column="F_SCS"    />
+        <result property="fGmrq"    column="F_GMRQ"    />
+        <result property="fBxnx"    column="F_BXNX"    />
+        <result property="fUnitPrice"    column="F_UNIT_PRICE"    />
+        <result property="fStatus"    column="F_STATUS"    />
+        <result property="fLastGxsj"    column="F_LAST_GXSJ"    />
+        <result property="fLastGxr"    column="F_LAST_GXR"    />
+        <result property="fYwmbh"    column="F_YWMBH"    />
+        <result property="fEwmbh"    column="F_EWMBH"    />
+        <result property="fAzsj"    column="F_AZSJ"    />
+        <result property="fWhs"    column="F_WHS"    />
+        <result property="fCkdid"    column="F_CKDID"    />
+        <result property="fLyjg"    column="F_LYJG"    />
+        <result property="fLyr"    column="F_LYR"    />
+        <result property="fZh"    column="F_ZH"    />
+        <result property="fGldw"    column="F_GLDW"    />
+        <result property="fScrq"    column="F_SCRQ"    />
+        <result property="fBxdqr"    column="F_BXDQR"    />
+        <result property="fCzrq"    column="F_CZRQ"    />
+        <result property="fSynx"    column="F_SYNX"    />
+        <result property="fRksj"    column="F_RKSJ"    />
+        <result property="fSfjk"    column="F_SFJK"    />
+        <result property="fLastStatus"    column="F_LAST_STATUS"    />
+        <result property="fUnit"    column="F_UNIT"    />
+        <result property="fCrdate"    column="F_CRDATE"    />
+        <result property="fChdate"    column="F_CHDATE"    />
+    </resultMap>
+
+    <sql id="all_column">
+        F_ID, F_SBB, F_SBMC, F_BRANDID, F_BRANDMC, F_XLID, F_XLMC, F_SN, F_SBLX_TYPE, F_SBXH_TYPE, F_SBLEMC, F_SBXHMC, F_RKD_ID, F_SSCK, F_LACATION, F_SYDW, F_JBR, F_LONG, F_LAT, F_SCS, F_GMRQ, F_BXNX, F_UNIT_PRICE, F_STATUS, F_LAST_GXSJ, F_LAST_GXR, F_YWMBH, F_EWMBH, F_AZSJ, F_WHS, F_CKDID, F_LYJG, F_LYR, F_ZH, F_GLDW, F_SCRQ, F_BXDQR, F_CZRQ, F_SYNX, F_RKSJ, F_SFJK, F_LAST_STATUS, F_UNIT, F_CRDATE, F_CHDATE
+    </sql>
+
+<!--order by ${field}  ${order}-->
+    <!--查询设备列表-->
+    <select id="queryList" resultMap="EquipmentListResult">
+        select
+        <include refid="all_column"></include>
+        from bes_equipment_list
+        <where>
+            <if test="deviceName != null and deviceName !=''">
+                and F_SBMC like concat('%',#{deviceName},'%')
+            </if>
+            <if test="deviceCode != null and deviceCode !=''">
+                and F_SBB like concat('%',#{deviceCode},'%')
+            </if>
+            <if test="deviceTypeCode != null and deviceTypeCode !=''">
+                and F_SBLX_TYPE like concat('%',#{deviceTypeCode},'%')
+            </if>
+            <if test="deviceTypeName != null and deviceTypeName !=''">
+                and F_SBLEMC like concat('%',#{deviceTypeName},'%')
+            </if>
+            <if test="deviceStatus != null and deviceStatus !=''">
+                and F_STATUS = #{deviceStatus}
+            </if>
+        </where>
+
+        <choose>
+            <when test="field != null and field != '' and order != null and order != ''">
+                <if test="field == 'fSbb'">
+                    order by F_SBB  ${order}
+                </if>
+                <if test="field == 'fSbmc'">
+                    order by F_SBMC  ${order}
+                </if>
+                <if test="field == 'fSblxType'">
+                    order by F_SBLX_TYPE  ${order}
+                </if>
+                <if test="field == 'fSblemc'">
+                    order by F_SBLEMC  ${order}
+                </if>
+                <if test="field == 'fBrandmc'">
+                    order by F_BRANDMC  ${order}
+                </if>
+                <if test="field == 'fSbxhType'">
+                    order by F_SBXH_TYPE  ${order}
+                </if>
+                <if test="field == 'fSbxhmc'">
+                    order by F_SBXHMC  ${order}
+                </if>
+                <if test="field == 'fStatus'">
+                    order by F_STATUS  ${order}
+                </if>
+                <if test="field == 'fCrdate'">
+                    order by F_CRDATE  ${order}
+                </if>
+
+            </when>
+            <otherwise>
+                order by F_CRDATE desc
+            </otherwise>
+        </choose>
+
+    </select>
+
+    <!--查询设备列表-->
+    <select id="queryListMap" resultType="java.util.Map">
+        select
+        <include refid="all_column"></include>
+        from bes_equipment_list
+        <!--<where>-->
+        <!--<if test="">-->
+
+        <!--</if>-->
+        <!--</where>-->
+
+
+
+    </select>
+
+<!--新增设备记录-->
+    <insert id="insertEquipmentList">
+        insert into bes_equipment_list
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            F_ID,
+            <!--<if test="device_id != null">F_ID,</if>-->
+            <if test="device_code != null">F_SBB,</if>
+            <if test="device_name != null">F_SBMC,</if>
+            <!--<if test="fBrandid != null">F_BRANDID,</if>-->
+            <!--<if test="fBrandmc != null">F_BRANDMC,</if>-->
+            <!--<if test="fXlid != null">F_XLID,</if>-->
+            <!--<if test="fXlmc != null">F_XLMC,</if>-->
+            <!--<if test="fSn != null">F_SN,</if>-->
+            <if test="device_type_code != null">F_SBLX_TYPE,</if>
+            <!--<if test="fSbxhType != null">F_SBXH_TYPE,</if>-->
+            <if test="device_type_name != null">F_SBLEMC,</if>
+            <!--<if test="fSbxhmc != null">F_SBXHMC,</if>-->
+            <!--<if test="fRkdId != null">F_RKD_ID,</if>-->
+            <!--<if test="fSsck != null">F_SSCK,</if>-->
+            <!--<if test="fLacation != null">F_LACATION,</if>-->
+            <!--<if test="fSydw != null">F_SYDW,</if>-->
+            <!--<if test="fJbr != null">F_JBR,</if>-->
+            <!--<if test="fLong != null">F_LONG,</if>-->
+            <!--<if test="fLat != null">F_LAT,</if>-->
+            <!--<if test="fScs != null">F_SCS,</if>-->
+            <!--<if test="fGmrq != null">F_GMRQ,</if>-->
+            <!--<if test="fBxnx != null">F_BXNX,</if>-->
+            <!--<if test="fUnitPrice != null">F_UNIT_PRICE,</if>-->
+            <!--<if test="fStatus != null">F_STATUS,</if>-->
+            <!--<if test="fLastGxsj != null">F_LAST_GXSJ,</if>-->
+            <!--<if test="fLastGxr != null">F_LAST_GXR,</if>-->
+            <!--<if test="fYwmbh != null">F_YWMBH,</if>-->
+            <!--<if test="fEwmbh != null">F_EWMBH,</if>-->
+            <!--<if test="fAzsj != null">F_AZSJ,</if>-->
+            <!--<if test="fWhs != null">F_WHS,</if>-->
+            <!--<if test="fCkdid != null">F_CKDID,</if>-->
+            <!--<if test="fLyjg != null">F_LYJG,</if>-->
+            <!--<if test="fLyr != null">F_LYR,</if>-->
+            <!--<if test="fZh != null">F_ZH,</if>-->
+            <!--<if test="fGldw != null">F_GLDW,</if>-->
+            <!--<if test="fScrq != null">F_SCRQ,</if>-->
+            <!--<if test="fBxdqr != null">F_BXDQR,</if>-->
+            <!--<if test="fCzrq != null">F_CZRQ,</if>-->
+            <!--<if test="fSynx != null">F_SYNX,</if>-->
+            <!--<if test="fRksj != null">F_RKSJ,</if>-->
+            <!--<if test="fSfjk != null">F_SFJK,</if>-->
+            <!--<if test="fLastStatus != null">F_LAST_STATUS,</if>-->
+            <!--<if test="fUnit != null">F_UNIT,</if>-->
+            <!--<if test="fCrdate != null">F_CRDATE,</if>-->
+            <!--<if test="fChdate != null">F_CHDATE,</if>-->
+            F_CRDATE,
+
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            uuid(),
+            <!--<if test="device_id != null">#{fId},</if>-->
+            <if test="device_code != null">#{device_code},</if>
+            <if test="device_name != null">#{device_name},</if>
+            <!--<if test="fBrandid != null">#{fBrandid},</if>-->
+            <!--<if test="fBrandmc != null">#{fBrandmc},</if>-->
+            <!--<if test="fXlid != null">#{fXlid},</if>-->
+            <!--<if test="fXlmc != null">#{fXlmc},</if>-->
+            <!--<if test="fSn != null">#{fSn},</if>-->
+            <if test="device_type_code != null">#{device_type_code},</if>
+            <!--<if test="fSbxhType != null">#{fSbxhType},</if>-->
+            <if test="device_type_name != null">#{device_type_name},</if>
+            <!--<if test="fSbxhmc != null">#{fSbxhmc},</if>-->
+            <!--<if test="fRkdId != null">#{fRkdId},</if>-->
+            <!--<if test="fSsck != null">#{fSsck},</if>-->
+            <!--<if test="fLacation != null">#{fLacation},</if>-->
+            <!--<if test="fSydw != null">#{fSydw},</if>-->
+            <!--<if test="fJbr != null">#{fJbr},</if>-->
+            <!--<if test="fLong != null">#{fLong},</if>-->
+            <!--<if test="fLat != null">#{fLat},</if>-->
+            <!--<if test="fScs != null">#{fScs},</if>-->
+            <!--<if test="fGmrq != null">#{fGmrq},</if>-->
+            <!--<if test="fBxnx != null">#{fBxnx},</if>-->
+            <!--<if test="fUnitPrice != null">#{fUnitPrice},</if>-->
+            <!--<if test="fStatus != null">#{fStatus},</if>-->
+            <!--<if test="fLastGxsj != null">#{fLastGxsj},</if>-->
+            <!--<if test="fLastGxr != null">#{fLastGxr},</if>-->
+            <!--<if test="fYwmbh != null">#{fYwmbh},</if>-->
+            <!--<if test="fEwmbh != null">#{fEwmbh},</if>-->
+            <!--<if test="fAzsj != null">#{fAzsj},</if>-->
+            <!--<if test="fWhs != null">#{fWhs},</if>-->
+            <!--<if test="fCkdid != null">#{fCkdid},</if>-->
+            <!--<if test="fLyjg != null">#{fLyjg},</if>-->
+            <!--<if test="fLyr != null">#{fLyr},</if>-->
+            <!--<if test="fZh != null">#{fZh},</if>-->
+            <!--<if test="fGldw != null">#{fGldw},</if>-->
+            <!--<if test="fScrq != null">#{fScrq},</if>-->
+            <!--<if test="fBxdqr != null">#{fBxdqr},</if>-->
+            <!--<if test="fCzrq != null">#{fCzrq},</if>-->
+            <!--<if test="fSynx != null">#{fSynx},</if>-->
+            <!--<if test="fRksj != null">#{fRksj},</if>-->
+            <!--<if test="fSfjk != null">#{fSfjk},</if>-->
+            <!--<if test="fLastStatus != null">#{fLastStatus},</if>-->
+            <!--<if test="fUnit != null">#{fUnit},</if>-->
+            <!--<if test="fCrdate != null">#{fCrdate},</if>-->
+            <!--<if test="fChdate != null">#{fChdate},</if>-->
+            sysdate(),
+        </trim>
+    </insert>
+
+    <!--修改设备信息-->
+    <update id="updateEquipmentList" >
+        update bes_equipment_list
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="device_code != null">F_SBB = #{device_code},</if>
+            <if test="device_name != null">F_SBMC = #{device_name},</if>
+            <!--<if test="fBrandid != null">F_BRANDID = #{fBrandid},</if>-->
+            <!--<if test="fBrandmc != null">F_BRANDMC = #{fBrandmc},</if>-->
+            <!--<if test="fXlid != null">F_XLID = #{fXlid},</if>-->
+            <!--<if test="fXlmc != null">F_XLMC = #{fXlmc},</if>-->
+            <!--<if test="fSn != null">F_SN = #{fSn},</if>-->
+            <if test="device_type_code != null">F_SBLX_TYPE = #{device_type_code},</if>
+            <!--<if test="fSbxhType != null">F_SBXH_TYPE = #{fSbxhType},</if>-->
+            <if test="device_type_name != null">F_SBLEMC = #{device_type_name},</if>
+            <!--<if test="fSbxhmc != null">F_SBXHMC = #{fSbxhmc},</if>-->
+            <!--<if test="fRkdId != null">F_RKD_ID = #{fRkdId},</if>-->
+            <!--<if test="fSsck != null">F_SSCK = #{fSsck},</if>-->
+            <!--<if test="fLacation != null">F_LACATION = #{fLacation},</if>-->
+            <!--<if test="fSydw != null">F_SYDW = #{fSydw},</if>-->
+            <!--<if test="fJbr != null">F_JBR = #{fJbr},</if>-->
+            <!--<if test="fLong != null">F_LONG = #{fLong},</if>-->
+            <!--<if test="fLat != null">F_LAT = #{fLat},</if>-->
+            <!--<if test="fScs != null">F_SCS = #{fScs},</if>-->
+            <!--<if test="fGmrq != null">F_GMRQ = #{fGmrq},</if>-->
+            <!--<if test="fBxnx != null">F_BXNX = #{fBxnx},</if>-->
+            <!--<if test="fUnitPrice != null">F_UNIT_PRICE = #{fUnitPrice},</if>-->
+            <!--<if test="fStatus != null">F_STATUS = #{fStatus},</if>-->
+            <!--<if test="fLastGxsj != null">F_LAST_GXSJ = #{fLastGxsj},</if>-->
+            <!--<if test="fLastGxr != null">F_LAST_GXR = #{fLastGxr},</if>-->
+            <!--<if test="fYwmbh != null">F_YWMBH = #{fYwmbh},</if>-->
+            <!--<if test="fEwmbh != null">F_EWMBH = #{fEwmbh},</if>-->
+            <!--<if test="fAzsj != null">F_AZSJ = #{fAzsj},</if>-->
+            <!--<if test="fWhs != null">F_WHS = #{fWhs},</if>-->
+            <!--<if test="fCkdid != null">F_CKDID = #{fCkdid},</if>-->
+            <!--<if test="fLyjg != null">F_LYJG = #{fLyjg},</if>-->
+            <!--<if test="fLyr != null">F_LYR = #{fLyr},</if>-->
+            <!--<if test="fZh != null">F_ZH = #{fZh},</if>-->
+            <!--<if test="fGldw != null">F_GLDW = #{fGldw},</if>-->
+            <!--<if test="fScrq != null">F_SCRQ = #{fScrq},</if>-->
+            <!--<if test="fBxdqr != null">F_BXDQR = #{fBxdqr},</if>-->
+            <!--<if test="fCzrq != null">F_CZRQ = #{fCzrq},</if>-->
+            <!--<if test="fSynx != null">F_SYNX = #{fSynx},</if>-->
+            <!--<if test="fRksj != null">F_RKSJ = #{fRksj},</if>-->
+            <!--<if test="fSfjk != null">F_SFJK = #{fSfjk},</if>-->
+            <!--<if test="fLastStatus != null">F_LAST_STATUS = #{fLastStatus},</if>-->
+            <!--<if test="fUnit != null">F_UNIT = #{fUnit},</if>-->
+            <!--<if test="fCrdate != null">F_CRDATE = #{fCrdate},</if>-->
+            <!--<if test="fChdate != null">F_CHDATE = #{fChdate},</if>-->
+            F_CHDATE = sysdate(),
+        </trim>
+        where F_ID = #{device_id}
+    </update>
+
+    <!--根据id删除设备记录-->
+    <delete id="deleteEquipmentListById" parameterType="String">
+        delete from bes_equipment_list where F_ID = #{fId}
+    </delete>
+
+    <!--根据id集合删除多条设备记录-->
+    <delete id="deleteEquipmentListByIds" parameterType="String">
+        delete from bes_equipment_list where F_ID in
+        <foreach item="fId" collection="array" open="(" separator="," close=")">
+            #{fId}
+        </foreach>
+    </delete>
+
+
+    <select id="queryEquipment" resultMap="EquipmentListResult">
+        select
+        <include refid="all_column"></include>
+        from bes_equipment_list
+        <!--<where>-->
+            <!--<if test="deviceId != null and deviceId != ''">-->
+              where F_ID = #{deviceId}
+            <!--</if>-->
+        <!--</where>-->
+
+    </select>
+
+
+</mapper>

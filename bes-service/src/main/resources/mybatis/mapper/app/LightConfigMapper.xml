@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.efounder.JEnterprise.mapper.app.LightConfigMapper" >
+
+  <resultMap id="LightConfigMap" type="com.efounder.JEnterprise.model.app.LightConfig" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="light_address" property="lightAddress" jdbcType="VARCHAR" />
+    <result column="light_switch" property="lightSwitch" jdbcType="VARCHAR" />
+    <result column="light_switch_system" property="lightSwitchSystem" jdbcType="VARCHAR" />
+    <result column="light_status" property="lightStatus" jdbcType="VARCHAR" />
+    <result column="light_status_system" property="lightStatusSystem" jdbcType="VARCHAR" />
+  </resultMap>
+
+
+  <!--查询灯光配置列表-->
+  <select id="queryLightConfigList" resultMap="LightConfigMap">
+    select id,name,light_address,light_switch,light_switch_system,light_status,light_status_system from api_light_config
+  </select>
+
+  <!--删除-->
+  <delete id="delete">
+    delete from api_light_config where id = #{id}
+  </delete>
+
+<!--修改-->
+  <update id="update" parameterType="com.efounder.JEnterprise.model.app.LightConfig">
+      update api_light_config
+      <set>
+        <if test="name != null and name !=''">
+          name = #{name},
+        </if>
+        <if test="lightSwitch != null and lightSwitch !=''">
+          light_switch = #{lightSwitch},
+        </if>
+        <if test="lightAddress != null and lightAddress !=''">
+          light_address = #{lightAddress},
+        </if>
+        light_switch_system = #{lightSwitchSystem},
+        light_status = #{lightStatus},
+        light_status_system = #{lightStatusSystem}
+      </set>
+    where id = #{id}
+  </update>
+
+  <!--新增-->
+  <insert id="insert" parameterType="com.efounder.JEnterprise.model.app.LightConfig">
+    insert into api_light_config(name,light_address,light_switch,light_switch_system,light_status,light_status_system)
+    values(#{name},#{lightAddress},#{lightSwitch},#{lightSwitchSystem},#{lightStatus},#{lightStatusSystem})
+  </insert>
+
+  <!--查询-->
+  <select id="queryOne" resultMap="LightConfigMap">
+    select id,name,light_address ,light_switch ,light_switch_system,light_status,light_status_system from api_light_config
+    where id = #{id}
+  </select>
+
+  <insert id="insertLight">
+    insert into api_light_config(name,light_address,light_switch,light_switch_system,light_status,light_status_system)
+    values(#{name},#{lightAddress},#{lightSwitch},#{lightSwitchSystem},#{lightStatus},#{lightStatusSystem})
+  </insert>
+
+</mapper>

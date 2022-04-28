@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.efounder.JEnterprise.mapper.strongAndWeakElectricityIntegration.deviceConfig.CgqConfigMapper" >
+
+    <sql id="col_name">
+      id                        id,
+      name                      name,
+      cgq_type                  cgqType,
+      cgq_dqz                   cgqDqz,
+      cgq_dqz_display           cgqDqzDisplay
+
+	</sql>
+
+    <sql id="table_name">
+        strongandweakelectricityintegration_cgqconfig
+    </sql>
+
+    <insert id="insert">
+
+        insert into
+        <include refid="table_name"/>
+
+        (
+            name,
+            cgq_type,
+            cgq_dqz,
+            cgq_dqz_display
+        )
+        values
+        (
+
+            #{name},
+            #{cgqType},
+            #{cgqDqz},
+            #{cgqDqzDisplay}
+
+        )
+
+
+    </insert>
+
+    <select id="findList" resultType="com.efounder.JEnterprise.model.strongAndWeakElectricityIntegration.deviceConfig.CgqConfigModel">
+
+        select
+
+        <include refid="col_name"/>
+
+        from
+
+        <include refid="table_name"/>
+        <where>
+
+            <if test="id != null and id != ''" >
+                id    =   #{id}
+            </if>
+
+            <if test="name != null and name != ''" >
+                and name  =   #{name}
+            </if>
+
+        </where>
+
+    </select>
+    <select id="findListByType" resultType="com.efounder.JEnterprise.model.strongAndWeakElectricityIntegration.deviceConfig.CgqConfigModel">
+
+        select
+
+        <include refid="col_name"/>
+
+        from
+
+        <include refid="table_name"/>
+        <where>
+
+            <if test="cgqType != null and cgqType != ''" >
+                cgq_type    like    CONCAT('%',#{cgqType},'%')
+            </if>
+
+        </where>
+
+    </select>
+
+    <update id="update">
+
+        update
+          <include refid="table_name"/>
+
+		set
+         name               =   #{name},
+         cgq_type           =   #{cgqType},
+         cgq_dqz            =   #{cgqDqz},
+         cgq_dqz_display    =   #{cgqDqzDisplay}
+
+        where
+
+            id              =         #{id}
+    </update>
+
+    <delete id="delete">
+
+        delete from
+          <include refid="table_name"/>
+        where
+             id = #{id}
+    </delete>
+
+</mapper>

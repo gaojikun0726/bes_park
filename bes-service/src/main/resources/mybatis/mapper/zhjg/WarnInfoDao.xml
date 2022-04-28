@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.efounder.JEnterprise.zhjg.dao.WarnInfoDao">
+
+    <!-- 可根据自己的需求，是否要使用 -->
+    <resultMap type="com.efounder.JEnterprise.zhjg.entity.WarnInfoEntity" id="warnInfoMap">
+                    <result property="id" column="id"/>
+                    <result property="coverid" column="coverId"/>
+                    <result property="warnid" column="warnId"/>
+                    <result property="warntype" column="warnType"/>
+                    <result property="warnmsg" column="warnMsg"/>
+                    <result property="creattime" column="creatTime"/>
+            </resultMap>
+
+    <sql id="Base_Column_List">
+        select id, coverId, warnId, warnType, warnMsg, DATE_FORMAT(creatTime, '%Y-%m-%d %k:%i:%s') creatTime from seb_cover_warn_info
+    </sql>
+
+
+    <insert id="insertRealWarn">
+        insert into seb_cover_warn_info (coverId,warnId,warnType,warnMsg) values ${pin}
+    </insert>
+
+    <!-- 关键字查询，分页查询 -->
+    <select id="getSearch" resultMap="warnInfoMap" parameterType="java.lang.String">
+        <include refid="Base_Column_List"/>
+        <where>
+            1=1
+            <if test="warnid != null and warnid != ''">
+                AND warnId = #{warnid}
+            </if>
+            <if test="beginTime != null and beginTime != ''"><!-- 开始时间检索 -->
+                AND date_format(creattime,'%y%m%d') &gt;= date_format(#{beginTime},'%y%m%d')
+            </if>
+            <if test="endTime != null and endTime != ''"><!-- 结束时间检索 -->
+                AND date_format(creattime,'%y%m%d') &lt;= date_format(#{endTime},'%y%m%d')
+            </if>
+            order by creattime desc
+        </where>
+    </select>
+
+    <select id="getSearchById" resultMap="warnInfoMap" parameterType="java.lang.String">
+        <include refid="Base_Column_List"/>
+        <where>
+            id = #{id}
+        </where>
+    </select>
+
+    <insert id="add" parameterType="com.efounder.JEnterprise.zhdg.entity.WarnRecordEntity">
+        insert into seb_cover_warn_info
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+        <if test="id != null ">id,
+        </if>
+        <if test="coverid != null ">coverId,
+        </if>
+        <if test="warnid != null ">warnId,
+        </if>
+        <if test="warntype != null ">warnType,
+        </if>
+        <if test="warnmsg != null ">warnMsg,
+        </if>
+        <if test="creattime != null ">creatTime,
+        </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+        <if test="id != null ">#{id},
+        </if>
+        <if test="coverid != null ">#{coverid},
+        </if>
+        <if test="warnid != null ">#{warnid},
+        </if>
+        <if test="warntype != null ">#{warntype},
+        </if>
+        <if test="warnmsg != null ">#{warnmsg},
+        </if>
+        <if test="creattime != null ">#{creattime},
+        </if>
+        </trim>
+    </insert>
+
+    <update id="update" parameterType="com.efounder.JEnterprise.zhdg.entity.WarnRecordEntity">
+        update seb_cover_warn_info
+        <trim prefix="SET" suffixOverrides=",">
+         <if test="id != null">id = #{id},</if>
+         <if test="coverid != null">coverId = #{coverid},</if>
+         <if test="warnid != null">warnId = #{warnid},</if>
+         <if test="warntype != null">warnType = #{warntype},</if>
+         <if test="warnmsg != null">warnMsg = #{warnmsg},</if>
+         <if test="creattime != null">creatTime = #{creattime},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="delete" parameterType="java.lang.String" >
+        delete from seb_cover_warn_info where id = #{id}
+    </delete>
+
+    <delete id="clean">
+        delete from seb_cover_warn_info
+    </delete>
+
+</mapper>

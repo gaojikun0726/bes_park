@@ -1,0 +1,231 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.efounder.JEnterprise.mapper.basedatamanage.zzjg.ESZzjgMapper">
+
+	<resultMap id="zzjgMap" type="com.efounder.JEnterprise.model.basedatamanage.zzjg.ESZzjg">
+	    <result column="F_ID" property="f_id" />
+		<result column="F_ZZJGBH" property="f_zzjgbh" />
+		<result column="F_ZZJGMC" property="f_zzjgmc" />
+		<result column="F_PZZJGBH" property="f_pzzjgbh" />
+		<result column="F_REMARK" property="f_remark" />
+		<result column="F_JS" property="f_js" />
+		<result column="F_MX" property="f_mx" />
+		
+		<result column="F_CRDATE" property="f_crdate" />
+		<result column="F_CHDATE" property="f_chdate" />
+	</resultMap>
+
+	<sql id="find_xxx">
+	    <![CDATA[
+			SELECT F_ID ,F_ZZJGBH , F_ZZJGMC , F_PZZJGBH ,F_REMARK , F_JS , F_MX , date_format(F_CRDATE,'%Y-%m-%d %H:%i:%s' )F_CRDATE ,date_format(F_CHDATE,'%Y-%m-%d %H:%i:%s' )F_CHDATE
+	    ]]>
+	</sql>
+
+	<sql id="from_xxx">
+	    <![CDATA[
+	    	FROM es_zzjg
+	    ]]>
+	</sql>
+
+	<sql id="where_xxx">
+	    <![CDATA[
+	    	WHERE 1=1
+	    ]]>
+	</sql>
+	
+	<select id="getBranchOffice" parameterType="string" resultMap="zzjgMap">
+		<include refid="find_xxx" />
+		<include refid="from_xxx" />
+		<![CDATA[
+			WHERE F_PZZJGBH = "00"
+		]]>
+	</select>
+	<select id="findById" parameterType="string" resultMap="zzjgMap">
+		<include refid="find_xxx" />
+		<include refid="from_xxx" />
+		<![CDATA[
+			WHERE F_ID=#{f_id}
+		]]>
+	</select>
+	
+	<select id="loadZzjgTreeJsTwo" parameterType="string" resultMap="zzjgMap">
+		<include refid="find_xxx" />
+		<include refid="from_xxx" />
+		where 
+		<![CDATA[  
+			F_JS < 2
+		]]>
+	</select>
+	
+	<select id="loadAll" parameterType="string" resultMap="zzjgMap">
+		<include refid="find_xxx" />
+		<include refid="from_xxx" />
+		where 
+		${checkDataLimit}
+	</select>
+
+	<select id="loadAllZC" parameterType="string" resultMap="zzjgMap">
+		<!--<include refid="find_xxx" />
+		<include refid="from_xxx" />
+		where
+		${checkDataLimit}
+		AND (F_PZZJGBH = '001001030' OR F_PZZJGBH IN ( SELECT F_ZZJGBH FROM es_zzjg WHERE F_PZZJGBH = '001001030' ) OR F_ZZJGBH = '001001030')-->
+		SELECT a.F_ID ,a.F_ZZJGBH ,
+		CASE WHEN ISNULL(b.F_NUMBER) AND F_JS='3' THEN CONCAT(a.F_ZZJGMC,'  部门人数:0') WHEN F_JS!='3' THEN a.F_ZZJGMC
+		ELSE CONCAT(a.F_ZZJGMC,'  部门人数:',b.F_NUMBER) END F_ZZJGMC,
+		a.F_PZZJGBH ,a.F_REMARK , a.F_JS , a.F_MX ,
+		date_format(a.F_CRDATE,'%Y-%m-%d %H:%i:%s' )F_CRDATE ,
+		date_format(a.F_CHDATE,'%Y-%m-%d %H:%i:%s' )F_CHDATE
+		FROM es_zzjg a LEFT JOIN bes_department_number b on a.F_ZZJGBH = b.F_DEP_ID
+		where
+		${checkDataLimit}
+		AND (a.F_PZZJGBH = '001001030'
+		OR a.F_PZZJGBH IN ( SELECT F_ZZJGBH FROM es_zzjg WHERE F_PZZJGBH = '001001030' AND F_ZZJGBH != '001001030024' AND F_ZZJGBH != '001001030025' )
+		OR a.F_ZZJGBH = '001001030')
+		AND ( a.F_ZZJGBH != '001001030024' AND a.F_ZZJGBH != '001001030025')
+	</select>
+	
+	<select id="findZzjgByPage" parameterType="string" resultMap="zzjgMap">
+		<include refid="find_xxx" />
+		<include refid="from_xxx" />
+		<where>
+		1=1 
+			<if test="keywords != null and keywords != ''"> 
+			 and CONCAT(`f_zzjgbh`,'##',`f_zzjgmc` ) LIKE CONCAT('%',#{keywords},'%')
+			</if>
+		</where>
+		order by F_CRDATE
+	</select>
+	
+	<select id="findZzjgListByLikeBhAndCheckDataLimit" parameterType="string" resultMap="zzjgMap">
+		<include refid="find_xxx" />
+		<include refid="from_xxx" />
+		<where>
+			<if test="f_zzjgbh != null and f_zzjgbh != ''">
+				F_PZZJGBH = #{f_zzjgbh} and
+				<!-- and F_ZZJGBH LIKE CONCAT('%',#{f_zzjgbh},'%') -->
+			</if>
+			(${checkDataLimit})
+		</where>
+	</select>
+	
+	<select id="findZzjgListByLikeBh" parameterType="string" resultMap="zzjgMap">
+		<include refid="find_xxx" />
+		<include refid="from_xxx" />
+		<where>
+		1=1 
+			<if test="f_zzjgbh != null and f_zzjgbh != ''"> 
+			 and F_ZZJGBH LIKE CONCAT(#{f_zzjgbh},'%')
+			</if>
+		</where>
+	</select>
+	<select id="findSonZzjgByPage" parameterType="string" resultMap="zzjgMap">
+		<include refid="find_xxx" />
+		<include refid="from_xxx" />
+		<where>
+			<if test="f_zzjgbh != null and f_zzjgbh != ''"> f_pzzjgbh = #{f_zzjgbh}</if>
+		</where>
+		order by F_CRDATE
+	</select>
+	<!-- 根据编号查找所有子节点 -->
+	<select id="findChildByBh" parameterType="string" resultMap="zzjgMap">
+		<include refid="find_xxx" />
+		<include refid="from_xxx" />
+		<where>
+			F_PZZJGBH = #{f_zzjgbh} 
+		</where>
+		order by F_ZZJGBH
+	</select>
+	
+	<update id="update" parameterType="com.efounder.JEnterprise.model.basedatamanage.zzjg.ESZzjg">
+		UPDATE es_zzjg
+		<set>
+			<if test="f_zzjgmc != null and f_zzjgmc!=''">
+				F_ZZJGMC = #{f_zzjgmc},
+			</if>
+			<if test="f_remark!= null and f_remark!='' ">
+				F_REMARK = #{f_remark},
+			</if>
+			<!--修改时间  -->
+			F_CHDATE = current_timestamp()
+		</set>
+		WHERE F_ID=#{f_id}
+	</update>
+	<!-- 根据编号更新明细 -->
+	<update id="updateMxByBh" parameterType="string">
+		UPDATE es_zzjg
+		<set>
+			F_MX = #{f_mx}
+		</set>
+		WHERE F_ZZJGBH=#{f_zzjgbh}
+	</update>
+
+	<insert id="insert" parameterType="com.efounder.JEnterprise.model.basedatamanage.zzjg.ESZzjg">
+		INSERT INTO es_zzjg(F_ID ,F_ZZJGBH ,F_ZZJGMC, F_PZZJGBH,F_REMARK,F_JS,F_MX,  F_CRDATE, F_CHDATE)
+		 VALUES(#{f_id} ,#{f_zzjgbh} , #{f_zzjgmc} , #{f_pzzjgbh} , #{f_remark} , #{f_js} ,#{f_mx},  current_timestamp(),current_timestamp())
+	</insert>
+	
+	<delete id="delete" parameterType="string">
+		DELETE FROM es_zzjg WHERE F_ZZJGBH = #{f_zzjgbh}
+	</delete>
+	
+	<!-- 删除节点 -->
+	<delete id="deleteByBH" parameterType="string">
+		DELETE FROM es_zzjg WHERE F_ID = #{f_id}
+	</delete>
+	
+	<select id="findZzjgidByBh" parameterType="string" resultMap="zzjgMap">
+		SELECT F_ID FROM ES_ZZJG 
+		<![CDATA[
+	    	WHERE 1=1
+	    ]]>
+	    <if test="f_zzjgbh != null and f_zzjgbh!=''">
+				AND F_ZZJGBH = #{f_zzjgbh}
+			</if>
+	    
+	</select>
+	<select id="getId" parameterType="string" resultMap="zzjgMap">
+		SELECT F_ID,F_ZZJGBH FROM ES_ZZJG 
+		<![CDATA[
+	    	WHERE 1=1
+	    ]]>
+	    <if test="f_zzjgbh != null and f_zzjgbh!=''">
+				AND F_ZZJGBH in (${f_zzjgbh})
+			</if>
+	    
+	</select>
+	
+	<select id="getZzjgIdBybh" parameterType="string" resultMap="zzjgMap">
+		<include refid="find_xxx" />
+		 FROM ES_ZZJG
+		<![CDATA[
+	    	WHERE 1=1
+	    ]]>
+	    <if test="f_zzjgbh != null and f_zzjgbh!=''">
+				AND F_ZZJGBH = #{f_zzjgbh}
+			</if>
+	    
+	</select>
+		<select id="getbh" parameterType="string" resultMap="zzjgMap">
+		SELECT F_ZZJGBH FROM ES_ZZJG 
+		<![CDATA[
+	    	WHERE 1=1
+	    ]]>
+	    <if test="id != null and id !=''">
+				AND F_ID =#{id} 
+			</if>
+	    
+	</select>
+
+	<!-- 查询所有的组织机构 -->
+	<select id="findAll" resultMap="zzjgMap">
+		<include refid="find_xxx" />
+		<include refid="from_xxx" />
+	</select>
+
+	<select id="roleGroupIbfk" resultType="java.lang.Integer">
+	    SELECT COUNT(*) from  es_role_group where group_id = #{groupId}
+	</select>
+</mapper>	
+	

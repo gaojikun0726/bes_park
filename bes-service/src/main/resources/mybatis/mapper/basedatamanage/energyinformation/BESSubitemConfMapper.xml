@@ -1,0 +1,323 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.efounder.JEnterprise.mapper.basedatamanage.energyinformation.BESSubitemConfMapper" >
+
+  <resultMap id="SubitemConfMap" type="com.efounder.JEnterprise.model.basedatamanage.energyinformation.BESSubitemConf" >
+    <id column="F_GUID" property="fGuid" />
+    <result column="F_FXBH" property="fFxbh" />
+    <result column="F_FXMC" property="fFxmc" />
+    <result column="F_PFXBH" property="fPfxbh" />
+    <result column="F_JS" property="fJs" />
+    <result column="F_NYBH" property="fNybh" />
+    <result column="F_YQBH" property="fYqbh" />
+    <result column="F_JL" property="fJl" />
+    <result column="F_ZZJGBH" property="fZzjgbh" />
+    <result column="F_USER_NAME" property="fUserName" />
+    <result column="F_ZZJG_ID" property="fZzjgId" />
+    <result column="F_BUDING_ID" property="fBudingId" />
+    <result column="F_SUBITEM_CODE" property="fSubitemCode" />
+    <result column="F_CRDATE" property="fCrdate" />
+    <result column="F_CHDATE" property="fChdate" />
+  </resultMap>
+  
+  <sql id="Base_Column_List" >
+    F_GUID,F_FXBH, F_FXMC, F_PFXBH, F_JS, F_NYBH, F_ZZJGBH,F_YQBH,F_JL,F_USER_NAME,F_ZZJG_ID,F_BUDING_ID,F_SUBITEM_CODE,
+    date_format(F_CRDATE,'%Y-%m-%d %H:%i:%s' ) F_CRDATE ,date_format(F_CHDATE,'%Y-%m-%d %H:%i:%s' ) F_CHDATE
+  </sql>
+  <!-- 查询分项配置数据 -->
+  <select id="getSubitemConfList" resultMap="SubitemConfMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from bes_subitem_conf
+    <where>
+		1=1 
+		<if test="fFxmc != null and fFxmc != ''"> 
+			 and CONCAT(`F_FXBH`,'##',`F_FXMC` ) LIKE CONCAT('%',#{fFxmc},'%')
+		 </if>
+	</where>
+    order by F_FXBH
+  </select>
+  
+  <!-- 根据能源类型查询分项配置数据 -->
+  <select id="getSubitemConfGridList" resultMap="SubitemConfMap" parameterType="java.lang.String" >
+    select
+    <include refid="Base_Column_List" />
+    from bes_subitem_conf
+    <where>
+      1=1
+      <if test="fNybh != null and fNybh != ''">
+        and F_NYBH = #{fNybh}
+      </if>
+      <if test="groupbh != null and groupbh.size() > 0">
+        AND F_ZZJG_ID in
+        <foreach item="item" index="index" collection="groupbh"
+                 open="(" separator="," close=")">
+          #{item}
+        </foreach>
+      </if>
+      <if test='userId!= null and userId!= ""'>
+        and F_USER_NAME = #{userId}
+      </if>
+    </where>
+    order by F_FXBH
+  </select>
+
+  <!-- 根据能源类型和园区编号查询分项配置数据 -->
+  <select id="getSubitemConfByYqAndNy" resultMap="SubitemConfMap" parameterType="java.lang.String" >
+    select
+    <include refid="Base_Column_List" />
+    from bes_subitem_conf
+    <where>
+      1=1
+      <if test="fNybh != null and fNybh != ''">
+        and F_NYBH = #{fNybh}
+      </if>
+      <if test="fYqbh != null and fYqbh != ''">
+        and F_YQBH = #{fYqbh}
+      </if>
+      <if test="fBudingId != null and fBudingId != ''">
+        and F_BUDING_ID = #{fBudingId}
+      </if>
+      <if test="groupbh != null and groupbh.size() > 0">
+        AND F_ZZJG_ID in
+        <foreach item="item" index="index" collection="groupbh"
+                 open="(" separator="," close=")">
+          #{item}
+        </foreach>
+      </if>
+      <if test='userId!= null and userId!= ""'>
+        and F_USER_NAME = #{userId}
+      </if>
+    </where>
+    order by F_FXBH
+  </select>
+  
+  
+  <!-- 根据组织机构查询分项配置树 -->
+  <select id="loadAll" resultMap="SubitemConfMap" parameterType="java.lang.String" >
+    select
+    <include refid="Base_Column_List" />
+    from bes_subitem_conf
+    <where>
+    1 = 1
+      <if test="fZzjgbh != null and fZzjgbh != ''">
+        F_ZZJGBH = #{fZzjgbh}
+      </if>
+      <if test="groupbh != null and groupbh.size() > 0">
+        AND F_ZZJG_ID in
+        <foreach item="item" index="index" collection="groupbh"
+                 open="(" separator="," close=")">
+          #{item}
+        </foreach>
+      </if>
+      <if test='userId!= null and userId!= ""'>
+        and F_USER_NAME = #{userId}
+      </if>
+    </where>
+    order by F_FXBH
+  </select>
+  
+  <!-- 查找子类 -->
+  <select id="subitem_chlildtreegrid" resultMap="SubitemConfMap" parameterType="java.lang.String" >
+    (
+    select
+    <include refid="Base_Column_List" />
+    from bes_subitem_conf
+    <where>
+      1 = 1
+      <if test="groupbh != null and groupbh.size() > 0">
+        and F_ZZJG_ID in
+        <foreach item="item" index="index" collection="groupbh"
+                 open="(" separator="," close=")">
+          #{item}
+        </foreach>
+      </if>
+      <if test='userId!= null and userId!= ""'>
+        and F_USER_NAME = #{userId}
+      </if>
+      AND F_FXBH = #{fxbh}
+    </where>
+    ) union (
+    select
+    <include refid="Base_Column_List" />
+    from bes_subitem_conf
+    <where>
+      1=1
+      <if test="groupbh != null and groupbh.size() > 0">
+        and F_ZZJG_ID in
+        <foreach item="item" index="index" collection="groupbh"
+                 open="(" separator="," close=")">
+          #{item}
+        </foreach>
+      </if>
+      <if test='userId!= null and userId!= ""'>
+        and F_USER_NAME = #{userId}
+      </if>
+      and F_PFXBH = #{fxbh}
+    </where>
+    )
+    order by F_FXBH
+  </select>
+  
+  <select id="querySubitem" resultMap="SubitemConfMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    	from bes_subitem_conf  
+    <where>
+		F_GUID = #{fGuid} 
+	</where>
+  </select>
+  <select id="querySubitemByFxbh" resultMap="SubitemConfMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    	from bes_subitem_conf  
+    <where>
+		F_FXBH = #{fFxbh} 
+	</where>
+  </select>
+
+  <!-- 查询分项配置数据 -->
+  <select id="findAll" resultMap="SubitemConfMap" parameterType="java.lang.String" >
+    select
+    <include refid="Base_Column_List" />
+    from bes_subitem_conf
+  </select>
+
+  <!-- 根据建筑能耗代码查询分项配置信息 -->
+  <select id="findBySubitemCode" resultMap="SubitemConfMap" parameterType="java.lang.String" >
+    select
+    <include refid="Base_Column_List" />
+    from bes_subitem_conf
+    <where>
+      F_SUBITEM_CODE = #{subitemCode}
+    </where>
+  </select>
+
+  <!-- 新增分项 -->
+  <insert id="addSubitem" parameterType="com.efounder.JEnterprise.model.basedatamanage.energyinformation.BESSubitemConf" >
+    insert into bes_subitem_conf (F_GUID,F_FXBH, F_FXMC, F_PFXBH,
+    F_JS,  F_NYBH, F_ZZJGBH,F_JL,
+    F_CRDATE, F_CHDATE,F_YQBH,F_BUDING_ID,F_SUBITEM_CODE
+    <if test="fUserName != null || fUserName != ''">
+      ,F_USER_NAME
+    </if>
+    <if test="fZzjgId != null || fZzjgId != ''">
+      ,F_ZZJG_ID
+    </if>)
+    values (#{fGuid},#{fFxbh}, #{fFxmc}, #{fPfxbh},
+    #{fJs}, #{fNybh}, #{fZzjgbh},#{fJl},
+    current_timestamp(),current_timestamp(),#{fYqbh},#{fBudingId},#{fSubitemCode}
+    <if test="fUserName != null || fUserName != ''">
+      ,#{fUserName}
+    </if>
+    <if test="fZzjgId != null || fZzjgId != ''">
+      ,#{fZzjgId}
+    </if>)
+  </insert>
+  
+  <!-- 删除分项 -->
+  <delete id="del_subitem" parameterType="java.lang.String" >
+    delete from bes_subitem_conf
+    where F_GUID = #{fGuid}
+  </delete>
+
+  <update id="edit_subitem" parameterType="com.efounder.JEnterprise.model.basedatamanage.energyinformation.BESSubitemConf" >
+    update bes_subitem_conf
+    <set >
+      <if test="fFxbh != null" >
+        F_FXBH = #{fFxbh},
+      </if>
+      <if test="fFxmc != null" >
+        F_FXMC = #{fFxmc},
+      </if>
+      <if test="fPfxbh != null" >
+        F_PFXBH = #{fPfxbh},
+      </if>
+      <if test="fJs != null" >
+        F_JS = #{fJs},
+      </if>
+      <if test="fNybh != null" >
+        F_NYBH = #{fNybh},
+      </if>
+      <if test="fZzjgbh != null" >
+        F_ZZJGBH = #{fZzjgbh},
+      </if>
+      <if test="fYqbh != null" >
+        F_YQBH = #{fYqbh},
+      </if>
+      <if test="fUserName != null || fUserName != ''">
+        F_USER_NAME = #{fUserName},
+      </if>
+      <if test="fZzjgId != null || fZzjgId != ''">
+        F_ZZJG_ID = #{fZzjgId},
+      </if>
+        F_CHDATE = current_timestamp()
+    </set>
+    where F_GUID = #{fGuid}
+  </update>
+  
+  <update id="updateByPrimaryKey" parameterType="com.efounder.JEnterprise.model.basedatamanage.energyinformation.BESSubitemConf" >
+    update bes_subitem_conf
+    set F_FXMC = #{fFxmc,jdbcType=VARCHAR},
+      F_PFXBH = #{fPfxbh,jdbcType=VARCHAR},
+      F_JS = #{fJs,jdbcType=VARCHAR},
+      F_NYBH = #{fNybh,jdbcType=VARCHAR},
+      F_ZZJGBH = #{fZzjgbh,jdbcType=VARCHAR},
+      F_CRDATE = #{fCrdate,jdbcType=TIMESTAMP},
+      F_CHDATE = #{fChdate,jdbcType=TIMESTAMP}
+    where F_FXBH = #{fFxbh,jdbcType=VARCHAR}
+  </update>
+
+    <!--查询当前分项是否级联-->
+  <select id="selectf_jl" resultType="java.lang.String">
+    select F_JL from bes_subitem_conf where F_FXBH = #{fFxbh}
+  </select>
+
+
+    <!--修改是否级联-分项-->
+  <update id="changef_jl">
+    update bes_subitem_conf set F_JL = #{fJl} WHERE F_FXBH = #{fFxbh}
+  </update>
+  <!--查询当前分项编号的信息-->
+  <select id="selectf_pfxbh" resultType="java.util.Map" parameterType="com.efounder.JEnterprise.model.basedatamanage.energyinformation.BESSubitemConf">
+    select * from bes_subitem_conf where F_FXBH = #{fFxbh}
+  </select>
+
+  <!--查询父节点的信息-->
+  <select id="selectf_pfxbhs" resultType="java.util.Map">
+    select * from bes_subitem_conf where F_FXBH = #{pfxbh}
+  </select>
+
+  <!--查找子节点的信息-->
+  <select id="selectf_pfxbh_down" resultType="java.util.Map" parameterType="com.efounder.JEnterprise.model.basedatamanage.energyinformation.BESSubitemConf">
+    select * from bes_subitem_conf where F_PFXBH = #{fFxbh}
+  </select>
+
+  <!--查询当前父分项的信息-->
+  <select id="querySubitemhold" resultMap="SubitemConfMap">
+    select
+    <include refid="Base_Column_List" />
+     from bes_subitem_conf where F_FXBH = #{f_pfxbh}
+  </select>
+  <!--分项中移除支路 往下 级联删除,查询父分项编号为当前分项编号的所有信息-->
+  <select id="selectf_pfXbh_down" resultType="java.util.Map" parameterType="com.efounder.JEnterprise.model.basedatamanage.energyinformation.BESSubitem_Branch_Rlgl">
+    select * from bes_subitem_conf where F_PFXBH = #{fFxbh}
+  </select>
+
+  <!--查询分项支路关系表中,当前分项是否关联支路-->
+  <select id="select_bes_subitem_branch_rlgl_data" resultType="java.util.Map">
+    select F_ZLBH FROM bes_subitem_branch_rlgl WHERE F_FXBH = #{fFxbh}
+  </select>
+  <!--判断分项配置表中当前建筑下,当前园区,能源类型是否有数据-->
+  <select id="selectSubitemTableData" resultMap="SubitemConfMap">
+    select
+    <include refid="Base_Column_List" />
+     from bes_subitem_conf where F_NYBH = #{fNybh} and F_YQBH = #{fYqbh} and F_BUDING_ID = #{buildingbh}
+  </select>
+
+  <!--批量删除-->
+  <delete id="delectSubitemData">
+    delete from bes_subitem_conf where F_NYBH = #{fNybh} and F_YQBH = #{fYqbh} and F_BUDING_ID = #{buildingbh}
+  </delete>
+
+</mapper>

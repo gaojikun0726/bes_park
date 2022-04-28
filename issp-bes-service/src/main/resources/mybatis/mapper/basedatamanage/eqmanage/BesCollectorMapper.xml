@@ -1,0 +1,306 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.efounder.JEnterprise.mapper.basedatamanage.eqmanage.BesCollectorMapper" >
+
+    <resultMap id="BesCollectorMap" type="com.efounder.JEnterprise.model.basedatamanage.eqmanage.BesCollector" >
+        <id column="F_GUID" property="fGuid" />
+        <result column="F_SYS_NAME" property="fSysName"/>
+        <result column="F_SBID" property="fSbId"/>
+        <result column="F_NICK_NAME" property="fNickName" />
+        <result column="F_ENABLED" property="fEnabled" />
+        <result column="F_SSQY" property="fSsqy"  />
+        <result column="F_AZWZ" property="fAzwz" />
+        <result column="F_DESCRIPTION" property="fDescription"/>
+        <result column="F_SBLXBH" property="fSblxbh"  />
+        <result column="F_TYPE" property="fType"  />
+        <result column="F_IP_ADDR" property="fIpAddr" />
+        <result column="F_COLL_CYCLE" property="fCollCycle"  />
+        <result column="F_NODE_TYPE" property="fNodeType"  />
+        <result column="F_HIS_DATA_SAVE_CYCLE" property="fHisDataSaveCycle" />
+        <result column="F_PORT" property="fPort"  />
+        <result column="F_YQBH" property="fParkYqbh"  />
+        <result column="F_COLLECTOR_STATE" property="fCollectorState"  />
+        <result column="F_ONLINESTATE" property="fOnlinestate"  />
+        <result column="F_CRDATE" property="fCrdate" />
+        <result column="F_CHDATE" property="fChdate" />
+        <result column="F_ONLINE_STATE" property="fOnlineState" />
+        <result column="F_GATEWAY" property="fGateway" />
+        <result column="F_MASK" property="fMask" />
+        <result column="F_IP_MASTER" property="fIpMaster" />
+        <result column="F_PORT_MASTER" property="fPortMaster" />
+        <result column="F_CHANNEL_ID" property="fChannelId" />
+    </resultMap>
+
+    <sql id="Base_Column_List" >
+        F_GUID, F_SBID, F_SYS_NAME, F_NICK_NAME, F_ENABLED, F_SSQY, F_AZWZ, F_DESCRIPTION, F_SBLXBH,
+        F_TYPE, F_IP_ADDR, F_COLL_CYCLE, F_NODE_TYPE, F_HIS_DATA_SAVE_CYCLE, F_PORT, F_YQBH, 
+        F_COLLECTOR_STATE, F_ONLINESTATE, F_CRDATE, F_CHDATE, F_ONLINE_STATE, F_GATEWAY, F_MASK, F_IP_MASTER, F_PORT_MASTER, F_CHANNEL_ID
+    </sql>
+
+    <select id="selectByPrimaryKey" resultMap="BesCollectorMap" parameterType="java.lang.String" >
+        select 
+        <include refid="Base_Column_List" />
+        from bes_collector
+        where F_GUID = #{fGuid,jdbcType=VARCHAR}
+    </select>
+
+    <select id="selectBySysName" resultMap="BesCollectorMap" parameterType="java.lang.String" >
+        select
+        <include refid="Base_Column_List" />
+        from bes_collector
+        where F_SYS_NAME = #{sysName}
+    </select>
+    <!-- 查询采集器信息 -->
+	<select id="queryCollectorInfo" resultType="java.util.HashMap" >
+        select * 
+        from bes_collector
+        where
+        F_SYS_NAME = #{f_sys_name}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+        delete from bes_collector
+        where F_GUID = #{fGuid,jdbcType=VARCHAR}
+    </delete>
+
+    <insert id="insert" parameterType="com.efounder.JEnterprise.model.basedatamanage.eqmanage.BesCollector" >
+        insert into bes_collector (F_GUID, F_SYS_NAME, F_NICK_NAME, 
+            F_ENABLED, F_SSQY, F_AZWZ, 
+            F_DESCRIPTION, F_SBLXBH, F_TYPE, 
+            F_IP_ADDR, F_COLL_CYCLE, F_NODE_TYPE, 
+            F_HIS_DATA_SAVE_CYCLE, F_PORT, F_YQBH, 
+            F_COLLECTOR_STATE, F_ONLINESTATE, F_CRDATE, 
+            F_CHDATE, F_ONLINE_STATE)
+        values (#{fGuid,jdbcType=VARCHAR}, #{fSysName,jdbcType=VARCHAR}, #{fNickName,jdbcType=VARCHAR}, 
+            #{fEnabled,jdbcType=INTEGER}, #{fSsqy,jdbcType=VARCHAR}, #{fAzwz,jdbcType=VARCHAR}, 
+            #{fDescription,jdbcType=VARCHAR}, #{fSblxbh,jdbcType=VARCHAR}, #{fType,jdbcType=VARCHAR}, 
+            #{fIpAddr,jdbcType=VARCHAR}, #{fCollCycle,jdbcType=INTEGER}, #{fNodeType,jdbcType=VARCHAR}, 
+            #{fHisDataSaveCycle,jdbcType=INTEGER}, #{fPort,jdbcType=VARCHAR}, #{fParkYqbh,jdbcType=VARCHAR}, 
+            #{fCollectorState,jdbcType=VARCHAR}, #{fOnlinestate,jdbcType=VARCHAR}, #{fCrdate,jdbcType=TIMESTAMP}, 
+            #{fChdate,jdbcType=TIMESTAMP}, #{fOnlineState,jdbcType=VARCHAR})
+    </insert>
+
+    <insert id="insertSelective" parameterType="com.efounder.JEnterprise.model.basedatamanage.eqmanage.BesCollector" >
+        insert into bes_collector
+        <trim prefix="(" suffix=")" suffixOverrides="," >
+            <if test="fGuid != null" >
+                F_GUID,
+            </if>
+            <if test="fSysName != null" >
+                F_SYS_NAME,
+            </if>
+            <if test="fNickName != null" >
+                F_NICK_NAME,
+            </if>
+            <if test="fEnabled != null" >
+                F_ENABLED,
+            </if>
+            <if test="fSsqy != null" >
+                F_SSQY,
+            </if>
+            <if test="fAzwz != null" >
+                F_AZWZ,
+            </if>
+            <if test="fDescription != null" >
+                F_DESCRIPTION,
+            </if>
+            <if test="fSblxbh != null" >
+                F_SBLXBH,
+            </if>
+            <if test="fType != null" >
+                F_TYPE,
+            </if>
+            <if test="fIpAddr != null" >
+                F_IP_ADDR,
+            </if>
+            <if test="fCollCycle != null" >
+                F_COLL_CYCLE,
+            </if>
+            <if test="fNodeType != null" >
+                F_NODE_TYPE,
+            </if>
+            <if test="fHisDataSaveCycle != null" >
+                F_HIS_DATA_SAVE_CYCLE,
+            </if>
+            <if test="fPort != null" >
+                F_PORT,
+            </if>
+            <if test="fParkYqbh != null" >
+                F_YQBH,
+            </if>
+            <if test="fCollectorState != null" >
+                F_COLLECTOR_STATE,
+            </if>
+            <if test="fOnlinestate != null" >
+                F_ONLINESTATE,
+            </if>
+            <if test="fCrdate != null" >
+                F_CRDATE,
+            </if>
+            <if test="fChdate != null" >
+                F_CHDATE,
+            </if>
+            <if test="fOnlineState != null" >
+                F_ONLINE_STATE,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides="," >
+            <if test="fGuid != null" >
+                #{fGuid,jdbcType=VARCHAR},
+            </if>
+            <if test="fSysName != null" >
+                #{fSysName,jdbcType=VARCHAR},
+            </if>
+            <if test="fNickName != null" >
+                #{fNickName,jdbcType=VARCHAR},
+            </if>
+            <if test="fEnabled != null" >
+                #{fEnabled,jdbcType=INTEGER},
+            </if>
+            <if test="fSsqy != null" >
+                #{fSsqy,jdbcType=VARCHAR},
+            </if>
+            <if test="fAzwz != null" >
+                #{fAzwz,jdbcType=VARCHAR},
+            </if>
+            <if test="fDescription != null" >
+                #{fDescription,jdbcType=VARCHAR},
+            </if>
+            <if test="fSblxbh != null" >
+                #{fSblxbh,jdbcType=VARCHAR},
+            </if>
+            <if test="fType != null" >
+                #{fType,jdbcType=VARCHAR},
+            </if>
+            <if test="fIpAddr != null" >
+                #{fIpAddr,jdbcType=VARCHAR},
+            </if>
+            <if test="fCollCycle != null" >
+                #{fCollCycle,jdbcType=INTEGER},
+            </if>
+            <if test="fNodeType != null" >
+                #{fNodeType,jdbcType=VARCHAR},
+            </if>
+            <if test="fHisDataSaveCycle != null" >
+                #{fHisDataSaveCycle,jdbcType=INTEGER},
+            </if>
+            <if test="fPort != null" >
+                #{fPort,jdbcType=VARCHAR},
+            </if>
+            <if test="fParkYqbh != null" >
+                #{fParkYqbh,jdbcType=VARCHAR},
+            </if>
+            <if test="fCollectorState != null" >
+                #{fCollectorState,jdbcType=VARCHAR},
+            </if>
+            <if test="fOnlinestate != null" >
+                #{fOnlinestate,jdbcType=VARCHAR},
+            </if>
+            <if test="fCrdate != null" >
+                #{fCrdate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="fChdate != null" >
+                #{fChdate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="fOnlineState != null" >
+                #{fOnlineState,jdbcType=VARCHAR},
+            </if>
+        </trim>
+    </insert>
+    
+	<!-- 更新采集器信息 -->
+    <update id="updateCollector" parameterType="com.efounder.JEnterprise.model.basedatamanage.eqmanage.BesCollector" >
+        update bes_collector
+        <set >
+            <if test="fSysName != null" >
+                F_SYS_NAME = #{fSysName,jdbcType=VARCHAR},
+            </if>
+            <if test="fNickName != null" >
+                F_NICK_NAME = #{fNickName,jdbcType=VARCHAR},
+            </if>
+            <if test="fEnabled != null" >
+                F_ENABLED = #{fEnabled,jdbcType=INTEGER},
+            </if>
+            <if test="fSsqy != null" >
+                F_SSQY = #{fSsqy,jdbcType=VARCHAR},
+            </if>
+            <if test="fAzwz != null" >
+                F_AZWZ = #{fAzwz,jdbcType=VARCHAR},
+            </if>
+            <if test="fDescription != null" >
+                F_DESCRIPTION = #{fDescription,jdbcType=VARCHAR},
+            </if>
+            <if test="fSblxbh != null" >
+                F_SBLXBH = #{fSblxbh,jdbcType=VARCHAR},
+            </if>
+            <if test="fType != null" >
+                F_TYPE = #{fType,jdbcType=VARCHAR},
+            </if>
+            <if test="fIpAddr != null" >
+                F_IP_ADDR = #{fIpAddr,jdbcType=VARCHAR},
+            </if>
+            <if test="fCollCycle != null" >
+                F_COLL_CYCLE = #{fCollCycle,jdbcType=INTEGER},
+            </if>
+            <if test="fNodeType != null" >
+                F_NODE_TYPE = #{fNodeType,jdbcType=VARCHAR},
+            </if>
+            <if test="fHisDataSaveCycle != null" >
+                F_HIS_DATA_SAVE_CYCLE = #{fHisDataSaveCycle,jdbcType=INTEGER},
+            </if>
+            <if test="fPort != null" >
+                F_PORT = #{fPort,jdbcType=VARCHAR},
+            </if>
+            <if test="fParkYqbh != null" >
+                F_YQBH = #{fParkYqbh,jdbcType=VARCHAR},
+            </if>
+            <if test="fCollectorState != null" >
+                F_COLLECTOR_STATE = #{fCollectorState,jdbcType=VARCHAR},
+            </if>
+            <if test="fOnlineState != null" >
+                F_ONLINE_STATE = #{fOnlineState},
+            </if>
+            <if test="fChannelId != null" >
+                F_CHANNEL_ID = #{fChannelId},
+            </if>
+                F_CHDATE = current_timestamp(),
+
+        </set>
+        <where>
+            <if  test="fGuid != null" >
+                F_GUID = #{fGuid}
+            </if>
+        </where>
+    </update>
+
+    <!--wanghongjie start 20200629 查询DDC控制器的信息-->
+    <select id="queryDDCInfo" resultType="java.util.Map">
+        select * from bes_ddc where F_SYS_NAME_OLD = #{sysName}
+    </select>
+    <!--wanghongjie start 20200702 根据模块名称查询所属的ddc的信息-->
+    <select id="queryDDCModuleInfo" resultType="java.util.Map">
+        select * from bes_ddc where F_SYS_NAME_OLD = (
+        select f_psys_name FROM bes_sbpz_struct where F_SYS_NAME_OLD = (
+        select f_psys_name FROM bes_sbpz_struct where F_SYS_NAME_OLD = (
+        select f_psys_name FROM bes_sbpz_struct where F_SYS_NAME_OLD = #{sysName}
+        )))
+    </select>
+    <!--wanghongjie start 20200702 查询模块的信息-->
+    <select id="queryModuleInfo" resultType="java.util.Map">
+        select * from bes_module where F_SYS_NAME_OLD = #{sysName}
+    </select>
+
+    <!--wanghongjie start 20200706 更新bes_ddc表的在线离线,是否同步的状态-->
+    <update id="updateDDC" parameterType="com.efounder.JEnterprise.model.basedatamanage.eqmanage.BesDdc">
+        update bes_ddc
+        set F_DDC_STATE = #{fDdcState,jdbcType=VARCHAR},
+            F_ONLINE_STATE = #{fDdcOnlinestate,jdbcType=VARCHAR}
+        where F_GUID = #{fGuid,jdbcType=VARCHAR}
+    </update>
+
+    <!--获取所属能耗采集器数据-->
+    <select id="loadAll" resultMap="BesCollectorMap">
+        select
+        <include refid="Base_Column_List" />
+        from bes_collector
+    </select>
+</mapper>

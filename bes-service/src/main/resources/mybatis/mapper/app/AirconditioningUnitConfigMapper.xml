@@ -1,0 +1,399 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.efounder.JEnterprise.mapper.app.AirconditioningUnitConfigMapper" >
+
+    <sql id="col_name">
+      id,
+      name,
+      address,
+      new_fan_start_and_stop,
+      operation_status_of_blower,
+      manual_automatic_state_of_blower,
+      blower_failure_status,
+      fresh_air_valve_opening_control,
+      fresh_air_valve_opening_feedback,
+      fresh_air_valve_open,
+      fresh_air_valve_closed,
+      fresh_air_valve_open_in_place,
+      fresh_air_valve_closed_in_place,
+      return_fan_start_and_stop,
+      operation_status_of_return_fan,
+      manual_automatic_state_of_the_return_fan,
+      return_fan_failure_status,
+      exhaust_valve_opening_control,
+      exhaust_valve_opening_feedback,
+      exhaust_valve_open,
+      exhaust_valve_closed,
+      the_exhaust_valve_is_open_in_place,
+      the_exhaust_valve_is_closed_in_place,
+      supply_air_temperature,
+      supply_air_humidity,
+      fresh_air_temperature,
+      fresh_air_humidity,
+      return_air_temperature,
+      return_air_humidity,
+      carbon_dioxide,
+      humidification_opening_control,
+      humidification_opening_feedback,
+      humidification_on,
+      humidification_off,
+      humidification_valve_open_in_place,
+      humidification_valve_closed_in_place,
+      antifreeze_alarm,
+      initial_filter_screen_pressure_difference_alarm,
+      mediumefficiency_filter_pressure_difference_alarm,
+      return_air_filter_pressure_difference_alarm,
+      pressure_difference_of_blower,
+      return_fan_pressure_difference,
+
+      new_fan_start_and_stop_display,
+      operation_status_of_blower_display,
+      manual_automatic_state_of_blower_display,
+      blower_failure_status_display,
+      fresh_air_valve_opening_control_display,
+      fresh_air_valve_opening_feedback_display,
+      fresh_air_valve_open_display,
+      fresh_air_valve_closed_display,
+      fresh_air_valve_open_in_place_display,
+      fresh_air_valve_closed_in_place_display,
+      return_fan_start_and_stop_display,
+      operation_status_of_return_fan_display,
+      manual_automatic_state_of_the_return_fan_display,
+      return_fan_failure_status_display,
+      exhaust_valve_opening_control_display,
+      exhaust_valve_opening_feedback_display,
+      exhaust_valve_open_display,
+      exhaust_valve_closed_display,
+      the_exhaust_valve_is_open_in_place_display,
+      the_exhaust_valve_is_closed_in_place_display,
+      supply_air_temperature_display,
+      supply_air_humidity_display,
+      fresh_air_temperature_display,
+      fresh_air_humidity_display,
+      return_air_temperature_display,
+      return_air_humidity_display,
+      carbon_dioxide_display,
+      humidification_opening_control_display,
+      humidification_opening_feedback_display,
+      humidification_on_display,
+      humidification_off_display,
+      humidification_valve_open_in_place_display,
+      humidification_valve_closed_in_place_display,
+      antifreeze_alarm_display,
+      initial_filter_screen_pressure_difference_alarm_display,
+      mediumefficiency_filter_pressure_difference_alarm_display,
+      return_air_filter_pressure_difference_alarm_display,
+      pressure_difference_of_blower_display,
+      return_fan_pressure_difference_display
+
+	</sql>
+
+    <sql id="table_name">
+        api_airconditioningunit_config
+    </sql>
+
+    <insert id="insert">
+
+        insert into
+        <include refid="table_name"/>
+
+        (
+            name,
+            address,
+            new_fan_start_and_stop,
+            operation_status_of_blower,
+            manual_automatic_state_of_blower,
+            blower_failure_status,
+            fresh_air_valve_opening_control,
+            fresh_air_valve_opening_feedback,
+            fresh_air_valve_open,
+            fresh_air_valve_closed,
+            fresh_air_valve_open_in_place,
+            fresh_air_valve_closed_in_place,
+            return_fan_start_and_stop,
+            operation_status_of_return_fan,
+            manual_automatic_state_of_the_return_fan,
+            return_fan_failure_status,
+            exhaust_valve_opening_control,
+            exhaust_valve_opening_feedback,
+            exhaust_valve_open,
+            exhaust_valve_closed,
+            the_exhaust_valve_is_open_in_place,
+            the_exhaust_valve_is_closed_in_place,
+            supply_air_temperature,
+            supply_air_humidity,
+            fresh_air_temperature,
+            fresh_air_humidity,
+            return_air_temperature,
+            return_air_humidity,
+            carbon_dioxide,
+            humidification_opening_control,
+            humidification_opening_feedback,
+            humidification_on,
+            humidification_off,
+            humidification_valve_open_in_place,
+            humidification_valve_closed_in_place,
+            antifreeze_alarm,
+            initial_filter_screen_pressure_difference_alarm,
+            mediumefficiency_filter_pressure_difference_alarm,
+            return_air_filter_pressure_difference_alarm,
+            pressure_difference_of_blower,
+            return_fan_pressure_difference,
+
+            new_fan_start_and_stop_display,
+            operation_status_of_blower_display,
+            manual_automatic_state_of_blower_display,
+            blower_failure_status_display,
+            fresh_air_valve_opening_control_display,
+            fresh_air_valve_opening_feedback_display,
+            fresh_air_valve_open_display,
+            fresh_air_valve_closed_display,
+            fresh_air_valve_open_in_place_display,
+            fresh_air_valve_closed_in_place_display,
+            return_fan_start_and_stop_display,
+            operation_status_of_return_fan_display,
+            manual_automatic_state_of_the_return_fan_display,
+            return_fan_failure_status_display,
+            exhaust_valve_opening_control_display,
+            exhaust_valve_opening_feedback_display,
+            exhaust_valve_open_display,
+            exhaust_valve_closed_display,
+            the_exhaust_valve_is_open_in_place_display,
+            the_exhaust_valve_is_closed_in_place_display,
+            supply_air_temperature_display,
+            supply_air_humidity_display,
+            fresh_air_temperature_display,
+            fresh_air_humidity_display,
+            return_air_temperature_display,
+            return_air_humidity_display,
+            carbon_dioxide_display,
+            humidification_opening_control_display,
+            humidification_opening_feedback_display,
+            humidification_on_display,
+            humidification_off_display,
+            humidification_valve_open_in_place_display,
+            humidification_valve_closed_in_place_display,
+            antifreeze_alarm_display,
+            initial_filter_screen_pressure_difference_alarm_display,
+            mediumefficiency_filter_pressure_difference_alarm_display,
+            return_air_filter_pressure_difference_alarm_display,
+            pressure_difference_of_blower_display,
+            return_fan_pressure_difference_display
+        )
+        values
+        (
+
+            #{name},
+            #{address},
+            #{new_fan_start_and_stop},
+            #{operation_status_of_blower},
+            #{manual_automatic_state_of_blower},
+            #{blower_failure_status},
+            #{fresh_air_valve_opening_control},
+            #{fresh_air_valve_opening_feedback},
+            #{fresh_air_valve_open},
+            #{fresh_air_valve_closed},
+            #{fresh_air_valve_open_in_place},
+            #{fresh_air_valve_closed_in_place},
+            #{return_fan_start_and_stop},
+            #{operation_status_of_return_fan},
+            #{manual_automatic_state_of_the_return_fan},
+            #{return_fan_failure_status},
+            #{exhaust_valve_opening_control},
+            #{exhaust_valve_opening_feedback},
+            #{exhaust_valve_open},
+            #{exhaust_valve_closed},
+            #{the_exhaust_valve_is_open_in_place},
+            #{the_exhaust_valve_is_closed_in_place},
+            #{supply_air_temperature},
+            #{supply_air_humidity},
+            #{fresh_air_temperature},
+            #{fresh_air_humidity},
+            #{return_air_temperature},
+            #{return_air_humidity},
+            #{carbon_dioxide},
+            #{humidification_opening_control},
+            #{humidification_opening_feedback},
+            #{humidification_on},
+            #{humidification_off},
+            #{humidification_valve_open_in_place},
+            #{humidification_valve_closed_in_place},
+            #{antifreeze_alarm},
+            #{initial_filter_screen_pressure_difference_alarm},
+            #{mediumefficiency_filter_pressure_difference_alarm},
+            #{return_air_filter_pressure_difference_alarm},
+            #{pressure_difference_of_blower},
+            #{return_fan_pressure_difference},
+
+            #{new_fan_start_and_stop_display},
+            #{operation_status_of_blower_display},
+            #{manual_automatic_state_of_blower_display},
+            #{blower_failure_status_display},
+            #{fresh_air_valve_opening_control_display},
+            #{fresh_air_valve_opening_feedback_display},
+            #{fresh_air_valve_open_display},
+            #{fresh_air_valve_closed_display},
+            #{fresh_air_valve_open_in_place_display},
+            #{fresh_air_valve_closed_in_place_display},
+            #{return_fan_start_and_stop_display},
+            #{operation_status_of_return_fan_display},
+            #{manual_automatic_state_of_the_return_fan_display},
+            #{return_fan_failure_status_display},
+            #{exhaust_valve_opening_control_display},
+            #{exhaust_valve_opening_feedback_display},
+            #{exhaust_valve_open_display},
+            #{exhaust_valve_closed_display},
+            #{the_exhaust_valve_is_open_in_place_display},
+            #{the_exhaust_valve_is_closed_in_place_display},
+            #{supply_air_temperature_display},
+            #{supply_air_humidity_display},
+            #{fresh_air_temperature_display},
+            #{fresh_air_humidity_display},
+            #{return_air_temperature_display},
+            #{return_air_humidity_display},
+            #{carbon_dioxide_display},
+            #{humidification_opening_control_display},
+            #{humidification_opening_feedback_display},
+            #{humidification_on_display},
+            #{humidification_off_display},
+            #{humidification_valve_open_in_place_display},
+            #{humidification_valve_closed_in_place_display},
+            #{antifreeze_alarm_display},
+            #{initial_filter_screen_pressure_difference_alarm_display},
+            #{mediumefficiency_filter_pressure_difference_alarm_display},
+            #{return_air_filter_pressure_difference_alarm_display},
+            #{pressure_difference_of_blower_display},
+            #{return_fan_pressure_difference_display}
+
+        )
+
+
+    </insert>
+
+    <select id="findList" resultType="com.efounder.JEnterprise.model.app.AirconditioningUnitConfigModel">
+
+        select
+
+        <include refid="col_name"/>
+
+        from
+
+        <include refid="table_name"/>
+        <where>
+
+            <if test="id != null and id != ''" >
+                id    =   #{id}
+            </if>
+
+            <if test="name != null and name != ''" >
+                and name  =   #{name}
+            </if>
+
+        </where>
+
+    </select>
+
+
+    <update id="update">
+
+        update
+          <include refid="table_name"/>
+
+		set
+         name                                                     =   #{name},
+         address                                                  =   #{address},
+        new_fan_start_and_stop                                    =   #{new_fan_start_and_stop},
+        operation_status_of_blower                                =   #{operation_status_of_blower},
+        manual_automatic_state_of_blower                          =   #{manual_automatic_state_of_blower},
+        blower_failure_status                                     =   #{blower_failure_status},
+        fresh_air_valve_opening_control                           =   #{fresh_air_valve_opening_control},
+        fresh_air_valve_opening_feedback                          =   #{fresh_air_valve_opening_feedback},
+        fresh_air_valve_open                                      =   #{fresh_air_valve_open},
+        fresh_air_valve_closed                                    =   #{fresh_air_valve_closed},
+        fresh_air_valve_open_in_place                             =   #{fresh_air_valve_open_in_place},
+        fresh_air_valve_closed_in_place                           =   #{fresh_air_valve_closed_in_place},
+        return_fan_start_and_stop                                 =   #{return_fan_start_and_stop},
+        operation_status_of_return_fan                            =   #{operation_status_of_return_fan},
+        manual_automatic_state_of_the_return_fan                  =   #{manual_automatic_state_of_the_return_fan},
+        return_fan_failure_status                                 =   #{return_fan_failure_status},
+        exhaust_valve_opening_control                             =   #{exhaust_valve_opening_control},
+        exhaust_valve_opening_feedback                            =   #{exhaust_valve_opening_feedback},
+        exhaust_valve_open                                        =   #{exhaust_valve_open},
+        exhaust_valve_closed                                      =   #{exhaust_valve_closed},
+        the_exhaust_valve_is_open_in_place                        =   #{the_exhaust_valve_is_open_in_place},
+        the_exhaust_valve_is_closed_in_place                      =   #{the_exhaust_valve_is_closed_in_place},
+        supply_air_temperature                                    =   #{supply_air_temperature},
+        supply_air_humidity                                       =   #{supply_air_humidity},
+        fresh_air_temperature                                     =   #{fresh_air_temperature},
+        fresh_air_humidity                                        =   #{fresh_air_humidity},
+        return_air_temperature                                    =   #{return_air_temperature},
+        return_air_humidity                                       =   #{return_air_humidity},
+        carbon_dioxide                                            =   #{carbon_dioxide},
+        humidification_opening_control                            =   #{humidification_opening_control},
+        humidification_opening_feedback                           =   #{humidification_opening_feedback},
+        humidification_on                                         =   #{humidification_on},
+        humidification_off                                        =   #{humidification_off},
+        humidification_valve_open_in_place                        =   #{humidification_valve_open_in_place},
+        humidification_valve_closed_in_place                      =   #{humidification_valve_closed_in_place},
+        antifreeze_alarm                                          =   #{antifreeze_alarm},
+        initial_filter_screen_pressure_difference_alarm           =   #{initial_filter_screen_pressure_difference_alarm},
+        mediumefficiency_filter_pressure_difference_alarm         =   #{mediumefficiency_filter_pressure_difference_alarm},
+        return_air_filter_pressure_difference_alarm               =   #{return_air_filter_pressure_difference_alarm},
+        pressure_difference_of_blower                             =   #{pressure_difference_of_blower},
+        return_fan_pressure_difference                            =   #{return_fan_pressure_difference},
+
+        new_fan_start_and_stop_display                            =   #{new_fan_start_and_stop_display},
+        operation_status_of_blower_display                        =   #{operation_status_of_blower_display},
+        manual_automatic_state_of_blower_display                  =   #{manual_automatic_state_of_blower_display},
+        blower_failure_status_display                             =   #{blower_failure_status_display},
+        fresh_air_valve_opening_control_display                   =   #{fresh_air_valve_opening_control_display},
+        fresh_air_valve_opening_feedback_display                  =   #{fresh_air_valve_opening_feedback_display},
+        fresh_air_valve_open_display                              =   #{fresh_air_valve_open_display},
+        fresh_air_valve_closed_display                            =   #{fresh_air_valve_closed_display},
+        fresh_air_valve_open_in_place_display                     =   #{fresh_air_valve_open_in_place_display},
+        fresh_air_valve_closed_in_place_display                   =   #{fresh_air_valve_closed_in_place_display},
+        return_fan_start_and_stop_display                         =   #{return_fan_start_and_stop_display},
+        operation_status_of_return_fan_display                    =   #{operation_status_of_return_fan_display},
+        manual_automatic_state_of_the_return_fan_display          =   #{manual_automatic_state_of_the_return_fan_display},
+        return_fan_failure_status_display                         =   #{return_fan_failure_status_display},
+        exhaust_valve_opening_control_display                     =   #{exhaust_valve_opening_control_display},
+        exhaust_valve_opening_feedback_display                    =   #{exhaust_valve_opening_feedback_display},
+        exhaust_valve_open_display                                =   #{exhaust_valve_open_display},
+        exhaust_valve_closed_display                              =   #{exhaust_valve_closed_display},
+        the_exhaust_valve_is_open_in_place_display                =   #{the_exhaust_valve_is_open_in_place_display},
+        the_exhaust_valve_is_closed_in_place_display              =   #{the_exhaust_valve_is_closed_in_place_display},
+        supply_air_temperature_display                            =   #{supply_air_temperature_display},
+        supply_air_humidity_display                               =   #{supply_air_humidity_display},
+        fresh_air_temperature_display                             =   #{fresh_air_temperature_display},
+        fresh_air_humidity_display                                =   #{fresh_air_humidity_display},
+        return_air_temperature_display                            =   #{return_air_temperature_display},
+        return_air_humidity_display                               =   #{return_air_humidity_display},
+        carbon_dioxide_display                                    =   #{carbon_dioxide_display},
+        humidification_opening_control_display                    =   #{humidification_opening_control_display},
+        humidification_opening_feedback_display                   =   #{humidification_opening_feedback_display},
+        humidification_on_display                                 =   #{humidification_on_display},
+        humidification_off_display                                =   #{humidification_off_display},
+        humidification_valve_open_in_place_display                =   #{humidification_valve_open_in_place_display},
+        humidification_valve_closed_in_place_display              =   #{humidification_valve_closed_in_place_display},
+        antifreeze_alarm_display                                  =   #{antifreeze_alarm_display},
+        initial_filter_screen_pressure_difference_alarm_display   =   #{initial_filter_screen_pressure_difference_alarm_display},
+        mediumefficiency_filter_pressure_difference_alarm_display =   #{mediumefficiency_filter_pressure_difference_alarm_display},
+        return_air_filter_pressure_difference_alarm_display       =   #{return_air_filter_pressure_difference_alarm_display},
+        pressure_difference_of_blower_display                     =   #{pressure_difference_of_blower_display},
+        return_fan_pressure_difference_display                    =   #{return_fan_pressure_difference_display}
+
+
+        where
+
+            id              =         #{id}
+    </update>
+
+    <delete id="delete">
+
+        delete from
+          <include refid="table_name"/>
+        where
+             id = #{id}
+    </delete>
+
+</mapper>

@@ -1,0 +1,226 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.efounder.JEnterprise.mapper.basedatamanage.enegrycollectionmanage.BESElectricParamsMapper" >
+
+  <resultMap id="ElectricParamsMap" type="com.efounder.JEnterprise.model.basedatamanage.enegrycollectionmanage.BESElectricParams" >
+    <id column="F_DNBH" property="fDnbh" />
+    <result column="F_DNMC" property="fDnmc" />
+    <result column="F_NYBH" property="fNybh" />
+    <result column="F_PYDZ" property="fPydz" />
+    <result column="F_BMGZ" property="fBmgz" />
+    <result column="F_UNIT" property="fUnit" />
+    <result column="F_SCALING_POSITION" property="fScalingPosition" />
+    <result column="F_DATA_LENGTH" property="fDataLength" />
+    <result column="F_YQBH" property="fYqbh" />
+    <result column="F_REMARK" property="fRemark" />
+    <result column="F_CRDATE" property="fCrdate" />
+    <result column="F_CHDATE" property="fChdate" />
+    <result column="F_DATA_TYPE" property="fDataType" />
+    <result column="F_CODE_SEQ" property="fCodeSeq" />
+    <!--<result column="F_BMGZ_MC" property="fBmgzMc" />-->
+  </resultMap>
+  
+  <sql id="Base_Column_List" >
+    F_DNBH, F_DNMC, F_NYBH, F_PYDZ, F_BMGZ, F_UNIT, F_SCALING_POSITION,F_DATA_LENGTH, F_YQBH, F_REMARK, F_DATA_TYPE, F_CODE_SEQ,
+    date_format(F_CRDATE,'%Y-%m-%d %H:%i:%s' ) F_CRDATE ,date_format(F_CHDATE,'%Y-%m-%d %H:%i:%s' ) F_CHDATE
+  </sql>
+
+  <!--获取所有采集参数数据-->
+  <select id="loadAll" resultMap="ElectricParamsMap">
+    select
+    <include refid="Base_Column_List" />
+    from bes_electric_params
+  </select>
+  
+  <!-- 查询采集参数列表/关键字查询 -->
+  <select id="getElectricPList" resultMap="ElectricParamsMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from bes_electric_params
+    <where>
+		1=1 
+		<if test="keywords != null and keywords != ''"> 
+			 and CONCAT(`F_DNBH`,'##',`F_DNMC` ) LIKE CONCAT('%',#{keywords},'%')
+		</if>
+		<if test="fNybh != null and fNybh != ''"> 
+			 and F_NYBH = #{fNybh}
+		</if>
+	</where>
+    order by F_DNBH
+  </select>
+  
+  <!-- 根据能源类型编号获取数据 -->
+  <select id="getListByfNybh" resultMap="ElectricParamsMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from bes_electric_params
+    where F_NYBH = #{fNybh}
+  </select>
+    <!-- 根据能耗编号获取数据 -->
+  <select id="getElectricP" resultMap="ElectricParamsMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from bes_electric_params
+    where F_DNBH = #{fDnbh}
+  </select>
+  <!-- 删除采集参数 -->
+  <delete id="del_ElectricP" parameterType="java.lang.String" >
+    delete from bes_electric_params
+    where F_DNBH = #{fDnbh}
+  </delete>
+  <!-- 新增采集参数 -->
+  <insert id="add_ElectricP" parameterType="com.efounder.JEnterprise.model.basedatamanage.enegrycollectionmanage.BESElectricParams" >
+
+    insert into bes_electric_params (F_DNBH, F_DNMC, F_NYBH,
+      F_PYDZ, F_BMGZ, F_UNIT, 
+      F_SCALING_POSITION,F_DATA_LENGTH, F_YQBH, F_REMARK, F_DATA_TYPE, F_CODE_SEQ,
+      F_CRDATE, F_CHDATE)
+    values (#{fDnbh}, #{fDnmc}, #{fNybh}, 
+      #{fPydz}, #{fBmgz}, #{fUnit}, 
+      #{fScalingPosition},#{fDataLength}, #{fYqbh}, #{fRemark}, #{fDataType}, #{fCodeSeq},
+      current_timestamp(),current_timestamp())
+  </insert>
+  <!-- 编辑采集参数 -->
+  <update id="edit_ElectricP" parameterType="com.efounder.JEnterprise.model.basedatamanage.enegrycollectionmanage.BESElectricParams" >
+    update bes_electric_params
+    <set >
+      <if test="fDnmc != null" >
+        F_DNMC = #{fDnmc},
+      </if>
+      <if test="fNybh != null" >
+        F_NYBH = #{fNybh},
+      </if>
+      <if test="fPydz != null" >
+        F_PYDZ = #{fPydz},
+      </if>
+      <if test="fBmgz != null" >
+        F_BMGZ = #{fBmgz},
+      </if>
+      <if test="fUnit != null" >
+        F_UNIT = #{fUnit},
+      </if>
+      <if test="fScalingPosition != null" >
+        F_SCALING_POSITION = #{fScalingPosition},
+      </if>
+      <if test="fDataLength != null" >
+        F_DATA_LENGTH = #{fDataLength},
+      </if>
+      <if test="fYqbh != null" >
+        F_YQBH = #{fYqbh},
+      </if>
+      <if test="fDataType != null" >
+        F_DATA_TYPE = #{fDataType},
+      </if>
+      <if test="fCodeSeq != null" >
+        F_CODE_SEQ = #{fCodeSeq},
+      </if>
+      <if test="fRemark != null" >
+        F_REMARK = #{fRemark},
+      </if>
+        F_CHDATE = current_timestamp()
+    </set>
+    where F_DNBH = #{fDnbh}
+  </update>
+  
+  <insert id="insertSelective" parameterType="com.efounder.JEnterprise.model.basedatamanage.enegrycollectionmanage.BESElectricParams" >
+    insert into bes_electric_params
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="fDnbh != null" >
+        F_DNBH,
+      </if>
+      <if test="fDnmc != null" >
+        F_DNMC,
+      </if>
+      <if test="fNybh != null" >
+        F_NYBH,
+      </if>
+      <if test="fPydz != null" >
+        F_PYDZ,
+      </if>
+      <if test="fBmgz != null" >
+        F_BMGZ,
+      </if>
+      <if test="fUnit != null" >
+        F_UNIT,
+      </if>
+      <if test="fScalingPosition != null" >
+        F_SCALING_POSITION,
+      </if>
+      <if test="fYqbh != null" >
+        F_YQBH,
+      </if>
+      <if test="fRemark != null" >
+        F_REMARK,
+      </if>
+      <if test="fCrdate != null" >
+        F_CRDATE,
+      </if>
+      <if test="fChdate != null" >
+        F_CHDATE,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="fDnbh != null" >
+        #{fDnbh,jdbcType=VARCHAR},
+      </if>
+      <if test="fDnmc != null" >
+        #{fDnmc,jdbcType=VARCHAR},
+      </if>
+      <if test="fNybh != null" >
+        #{fNybh,jdbcType=VARCHAR},
+      </if>
+      <if test="fPydz != null" >
+        #{fPydz,jdbcType=VARCHAR},
+      </if>
+      <if test="fBmgz != null" >
+        #{fBmgz,jdbcType=VARCHAR},
+      </if>
+      <if test="fUnit != null" >
+        #{fUnit,jdbcType=VARCHAR},
+      </if>
+      <if test="fScalingPosition != null" >
+        #{fScalingPosition,jdbcType=VARCHAR},
+      </if>
+      <if test="fYqbh != null" >
+        #{fYqbh,jdbcType=VARCHAR},
+      </if>
+      <if test="fRemark != null" >
+        #{fRemark,jdbcType=VARCHAR},
+      </if>
+      <if test="fCrdate != null" >
+        #{fCrdate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="fChdate != null" >
+        #{fChdate,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKey" parameterType="com.efounder.JEnterprise.model.basedatamanage.enegrycollectionmanage.BESElectricParams" >
+    update bes_electric_params
+    set F_DNMC = #{fDnmc,jdbcType=VARCHAR},
+      F_NYBH = #{fNybh,jdbcType=VARCHAR},
+      F_PYDZ = #{fPydz,jdbcType=VARCHAR},
+      F_BMGZ = #{fBmgz,jdbcType=VARCHAR},
+      F_UNIT = #{fUnit,jdbcType=VARCHAR},
+      F_SCALING_POSITION = #{fScalingPosition,jdbcType=VARCHAR},
+      F_YQBH = #{fYqbh,jdbcType=VARCHAR},
+      F_REMARK = #{fRemark,jdbcType=VARCHAR},
+      F_CRDATE = #{fCrdate,jdbcType=TIMESTAMP},
+      F_CHDATE = #{fChdate,jdbcType=TIMESTAMP}
+    where F_DNBH = #{fDnbh,jdbcType=VARCHAR}
+  </update>
+
+	<!-- 通过电能参数ID查询小数点位置和编码规则，然后进行解析数据 -->
+	<select id="selectInfoByEnectricId" resultType="java.util.HashMap">
+		select
+		F_BMGZ,
+		F_SCALING_POSITION
+		from bes_electric_params
+		WHERE
+		F_DNBH=#{enectric_id}
+	</select>
+
+    <select id="getfbmgz" resultType="java.util.HashMap">
+      select * from bes_data_encode
+    </select>
+</mapper>

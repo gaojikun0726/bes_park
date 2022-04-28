@@ -1,0 +1,162 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.efounder.JEnterprise.mapper.basedatamanage.eqmanage.BESModuleTypeMapper" >
+
+  <resultMap id="ModuleTypeMap" type="com.efounder.JEnterprise.model.basedatamanage.eqmanage.BESModuleType" >
+    <id column="F_MODULE_TYPE" property="fModuleType"  />
+    <id column="F_TYPE_CODE" property="fTypeCode"  />
+    <result column="F_DESCRIPTION" property="fDescription"  />
+    <result column="F_POINT_AMOUNT" property="fPointAmount"  />
+    <result column="F_POINT_TYPE_CL" property="fPointTypeCl"  />
+    <result column="F_CRDATE" property="fCrdate"  />
+    <result column="F_CHDATE" property="fChdate"  />
+    <result column="F_ID" property="fId"  />
+    <result column="F_MODULEPOINT_TYPE" property="fModulepointType"  />
+  </resultMap>
+  
+  <select id="findmtByPage" parameterType="string" resultMap="ModuleTypeMap">
+  	SELECT
+  	<include refid="find_xxx" />
+	<include refid="from_xxx" />
+		<where>
+		1=1
+			<if test="keywords != null and keywords != ''"> 
+				and CONCAT(`F_MODULE_TYPE`,'##',`F_DESCRIPTION` ) LIKE CONCAT('%',#{keywords},'%')
+			</if>
+		</where>
+		order by F_CHDATE
+  </select>
+  <sql id="find_xxx" >
+  	<![CDATA[
+			 F_MODULE_TYPE,F_TYPE_CODE, F_DESCRIPTION, F_POINT_AMOUNT, F_POINT_TYPE_CL,
+				   date_format(F_CRDATE,'%Y-%m-%d %H:%i:%s' ) F_CRDATE,
+				   date_format(F_CHDATE,'%Y-%m-%d %H:%i:%s' ) F_CHDATE
+	    ]]>
+  </sql>
+  <sql id="from_xxx">
+	    <![CDATA[
+	    	FROM bes_module_type
+	    ]]>
+  </sql>
+  
+  <select id="selectByPrimaryKey" resultMap="ModuleTypeMap" parameterType="java.lang.String" >
+    select 
+    <include refid="find_xxx" />
+    from bes_module_type
+    where F_MODULE_TYPE = #{fModuleType}
+  </select>
+  
+  <delete id="delModuleType" parameterType="java.lang.String" >
+    delete from bes_module_type
+    where F_MODULE_TYPE = #{fModuleType}
+  </delete>
+  <insert id="addModuleType" parameterType="com.efounder.JEnterprise.model.basedatamanage.eqmanage.BESModuleType" >
+    insert into bes_module_type (F_ID,F_MODULE_TYPE, F_TYPE_CODE, F_DESCRIPTION, F_POINT_AMOUNT,
+      F_POINT_TYPE_CL, F_CRDATE, F_CHDATE
+      )
+    values (#{fId},#{fModuleType},#{fTypeCode}, #{fDescription}, #{fPointAmount},
+      #{fPointTypeCl},current_timestamp(),current_timestamp()
+      )
+  </insert>
+  
+  <insert id="insertSelective" parameterType="com.efounder.JEnterprise.model.basedatamanage.eqmanage.BESModuleType" >
+    insert into bes_module_type
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="fModuleType != null" >
+        F_MODULE_TYPE,
+      </if>
+      <if test="fDescription != null" >
+        F_DESCRIPTION,
+      </if>
+      <if test="fPointAmount != null" >
+        F_POINT_AMOUNT,
+      </if>
+      <if test="fPointTypeCl != null" >
+        F_POINT_TYPE_CL,
+      </if>
+      <if test="fCrdate != null" >
+        F_CRDATE,
+      </if>
+      <if test="fChdate != null" >
+        F_CHDATE,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="fModuleType != null" >
+        #{fModuleType,jdbcType=VARCHAR},
+      </if>
+      <if test="fDescription != null" >
+        #{fDescription,jdbcType=VARCHAR},
+      </if>
+      <if test="fPointAmount != null" >
+        #{fPointAmount,jdbcType=INTEGER},
+      </if>
+      <if test="fPointTypeCl != null" >
+        #{fPointTypeCl,jdbcType=VARCHAR},
+      </if>
+      <if test="fCrdate != null" >
+        #{fCrdate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="fChdate != null" >
+        #{fChdate,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  
+  <update id="updateByPrimaryKeySelective" parameterType="com.efounder.JEnterprise.model.basedatamanage.eqmanage.BESModuleType" >
+    update bes_module_type
+    <set >
+      <if test="fDescription != null" >
+        F_DESCRIPTION = #{fDescription,jdbcType=VARCHAR},
+      </if>
+      <if test="fPointAmount != null" >
+        F_POINT_AMOUNT = #{fPointAmount,jdbcType=INTEGER},
+      </if>
+      <if test="fPointTypeCl != null" >
+        F_POINT_TYPE_CL = #{fPointTypeCl,jdbcType=VARCHAR},
+      </if>
+      <if test="fCrdate != null" >
+        F_CRDATE = #{fCrdate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="fChdate != null" >
+        F_CHDATE = #{fChdate,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where F_MODULE_TYPE = #{fModuleType,jdbcType=VARCHAR}
+  </update>
+  
+  <update id="upModuleType" parameterType="com.efounder.JEnterprise.model.basedatamanage.eqmanage.BESModuleType" >
+    update bes_module_type
+    set
+      F_DESCRIPTION = #{fDescription},
+      F_POINT_AMOUNT = #{fPointAmount},
+      F_TYPE_CODE = #{fTypeCode},
+      F_POINT_TYPE_CL = #{fPointTypeCl},
+      F_CRDATE = current_timestamp(),
+      F_CHDATE = current_timestamp()
+    where F_MODULE_TYPE = #{fModuleType}
+  </update>
+  
+  <select id="selectList" resultMap="ModuleTypeMap" parameterType="map" >
+    select f_id ,f_modulepoint_type 
+    from bes_modulepoint_type  
+    order by f_id
+  </select>
+  
+  <select id="selectPointTypeCl" resultMap="ModuleTypeMap" parameterType="map" >
+    select f_id ,f_modulepoint_type 
+    from bes_modulepoint_type  
+    where f_id = #{fId}
+  </select>
+  
+	<!-- 获取做大id -->
+	<select id="queryMaxId" parameterType="String" resultType="String">
+		 SELECT  max(CAST(F_ID as SIGNED)) as maxId  FROM bes_module_type
+	</select>
+
+  <!--wanghongjie start 20200812 查找当前id所对应的模块名称-->
+    <select id="selectModuleMap" resultType="java.util.Map">
+      select * from bes_module where f_struct_id = #{id}
+    </select>
+</mapper>

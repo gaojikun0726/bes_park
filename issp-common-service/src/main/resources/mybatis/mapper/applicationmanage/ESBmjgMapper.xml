@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.efounder.JEnterprise.mapper.applicationmanage.ESBmjgMapper">
+	
+	<resultMap id="bmjgMap" type="com.efounder.JEnterprise.model.applicationmanage.ESBmjg">
+		<result column="F_TABN" property="tableName" />
+		<result column="F_BMJG" property="bmjg" />
+		
+		<result column="F_CRDATE" property="crdate" />
+		<result column="F_CHDATE" property="chdate" />
+	</resultMap>
+	
+	<sql id="Base_Column_List" >
+        F_TABN, F_BMJG, date_format(F_CRDATE,'%Y-%m-%d %H:%i:%s' ) F_CRDATE ,date_format(F_CHDATE,'%Y-%m-%d %H:%i:%s' ) F_CHDATE
+    </sql>
+	
+	<sql id="find_xxx">
+	    <![CDATA[
+			SELECT F_TABN , F_BMJG ,date_format(F_CRDATE,'%Y-%m-%d %H:%i:%s' ) F_CRDATE ,date_format(F_CHDATE,'%Y-%m-%d %H:%i:%s' ) F_CHDATE
+	    ]]>
+	</sql>
+
+	<sql id="from_xxx">
+	    <![CDATA[
+	    	FROM es_xt_bmjg
+	    ]]>
+	</sql>
+
+	<sql id="where_xxx">
+	    <![CDATA[
+	    	WHERE 1=1
+	    ]]>
+	</sql>
+	<!-- 根据id查询 -->
+	<select id="findById" parameterType="string" resultMap="bmjgMap">
+		<include refid="find_xxx" />
+		<include refid="from_xxx" />
+		<![CDATA[
+			WHERE F_TABN=#{tableName}
+		]]>
+	</select>
+	
+	<!-- 获取所有编码结构表信息  -->
+	<select id="selectAllBmjg" resultMap="bmjgMap">
+        select 
+        <include refid="Base_Column_List" />
+        from issp_equipmentadapter
+    </select>
+    
+    <!-- 增加编码结构信息 -->
+    
+    <insert id="insBmjg" parameterType="com.efounder.JEnterprise.model.applicationmanage.ESBmjg" >
+        insert into es_xt_bmjg
+        <trim prefix="(" suffix=")" suffixOverrides="," >
+            <if test="tableName != null" >
+                F_TABN,
+            </if>
+            <if test="bmjg != null" >
+                F_BMJG,
+            </if>
+            <if test="crdate != null" >
+                F_CRDATE,
+            </if>
+            <if test="chdate != null" >
+                F_CHDATE,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides="," >
+            <if test="tableName != null" >
+                #{tableName,jdbcType=VARCHAR},
+            </if>
+            <if test="bmjg != null" >
+                #{bmjg,jdbcType=VARCHAR},
+            </if>
+            <if test="crdate != null" >
+                #{crdate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="chdate != null" >
+                #{chdate,jdbcType=TIMESTAMP},
+            </if>
+        </trim>
+    </insert>
+    
+    	<!-- 根据主键删除编码结构信息 -->
+    	<delete id="delBmjg" parameterType="java.lang.String" >
+        delete from es_xt_bmjg
+        where F_TABN = #{tableName,jdbcType=VARCHAR}
+    </delete>
+    
+    <!-- 查询单行编码结构信息回显 -->
+    <select id="selectBmjg" resultMap="bmjgMap" parameterType="java.lang.String" >
+        select 
+        <include refid="Base_Column_List" />
+        from es_xt_bmjg
+        where F_TABN = #{tableName,jdbcType=VARCHAR}
+    </select>
+    
+    <!-- 修改编码结构新 -->
+    
+     <update id="updBmjg"
+	parameterType="com.efounder.JEnterprise.model.applicationmanage.ESBmjg">
+	update es_xt_bmjg
+        <set >
+            <if test="bmjg != null" >
+                F_BMJG = #{bmjg,jdbcType=VARCHAR},
+            </if>
+            <if test="chdate != null" >
+                F_CHDATE = #{chdate,jdbcType=TIMESTAMP},
+            </if>
+        </set>
+        where F_TABN = #{tableName,jdbcType=VARCHAR}
+    </update>
+    
+    <!-- 分页与搜索 -->
+    
+    <select id="selBmjgpage" resultMap="bmjgMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from es_xt_bmjg
+		<where>
+		1=1
+			<if test="keywords != null and keywords != ''"> 
+			and CONCAT(`F_TABN`,'##',`F_BMJG` ) LIKE CONCAT('%',#{keywords},'%')
+			</if>
+		</where>    
+		order by F_CRDATE
+  </select>
+	
+</mapper>

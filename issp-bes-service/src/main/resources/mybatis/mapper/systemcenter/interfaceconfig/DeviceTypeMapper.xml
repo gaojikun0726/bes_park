@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+
+<mapper namespace="com.efounder.JEnterprise.mapper.systemcenter.interfaceconfig.DeviceTypeMapper">
+
+    <sql id="col_name">
+      id                                            id,
+      code                                          code,
+      name                                          name,
+      DATE_FORMAT(create_time,'%Y-%m-%d %H:%i:%s')  createTime,
+      DATE_FORMAT(update_time,'%Y-%m-%d %H:%i:%s')  updateTime,
+      comments                                      comments
+	</sql>
+
+    <sql id="table_name">
+        bes_device_type
+    </sql>
+
+    <insert id="insert" useGeneratedKeys="true" keyProperty="id">
+
+        insert into
+        <include refid="table_name"/>
+
+        (
+        name,
+        code,
+        create_time,
+        update_time,
+        comments
+        )
+        values
+        (
+
+        #{name},
+        #{code},
+        current_timestamp(),
+        #{updateTime},
+        #{comments}
+        )
+
+
+    </insert>
+
+    <select id="findAll" resultType="com.efounder.JEnterprise.model.systemcenter.Interfaceconfig.DeviceTypeModel">
+
+        select
+
+        <include refid="col_name"/>
+
+        from
+
+        <include refid="table_name"/>
+
+    </select>
+
+    <select id="findList" resultType="com.efounder.JEnterprise.model.systemcenter.Interfaceconfig.DeviceTypeModel">
+
+        select
+
+        <include refid="col_name"/>
+
+        from
+
+        <include refid="table_name"/>
+        <where>
+            1 = 1
+            <if test="id != null and id != ''" >
+                and id    =   #{id}
+            </if>
+
+            <if test="name != null and name != ''" >
+                and name  =   #{name}
+            </if>
+
+            <if test="code != null and code != ''" >
+                and code  =   #{code}
+            </if>
+
+        </where>
+
+    </select>
+
+
+    <update id="update">
+
+        update
+        <include refid="table_name"/>
+
+        <set>
+            <if test="name != null and name!='' ">
+                name     =   #{name},
+            </if>
+            <if test="code != null and code!='' ">
+                code     =   #{code},
+            </if>
+            update_time     =     current_timestamp(),
+            comments        =   #{comments}
+        </set>
+
+        where
+
+        id  =  #{id}
+    </update>
+
+    <delete id="delete">
+
+        delete from
+        <include refid="table_name"/>
+        where
+        id = #{id}
+    </delete>
+
+    <select id="queryPage" resultType="com.efounder.JEnterprise.model.systemcenter.Interfaceconfig.DeviceTypeModel">
+        select
+        <include refid="col_name"/>
+        from <include refid="table_name"/>
+        <where>
+            <if test="keywords != null and keywords != ''">
+                CONCAT(`name`, '##',`code`) LIKE CONCAT('%',#{keywords},'%')
+            </if>
+        </where>
+        order by create_time
+    </select>
+
+    <!--查询表中设备类型代码是否重复-->
+    <select id="selectCodeFromBesDeviceType"
+            resultType="com.efounder.JEnterprise.model.systemcenter.Interfaceconfig.DeviceTypeModel">
+        select
+        <include refid="col_name"/>
+        from
+        <include refid="table_name"/>
+        where code = #{code}
+    </select>
+
+    <!--根据设备类型id查询设备表中是否关联此设备类型-->
+    <select id="findDeviceConfigurationList"
+            resultType="com.efounder.JEnterprise.model.systemcenter.Interfaceconfig.DeviceConfigurationModel">
+        select * from bes_device where device_type_id = #{deviceTypeId}
+    </select>
+
+    <!--根据设备类型id查询设备功能表中是否关联此设备类型-->
+    <select id="findDeviceFunctionList"
+            resultType="com.efounder.JEnterprise.model.systemcenter.Interfaceconfig.DeviceFunctionModel">
+        select * from bes_device_function where device_type_id = #{deviceTypeId}
+    </select>
+
+</mapper>

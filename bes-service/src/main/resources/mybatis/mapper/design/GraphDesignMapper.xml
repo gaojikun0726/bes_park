@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.efounder.JEnterprise.design.mapper.GraphDesignMapper" >
+
+  <!--根据页面id查询所有图形-->
+  <select id="queryGraphsByPageId" resultType="java.util.Map">
+    select id,graph_type,line_x1,line_y1,line_x2,line_y2,rect_x,rect_y,rect_width,rect_height,circle_x,circle_y,circle_r,create_time,page_id
+	from a_design_graph
+	where page_id = #{pageId}
+	order by graph_type
+  </select>
+
+  <!--新增线段-->
+  <insert id="insertLines">
+    insert into a_design_graph (id,graph_type,line_x1,line_y1,line_x2,line_y2,create_time,page_id)
+    values
+    <foreach collection="lineList" separator="," item="line">
+      (uuid(),#{lineType},#{line.x1},#{line.y1},#{line.x2},#{line.y2},sysdate(),#{pageId})
+    </foreach>
+
+  </insert>
+
+  <!--新增圆形-->
+  <insert id="insertCircles">
+    insert into a_design_graph (id,graph_type,circle_x,circle_y,circle_r,create_time,page_id)
+    values
+    <foreach collection="circleList" separator="," item="circle">
+      (uuid(),#{circleType},#{circle.cx},#{circle.cy},#{circle.r},sysdate(),#{pageId})
+    </foreach>
+
+  </insert>
+
+  <!--新增矩形-->
+  <insert id="insertRects">
+    insert into a_design_graph (id,graph_type,rect_x,rect_y,rect_width,rect_height,create_time,page_id)
+    values
+    <foreach collection="rectList" separator="," item="rect"></foreach>
+    (uuid(),#{rectType},#{rect.x},#{rect.y},#{rect.width},#{rect.height},sysdate(),#{pageId})
+  </insert>
+
+  <!--删除页面关联的图形记录-->
+  <delete id="deleteGraphsByPageIds">
+    delete from a_design_graph
+    where page_id in
+    <foreach collection="pageIdList" index="index" item="item" close=")" open="(" separator=",">
+      #{item}
+    </foreach>
+
+  </delete>
+
+  <!--复制页面的图形-->
+  <insert id="copyGraphByAreaId">
+   insert into a_design_graph (id,graph_type,line_x1,line_y1,line_x2,line_y2,rect_x,rect_y,rect_width,rect_height,circle_x,circle_y,circle_r,create_time,page_id)
+     select uuid(),s.graph_type,s.line_x1,s.line_y1,s.line_x2,s.line_y2,s.rect_x,s.rect_y,s.rect_width,s.rect_height,s.circle_x,s.circle_y,s.circle_r,sysdate(),t.page_id
+     from ( select g.id,g.graph_type,g.line_x1,g.line_y1,g.line_x2,g.line_y2,g.rect_x,g.rect_y,g.rect_width,g.rect_height,g.circle_x,g.circle_y,g.circle_r from a_design_graph g
+      inner join a_design_page_info p on g.page_id = p.id
+      where p.area_id = #{copyId}
+      ) s
+      left join (select id as page_id from a_design_page_info where area_id = #{targetId}) t on 1 = 1
+  </insert>
+
+</mapper>

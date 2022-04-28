@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.efounder.JEnterprise.zhdg.dao.PointwarnDao">
+
+    <!-- 可根据自己的需求，是否要使用 -->
+    <resultMap type="com.efounder.JEnterprise.zhdg.entity.PointwarnEntity" id="pointwarnMap">
+        <result property="id" column="id"/>
+        <result property="pointid" column="pointId"/>
+        <result property="warnid" column="warnId"/>
+        <result property="vtype" column="vtype"/>
+        <result property="vtype0" column="vtype0"/>
+        <result property="vtype1Min" column="vtype1_min"/>
+        <result property="vtype1Max" column="vtype1_max"/>
+        <result property="warntype" column="warntype"/>
+        <result property="f_point_name" column="f_point_name"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        select id, pointId, warnId, vtype, vtype0, vtype1_min, vtype1_max from seb_pointwarn
+    </sql>
+
+    <!-- 关键字查询，分页查询 -->
+    <select id="getSearch" resultMap="pointwarnMap" parameterType="java.lang.String">
+        select w.id, w.pointId, w.warnId,t.warntype,p.f_point_name, w.vtype, w.vtype0, w.vtype1_min, w.vtype1_max from
+        seb_pointwarn w
+        left join seb_warntype t on t.id = w.warnId
+        left join seb_point p on p.f_code = w.pointId
+        <where>
+            1=1
+            <if test="pointid != null and pointid != ''">
+                AND W.POINTID = #{pointid}
+            </if>
+            <if test="warnid != null and warnid != ''">
+                AND T.ID = #{warnid}
+            </if>
+        </where>
+    </select>
+
+    <select id="getSearchById" resultMap="pointwarnMap" parameterType="java.lang.String">
+        <include refid="Base_Column_List"/>
+        <where>
+            id = #{id}
+        </where>
+    </select>
+    <select id="getWarnTypeConunt" resultType="java.lang.String">
+        select pointId from seb_pointwarn
+        where warnId = #{warnid}
+        and pointId in
+        <foreach item="pointIdList" collection="pointIdList" open="(" separator="," close=")">
+            #{pointIdList}
+        </foreach>
+    </select>
+
+    <select id="selectSebPointwarnList" resultMap="pointwarnMap">
+        select w.id id, w.pointId pointId,p.F_POINT_NAME pointname,p.F_POINT_IP pointIp, w.warnId warnId,t.warntype warntype,
+        w.vtype vtype, w.vtype0 vtype0, w.vtype1_min vtype1_min, w.vtype1_max vtype1_max
+        from seb_pointwarn w
+        left join seb_warntype t on w.warnid = t.id
+        left join seb_point p on p.F_CODE = w.pointId
+        <where>
+            <if test="pointid != null  and pointid != ''"> and w.pointId = #{pointid}</if>
+            <if test="warnid != null "> and w.warnId = #{warnid}</if>
+            <if test="vtype != null  and vtype != ''"> and w.vtype = #{vtype}</if>
+            <if test="vtype0 != null  and vtype0 != ''"> and w.vtype0 = #{vtype0}</if>
+            <if test="vtype1Min != null  and vtype1Min != ''"> and w.vtype1_min = #{vtype1Min}</if>
+            <if test="vtype1Max != null  and vtype1Max != ''"> and w.vtype1_max = #{vtype1Max}</if>
+        </where>
+    </select>
+
+
+    <insert id="add" parameterType="com.efounder.JEnterprise.zhdg.entity.PointwarnEntity">
+        insert into seb_pointwarn
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null ">id,
+            </if>
+            <if test="pointid != null ">pointId,
+            </if>
+            <if test="warnid != null ">warnId,
+            </if>
+            <if test="vtype != null ">vtype,
+            </if>
+            <if test="vtype0 != null ">vtype0,
+            </if>
+            <if test="vtype1Min != null ">vtype1_min,
+            </if>
+            <if test="vtype1Max != null ">vtype1_max,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null ">#{id},
+            </if>
+            <if test="pointid != null ">#{pointid},
+            </if>
+            <if test="warnid != null ">#{warnid},
+            </if>
+            <if test="vtype != null ">#{vtype},
+            </if>
+            <if test="vtype0 != null ">#{vtype0},
+            </if>
+            <if test="vtype1Min != null ">#{vtype1Min},
+            </if>
+            <if test="vtype1Max != null ">#{vtype1Max},
+            </if>
+        </trim>
+    </insert>
+
+    <insert id="insertSebPointwarn">
+        insert into seb_pointwarn (pointId,warnId,vtype,vtype0,vtype1_min,vtype1_max)
+        values ${pinSql}
+    </insert>
+
+    <update id="update" parameterType="com.efounder.JEnterprise.zhdg.entity.PointwarnEntity">
+        update seb_pointwarn
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="pointid != null">pointId = #{pointid},</if>
+            <if test="warnid != null">warnId = #{warnid},</if>
+            vtype = #{vtype},
+            vtype0 = #{vtype0},
+            vtype1_min = #{vtype1Min},
+            vtype1_max = #{vtype1Max},
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="delete" parameterType="java.lang.String">
+        delete from seb_pointwarn where id = #{id}
+    </delete>
+
+</mapper>

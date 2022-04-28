@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.efounder.JEnterprise.mapper.usercenter.UserGrouprlglMapper">
+
+	<resultMap id="userGroupRlglMap" type="com.efounder.JEnterprise.model.usercenter.UserGrouprlgl">
+		<result column="F_ZBH" property="f_zbh" />
+		<result column="F_YHBH" property="f_yhbh" />
+		<result column="F_CRDATE" property="f_crdate" />
+		<result column="F_CHDATE" property="f_chdate" />
+	</resultMap>
+
+	
+
+	<sql id="find_xxx">
+	    <![CDATA[
+			SELECT F_ZBH , F_YHBH  ,date_format(F_CRDATE,'%Y-%m-%d %H:%i:%s' )F_CRDATE ,date_format(F_CHDATE,'%Y-%m-%d %H:%i:%s' )F_CHDATE
+	    ]]>
+	</sql>
+
+	<sql id="from_xxx">
+	    <![CDATA[
+	    	FROM ES_USER_GROUP_RLGL
+	    ]]>
+	</sql>
+
+	<sql id="where_xxx">
+	    <![CDATA[
+	    	WHERE 1=1
+	    ]]>
+	</sql>
+	<select id="loadAll" parameterType="string" resultMap="userGroupRlglMap">
+		<include refid="find_xxx" />
+		<include refid="from_xxx" />
+	</select>
+	<select id="findById" parameterType="string" resultMap="userGroupRlglMap">
+		<include refid="find_xxx" />
+		<include refid="from_xxx" />
+		<![CDATA[
+			WHERE F_ZBH=#{f_zbh}
+		]]>
+	</select>
+
+
+<!-- 根据编号查找所有用户 -->
+	<select id="findChildByZbh" parameterType="string" resultMap="userGroupRlglMap">
+		<include refid="find_xxx" />
+		<include refid="from_xxx" />
+		<where>
+			F_ZBH = #{f_zbh} 
+		</where>
+		order by F_ZBH
+	</select>
+
+
+	<update id="update" parameterType="com.efounder.JEnterprise.model.usercenter.UserGrouprlgl">
+		UPDATE ES_USER_GROUP
+		<set>
+			<!--修改时间  -->
+			F_CHDATE = current_timestamp()
+		</set>
+		WHERE F_ZBH=#{f_zbh}
+	</update>
+<!-- 根据编号更新明细 -->
+	<update id="updateMxByZbh" parameterType="string">
+		UPDATE es_user_group
+		<set>
+			F_MX = #{f_mx}
+		</set>
+		WHERE F_ZBH=#{f_zbh}
+	</update>
+	<insert id="insert" parameterType="com.efounder.JEnterprise.model.usercenter.UserGrouprlgl">
+		INSERT INTO ES_USER_GROUP_RLGL(F_ZBH ,F_YHBH,F_CRDATE, F_CHDATE)
+		 VALUES(#{f_zbh} , #{f_yhbh} , current_timestamp(),current_timestamp())
+	</insert>
+
+	
+	<delete id="delete" parameterType="string">
+		DELETE FROM ES_USER_GROUP_RLGL WHERE F_ZBH=#{f_zbh}
+	</delete>
+<!-- 删除本用户组下所有用户 -->
+	<delete id="leftMoveByZbh" parameterType="string">
+		DELETE FROM ES_USER_GROUP_RLGL WHERE F_ZBH = #{f_zbh}
+	</delete>
+<!-- 移除用户组包含用户 -->
+	<delete id="deleteByYhbh" parameterType="string">
+		DELETE FROM ES_USER_GROUP_RLGL WHERE F_YHBH = #{f_yhbh}
+	</delete>
+
+</mapper>

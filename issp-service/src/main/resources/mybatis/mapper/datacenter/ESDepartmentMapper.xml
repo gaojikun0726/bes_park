@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.efounder.JEnterprise.mapper.datacenter.ESDepartmentMapper">
+
+	<resultMap id="ESDepartmentMap" type="com.efounder.JEnterprise.model.datacenter.ESDepartment">
+		<result column="F_BMBH" property="f_bmbh" />
+		<result column="F_BMMC" property="f_bmmc" />
+		<result column="F_ZZJGBH" property="f_zzjgbh" />
+		<result column="F_CRDATE" property="f_crdate" />
+		<result column="F_CHDATE" property="f_chdate" />
+	</resultMap>
+
+	<insert id="addESDepartment" parameterType="com.efounder.JEnterprise.model.datacenter.ESDepartment">
+		INSERT INTO ES_DEPARTMENT(F_BMBH ,F_BMMC, F_ZZJGBH,F_CRDATE, F_CHDATE)
+		 VALUES(#{f_bmbh} , #{f_bmmc} , #{f_zzjgbh} , current_timestamp(),current_timestamp() )
+	</insert>
+
+	<sql id="find_xxx">
+	    <![CDATA[
+			SELECT F_BMBH ,F_BMMC, F_ZZJGBH,date_format(F_CRDATE,'%Y-%m-%d %H:%i:%s' )F_CRDATE ,date_format
+(F_CHDATE,'%Y-%m-%d %H:%i:%s' )F_CHDATE
+	    ]]>
+	</sql>
+
+	<sql id="from_xxx">
+	    <![CDATA[
+	    	FROM ES_DEPARTMENT
+	    ]]>
+	</sql>
+
+	<sql id="where_xxx">
+	    <![CDATA[
+	    	WHERE 1=1
+	    ]]>
+	</sql>
+	<!-- 查询全部 -->
+	<select id="findAllESDepartment" parameterType="string" resultMap="ESDepartmentMap">
+		<include refid="find_xxx" />
+		<include refid="from_xxx" />
+		<![CDATA[
+			ORDER BY F_CHDATE
+		]]>
+	</select>
+	<!-- 根据部门编号查询 -->
+	<select id="findESDepartmentByBmbh" parameterType="string" resultMap="ESDepartmentMap">
+		<include refid="find_xxx" />
+		<include refid="from_xxx" />
+		<![CDATA[
+		WHERE F_BMBH = #{f_bmbh}
+			ORDER BY F_CHDATE
+		]]>
+	</select>
+	<!-- 根据组织机构编号查询 -->
+	<select id="findESDepartmentByZzbh" parameterType="string" resultMap="ESDepartmentMap">
+		<include refid="find_xxx" />
+		<include refid="from_xxx" />
+		<![CDATA[
+		WHERE F_ZZJGBH = #{f_zzjgbh}
+			ORDER BY F_CHDATE
+		]]>
+	</select>
+	
+	<!-- <select id="findUserById" parameterType="string" resultMap="userMap">
+		<include refid="find_xxx" />
+		<include refid="from_xxx" />
+		<![CDATA[
+			WHERE F_YHBH = #{id}
+		]]>
+	</select> -->
+	<!-- 根据名称查询 -->
+	<select id="findChildByBmmc" parameterType="string" resultMap="ESDepartmentMap">
+		<include refid="find_xxx" />
+		<include refid="from_xxx" />
+		<![CDATA[
+			WHERE F_BMMC=#{f_bmmc}
+		]]>
+	</select>
+	 
+	<select id="findESDepartmentByPage" parameterType="string" resultMap="ESDepartmentMap">
+		<include refid="find_xxx" />
+		<include refid="from_xxx" />
+		<where>
+		1=1 
+			<if test="keywords != null and keywords != ''">
+			 and CONCAT(`f_bmmc`,'##',`f_bmbh`,'##',`f_zzjgbh`) LIKE CONCAT('%',#{keywords},'%')
+			 </if>
+		</where>
+		order by F_CHDATE
+	</select> 
+	<!--用户表维护——搜索  -->
+	<!--  <select id="findUserBykey" parameterType="string" resultMap="userMap">
+		<include refid="find_xxx" />
+		<include refid="from_xxx" />
+		<where>
+			<if test="euserkeywords != null and euserkeywords != ''">   
+			  and CONCAT(`f_name`,'##', `f_yhbh`,'##', `f_company`) LIKE CONCAT('%',#{euserkeywords},'%')
+			</if>
+		</where>
+		order by F_CHDATE
+	</select> -->
+	
+	<select id="findMaxBmbh"  parameterType="string" resultType="string">
+		select MAX(F_BMBH) from ES_DEPARTMENT
+	</select>
+	
+	<!--模糊查询  -->
+	<select id="findESDepartmentByKeywords" parameterType="string" resultMap="ESDepartmentMap">
+		<include refid="find_xxx" />
+		<include refid="from_xxx" />
+		<where>
+		1=1 
+			<if test="keywords != null and keywords != ''">
+			 and CONCAT(`f_bmmc`,'##',`f_bmbh`) LIKE CONCAT('%',#{keywords},'%')
+			 </if>
+		</where>
+		order by F_CHDATE
+	</select>	
+	
+
+	<update id="upDateESDepartment" parameterType="com.efounder.JEnterprise.model.datacenter.ESDepartment">
+		UPDATE ES_DEPARTMENT
+		<set>
+			<if test="f_bmbh != null and f_bmbh!='' ">
+				F_BMBH = #{f_bmbh},
+			</if>
+			<if test="f_bmmc != null and f_bmmc !='' ">
+				F_BMMC = #{f_bmmc},
+			</if>
+			<if test="f_zzjgbh != null  and f_zzjgbh !='' ">
+				F_ZZJGBH = #{f_zzjgbh},
+			</if>
+			F_CHDATE =NOW()
+		</set>
+		WHERE F_BMBH = #{f_bmbh}
+	</update>
+
+	<delete id="deleteByBmbh" parameterType="com.efounder.JEnterprise.model.datacenter.ESDepartment">
+		DELETE FROM ES_DEPARTMENT WHERE F_BMBH = #{f_bmbh}
+	</delete>
+
+</mapper>

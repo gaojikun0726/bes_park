@@ -1,0 +1,367 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.efounder.JEnterprise.mapper.collectorJob.BESCalculateDataMapper">
+
+	<!-- 查询园区编号对应的园区名称 -->
+	<select id="queryParkById" resultType="java.util.HashMap" >
+		SELECT F_YQMC ,F_ALL_AREA,F_PERSON_NUMS,F_BUILD_TIME,F_NODE_CODE
+		FROM 
+		bes_park 
+		WHERE 
+		F_YQBH = #{parkId}
+	</select>
+
+	<!-- 查询能源信息 -->
+	<select id="queryAllEnergyType" resultType="java.util.HashMap" >
+		select * from bes_energy_type
+	</select>
+	
+	<!-- 查询分户参数  -->
+	<select id="queryHouseParam" resultType="java.util.HashMap" >
+		select F_FHBH , F_PERSON_NUMS, F_AREA  
+		from bes_household_conf 
+		where 
+		F_YQBH = #{parkid}
+	</select>
+	
+	<!-- 查询所有支路 -->
+	<select id="queryBranch" resultType="java.util.HashMap" >
+		select * from bes_branch_conf 
+		where F_ZLBH != '01' 
+		<if test="equipment_set != null and equipment_set != ''">
+			 and F_EQUIPMENT_SET = #{equipment_set}
+		</if>
+		<if test="parentid != null and parentid != ''">
+			 and F_PZLBH = #{parentid}
+		</if>
+		<if test="parkId != null and parkId != ''">
+			 and F_YQBH = #{parkId}
+		</if>
+	</select>
+
+	<!-- 查询支路下所有电表 -->
+	<select id="queryAmmeter" resultType="java.util.HashMap" >
+		select a.*,b.F_OPERATOR from bes_ammeter a
+		left join bes_branch_ammeter_rlgl b on a.F_SYS_NAME = b.F_DBSYS_NAME
+		WHERE a.F_SYS_NAME in (
+		select b.f_dbsys_name from bes_branch_ammeter_rlgl b 
+		where b.f_zlbh = #{F_ZLBH})
+		and b.F_ZLBH = #{F_ZLBH}
+	</select>
+	
+	<!-- 查询电表在指定时间段内的端点数据 -->
+	<select id="queryAmmeterStartData" resultType="java.util.HashMap" >
+		select F_DATA as data from bes_calculate_data 
+		where 
+			F_DBSYS_NAME = #{uuid} 
+		    <![CDATA[  and F_CJSJ < #{startTime} ]]>
+		AND F_DATA != '0.0' 
+		order by F_CJSJ desc limit 1
+	</select>
+	
+	<!-- 查询电表在指定时间段内的端点数据 -->
+	<select id="queryAmmeterEndData" resultType="java.util.HashMap" >
+		select F_DATA as data from bes_calculate_data 
+		where 
+			F_DBSYS_NAME = #{uuid} 
+			<![CDATA[  and F_CJSJ >= #{startTime} ]]>
+			<![CDATA[  and F_CJSJ <= #{endTime} ]]>
+		order by F_CJSJ desc limit 1
+	</select>
+	
+	<!-- 查询电表在指定时间段内的端点数据 -->
+	<select id="queryAmmeterStartData2" resultType="java.util.HashMap" >
+		select F_DATA from bes_calculate_data 
+		where 
+			F_DBSYS_NAME = #{uuid} 
+		    <![CDATA[  and F_CJSJ >= #{startTime} ]]>
+		order by F_CJSJ desc limit 1
+	</select>
+
+	<!-- 查询指定园区下的能源类型编号 -->
+	<select id="queryEnergyTypeByParkid" resultType="java.util.HashMap" >
+		SELECT DISTINCT F_NYBH AS id FROM bes_park_energytype_rlgl WHERE F_YQBH = #{parkId}
+	</select>
+
+	<!-- 查询与一级支路统计的数据之和 -->
+	<select id="queryEnergySumData" resultType="java.util.HashMap">
+		SELECT
+			ifnull(sum(c.F_DATA), 0) AS fData
+		FROM
+		(
+			SELECT DISTINCT
+				a.F_ZLBH,
+				a.F_DATA,
+				a.F_CJSJ,
+				a.F_TYPE
+			FROM
+				bes_branch_data a,
+				bes_branch_conf b
+			WHERE
+				a.F_ZLBH = b.F_ZLBH
+				AND b.F_YQBH = #{parkId}
+				AND b.F_NYBH = #{energyid}
+				AND a.F_CJSJ = #{time}
+				AND a.F_TYPE = #{type}
+				AND LENGTH(b.F_ZLBH) = 4) c
+	</select>
+
+	<!-- 查询指定条件下的分项数据 -->
+	<select id="queryGrade"  resultType="java.util.HashMap" >
+		select * from bes_subitem_conf
+		where 1=1
+		<if test="id !=null and id != ''">
+			and F_FXBH = #{id}
+        </if>
+		<if test="parentid !=null and parentid != ''">
+			and F_PFXBH = #{parentid}
+        </if>
+	 </select>
+
+	<!-- 查询与指定分项关联的所有支路统计的数据之和 -->
+<!--	<select id="queryGradeSumData" resultType="java.util.HashMap">
+		SELECT
+			SUM(d.F_DATA) AS fData
+		FROM
+		(
+			SELECT DISTINCT
+				b.F_ZLBH,
+				b.F_DATA,
+				b.F_CJSJ,
+				b.F_TYPE
+			FROM
+				bes_branch_conf a,
+				bes_branch_data b
+			WHERE
+				a.F_ZLBH = b.F_ZLBH
+			and b.F_TYPE = #{type} 
+			and b.F_CJSJ = #{time} 
+			and a.F_YQBH = #{parkId}
+			and a.F_EQUIPMENT_SET = #{fFxbh}) d
+	</select>-->
+	<select id="queryGradeSumData" resultType="java.util.HashMap">
+		SELECT
+			SUM(d.F_DATA) AS fData
+		FROM
+		(
+			SELECT DISTINCT
+				b.F_ZLBH,
+				b.F_DATA,
+				b.F_CJSJ,
+				b.F_TYPE
+			FROM
+				bes_subitem_branch_rlgl a,
+				bes_branch_data b
+			WHERE
+				a.F_ZLBH = b.F_ZLBH
+			and b.F_TYPE = #{type}
+			and b.F_CJSJ = #{time}
+			and a.F_FXBH = #{fFxbh}) d
+	</select>
+
+	<!-- 查询分户信息  -->
+	<select id="queryHouseHold" resultType="java.util.HashMap" >
+		SELECT * FROM bes_household_conf
+		WHERE
+			F_PFHBH = #{parkId}
+			 order by F_FHBH
+	</select>
+	
+	<!-- 查询分户关联的支路个数  -->
+	<select id="queryRelBranchCount" resultType="java.util.HashMap" >
+		SELECT COUNT(*) as count FROM bes_household_branch_rlgl
+		WHERE 
+			F_FHBH = #{id}
+	</select>
+	
+	<!-- 查询与指定分户关联的所有支路统计的数据之和 -->
+	<select id="queryHouseholdSumData" resultType="java.util.HashMap" >
+		SELECT
+			SUM(c.F_DATA) AS F_DATA
+		FROM
+		(
+			SELECT DISTINCT
+				b.F_ZLBH,
+				b.F_DATA,
+				b.F_CJSJ,
+				b.F_TYPE
+			FROM
+				bes_household_branch_rlgl a,
+				bes_branch_data b
+			WHERE
+				a.F_ZLBH = b.F_ZLBH
+			AND b.F_TYPE = #{type} 
+			and a.F_FHBH = #{id}
+			and b.F_CJSJ = #{time} ) c
+	</select>
+	
+	<!-- 查询分户下支路 -->
+	<select id="queryHouseBranch" resultType="java.util.HashMap" >
+		select a.*
+		from bes_branch_conf a, bes_household_branch_rlgl b 
+		where 
+				a.F_ZLBH=b.F_ZLBH 
+			and b.F_FHBH = #{id}
+	</select>
+
+	<!-- 查询子路分项数据 -->
+	<select id="queryBranchGradeData" resultType="java.util.HashMap">
+		SELECT DISTINCT
+			d.F_FXBH AS F_FXBH,
+			c.F_DATA AS F_DATA,
+			c.F_ZLBH,
+			c.F_CJSJ,
+			c.F_TYPE
+		FROM
+			bes_branch_conf a,
+			bes_subitem_conf b,
+			bes_branch_data c,
+			bes_subitem_conf d
+		WHERE
+			a.F_EQUIPMENT_SET = b.F_FXBH
+		and d.F_FXBH = b.F_PFXBH
+		AND a.F_ZLBH = #{id}
+		and c.F_ZLBH = #{id}
+		and c.F_TYPE = #{type}
+		and c.F_CJSJ = #{time}
+	</select>
+
+	<!-- 查询上次时间 -->
+	<select id="queryLastTime" resultType="java.util.HashMap">
+		select F_CJSJ from bes_last_data limit 1
+	</select>
+
+	<!-- 查询本次数据 -->
+	<select id="queryCurData" resultType="java.util.HashMap">
+		SELECT
+			a.F_DBSYS_NAME AS meteruuid,
+			a.F_DATA * b.F_PERCENTAGE AS data
+		FROM
+			bes_realtime_data a,
+			bes_ammeter b
+		WHERE
+			a.F_TYPE = '1'
+		AND b.F_SYS_NAME = a.F_DBSYS_NAME
+		AND a.F_DBSYS_NAME IN (
+			SELECT DISTINCT
+				F_DBSYS_NAME
+			FROM
+				bes_branch_ammeter_rlgl
+			WHERE
+			F_ZLBH IN (
+				SELECT DISTINCT
+					F_ZLBH
+				FROM
+					bes_branch_conf
+				WHERE
+					F_NYBH = #{energyid}
+				and F_YQBH = #{parkid}
+				))
+	</select>
+
+	<!-- 查询上次数据 -->
+	<select id="queryLastData" resultType="java.util.HashMap">
+		SELECT
+			a.F_DBSYS_NAME AS meteruuid,
+			a.F_DATA * b.F_PERCENTAGE AS data
+		FROM
+			bes_last_data a,
+			bes_ammeter b
+		WHERE
+			a.F_DBSYS_NAME IN (
+				SELECT DISTINCT
+					F_DBSYS_NAME
+				FROM
+					bes_branch_ammeter_rlgl
+				WHERE
+					F_ZLBH IN (
+						SELECT DISTINCT
+							F_ZLBH
+						FROM
+							bes_branch_conf
+						WHERE
+							F_NYBH = #{energyid}
+						AND F_YQBH = #{parkid}
+						))
+						AND b.F_SYS_NAME=a.F_DBSYS_NAME
+	</select>
+
+
+	<!-- 插入ai实点及虚点能耗统计信息 -->
+	<insert id="intAmmeterData" parameterType="java.lang.String" >
+		insert into bes_calculate_data
+		<trim prefix="(" suffix=")" suffixOverrides="," >
+			<if test="f_id != null" >
+				F_ID,
+			</if>
+			<if test="f_sys_name != null" >
+				F_DBSYS_NAME,
+			</if>
+			<if test="f_data != null" >
+				F_DATA,
+			</if>
+			F_CJSJ,
+			<if test="f_yqbh != null" >
+				F_YQBH,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides="," >
+			<if test="f_id != null" >
+				#{f_id},
+			</if>
+			<if test="f_sys_name != null" >
+				#{f_sys_name},
+			</if>
+			<if test="f_data != null" >
+				#{f_data},
+			</if>
+			current_timestamp(),
+			<if test="f_yqbh != null" >
+				#{f_yqbh},
+			</if>
+		</trim>
+	</insert>
+
+	<!-- 根据系统名称查询电表关联的支路信息 -->
+	<select id="queryBranchAmmeterRlglBySysName" resultType="java.util.HashMap">
+		SELECT
+			F_ZLBH,
+			F_DBSYS_NAME,
+			F_OPERATOR
+		FROM
+			bes_branch_ammeter_rlgl
+		WHERE
+			F_DBSYS_NAME = #{f_sys_name}
+	</select>
+
+	<!-- 根据支路编号查询 -->
+	<select id="querySBRListByZlbh" resultType="java.util.HashMap">
+		select
+		F_FXBH
+		from bes_subitem_branch_rlgl
+		where F_ZLBH = #{fZlbh}
+	</select>
+
+	<!-- 根据支路编号查询 -->
+	<select id="queryFhbhByZlbh" resultType="java.util.HashMap">
+		select
+		F_FHBH
+		from bes_household_branch_rlgl
+		where F_ZLBH = #{fZlbh}
+	</select>
+
+	<select id="queryAmmeterDataByTime" resultType="java.util.Map">
+		select
+			F_ID id,
+			F_DBSYS_NAME dbsysName,
+			F_DATA data,
+			F_CJSJ cjsj,
+			F_YQBH yqbh
+		from bes_calculate_data
+		where
+			<![CDATA[      F_CJSJ >= #{startTime} ]]>
+			<![CDATA[  and F_CJSJ <  #{endTime} ]]>
+	</select>
+
+</mapper>

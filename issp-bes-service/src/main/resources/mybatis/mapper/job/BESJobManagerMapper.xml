@@ -1,0 +1,570 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.efounder.JEnterprise.mapper.collectorJob.BESJobManagerMapper">
+
+	<resultMap id="sysconfMap" type="com.efounder.JEnterprise.model.collectorJob.BESSysConf">
+		<id column="F_GUID" property="fGuid" />
+		<result column="F_ALARMOPERATION" property="fAlarmoperation" />
+		<result column="F_IMPORTIME" property="fImportime" />
+		<result column="F_EXPORTIME" property="fExportime" />
+		<result column="F_SQLFILE" property="fSqlfile" />
+		<result column="F_COLLECTION_CYCLE" property="fCollectionCycle" />
+		<result column="F_HOUSE_PLAN_CYCLE" property="fHousePlanCycle" />
+		<result column="F_CALCULATETIME" property="fCalculatetime" />
+		<result column="F_LASTRUNTIME" property="fLastruntime" />
+		<result column="F_STARTTIME" property="fStarttime" />
+		<result column="F_ENDTIME" property="fEndtime" />
+		<result column="F_REALTIMEDATAFLAG" property="fRealtimedataflag" />
+		<result column="F_HIS_START_TIME" property="fHisStartTime" />
+		<result column="F_HIS_END_TIME" property="fHisEndTime" />
+	</resultMap>
+
+    <!-- 查询所有定时任务 -->
+	<select id="queryJob" resultType="java.util.HashMap">
+		 select
+		 *
+		 from
+		 issp_timer_class a
+		 left join issp_timer_list b
+		 on
+		 a.F_CLASS_BH = b.F_TIMER_CLASSBH
+	</select>
+
+	<!-- 查询所有采集器  -->
+	<select id="queryCollector" resultType="java.util.HashMap">
+		 Select
+			F_GUID, F_YQBH, F_IP_ADDR,F_PORT
+		 from
+			bes_collector
+	</select>
+
+	<!-- 根据ID查询采集器名称 -->
+	<select id="queryCollectorName" resultType="java.lang.String">
+		 Select
+			F_SYS_NAME
+		 from
+			bes_collector
+		 where
+			F_GUID = #{collectorId}
+	</select>
+
+	<!-- 查询采集器关联的电表 -->
+	<select id="queryAmmeter" resultType="java.util.HashMap">
+		 select
+			a.F_SYS_NAME as id,a.F_SYS_NAME as uuid,a.F_BLXBH as type
+		 from
+			bes_ammeter a
+		 where
+			a.F_SYS_NAME in (
+				select
+				F_SYS_NAME
+				from bes_sbpz_struct
+				where
+				F_PSYS_NAME in (
+					select F_SYS_NAME from bes_sbpz_struct  where F_PSYS_NAME = #{collectorname}
+							))
+	</select>
+
+	<!-- 查询采集器关联的电表 -->
+	<select id="queryAmmeterByCollectorName" resultType="java.util.HashMap">
+		 select
+			*
+		 from
+			bes_ammeter a
+		 where
+			a.F_SYS_NAME in (
+				select
+				F_SYS_NAME
+				from bes_sbpz_struct
+				where
+				F_PSYS_NAME in (
+					select F_SYS_NAME from bes_sbpz_struct  where F_PSYS_NAME = #{sysName}
+							))
+	</select>
+
+	<!-- 根据电表名称查询出所有最大日期的能耗数据 -->
+	<select id="queryEnergyByAmmeterNames" resultType="java.util.HashMap">
+		SELECT
+			F_CJSJ,
+			F_DBSYS_NAME,
+			F_DATA
+		FROM
+			bes_calculate_data
+		WHERE
+			F_DBSYS_NAME IN
+			<foreach item="ammeterName" index="index" collection="ammeterNames"
+					 open="(" separator="," close=")">
+				#{ammeterName}
+			</foreach>
+		AND
+			F_CJSJ = (SELECT MAX(F_CJSJ) FROM bes_calculate_data)
+	</select>
+
+	
+	<!-- 查询区域关联的电表 -->
+	<select id="queryReginAmmeter" resultType="java.util.HashMap">
+		 select
+			a.F_SYS_NAME as id,a.F_SYS_NAME as uuid,a.F_BLXBH as type
+		 from
+			bes_ammeter a
+		 where
+			a.F_SYS_NAME in (
+				select
+				F_SYS_NAME
+				from bes_sbpz_struct
+				where
+				F_PSYS_NAME in (
+					select 
+					F_SYS_NAME 
+					from bes_sbpz_struct  
+					where 
+					F_PSYS_NAME in (
+					select F_SYS_NAME from bes_sbpz_struct  where F_PSYS_NAME = #{f_sys_name}
+					)))
+	</select>
+
+	<!-- 根据IP地址，端口号查询采集器id -->
+	<select id="queryCollectorNameByIPAdd" resultType="java.lang.String">
+		SELECT
+			a.F_GUID
+		FROM bes_collector a
+		WHERE
+			a.F_IP_ADDR = #{ipaddress}
+			and a.F_PORT = #{collection_port}
+	</select>
+
+	<!-- 根据采集器id查询园区编号 -->
+	<select id="queryParkidByCollectorId" resultType="java.lang.String">
+		SELECT a.F_YQBH FROM bes_collector a WHERE a.F_GUID = #{id}
+	</select>
+
+	<!-- 根据电表id查询园区编号 -->
+	<select id="queryParkidByMeterId" resultType="java.lang.String">
+		SELECT F_YQBH FROM bes_ammeter
+		WHERE 1=1
+		<if test="f_sys_name != null and f_sys_name != ''">
+		and	 F_SYS_NAME = #{f_sys_name}
+		</if>
+	</select>
+
+	<!-- 查询电表信息 -->
+	<select id="queryAmmeterInfo" resultType="java.util.HashMap">
+		SELECT * FROM bes_ammeter
+		WHERE 1 = 1
+		<if test="f_sys_name != null and f_sys_name != ''">
+		and	 F_SYS_NAME = #{f_sys_name}
+		</if>
+	</select>
+
+	<!-- 查询采集器状态信息  -->
+	<select id="queryCollectorStatus" resultType="java.util.HashMap">
+		select * from bes_collector_status
+		WHERE 1=1
+		<if test="id != null and id != ''">
+			 and F_ID = #{id}
+		</if>
+		<if test="collectorId != null and collectorId != ''">
+			 and F_COLLECT_ID = #{collectorId}
+		</if>
+	</select>
+
+	<!-- 查询电表关联的电能参数id -->
+	<select id="queryEnectricId" resultType="java.util.HashMap">
+		select
+			c.F_NHBH AS ID,
+			a.F_SYS_NAME as UUID,
+			a.F_NICK_NAME,
+			c.F_STATISTICAL_PARAM as TYPE ,
+			d.F_UNIT,
+			d.F_DNMC,
+			a.F_PERCENTAGE
+		from
+			bes_ammeter a ,
+			bes_coll_method b ,
+			bes_electric_coll_rlgl c ,
+			bes_electric_params d
+		where
+			a.F_CJFABH = b.F_CJFABH
+		and b.F_CJFABH = c.F_CJFABH
+		and a.F_CJFABH = c.F_CJFABH
+		and c.F_NHBH = d.F_DNBH
+		and a.F_SYS_NAME = #{id}
+	</select>
+
+	<select id="getOpcKeyAll" resultType="java.util.HashMap">
+		select distinct
+			concat(a.F_SYS_NAME, '*', ep.F_DNMC) opcKey,
+			a.F_DESCRIPTION `describe`,
+			ep.F_UNIT unit
+		from
+			bes_ammeter a ,
+			bes_electric_coll_rlgl ec,
+			bes_electric_params ep
+		where
+
+		a.F_CJFABH = ec.F_CJFABH
+		and ec.F_NHBH = ep.F_DNBH
+
+	</select>
+	<!-- 插入采集器状态信息  -->
+	<insert id="insertCollectorStatus" parameterType="java.lang.String" >
+		INSERT INTO bes_collector_status VALUES (#{fId},#{fSuccess_time},#{fCollector_id},#{fStatus},current_timestamp(),current_timestamp())
+	</insert>
+
+	<!-- 更新采集器状态信息  -->
+	<update id="updateCollectorStatus" parameterType="java.lang.String" >
+		UPDATE bes_collector_status
+		set
+		F_LASTSUCCESS_TIME = #{fSuccess_time},
+      	F_COLLSTATUS = #{fStatus},
+      	F_CHDATE = current_timestamp()
+		WHERE F_ID=#{fId}
+	</update>
+
+	<!-- 更新计算时间数据 -->
+	<update id="updateCalculateTime" parameterType="com.efounder.JEnterprise.model.collectorJob.BESSysConf">
+		UPDATE bes_sys_conf
+		<set>
+			<if test="fCalculatetime != null">
+				F_CALCULATETIME = #{fCalculatetime},
+			</if>
+			<if test="fLastruntime != null">
+				F_LASTRUNTIME = #{fLastruntime},
+			</if>
+			<if test="fStarttime != null">
+				F_STARTTIME = #{fStarttime},
+			</if>
+			<if test="fEndtime != null">
+				F_ENDTIME = #{fEndtime},
+			</if>
+			<if test="fRealtimedataflag != null">
+				F_REALTIMEDATAFLAG = #{fRealtimedataflag},
+			</if>
+			<if test="fHisStartTime != null">
+				F_HIS_START_TIME = #{fHisStartTime}
+				where F_HIS_START_TIME > #{fHisStartTime} or F_HIS_START_TIME is NULL or F_HIS_START_TIME='' or F_HIS_START_TIME=' '
+			</if>
+			<if test="fHisEndTime != null">
+				F_HIS_END_TIME = #{fHisEndTime}
+				where #{fHisEndTime} > F_HIS_END_TIME or F_HIS_END_TIME is NULL or F_HIS_END_TIME='' or F_HIS_END_TIME=' '
+			</if>
+		</set>
+	</update>
+
+	<!-- 删除实时数据  -->
+	<delete id="deleteLastData" parameterType="java.lang.String" >
+       DELETE FROM bes_last_data
+    </delete>
+
+	<!-- 插入或更新原始数据信息  -->
+	<insert id="insertLastData" parameterType="java.lang.String" >
+		insert into bes_last_data select * from bes_realtime_data where F_TYPE='1'
+	</insert>
+
+	<!-- 删除实时数据  -->
+	<delete id="deleteRealtimeData" parameterType="java.lang.String" >
+       DELETE FROM bes_realtime_data
+    </delete>
+
+	<!-- 插入或更新原始数据信息  -->
+	<insert id="insertRealtimeData" parameterType="java.util.ArrayList" >
+	insert into bes_realtime_data
+	values
+	<foreach collection="lstDto" item="item" index="index" separator=",">
+		(#{item.meteruuid},#{item.enectric_id},#{item.data},#{item.l_time},#{item.type},#{item.parkid})
+	</foreach>
+	</insert>
+
+	<!-- 插入计算源数据  -->
+	<insert id="insertCalculateData" parameterType="java.util.ArrayList">
+		INSERT INTO bes_calculate_data
+		VALUES
+		<foreach collection="lstCalcDto" item="item" index="index" separator=",">
+			(#{item.id},#{item.meteruuid},#{item.data},#{item.l_time},#{item.parkid})
+		</foreach>
+	</insert>
+
+	<!-- 查询所有园区编号 -->
+	<select id="queryAllPark" resultType="java.util.HashMap" >
+		SELECT F_YQBH,F_YQMC FROM bes_park
+	</select>
+
+	<!-- 插入源数据 -->
+	<insert id="insertEnectricData"
+		parameterType="java.util.ArrayList">
+		INSERT INTO bes_original_data
+		VALUES
+		<foreach collection="lstDto" item="item" index="index"
+			separator=",">
+			(#{item.id},#{item.meteruuid},#{item.enectric_id},#{item.data},#{item.l_time},#{item.type},current_timestamp(),current_timestamp())
+		</foreach>
+	</insert>
+
+	<!-- 插入源数据 -->
+	<insert id="insertMonitoringData"
+			parameterType="java.util.ArrayList">
+		INSERT INTO bes_monitoring_data
+		VALUES
+		<foreach collection="lstDto" item="item" index="index"
+				 separator=",">
+			(#{item.id},#{item.meteruuid},#{item.fNybh},#{item.data},#{item.l_time},#{item.type},current_timestamp(),current_timestamp())
+		</foreach>
+	</insert>
+
+	<!-- 查询计算时间数据 -->
+	<select id="querySysConf" resultType="java.util.HashMap" >
+		select * from bes_sys_conf limit 1
+	</select>
+
+	<!-- 通过电表 id查询采集器信息-->
+	<select id="queryCollectorIdByMeterId" resultType="java.util.HashMap" >
+		select a.F_IP_ADDR ,a.F_NICK_NAME from bes_collector a
+		LEFT JOIN
+		(
+		select F_PSYS_NAME from bes_sbpz_struct where F_SYS_NAME = (select F_PSYS_NAME from bes_sbpz_struct where F_SYS_NAME = #{f_sys_name})
+		) b on a.F_SYS_NAME = b.F_PSYS_NAME
+	</select>
+
+	<!-- 通过电表 id查询采集器信息-->
+	<select id="queryCollectorByAmmeterSysName" resultType="java.util.HashMap" >
+		SELECT
+     	*
+     FROM
+     	bes_collector
+     WHERE
+     	F_SYS_NAME = (
+	SELECT
+		F_PSYS_NAME
+	FROM
+		bes_sbpz_struct
+	WHERE
+		F_SYS_NAME = (select F_PSYS_NAME from bes_sbpz_struct where F_SYS_NAME = #{f_sys_name}))
+	</select>
+
+	<!-- 通过电表id查询总线端口 -->
+	<select id="queryBusProtByMeterId" resultType="java.lang.String">
+		SELECT b.F_PORT
+		FROM bes_sbpz_struct a, bes_bus b
+		WHERE b.F_SYS_NAME = a.F_PSYS_NAME AND a.F_SYS_NAME = #{F_SYS_NAME}
+	</select>
+
+	<select id="queryBusPortBySysName" resultType="java.lang.String">
+		SELECT F_PORT
+		FROM  bes_bus
+		WHERE F_SYS_NAME = #{F_SYS_NAME}
+	</select>
+
+	<select id="queryAmmeterByBusSysName" resultType="java.util.HashMap">
+
+		SELECT
+			*
+		FROM
+			bes_ammeter a
+		WHERE
+			a.F_SYS_NAME IN (
+	    SELECT F_SYS_NAME FROM bes_sbpz_struct WHERE F_PSYS_NAME = #{F_SYS_NAME} )
+
+	</select>
+
+	<!-- 通过电表f_sys_name查询采集器端口号 -->
+	<select id="queryCollectorPortByDto" resultType="java.lang.String">
+		SELECT b.F_PORT
+		FROM bes_collector b
+		WHERE b.F_SYS_NAME = #{F_SYS_NAME}
+	</select>
+
+	<!-- 通过电表f_sys_name查询采集器f_sys_name -->
+	<select id="queryCollectorInfoByAmmeterId" resultType="java.util.HashMap" >
+		select * from bes_collector where F_SYS_NAME =
+		(select F_PSYS_NAME from bes_sbpz_struct
+		where F_SYS_NAME = (select F_PSYS_NAME from bes_sbpz_struct
+			where F_SYS_NAME = #{f_sys_name}) )
+	</select>
+	<!-- 通过电表的采集方案查询采集参数信息 -->
+	<select id="queryAmmeter_params_schemeid" resultType="java.util.HashMap">
+		SELECT b.* , a.F_STATISTICAL_PARAM, a.F_IS_RATE FROM bes_electric_coll_rlgl a, bes_electric_params b
+		WHERE b.F_DNBH = a.F_NHBH AND a.F_CJFABH = #{collector_method_id}
+		ORDER BY b.F_DNBH ASC
+	</select>
+
+	<!-- 通过电表id删除 采集方案对应的电能参数 -->
+	<delete id="delMeterRelParam" parameterType="java.lang.String" >
+		DELETE FROM bes_electric_coll_rlgl
+		where F_CJFABH = (select F_CJFABH from bes_ammeter where F_SYS_NAME = #{f_sys_name})
+	</delete>
+
+	<!-- 保存电能参数与采集方案的关系 -->
+	<insert id="saveMeterRelParmas" parameterType="java.lang.String">
+		INSERT INTO bes_electric_coll_rlgl (F_NHBH, F_CJFABH, F_STATISTICAL_PARAM,F_CRDATE,F_CHDATE)
+		VALUES (#{F_NHBH}, #{F_CJFABH},#{f_sys_name},,current_timestamp(),current_timestamp())
+	</insert>
+
+	<!-- 通过电表id查询对应的电能参数 -->
+	<select id="queryEnectricDataByMeterIdASC" resultType="java.util.HashMap">
+		SELECT a.F_NHBH FROM bes_electric_coll_rlgl a, bes_ammeter b
+			WHERE a.F_CJFABH = b.F_CJFABH AND b.F_SYS_NAME = #{f_sys_name}
+			ORDER BY a.F_NHBH ASC
+	</select>
+
+	<select id="queryAmmeterModelById" resultType="java.lang.String">
+		SELECT a.F_LXMC FROM bes_ammeter_type a WHERE a.F_LXBH = #{MeterType}
+	</select>
+
+	<select id="queryComRateById" resultType="java.lang.String">
+		SELECT a.F_COMM_RATE FROM bes_rate a WHERE a.F_RATE_BH = #{ComRate}
+	</select>
+
+	<select id="queryComAgreementTypeById" resultType="java.lang.String">
+		SELECT a.F_TYPE FROM bes_protocol a WHERE a.F_TXXYBH = #{ComAgreementType}
+	</select>
+
+	<select id="queryCollectorMetnodById" resultType="java.lang.String">
+		SELECT a.F_CJFAMC FROM bes_coll_method a WHERE a.F_CJFABH = #{CollectMethodID}
+	</select>
+
+	<!-- 通过电表id查询对应的采集参数信息 -->
+	<select id="queryElectricParamsByAmmeter" resultType="java.util.HashMap">
+		select
+			a.*,
+			e.F_BMGZ_MC ,
+			d.F_PERCENTAGE,
+			b.F_IS_RATE
+		from bes_electric_params a LEFT JOIN bes_electric_coll_rlgl b on
+		a.F_DNBH = b.F_NHBH
+		LEFT JOIN bes_coll_method c on b.F_CJFABH = c.F_CJFABH
+		LEFT JOIN bes_ammeter d on c.F_CJFABH = d.F_CJFABH
+		LEFT JOIN bes_data_encode e on a.F_BMGZ = e.F_BMGZ_ID
+		where d.F_SYS_NAME = #{f_sys_name}
+		ORDER BY a.F_CRDATE
+	</select>
+	<!-- 查询电表所在的采集器 -->
+	<select id="querycollectorInfoByAmmeter" resultType="java.util.HashMap">
+		select * from bes_collector where F_SYS_NAME=(
+			select F_PSYS_NAME from bes_sbpz_struct where F_SYS_NAME = #{f_psys_name})
+	</select>
+	<!-- 查询电表最后一次保存的数据 -->
+	<select id="queryAmmeterLastCalculateData" resultType="java.util.HashMap">
+		select * from bes_calculate_data where F_DBSYS_NAME = #{uuid} ORDER BY F_CJSJ DESC LIMIT 3
+	</select>
+	<!-- 查询原始表最后一条数据 -->
+	<select id="queryLastData" resultType="java.util.HashMap">
+		select date_format(
+        F_CJSJ,
+        '%Y-%m-%d %H:%i:%S'
+        ) as F_CJSJ,
+        F_ID,
+        F_DBSYS_NAME,
+        F_DNBH,F_DATA,
+        F_TYPE,
+        F_CRDATE,
+        F_CHDATE
+        from bes_original_data
+        where
+		F_DBSYS_NAME = #{f_dbsys_name}
+		and F_DNBH = #{f_dnbh} and F_TYPE =#{f_type}
+		order by F_CJSJ  DESC LIMIT 2
+	</select>
+
+	<select id="queryLastDataList" resultType="java.util.HashMap" parameterType="java.util.List">
+		select
+		date_format(
+		max(F_CJSJ),
+		'%Y-%m-%d %H:%i:%S'
+		) as F_CJSJ,
+        F_DBSYS_NAME,
+        F_DNBH,F_DATA,
+        F_TYPE
+        from bes_original_data
+        where
+
+		<foreach item="item" index="index" collection="list" open="(" separator="or" close=")">
+			F_DBSYS_NAME = #{item.meteruuid}
+			and F_DNBH = #{item.enectric_id} and F_TYPE =#{item.type}
+		</foreach>
+
+		group by F_DBSYS_NAME, F_DNBH, F_TYPE
+
+	</select>
+	<!-- 查询电表最后一次保存的数据 -->
+	<select id="getCollectorInfo" resultType="java.util.HashMap">
+		select * from bes_collector where F_IP_ADDR = #{IPAddr}
+	</select>
+
+	<select id="getCollectorByChannelId" resultType="java.util.HashMap">
+		select * from bes_collector where F_CHANNEL_ID = #{channelId}
+	</select>
+
+	<!-- 根据采集器查询采集器关联的电表 -->
+	<select id="queryAmmeterByCollector" resultType="java.util.HashMap">
+		select
+		F_SYS_NAME,F_PSYS_NAME
+		from bes_sbpz_struct
+		where
+		F_PSYS_NAME in (
+			select F_SYS_NAME from bes_sbpz_struct  where F_PSYS_NAME = #{collectorname}
+		)
+	</select>
+
+	<select id="queryAmmeterFromBus" resultType="java.util.HashMap">
+		select * from bes_sbpz_struct where F_PSYS_NAME = #{f_sys_name}
+	</select>
+	<!--wanghongjie start 20200609 根据点位查询所属的DDC控制器的信息-->
+	<select id="queryDDCByPointSysName" resultType="java.util.Map">
+		SELECT * from bes_ddc where F_SYS_NAME_OLD = (
+		SELECT F_PSYS_NAME from bes_sbpz_struct where F_SYS_NAME = (
+		SELECT F_PSYS_NAME from bes_sbpz_struct where F_SYS_NAME = (
+		SELECT F_PSYS_NAME from bes_sbpz_struct where F_SYS_NAME = (
+		SELECT F_PSYS_NAME from bes_sbpz_struct where F_SYS_NAME = #{f_sys_name}
+		))))
+	</select>
+	<!--wanghongjie start 20200702 查询DDC控制器的信息-->
+	<select id="queryDDCBySysName" resultType="java.util.Map">
+		select * from bes_ddc where F_SYS_NAME_OLD = #{f_sys_name}
+	</select>
+	<!--wanghongjie start 20200702 根据模块名称查询所属的ddc的channelId-->
+    <select id="querychannelIdByModule" resultType="java.lang.String">
+		select F_CHANNEL_ID from bes_ddc where F_SYS_NAME_OLD = (
+	select f_psys_name FROM bes_sbpz_struct where F_SYS_NAME_OLD = (
+	select f_psys_name FROM bes_sbpz_struct where F_SYS_NAME_OLD = (
+	select f_psys_name FROM bes_sbpz_struct where F_SYS_NAME_OLD = #{f_sys_name}
+	)))
+	</select>
+	<!--wanghongjie start 20200702 根据模块名称查询模块的信息-->
+	<select id="queryModuleBySysName" resultType="java.util.Map">
+		select * from bes_module where F_SYS_NAME_OLD = #{f_sys_name}
+	</select>
+	<!--wanghongjie start 20200702 根据channelId地址查询表 bes_ddc ddc是否存在-->
+	<select id="getDDCByChannelId" resultType="java.util.HashMap">
+		select * from bes_ddc where F_CHANNEL_ID = #{channelId}
+	</select>
+	<!--wanghongjie start 20200707 根据模块的id查询表 bes_module 模块是否存在-->
+    <select id="getModuleById" resultType="java.util.Map">
+		select * from bes_module where F_STRUCT_ID = #{f_struct_id}
+	</select>
+
+	<!--wanghongjie start 20200713 查询DDC关联的模块-->
+	<select id="queryModule" resultType="java.util.Map">
+		select * from bes_module where F_SYS_NAME_OLD in (
+		select F_SYS_NAME_OLD from bes_sbpz_struct where F_PSYS_NAME in (
+		select F_SYS_NAME_OLD from bes_sbpz_struct where F_PSYS_NAME in (
+		select F_SYS_NAME_OLD from bes_sbpz_struct where F_PSYS_NAME = #{f_sys_name}
+		)))
+	</select>
+
+	<!--wanghongjie start 20200713 查询DDC关联的虚点-->
+	<select id="queryVpoint" resultType="java.util.Map">
+		select * from bes_vpoint where F_SYS_NAME_OLD in (
+		select F_SYS_NAME_OLD from bes_sbpz_struct where F_PSYS_NAME in (
+		select F_SYS_NAME_OLD from bes_sbpz_struct where F_PSYS_NAME = #{f_sys_name}
+		))
+	</select>
+	<!--wanghongjie start 20200713 查询DDC关联的实点-->
+	<select id="queryPoint" resultType="java.util.Map">
+	select * from bes_sbpz_struct where F_PSYS_NAME in (
+	select F_SYS_NAME_OLD from bes_sbpz_struct where F_PSYS_NAME in (
+	select F_SYS_NAME_OLD from bes_sbpz_struct where F_PSYS_NAME in (
+	select F_SYS_NAME_OLD from bes_sbpz_struct where F_PSYS_NAME = #{f_sys_name}
+	)))
+	</select>
+</mapper>

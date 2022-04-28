@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.efounder.JEnterprise.mapper.basedatamanage.eqmanage.BesAoPointMapper" >
+  <resultMap id="BESAoPointMap" type="com.efounder.JEnterprise.model.basedatamanage.eqmanage.BesAoPoint" >
+    <id column="F_GUID" property="fGuid" />
+    <result column="F_GUID" property="fGuid" />
+    <result column="F_SBID" property="fSbid" />
+    <result column="F_STRUCT_ID" property="fStructId" />
+    <result column="F_SYS_NAME_OLD" property="fSysNameOld" />
+    <result column="F_SYS_NAME" property="fSysName" />
+    <result column="F_NICK_NAME" property="fNickName" />
+    <result column="F_ENABLED" property="fEnabled" />
+    <result column="F_CHANNEL_INDEX" property="fChannelIndex" />
+    <result column="F_ENGINEER_UNIT" property="fEngineerUnit" />
+    <result column="F_NODE_TYPE" property="fNodeType" />
+    <result column="F_SINNAL_TYPE" property="fSinnalType" />
+    <result column="F_MIN_VAL" property="fMinVal" />
+    <result column="F_MAX_VAL" property="fMaxVal" />
+    <result column="F_ACCURACY" property="fAccuracy" />
+    <result column="F_REVERSED" property="fReversed" />
+    <result column="F_WORK_MODE" property="fWorkMode" />
+    <result column="F_ALARM_ENABLE" property="fAlarmEnable" />
+    <result column="F_ALARM_TYPE" property="fAlarmType" />
+    <result column="F_HIGH_LIMIT" property="fHighLimit" />
+    <result column="F_LOW_LIMIT" property="fLowLimit" />
+    <result column="F_ALARM_PRIORITY" property="fAlarmPriority" />
+    <result column="F_INIT_VAL" property="fInitVal" />
+    <result column="F_DESCRIPTION" property="fDescription" />
+    <result column="F_YQBH" property="fYqbh" />
+    <result column="F_CRDATE" property="fCrdate" />
+    <result column="F_CHDATE" property="fChdate" />
+    <result column="F_AO_STATE" property="fAoState" />
+      <result column="F_ENERGYSTATICS" property="fEnergystatics" />
+      <result column="F_ENERGY_TYPE" property="fEnergyType" />
+
+  </resultMap>
+  <sql id="Base_Column_List" >
+      F_GUID,
+      F_SBID,
+      F_STRUCT_ID,
+      F_SYS_NAME_OLD,
+      F_SYS_NAME,
+      F_NICK_NAME,
+      F_ENABLED,
+      F_CHANNEL_INDEX,
+      F_ENGINEER_UNIT,
+      F_NODE_TYPE,
+      F_SINNAL_TYPE,
+      F_MIN_VAL,
+      F_MAX_VAL,
+      F_ACCURACY,
+      F_REVERSED,
+      F_WORK_MODE,
+      F_ALARM_ENABLE,
+      F_ALARM_TYPE,
+      F_HIGH_LIMIT,
+      F_LOW_LIMIT,
+      F_ALARM_PRIORITY,
+      F_INIT_VAL,
+      F_DESCRIPTION,
+      F_YQBH,
+      F_CRDATE,
+      F_CHDATE,
+      F_AO_STATE,
+      F_ENERGYSTATICS,
+      F_ENERGY_TYPE
+
+  </sql>
+
+  <!-- 查询ai根据 -->
+  <select id="queryAoPoint" resultMap="BESAoPointMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from bes_analog_ouput
+    	<![CDATA[
+			WHERE F_SYS_NAME = #{f_sys_name}
+		]]>
+  </select>
+
+  <!--获取所有ai数据-->
+  <select id="loadAll" resultMap="BESAoPointMap">
+    select
+    <include refid="Base_Column_List" />
+    from bes_analog_ouput
+  </select>
+
+</mapper>

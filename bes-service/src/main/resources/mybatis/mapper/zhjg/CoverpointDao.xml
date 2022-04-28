@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.efounder.JEnterprise.zhjg.dao.CoverpointDao">
+
+    <!-- 可根据自己的需求，是否要使用 -->
+    <resultMap type="com.efounder.JEnterprise.zhjg.entity.CoverpointEntity" id="coverpointMap">
+                    <result property="fGuid" column="F_GUID"/>
+                    <result property="fCode" column="F_CODE"/>
+                    <result property="fPointName" column="F_POINT_NAME"/>
+                    <result property="fPointIp" column="F_POINT_IP"/>
+                    <result property="fLongitude" column="F_LONGITUDE"/>
+                    <result property="fLatitude" column="F_LATITUDE"/>
+                    <result property="fRegionId" column="F_REGION_ID"/>
+                    <result property="fRemark" column="F_REMARK"/>
+                    <result property="fIsUse" column="F_IS_USE"/>
+                    <result property="fStatus" column="F_STATUS"/>
+                    <result property="fCrdate" column="F_CRDATE"/>
+                    <result property="fChdate" column="F_CHDATE"/>
+            </resultMap>
+
+    <sql id="Base_Column_List">
+        select F_GUID, F_CODE, F_POINT_NAME, F_POINT_IP, F_LONGITUDE, F_LATITUDE, F_REGION_ID, F_REMARK, F_IS_USE, F_STATUS, F_CRDATE, F_CHDATE from seb_coverpoint
+    </sql>
+
+    <!-- 关键字查询，分页查询 -->
+    <select id="getSearch" resultMap="coverpointMap" parameterType="java.lang.String">
+        <include refid="Base_Column_List"/>
+        <where>
+            1=1
+            <if test="keywords != null and keywords != ''">
+                and F_CODE like CONCAT ('%', #{keywords},'%')
+                or F_POINT_NAME like CONCAT ('%', #{keywords},'%')
+            </if>
+        </where>
+    </select>
+
+    <select id="getSearchById" resultMap="coverpointMap" parameterType="java.lang.String">
+        <include refid="Base_Column_List"/>
+        <where>
+            F_GUID = #{fGuid}
+        </where>
+    </select>
+
+    <insert id="add" parameterType="com.efounder.JEnterprise.zhjg.entity.CoverpointEntity">
+        insert into seb_coverpoint
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+        <if test="fGuid != null ">F_GUID,
+        </if>
+        <if test="fCode != null ">F_CODE,
+        </if>
+        <if test="fPointName != null ">F_POINT_NAME,
+        </if>
+        <if test="fPointIp != null ">F_POINT_IP,
+        </if>
+        <if test="fLongitude != null ">F_LONGITUDE,
+        </if>
+        <if test="fLatitude != null ">F_LATITUDE,
+        </if>
+        <if test="fRegionId != null ">F_REGION_ID,
+        </if>
+        <if test="fRemark != null ">F_REMARK,
+        </if>
+        <if test="fIsUse != null ">F_IS_USE,
+        </if>
+        <if test="fStatus != null ">F_STATUS,
+        </if>
+        <if test="fCrdate != null ">F_CRDATE,
+        </if>
+        <if test="fChdate != null ">F_CHDATE,
+        </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+        <if test="fGuid != null ">#{fGuid},
+        </if>
+        <if test="fCode != null ">#{fCode},
+        </if>
+        <if test="fPointName != null ">#{fPointName},
+        </if>
+        <if test="fPointIp != null ">#{fPointIp},
+        </if>
+        <if test="fLongitude != null ">#{fLongitude},
+        </if>
+        <if test="fLatitude != null ">#{fLatitude},
+        </if>
+        <if test="fRegionId != null ">#{fRegionId},
+        </if>
+        <if test="fRemark != null ">#{fRemark},
+        </if>
+        <if test="fIsUse != null ">#{fIsUse},
+        </if>
+        <if test="fStatus != null ">#{fStatus},
+        </if>
+        <if test="fCrdate != null ">#{fCrdate},
+        </if>
+        <if test="fChdate != null ">#{fChdate},
+        </if>
+        </trim>
+    </insert>
+
+    <update id="update" parameterType="com.efounder.JEnterprise.zhjg.entity.CoverpointEntity">
+        update seb_coverpoint
+        <trim prefix="SET" suffixOverrides=",">
+         <if test="fGuid != null">F_GUID = #{fGuid},</if>
+         <if test="fCode != null">F_CODE = #{fCode},</if>
+         <if test="fPointName != null">F_POINT_NAME = #{fPointName},</if>
+         <if test="fPointIp != null">F_POINT_IP = #{fPointIp},</if>
+         <if test="fLongitude != null">F_LONGITUDE = #{fLongitude},</if>
+         <if test="fLatitude != null">F_LATITUDE = #{fLatitude},</if>
+         <if test="fRegionId != null">F_REGION_ID = #{fRegionId},</if>
+         <if test="fRemark != null">F_REMARK = #{fRemark},</if>
+         <if test="fIsUse != null">F_IS_USE = #{fIsUse},</if>
+         <if test="fStatus != null">F_STATUS = #{fStatus},</if>
+         <if test="fCrdate != null">F_CRDATE = #{fCrdate},</if>
+         <if test="fChdate != null">F_CHDATE = #{fChdate},</if>
+        </trim>
+        where F_GUID = #{fGuid}
+    </update>
+
+    <delete id="delete" parameterType="java.lang.String" >
+        delete from seb_coverpoint where F_GUID = #{fGuid}
+    </delete>
+
+</mapper>

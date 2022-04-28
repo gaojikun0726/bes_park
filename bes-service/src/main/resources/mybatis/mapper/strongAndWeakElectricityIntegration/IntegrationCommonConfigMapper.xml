@@ -1,0 +1,527 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.efounder.JEnterprise.mapper.strongAndWeakElectricityIntegration.IntegrationCommonConfigMapper">
+
+	<resultMap id="DDCInfoListMap" type="com.efounder.JEnterprise.model.strongAndWeakElectricityIntegration.CommonPointLocationConfigVo">
+		<result column="F_SYS_NAME" property="f_sys_name" />
+		<result column="F_NICK_NAME" property="f_nick_name" />
+	</resultMap>
+	<resultMap id="PageConfigDataMap" type="com.efounder.JEnterprise.model.strongAndWeakElectricityIntegration.IntegrationPageCommonConfigVo">
+		<!-- <result column="F_GUID" property="f_guid" /> -->
+		<result column="F_EQUIPMENT_ID" property="f_equipment_id" /><!-- 所展示的设备的id -->
+		<result column="F_DDC_SYS_NAME" property="f_ddc_sys_name" />		<!-- 页面所配置展示的点位系统名称 -->
+		<result column="F_SYS_NAME" property="f_sys_name" />		<!-- 页面所配置展示的点位系统名称 -->
+		<result column="F_DESC" property="f_desc" />				<!-- 页面展示描述 -->
+		<result column="F_FORMULA" property="f_formula" />			<!-- 计算公式 -->
+		<result column="F_SEQ" property="f_seq" />					<!-- div序号 -->
+	</resultMap>
+	<resultMap id="PageConfigDataMapTop" type="com.efounder.JEnterprise.model.strongAndWeakElectricityIntegration.IntegrationPageCommonConfigtop">
+		<!-- <result column="F_GUID" property="f_guid" /> -->
+		<result column="F_EQUIPMENT_ID" property="f_equipment_id" /><!-- 所展示的设备的id -->
+		<result column="F_DESC" property="f_desc" />				<!-- 页面展示描述 -->
+		<result column="F_SEQ" property="f_seq" />					<!-- div序号 -->
+		<result column="F_TYPE_ID" property="f_type_id" />			<!-- 类型标志数 -->
+	</resultMap>
+	<resultMap id="AliveDivPageDataListMap" type="com.efounder.JEnterprise.model.strongAndWeakElectricityIntegration.AliveDivConfigVo">
+		<result column="F_DDC_SYS_NAME" property="f_ddc_sys_name" />
+		<result column="F_SYS_NAME" property="f_sys_name" />
+		<result column="F_DIV_SEQ" property="f_div_seq" />
+		<result column="F_MOVE_TOP" property="f_move_top" />
+		<result column="F_MOVE_LEFT" property="f_move_left" />
+	</resultMap>
+	<resultMap id="TableDataListMap" type="com.efounder.JEnterprise.model.strongAndWeakElectricityIntegration.TableDataConfigVo">
+		<result column="F_DDC_SYS_NAME" property="f_ddc_sys_name" />
+		<result column="F_SYS_NAME" property="f_sys_name" />
+		<result column="F_DESC" property="f_desc" />
+		<result column="F_SEQ" property="f_seq" />
+		<result column="F_MARK" property="f_mark" />
+		<result column="F_UNIT" property="f_unit" />
+	</resultMap>
+	
+	<!-- 查询DDC信息开始 -->
+   	<select id="findDDCInfos" resultMap="DDCInfoListMap">
+   		select
+   			f_guid,f_sys_name,f_nick_name
+   		from bes_ddc
+   	</select>
+    <!-- 查询操作结束 -->
+    
+	<!-- 查询DDC所属点位信息开始 -->
+   	<select id="queryPointLocationInfos" resultMap="DDCInfoListMap" parameterType="java.lang.String">
+   		SELECT F_SYS_NAME,F_NICK_NAME FROM bes_sbpz_struct WHERE F_PSYS_NAME IN (
+		SELECT F_SYS_NAME FROM BES_SBPZ_STRUCT WHERE F_PSYS_NAME=#{f_sys_name})AND F_NICK_NAME!='新增线路'
+		UNION
+		SELECT F_SYS_NAME,F_NICK_NAME FROM bes_sbpz_struct WHERE F_PSYS_NAME IN (
+			SELECT F_SYS_NAME FROM bes_sbpz_struct WHERE F_PSYS_NAME IN (
+				SELECT F_SYS_NAME FROM bes_sbpz_struct WHERE F_PSYS_NAME IN (
+					SELECT F_SYS_NAME FROM BES_SBPZ_STRUCT WHERE F_PSYS_NAME=#{f_sys_name})))
+   	</select>
+    <!-- 查询操作结束 -->
+    
+    <!-- 增加配置信息操作开始 -->
+    <insert id="insertPageCommonConfig" parameterType="com.efounder.JEnterprise.model.strongAndWeakElectricityIntegration.IntegrationPageCommonConfigVo">
+    	insert into strongandweakelectricityintegration_commonconfig
+               		   (F_EQUIPMENT_ID,
+						F_FORMULA,
+               		   	F_DESC,
+               		   	F_DDC_SYS_NAME,
+               		   	F_SYS_NAME,
+               		   	F_DDC_SYS_NAME1,
+               		   	F_SYS_NAME1,
+						F_FORMULA1,
+               		   	F_DDC_SYS_NAME21,
+               		   	F_SYS_NAME21,
+						F_FORMULA21,
+               		   	F_DDC_SYS_NAME22,
+               		   	F_SYS_NAME22,
+						F_FORMULA22,
+               		   	F_DDC_SYS_NAME41,
+               		   	F_SYS_NAME41,
+						F_FORMULA41,
+               		   	F_DDC_SYS_NAME42,
+               		   	F_SYS_NAME42,
+						F_FORMULA42,
+               		   	F_DDC_SYS_NAME43,
+               		   	F_SYS_NAME43,
+						F_FORMULA43,
+               		   	F_DDC_SYS_NAME44,
+               		   	F_SYS_NAME44,
+						F_FORMULA44,
+               		   	F_SEQ,
+               		   	<if test="f_type_id != null and f_type_id != '' ">
+						F_TYPE_ID,
+						</if>
+		                F_CRDATE
+		               )
+		                VALUE(
+		                #{f_equipment_id},
+						#{f_formula},
+		                #{f_desc},
+		                #{f_ddc_sys_name},
+		                #{f_sys_name},
+		                #{f_ddc_sys_name1},
+		                #{f_sys_name1},
+						#{f_formula1},
+		                #{f_ddc_sys_name21},
+		                #{f_sys_name21},
+						#{f_formula21},
+		                #{f_ddc_sys_name22},
+		                #{f_sys_name22},
+						#{f_formula22},
+		                #{f_ddc_sys_name41},
+		                #{f_sys_name41},
+						#{f_formula41},
+		                #{f_ddc_sys_name42},
+		                #{f_sys_name42},
+						#{f_formula42},
+		                #{f_ddc_sys_name43},
+		                #{f_sys_name43},
+						#{f_formula43},
+		                #{f_ddc_sys_name44},
+		                #{f_sys_name44},
+						#{f_formula44},
+		                #{f_seq},
+		                <if test="f_type_id != null and f_type_id != '' ">
+						#{f_type_id},
+						</if>
+		                NOW())
+    	</insert>
+
+	<insert id="insertPageCommonConfigtop" parameterType="com.efounder.JEnterprise.model.strongAndWeakElectricityIntegration.IntegrationPageCommonConfigtop">
+    	insert into strongandweakelectricityintegration_commonconfig_top
+               		   (F_EQUIPMENT_ID,
+               		   	F_DESC,
+               		   	F_SEQ,
+		                F_CRDATE,
+		                F_TYPE_ID
+		               )
+		                VALUE(
+		                #{f_equipment_id},
+		                #{f_desc},
+		                #{f_seq},
+		                NOW(),
+		                #{f_type_id})
+    	</insert>
+    <!-- 增加操作结束 -->
+    
+    
+    <!-- 增加DIV展示数目配置信息操作开始 -->
+    <insert id="confirmIntegrationDivNumConfig" parameterType="com.efounder.JEnterprise.model.strongAndWeakElectricityIntegration.IntegrationPageDivNumConfigVo">
+    	insert into strongandweakelectricityintegration_divnumconfig
+               		   (F_EQUIPMENT_ID,
+               		   	F_DIV_NUM,
+               		   	F_TYPE_ID
+		               )
+		                VALUE(
+		                #{f_equipment_id},
+		                #{f_div_num},
+		                #{f_type_id}
+		              )
+    	</insert>
+	<!-- 增加DIV展示数目配置信息操作开始 左侧的div数量-->
+	<insert id="confirmIntegrationDivNumConfigByLeft" parameterType="com.efounder.JEnterprise.model.strongAndWeakElectricityIntegration.IntegrationPageDivNumConfigVo">
+    	insert into strongandweakelectricityintegration_divnumconfigByLeft
+               		   (F_EQUIPMENT_ID,
+               		   	F_DIV_NUM,
+               		   	F_TYPE_ID
+		               )
+		                VALUE(
+		                #{f_equipment_id},
+		                #{f_div_num},
+		                #{f_type_id}
+		              )
+    	</insert>
+    <!-- 增加操作结束 -->
+    
+    <!-- 查询页面配置div展示信息开始 -->
+   	<select id="searchPageConfigData" resultType="com.efounder.JEnterprise.model.strongAndWeakElectricityIntegration.IntegrationPageCommonConfigVo" parameterType="java.lang.String">
+   		SELECT F_DDC_SYS_NAME,F_SYS_NAME,
+   		F_DDC_SYS_NAME1,F_SYS_NAME1,F_FORMULA1,
+   		F_DDC_SYS_NAME21,F_SYS_NAME21,F_FORMULA21,
+   		F_DDC_SYS_NAME22,F_SYS_NAME22,F_FORMULA22,
+   		F_DDC_SYS_NAME41,F_SYS_NAME41,F_FORMULA41,
+   		F_DDC_SYS_NAME42,F_SYS_NAME42,F_FORMULA42,
+   		F_DDC_SYS_NAME43,F_SYS_NAME43,F_FORMULA43,
+   		F_DDC_SYS_NAME44,F_SYS_NAME44,F_FORMULA44,F_SEQ,F_DESC,F_FORMULA FROM strongandweakelectricityintegration_commonconfig
+   		WHERE F_EQUIPMENT_ID = #{f_equipment_id} AND F_TYPE_ID = #{f_type_id}
+   	</select>
+
+	<select id="searchPageConfigDatatop" resultMap="PageConfigDataMapTop" parameterType="java.lang.String">
+   		SELECT F_SEQ,F_DESC FROM strongandweakelectricityintegration_commonconfig_top
+   		WHERE F_EQUIPMENT_ID = #{f_equipment_id} AND F_TYPE_ID=#{f_type_id}
+   	</select>
+    <!-- 查询操作结束 -->
+    
+    <!-- 查询DIV展示数目配置信息操作开始  -->
+   	<select id="checkDivNumDataInfo" resultType="int" parameterType="java.lang.String">
+   		SELECT COUNT(*) FROM strongandweakelectricityintegration_divnumconfig WHERE F_EQUIPMENT_ID= #{f_equipment_id} AND F_TYPE_ID = #{f_type_id}
+   	</select>
+
+	<select id="checkDivNumDataInfoByLeft" resultType="int" parameterType="java.lang.String">
+   		SELECT COUNT(*) FROM strongandweakelectricityintegration_divnumconfigByLeft WHERE F_EQUIPMENT_ID= #{f_equipment_id}  AND F_TYPE_ID = #{f_type_id}
+   	</select>
+    <!-- 查询操作结束 -->
+    
+    <!-- 查询DIV展示配置信息操作开始  -->
+   	<select id="checkPageCommonConfig" resultType="int" parameterType="java.lang.String">
+   		SELECT COUNT(*) FROM strongandweakelectricityintegration_commonconfig WHERE F_EQUIPMENT_ID= #{f_equipment_id} AND F_SEQ= #{f_seq} AND F_TYPE_ID = #{f_type_id}
+   	</select>
+
+	<select id="checkPageCommonConfigRepetition" resultType="int" parameterType="java.lang.String">
+   		SELECT COUNT(*) FROM strongandweakelectricityintegration_commonconfig WHERE F_EQUIPMENT_ID= #{f_equipment_id}  AND F_SYS_NAME=#{f_sys_name} AND F_TYPE_ID = #{f_type_id} AND F_SEQ >7 and F_DESC=#{f_desc} and F_FORMULA = #{f_formula}
+   	</select>
+
+	<select id="checkPageCommonConfigtop" resultType="int" parameterType="java.lang.String">
+   		SELECT COUNT(*) FROM strongandweakelectricityintegration_commonconfig_top WHERE F_EQUIPMENT_ID= #{f_equipment_id} AND F_SEQ= #{f_seq} AND F_TYPE_ID=#{f_type_id}
+   	</select>
+    <!-- 查询操作结束 -->
+    
+    <!-- 更新DIV展示配置信息操作开始 -->
+     <update id="updateIntegrationPageCommonConfig" parameterType="com.efounder.JEnterprise.model.strongAndWeakElectricityIntegration.IntegrationPageCommonConfigVo" >
+        update strongandweakelectricityintegration_commonconfig
+        set F_FORMULA = #{f_formula},F_DESC = #{f_desc},F_DDC_SYS_NAME=#{f_ddc_sys_name},F_SYS_NAME=#{f_sys_name},
+        F_DDC_SYS_NAME1=#{f_ddc_sys_name1},F_SYS_NAME1=#{f_sys_name1},F_FORMULA1 = #{f_formula1},
+        F_DDC_SYS_NAME21=#{f_ddc_sys_name21},F_SYS_NAME21=#{f_sys_name21},F_FORMULA21 = #{f_formula21},
+        F_DDC_SYS_NAME22=#{f_ddc_sys_name22},F_SYS_NAME22=#{f_sys_name22},F_FORMULA22 = #{f_formula22},
+        F_DDC_SYS_NAME41=#{f_ddc_sys_name41},F_SYS_NAME41=#{f_sys_name41},F_FORMULA41 = #{f_formula41},
+        F_DDC_SYS_NAME42=#{f_ddc_sys_name42},F_SYS_NAME42=#{f_sys_name42},F_FORMULA42 = #{f_formula42},
+        F_DDC_SYS_NAME43=#{f_ddc_sys_name43},F_SYS_NAME43=#{f_sys_name43},F_FORMULA43 = #{f_formula43},
+        F_DDC_SYS_NAME44=#{f_ddc_sys_name44},F_SYS_NAME44=#{f_sys_name44},F_FORMULA44 = #{f_formula44}
+        where F_EQUIPMENT_ID = #{f_equipment_id} AND F_SEQ = #{f_seq} AND F_TYPE_ID = #{f_type_id}
+    </update>
+
+	<update id="updateIntegrationPageCommonConfigtop" parameterType="com.efounder.JEnterprise.model.strongAndWeakElectricityIntegration.IntegrationPageCommonConfigtop" >
+        update strongandweakelectricityintegration_commonconfig_top
+        set F_DESC = #{f_desc}
+        where F_EQUIPMENT_ID = #{f_equipment_id} AND F_SEQ = #{f_seq}
+    </update>
+    <!-- 更新操作结束 -->
+    
+    <!-- 更新DIV展示数目配置信息操作开始 -->
+     <update id="updateIntegrationDivNumConfig" parameterType="com.efounder.JEnterprise.model.strongAndWeakElectricityIntegration.IntegrationPageDivNumConfigVo" >
+        update strongandweakelectricityintegration_divnumconfig
+        set F_DIV_NUM = #{f_div_num}
+        where F_EQUIPMENT_ID = #{f_equipment_id}
+    </update>
+	<!-- 更新DIV展示数目配置信息操作开始 左侧的div数量 -->
+	<update id="updateIntegrationDivNumConfigByLeft" parameterType="com.efounder.JEnterprise.model.strongAndWeakElectricityIntegration.IntegrationPageDivNumConfigVo" >
+        update strongandweakelectricityintegration_divnumconfigByLeft
+        set F_DIV_NUM = #{f_div_num}
+        where F_EQUIPMENT_ID = #{f_equipment_id} AND F_TYPE_ID = #{f_type_id}
+    </update>
+    <!-- 更新操作结束 -->
+    
+    <select id="searchIntegrationPageDivConfigNum" resultType="Integer" parameterType="java.lang.String">
+ 		SELECT F_DIV_NUM FROM strongandweakelectricityintegration_divnumconfig where F_EQUIPMENT_ID=#{f_equipment_id} AND F_TYPE_ID =#{f_type_id}
+    </select>
+
+	<select id="searchIntegrationPageDivConfigNumByLeft" resultType="Integer" parameterType="java.lang.String">
+ 		SELECT F_DIV_NUM FROM strongandweakelectricityintegration_divnumconfigByLeft where F_EQUIPMENT_ID=#{f_equipment_id} AND F_TYPE_ID =#{f_type_id}
+    </select>
+    <!-- 查询配置展示页面div的数值及单位 -->
+    <select id="loadInitValAndEngineerUnit" resultType="com.efounder.JEnterprise.model.strongAndWeakElectricityIntegration.IntegrationInitValAndEngineerUnitVo" parameterType="java.lang.String">
+ 		select f_accuracy, f_sys_name_old, f_sys_name,f_init_val,f_engineer_unit from bes_vpoint where f_sys_name in ${f_sysName_list}
+ 		UNION
+		select f_accuracy, f_sys_name_old, f_sys_name,f_init_val,f_engineer_unit from bes_analog_input where f_sys_name in ${f_sysName_list}
+		UNION
+		select f_accuracy, f_sys_name_old, f_sys_name,f_init_val,f_engineer_unit from bes_analog_ouput where f_sys_name in ${f_sysName_list}
+		 UNION
+		select '' as f_accuracy, f_sys_name_old, f_sys_name,f_init_val,'' as f_engineer_unit from bes_digit_input where f_sys_name in ${f_sysName_list}
+		UNION
+		select '' as f_accuracy, f_sys_name_old, f_sys_name,f_init_val,'' as f_engineer_unit from bes_digit_ouput where f_sys_name in ${f_sysName_list}
+    </select>
+    
+    <!-- 查询活动DIV配置信息开始 -->
+   	<select id="searchIntegrationAliveDivPageConfig" resultMap="AliveDivPageDataListMap">
+   		select
+   			f_ddc_sys_name,f_sys_name,f_div_seq,f_move_top,f_move_left
+   		from strongandweakelectricityintegration_alivedivconfig
+   	</select>
+    <!-- 查询操作结束 -->
+    
+    <!-- 增加页面活动DIV配置信息开始 -->
+    <insert id="insertAliveDivCommonConfig" parameterType="com.efounder.JEnterprise.model.strongAndWeakElectricityIntegration.AliveDivConfigVo">
+    	insert into strongandweakelectricityintegration_alivedivconfig
+               		   (F_DDC_SYS_NAME,
+               		   	F_SYS_NAME,
+               		   	F_DIV_SEQ,
+               		   	F_MOVE_TOP,
+		                F_MOVE_LEFT,
+		                F_CRDATE
+		               )
+		                VALUE(
+		                #{f_ddc_sys_name},
+		                #{f_sys_name},
+		                #{f_div_seq},
+		                #{f_move_top},
+		                #{f_move_left},
+		                NOW())
+    	</insert>
+    <!-- 增加操作结束 -->
+    
+    <!-- 查询活动div配置信息操作开始  -->
+   	<select id="checkConfigDivSequenceInfo" resultType="int" parameterType="java.lang.String">
+   		SELECT COUNT(*) FROM strongandweakelectricityintegration_alivedivconfig WHERE F_DIV_SEQ= #{f_div_seq}
+   	</select>
+    <!-- 查询操作结束 -->
+    
+    <!-- 更新DIV展示数目配置信息操作开始 -->
+     <update id="updateAliveDivCommonConfig" parameterType="com.efounder.JEnterprise.model.strongAndWeakElectricityIntegration.AliveDivConfigVo" >
+        update strongandweakelectricityintegration_alivedivconfig
+        set F_DDC_SYS_NAME=#{f_ddc_sys_name}, F_SYS_NAME=#{f_sys_name},
+            F_MOVE_TOP=#{f_move_top},F_MOVE_LEFT=#{f_move_left}
+        where F_DIV_SEQ = #{f_div_seq}
+    </update>
+    <!-- 更新操作结束 -->
+    <delete id="deleteAliveCommonConfigInfo" parameterType="java.lang.String" >
+    	delete from strongandweakelectricityintegration_alivedivconfig where f_div_seq = #{f_div_seq}
+  	</delete>
+    
+     <!-- 查询表数据展示配置信息开始 -->
+   	<select id="searchIntegrationTableDataConfig" resultMap="TableDataListMap">
+   		select
+   			f_id,f_ddc_sys_name,f_sys_name,f_desc,f_seq,f_mark,f_unit
+   		from strongandweakelectricityintegration_tabledataconfig
+   		where f_page_name = #{f_page_name} and f_device_id = #{f_device_id}
+   		order by f_mark,f_seq
+   	</select>
+    <!-- 查询操作结束 -->
+    
+    <!-- 增加强弱电一体化表数据配置信息开始 -->
+    <insert id="insertTableDataCommonConfig" parameterType="com.efounder.JEnterprise.model.strongAndWeakElectricityIntegration.TableDataConfigVo">
+    	insert into strongandweakelectricityintegration_tabledataconfig
+               		   (F_DDC_SYS_NAME,
+               		   	F_SYS_NAME,
+               		   	F_DESC,
+               		   	F_SEQ,
+		                F_MARK,
+		                F_PAGE_NAME,
+		                F_DEVICE_ID,
+		                F_UNIT,
+		                F_CRDATE
+		               )
+		                VALUE(
+		                #{f_ddc_sys_name},
+		                #{f_sys_name},
+		                #{f_desc},
+		                #{f_seq},
+		                #{f_mark},
+		                #{f_page_name},
+		                #{f_device_id},
+		                #{f_unit},
+		                NOW())
+    </insert>
+    <!-- 增加操作结束 -->
+    
+    <!-- 更新表数据展示配置信息操作开始 -->
+     <update id="updateTableDataCommonConfig" parameterType="com.efounder.JEnterprise.model.strongAndWeakElectricityIntegration.TableDataConfigVo" >
+        update strongandweakelectricityintegration_tabledataconfig
+        set F_DDC_SYS_NAME=#{f_ddc_sys_name}, F_SYS_NAME=#{f_sys_name},
+            F_DESC=#{f_desc},F_SEQ=#{f_seq},F_UNIT=#{f_unit}
+        where F_ID = #{f_id}
+    </update>
+    <!-- 更新操作结束 -->
+    
+    <!-- 删除表数据展示配置信息操作开始 -->
+    <delete id="deleteTableDataCommonConfig" parameterType="java.lang.String" >
+    	delete from strongandweakelectricityintegration_tabledataconfig where f_id = #{f_id}
+  	</delete>
+    <!-- 删除操作结束 -->
+    
+     <!-- 查询DIV展示配置信息操作开始  -->
+   	<select id="checkEnergyEfficiencyConfig" resultType="int" parameterType="java.lang.String">
+   		SELECT COUNT(*) FROM strongandweakelectricityintegration_energyefficiency WHERE F_SEQ= #{f_seq}
+   	</select>
+    <!-- 查询操作结束 -->
+    
+    
+     <!-- 增加配置信息操作开始 -->
+    <insert id="insertEnergyEfficiencyConfig" parameterType="com.efounder.JEnterprise.model.strongAndWeakElectricityIntegration.IntegrationPageCommonConfigVo">
+    	insert into strongandweakelectricityintegration_energyefficiency
+               		   (F_DESC,
+               		   	F_DDC_SYS_NAME,
+               		   	F_SYS_NAME,
+               		   	F_DDC_SYS_NAME1,
+               		   	F_SYS_NAME1,
+               		   	F_DDC_SYS_NAME31,
+               		   	F_SYS_NAME31,
+               		   	F_DDC_SYS_NAME32,
+               		   	F_SYS_NAME32,
+               		   	F_DDC_SYS_NAME33,
+               		   	F_SYS_NAME33,
+               		   	F_SEQ,
+		                F_CRDATE
+		               )
+		                VALUE(
+		                #{f_desc},
+		                #{f_ddc_sys_name},
+		                #{f_sys_name},
+		                 #{f_ddc_sys_name1},
+		                #{f_sys_name1},
+		                 #{f_ddc_sys_name31},
+		                #{f_sys_name31},
+		                 #{f_ddc_sys_name32},
+		                #{f_sys_name32},
+		                 #{f_ddc_sys_name33},
+		                #{f_sys_name33},
+		                #{f_seq},
+		                NOW())
+    	</insert>
+    <!-- 增加操作结束 -->
+    
+    <!-- 更新系统能效DIV展示配置信息操作开始 -->
+     <update id="updateIntegrationEnergyEfficiencyConfig" parameterType="com.efounder.JEnterprise.model.strongAndWeakElectricityIntegration.IntegrationPageCommonConfigVo" >
+        update strongandweakelectricityintegration_energyefficiency
+        set F_DESC = #{f_desc},F_DDC_SYS_NAME=#{f_ddc_sys_name},F_SYS_NAME=#{f_sys_name},
+        F_DDC_SYS_NAME1=#{f_ddc_sys_name1},F_SYS_NAME1=#{f_sys_name1},
+        F_DDC_SYS_NAME31=#{f_ddc_sys_name31},F_SYS_NAME31=#{f_sys_name31},
+        F_DDC_SYS_NAME32=#{f_ddc_sys_name32},F_SYS_NAME32=#{f_sys_name32},
+        F_DDC_SYS_NAME33=#{f_ddc_sys_name33},F_SYS_NAME33=#{f_sys_name33}
+        where F_SEQ = #{f_seq}
+    </update>
+    <!-- 更新操作结束 -->
+    
+     <!-- 查询系统能效页面配置div展示信息开始 -->
+   	<select id="searchEnergyEfficiencyPageConfigData" resultMap="PageConfigDataMap" parameterType="java.lang.String">
+   		SELECT F_DDC_SYS_NAME,F_SYS_NAME,F_DDC_SYS_NAME1,F_SYS_NAME1,F_DDC_SYS_NAME31,F_SYS_NAME31,F_DDC_SYS_NAME32,F_SYS_NAME32,F_DDC_SYS_NAME33,F_SYS_NAME33,F_SEQ,F_DESC FROM strongandweakelectricityintegration_energyefficiency
+   	</select>
+    <!-- 查询操作结束 -->
+
+	<!-- 增加能效评估配置信息 -->
+	<insert id="insertAssessment" parameterType="com.efounder.JEnterprise.model.strongAndWeakElectricityIntegration.IntegrationPageCommonConfigVo">
+		insert into strongandweakelectricityintegration_commonconfig
+		(F_EQUIPMENT_ID,
+		F_DESC,
+		F_DDC_SYS_NAME,
+		F_SYS_NAME,
+		F_DDC_SYS_NAME1,
+		F_SYS_NAME1,
+		F_DDC_SYS_NAME21,
+		F_SYS_NAME21,
+		F_DDC_SYS_NAME22,
+		F_SYS_NAME22,
+		F_DDC_SYS_NAME41,
+		F_SYS_NAME41,
+		F_DDC_SYS_NAME42,
+		F_SYS_NAME42,
+		F_DDC_SYS_NAME43,
+		F_SYS_NAME43,
+		F_DDC_SYS_NAME44,
+		F_SYS_NAME44,
+		F_DDC_SYS_NAME_NXPG,
+		F_SYS_NAME_NXPG,
+		F_SEQ,
+		<if test="f_type_id != null and f_type_id != '' ">
+			F_TYPE_ID,
+		</if>
+		F_CRDATE
+		)
+		VALUE(
+		#{f_equipment_id},
+		#{f_desc},
+		#{f_ddc_sys_name},
+		#{f_sys_name},
+		#{f_ddc_sys_name1},
+		#{f_sys_name1},
+		#{f_ddc_sys_name21},
+		#{f_sys_name21},
+		#{f_ddc_sys_name22},
+		#{f_sys_name22},
+		#{f_ddc_sys_name41},
+		#{f_sys_name41},
+		#{f_ddc_sys_name42},
+		#{f_sys_name42},
+		#{f_ddc_sys_name43},
+		#{f_sys_name43},
+		#{f_ddc_sys_name44},
+		#{f_sys_name44},
+		#{f_ddc_sys_name_nxpg},
+		#{f_sys_name_nxpg},
+		#{f_seq},
+		<if test="f_type_id != null and f_type_id != '' ">
+			#{f_type_id},
+		</if>
+		NOW())
+	</insert>
+
+	<!--添加之前删除之前能效评估数据-->
+	<delete id="deleteAssessment" parameterType="java.lang.String">
+		delete
+		from
+		strongandweakelectricityintegration_commonconfig
+		where
+		f_type_id = '6'
+	</delete>
+
+	<!--初始化查询通用配置能效评估数据-->
+	<select id="selectAssessment" resultType="com.efounder.JEnterprise.model.strongAndWeakElectricityIntegration.IntegrationPageCommonConfigVo">
+		SELECT
+		F_EQUIPMENT_ID,
+		F_DESC,
+		F_DDC_SYS_NAME,
+		F_SYS_NAME,
+		F_DDC_SYS_NAME1,
+		F_SYS_NAME1,
+		F_DDC_SYS_NAME21,
+		F_SYS_NAME21,
+		F_DDC_SYS_NAME22,
+		F_SYS_NAME22,
+		F_DDC_SYS_NAME41,
+		F_SYS_NAME41,
+		F_DDC_SYS_NAME42,
+		F_SYS_NAME42,
+		F_DDC_SYS_NAME43,
+		F_SYS_NAME43,
+		F_DDC_SYS_NAME44,
+		F_SYS_NAME44,
+		F_DDC_SYS_NAME_NXPG,
+		F_SYS_NAME_NXPG,
+		F_SEQ
+		FROM strongandweakelectricityintegration_commonconfig
+		WHERE F_TYPE_ID = '6'
+	</select>
+
+</mapper>
+
+

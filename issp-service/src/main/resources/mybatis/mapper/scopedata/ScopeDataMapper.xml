@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.efounder.JEnterprise.mapper.scopedata.ScopeDataMapper">
+
+    <sql id="table_name">
+        es_role_group
+    </sql>
+
+    <sql id="col_name">
+      id          id,
+      role_id     roleId,
+      group_id    groupId
+	</sql>
+
+    <delete id="deleteByRoleId">
+
+        delete from
+        <include refid="table_name"/>
+        where
+        role_id = #{roleId}
+    </delete>
+
+    <!--批量添加 -->
+    <insert id="insertList" parameterType="java.util.ArrayList">
+        INSERT INTO
+        <include refid="table_name"/>
+        (role_id,group_id)
+        VALUES
+        <foreach collection="list" item="item" index="index" separator=",">
+            (#{item.roleId},#{item.groupId})
+        </foreach>
+    </insert>
+
+    <select id="findAll" resultType="com.efounder.JEnterprise.model.scopedata.RoleGroupModel">
+        select
+        <include refid="col_name"/>
+        from
+        <include refid="table_name"/>
+    </select>
+    <select id="findByRoleId" resultType="com.efounder.JEnterprise.model.scopedata.RoleGroupModel">
+        select
+        <include refid="col_name"/>
+        from
+        <include refid="table_name"/>
+        where
+        role_id = #{roleId}
+    </select>
+
+</mapper>

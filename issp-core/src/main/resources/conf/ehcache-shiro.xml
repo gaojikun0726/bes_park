@@ -1,0 +1,315 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ehcache updateCheck="false" name="shiroCache">
+	<defaultCache 
+		maxElementsInMemory="10000" 
+		eternal="false" 
+		timeToIdleSeconds="120" 
+		timeToLiveSeconds="120" 
+		overflowToDisk="false" 
+		diskPersistent="false" 
+		diskExpiryThreadIntervalSeconds="120" />
+
+	<!-- 能源类型定义属性缓存数据-->
+	<cache name="energyTypeCache"
+		   maxEntriesLocalHeap="0"
+		   maxElementsOnDisk="0"
+		   eternal="true"
+		   overflowToDisk="true">
+	</cache>
+
+	<!-- 分户配置定义属性缓存数据-->
+	<cache name="householdConfigCache"
+		   maxEntriesLocalHeap="0"
+		   maxElementsOnDisk="0"
+		   eternal="true"
+		   overflowToDisk="true">
+	</cache>
+
+	<!-- 支路配置定义属性缓存数据-->
+	<cache name="branchConfigCache"
+		   maxEntriesLocalHeap="0"
+		   maxElementsOnDisk="0"
+		   eternal="true"
+		   overflowToDisk="true">
+	</cache>
+
+	<!-- 分项配置定义属性缓存数据-->
+	<cache name="subitemConfigCache"
+		   maxEntriesLocalHeap="0"
+		   maxElementsOnDisk="0"
+		   eternal="true"
+		   overflowToDisk="true">
+	</cache>
+
+	<!-- 设备类型定义属性缓存数据-->
+	<cache name="deviceTypeCache"
+		   maxEntriesLocalHeap="0"
+		   maxElementsOnDisk="0"
+		   eternal="true"
+		   overflowToDisk="true">
+	</cache>
+
+	<!-- 设备定义属性缓存数据-->
+	<cache name="deviceConfigurationCache"
+		   maxEntriesLocalHeap="0"
+		   maxElementsOnDisk="0"
+		   eternal="true"
+		   overflowToDisk="true">
+	</cache>
+
+	<!-- 设备功能定义属性缓存数据-->
+	<cache name="deviceFunctionCache"
+		   maxEntriesLocalHeap="0"
+		   maxElementsOnDisk="0"
+		   eternal="true"
+		   overflowToDisk="true">
+	</cache>
+
+	<!-- 设备功能点定义属性缓存数据-->
+	<cache name="deviceFunctionPointCache"
+		   maxEntriesLocalHeap="0"
+		   maxElementsOnDisk="0"
+		   eternal="true"
+		   overflowToDisk="true">
+	</cache>
+
+	<!-- 消息监听定义属性缓存数据-->
+	<cache name="messageMonitoringCache"
+		   maxEntriesLocalHeap="0"
+		   maxElementsOnDisk="0"
+		   eternal="true"
+		   overflowToDisk="true">
+	</cache>
+
+	<!-- 功能点状态属性缓存数据-->
+	<cache name="functionPointStateCache"
+		   maxEntriesLocalHeap="0"
+		   maxElementsOnDisk="0"
+		   eternal="true"
+		   overflowToDisk="true">
+	</cache>
+
+	<!-- 组织机构缓存数据-->
+	<cache name="groupCache"
+		   maxEntriesLocalHeap="0"
+		   maxElementsOnDisk="0"
+		   eternal="true"
+		   overflowToDisk="true">
+	</cache>
+
+	<!-- 角色组织缓存数据（数据权限）-->
+	<cache name="roleGroupCache"
+		   maxEntriesLocalHeap="0"
+		   maxElementsOnDisk="0"
+		   eternal="true"
+		   overflowToDisk="true">
+	</cache>
+
+	<!-- 角色缓存数据（数据权限）-->
+	<cache name="roleCache"
+		   maxEntriesLocalHeap="0"
+		   maxElementsOnDisk="0"
+		   eternal="true"
+		   overflowToDisk="true">
+	</cache>
+
+	<cache name="planVariatInfoCache"
+		   maxEntriesLocalHeap="0"
+		   maxElementsOnDisk="0"
+		   eternal="true"
+		   overflowToDisk="true">
+	</cache>
+
+	<!-- 设备树缓存数据-->
+	<cache name="sbPzStructCache"
+		   maxEntriesLocalHeap="0"
+		   maxElementsOnDisk="0"
+		   eternal="true"
+		   overflowToDisk="true">
+	</cache>
+
+	<!-- 设备节点类型缓存数据-->
+	<cache name="sbTreeNodeTypeCache"
+		   maxEntriesLocalHeap="0"
+		   maxElementsOnDisk="0"
+		   eternal="true"
+		   overflowToDisk="true">
+	</cache>
+
+	<!-- 采集器缓存数据-->
+	<cache name="collectorCache"
+		   maxEntriesLocalHeap="0"
+		   maxElementsOnDisk="0"
+		   eternal="true"
+		   overflowToDisk="true">
+	</cache>
+
+	<!-- 控制器缓存数据-->
+	<cache name="ddcCache"
+		   maxEntriesLocalHeap="0"
+		   maxElementsOnDisk="0"
+		   eternal="true"
+		   overflowToDisk="true">
+	</cache>
+
+	<!-- 电表缓存数据-->
+	<cache name="ammeterCache"
+		   maxEntriesLocalHeap="0"
+		   maxElementsOnDisk="0"
+		   eternal="true"
+		   overflowToDisk="true">
+	</cache>
+
+	<!-- 虚点缓存数据-->
+	<cache name="virtualPointCache"
+		   maxEntriesLocalHeap="0"
+		   maxElementsOnDisk="0"
+		   eternal="true"
+		   overflowToDisk="true">
+	</cache>
+
+	<!-- AI点缓存数据-->
+	<cache name="aiPointCache"
+		   maxEntriesLocalHeap="0"
+		   maxElementsOnDisk="0"
+		   eternal="true"
+		   overflowToDisk="true">
+	</cache>
+
+	<!-- AO点缓存数据-->
+	<cache name="aoPointCache"
+		   maxEntriesLocalHeap="0"
+		   maxElementsOnDisk="0"
+		   eternal="true"
+		   overflowToDisk="true">
+	</cache>
+
+	<!-- DI点缓存数据-->
+	<cache name="diPointCache"
+		   maxEntriesLocalHeap="0"
+		   maxElementsOnDisk="0"
+		   eternal="true"
+		   overflowToDisk="true">
+	</cache>
+
+	<!-- DO点缓存数据-->
+	<cache name="doPointCache"
+		   maxEntriesLocalHeap="0"
+		   maxElementsOnDisk="0"
+		   eternal="true"
+		   overflowToDisk="true">
+	</cache>
+
+	<!-- 采集参数定义缓存配置-->
+	<cache name="electricParams"
+		   maxEntriesLocalHeap="0"
+		   maxElementsOnDisk="0"
+		   eternal="true"
+		   overflowToDisk="true">
+	</cache>
+
+	<!-- 采集方案定义缓存配置-->
+	<cache name="collMethod"
+		   maxEntriesLocalHeap="0"
+		   maxElementsOnDisk="0"
+		   eternal="true"
+		   overflowToDisk="true">
+	</cache>
+
+	<!-- 采集方案采集参数关联定义缓存配置-->
+	<cache name="electricCollRlgl"
+		   maxEntriesLocalHeap="0"
+		   maxElementsOnDisk="0"
+		   eternal="true"
+		   overflowToDisk="true">
+	</cache>
+
+	<!-- 电表原始数据缓存配置-->
+	<cache name="originalData"
+		   maxEntriesLocalHeap="0"
+		   maxElementsOnDisk="0"
+		   eternal="true"
+		   overflowToDisk="true">
+	</cache>
+
+	<!-- 支路报警配置定义-->
+	<cache name="branchConfAlarmConfiguration"
+		   maxEntriesLocalHeap="0"
+		   maxElementsOnDisk="0"
+		   eternal="true"
+		   overflowToDisk="true">
+	</cache>
+
+	<!-- 支路报警规则-->
+	<cache name="branchConfParameter"
+		   maxEntriesLocalHeap="0"
+		   maxElementsOnDisk="0"
+		   eternal="true"
+		   overflowToDisk="true">
+	</cache>
+
+	<!-- 支路电表关联缓存配置-->
+	<cache name="branchAmmeterRlgl"
+		   maxEntriesLocalHeap="0"
+		   maxElementsOnDisk="0"
+		   eternal="true"
+		   overflowToDisk="true">
+	</cache>
+
+	<!-- 分户支路关联缓存配置-->
+	<cache name="householdBranchRlgl"
+		   maxEntriesLocalHeap="0"
+		   maxElementsOnDisk="0"
+		   eternal="true"
+		   overflowToDisk="true">
+	</cache>
+
+	<!-- 分项支路关联缓存配置-->
+	<cache name="subitemBranchRlgl"
+		   maxEntriesLocalHeap="0"
+		   maxElementsOnDisk="0"
+		   eternal="true"
+		   overflowToDisk="true">
+	</cache>
+
+	<!-- 场景模式缓存定义-->
+	<cache name="sceneModeCache"
+		   maxEntriesLocalHeap="0"
+		   maxElementsOnDisk="0"
+		   eternal="true"
+		   overflowToDisk="true">
+	</cache>
+
+	<!-- 点位关联模式缓存定义-->
+	<cache name="scenePointCache"
+		   maxEntriesLocalHeap="0"
+		   maxElementsOnDisk="0"
+		   eternal="true"
+		   overflowToDisk="true">
+	</cache>
+
+	<!-- 计划配置定义-->
+	<cache name="planCache"
+		   maxEntriesLocalHeap="0"
+		   maxElementsOnDisk="0"
+		   eternal="true"
+		   overflowToDisk="true">
+	</cache>
+
+	<!-- 计划配置的公式定义-->
+	<cache name="timeTaskCache"
+		   maxEntriesLocalHeap="0"
+		   maxElementsOnDisk="0"
+		   eternal="true"
+		   overflowToDisk="true">
+	</cache>
+
+	<!-- 实时数据发布-->
+	<cache name="subRealtimeData"
+		   maxEntriesLocalHeap="0"
+		   maxElementsOnDisk="0"
+		   eternal="true"
+		   overflowToDisk="true">
+	</cache>
+
+</ehcache>

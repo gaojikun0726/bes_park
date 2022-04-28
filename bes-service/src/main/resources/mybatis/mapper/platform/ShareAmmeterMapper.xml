@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.efounder.JEnterprise.platform.mapper.ShareAmmeterMapper">
+
+    <!--查询列表-->
+    <!--过滤掉DDC电表，F_WLDZ 正常电表物理地址不为空，DDC电表物理地址为空，不传给物业（中台）DDC电表数据-->
+    <select id="queryList" resultType="java.util.Map">
+       select  F_GUID, F_SBID, F_STRUCT_ID, F_SYS_NAME_OLD, F_SYS_NAME, F_NICK_NAME, F_ENABLED, F_SSQY, F_AZWZ, F_WLDZ, F_DESCRIPTION, F_SBLXBH, F_TYPE, F_COMM_RATE, F_COMM_RATE_MC, F_PROTOCOL_TYPE, F_PROTOCOL_TYPE_MC, F_CJFABH, F_CJFAMC, F_BLXBH, F_BLXMC, F_COMMUNICATION_PORT, F_YQBH, F_PERCENTAGE, F_AMMETER_STATE, F_ONLINE_STATE, F_ONLINESTATE, F_CRDATE, F_CHDATE, F_COM_DATA_BIT, F_COM_PARITY_BIT, F_COM_STOP_BIT, F_FUNCTION_CODE,SHARE_METER
+       from bes_ammeter
+      where F_WLDZ is not null
+            <if test="meterArea != null and meterArea != '' and (meterArea == '0'.toString() or meterArea == 0 )">
+                and (share_meter is null or share_meter = '0')
+            </if>
+            <if test="meterArea == '1'.toString() or meterArea == 1">
+                and share_meter = '1'
+            </if>
+            <if test="meterType != null and meterType !=''">
+                and F_BLXBH = #{meterType}
+            </if>
+            <if test="meterName !=null and meterName !=''">
+                and F_NICK_NAME like concat('%',#{meterName},'%')
+            </if>
+
+       order by SHARE_METER + 0 desc,F_CHDATE desc
+    </select>
+    <!--      where share_meter = '1'
+      <if test="meterArea != null and meterArea !=''">
+                and share_meter = #{meterArea}
+            </if>
+    -->
+
+    <!--配置公摊仪表-->
+    <update id="shareMeterConfig">
+        update bes_ammeter set share_meter = 1
+        where F_GUID in
+        <foreach item="item" collection="array" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+    </update>
+
+    <!--配置普通仪表-->
+    <update id="plainMeterConfig">
+        update bes_ammeter set share_meter = 0
+        where F_GUID in
+        <foreach item="item" collection="array" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+    </update>
+
+    <!--查询是公摊仪表或普通仪表的数量-->
+    <select id="queryMeterState" resultType="java.lang.Integer">
+        select count(*) from bes_ammeter
+        where F_GUID in
+        <foreach item="item" collection="array" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+        <choose>
+            <when test="meterState == '1'.toString()">
+                and share_meter = #{meterState}
+            </when>
+            <otherwise>
+                and ( share_meter = '0'  or share_meter is null )
+            </otherwise>
+        </choose>
+
+    </select>
+
+    <!--配置公摊仪表时查询电表是否已关联房间-->
+    <select id="queryRelativeAmmeter" resultType="java.util.Map">
+        select F_GUID
+        from bes_ammeter
+        where F_GUID in
+        (
+            select ammeter_id
+            from opm_room_ammeter
+            where ammeter_id in
+            <foreach item="item" collection="array" open="(" separator="," close=")">
+                #{item}
+            </foreach>
+        )
+    </select>
+
+    <!--查询仪表类型数据-->
+    <select id="queryAmmeterType" resultType="java.util.Map">
+        select F_LXBH value, F_LXMC name, F_NYBH, F_CRDATE, F_CHDATE
+        from bes_ammeter_type
+    </select>
+</mapper>

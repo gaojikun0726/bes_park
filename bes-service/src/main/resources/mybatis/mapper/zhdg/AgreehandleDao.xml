@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.efounder.JEnterprise.zhdg.dao.AgreehandleDao">
+
+    <!-- 可根据自己的需求，是否要使用 -->
+    <resultMap type="com.efounder.JEnterprise.zhdg.entity.AgreehandleEntity" id="agreehandleMap">
+                    <result property="id" column="id"/>
+                    <result property="name" column="name"/>
+                    <result property="remarks" column="remarks"/>
+            </resultMap>
+
+    <sql id="Base_Column_List">
+        select id, name, remarks from seb_agreehandle
+    </sql>
+
+    <!-- 关键字查询，分页查询 -->
+    <select id="getSearch" resultMap="agreehandleMap" parameterType="java.lang.String">
+        <include refid="Base_Column_List"/>
+        <where>
+            1=1
+            <if test="keywords != null and keywords != ''">
+                and ID like CONCAT ('%', #{keywords},'%')
+                or NAME like CONCAT ('%', #{keywords},'%')
+            </if>
+        </where>
+    </select>
+
+    <select id="getSearchById" resultMap="agreehandleMap" parameterType="java.lang.String">
+        <include refid="Base_Column_List"/>
+        <where>
+            id = #{id}
+        </where>
+    </select>
+
+    <insert id="add" parameterType="com.efounder.JEnterprise.zhdg.entity.AgreehandleEntity">
+        insert into seb_agreehandle
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+        <if test="id != null ">id,
+        </if>
+        <if test="name != null ">name,
+        </if>
+        <if test="remarks != null ">remarks,
+        </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+        <if test="id != null ">#{id},
+        </if>
+        <if test="name != null ">#{name},
+        </if>
+        <if test="remarks != null ">#{remarks},
+        </if>
+        </trim>
+    </insert>
+
+    <update id="update" parameterType="com.efounder.JEnterprise.zhdg.entity.AgreehandleEntity">
+        update seb_agreehandle
+        <trim prefix="SET" suffixOverrides=",">
+         <if test="id != null">id = #{id},</if>
+         <if test="name != null">name = #{name},</if>
+         <if test="remarks != null">remarks = #{remarks},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="delete" parameterType="java.lang.String" >
+        delete from seb_agreehandle where id = #{id}
+    </delete>
+
+</mapper>

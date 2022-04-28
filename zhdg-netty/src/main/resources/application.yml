@@ -1,0 +1,17 @@
+# 开发环境配置
+server:
+  # 服务器的HTTP端口，默认为8080
+  port: 9007
+  servlet:
+    context-path: /
+
+# 下位机监听端口
+neetServer:
+  port: 9008
+
+# 后端接口地址
+NettyReceive:
+  # 中间件 ==》后端 输出数据接口
+  Address: http://127.0.0.1:8082/BESServer/netty/receive/list
+  # 中间件心跳检测 ==》 设备断线清空后端缓存数据接口
+  CleanAddress: http://127.0.0.1:8082/BESServer/netty/receive/cleanlist

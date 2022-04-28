@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.efounder.JEnterprise.mapper.collectorJob.BESHouseAlarmMapper">
+
+	<!-- 按园区编号查询园区名称 -->
+	<select id="selectParkNameByYqbh" parameterType="java.lang.String"  resultType="string">
+		SELECT
+			F_YQMC
+		FROM
+			bes_park
+		WHERE
+		F_YQBH = #{yqbh}
+	</select>
+	<!-- 查询月份能耗真实数据 是否存在 -->
+	<select id="selectDateBytypeAndId"  parameterType="java.lang.String" resultType="java.util.HashMap">
+		SELECT
+			F_FHBH,
+			F_DATA
+		FROM
+			bes_household_data
+		WHERE
+		F_CJSJ<![CDATA[ >= ]]> #{startTime}
+		AND F_CJSJ<![CDATA[ <= ]]> #{endTime}
+		AND F_YQBH = #{yqbh}
+		AND  F_TYPE ='2'
+	</select>
+
+	<!-- 查询月份能耗计划 是否存在 -->
+	<select id="selectPlanInfoByMon"  parameterType="java.lang.String" resultType="java.util.HashMap">
+		SELECT
+		a.*,
+		b.*
+		FROM
+		bes_household_plan a,bes_household_conf b
+		WHERE a.F_FHBH=b.F_FHBH AND a.F_PMONTH=#{pmonth} AND a.F_PYEAR=#{pyear} and b.F_YQBH = #{yqbh}
+	</select>
+
+	<!-- 通过父节点查询-->
+	<select id="selectAllId" parameterType="java.lang.String" resultType="java.util.HashMap">
+		select * from bes_household_conf where F_FHBH= #{parentid}
+	</select>
+
+
+	<select id="selectEnergyTypeNameByDto" parameterType="java.lang.String" resultType="string">
+		 SELECT a.F_NYMC FROM bes_energy_type a, bes_household_conf b WHERE a.F_NYBH = b.F_NYBH AND b.F_FHBH =  #{houseid}
+	</select>
+
+	<select id="queryAllPark" resultType="java.util.HashMap">
+		SELECT F_YQBH,F_YQMC FROM bes_park
+	</select>
+
+</mapper>

@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.efounder.JEnterprise.mapper.basedatamanage.eqmanage.BesAlarmManageMapper" >
+
+  <sql id="row_name" >
+     F_ID fId,
+     F_AZWZ fAzwz,
+     F_NICK_NAME fNickName,
+     <!-- F_SYS_NAME fSysName, -->
+     F_INIT_VAL fInitVal,
+     F_PLAN_VAL fPlanVal,
+     F_PROMPT_MSG fPromptMsg,
+     date_format(F_ALARM_TIME,'%Y-%m-%d %H:%i:%s' ) fAlarmTime
+  </sql>
+
+  <insert id="insertBatch">
+    INSERT INTO
+      bes_alarm_info
+      (
+        `F_AZWZ`,
+        `F_NICK_NAME`,
+        `F_SYS_NAME`,
+        `F_INIT_VAL`,
+        `F_PLAN_VAL`,
+        `F_PROMPT_MSG`,
+        `F_ALARM_TIME`
+      )
+    values
+    <foreach item="item" collection="list"  separator=",">
+      (
+        #{item.fAzwz},
+        #{item.fNickName},
+        #{item.fSysName},
+        #{item.fInitVal},
+        #{item.fPlanVal},
+        #{item.fPromptMsg},
+        #{item.fAlarmTime}
+      )
+    </foreach>
+  </insert>
+
+  <select id="findByFSysName" resultType="Map">
+		select
+          F_GUID,
+          F_SBID,
+          F_STRUCT_ID,
+          F_SYS_NAME,
+          F_NICK_NAME,
+          F_NODE_TYPE,
+          F_ENABLED,
+          F_TYPE,
+          F_AZWZ,
+          F_DESCRIPTION,
+          F_ADDR,
+          F_MODULE_STATE,
+          F_ONLINE_STATE,
+          F_YQBH,
+          F_CRDATE,
+          F_CHDATE
+		from
+			bes_module m
+		where
+			m.F_SYS_NAME = #{fSysName}
+	</select>
+
+    <select id="findPage" resultType="com.efounder.JEnterprise.model.basedatamanage.eqmanage.BesAlarmModel">
+        select
+        <include refid="row_name"/>
+        from
+        bes_alarm_info
+        <where>
+            <if test="startTime != null and startTime != ''" >
+                F_ALARM_TIME <![CDATA[>=]]> #{startTime}
+            </if>
+
+            <if test="endTime != null and endTime != ''" >
+                AND F_ALARM_TIME <![CDATA[<=]]> #{endTime}
+            </if>
+        </where>
+    </select>
+
+</mapper>

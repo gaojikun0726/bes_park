@@ -1,0 +1,63 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>com.framework.BESWebapp</groupId>
+	<artifactId>BESWebapp</artifactId>
+	<packaging>war</packaging>
+	<version>1.0.0</version>
+	<name>BES Maven Webapp</name>
+	<url>http://maven.apache.org</url>
+
+	<parent>
+		<groupId>com.framework.zcsoft</groupId>
+		<artifactId>issp-starter-parent</artifactId>
+		<version>1.0.0</version>
+		<relativePath /> <!-- lookup parent from repository -->
+	</parent>
+
+	<properties>
+		<start-class>com.efounder.JEnterprise.BESApplication</start-class>
+	</properties>
+
+	<dependencies>
+		<!-- 核心模块 -->
+		<dependency>
+			<groupId>com.framework.zcsoft</groupId>
+			<artifactId>issp-core</artifactId>
+			<version>1.0.0</version>
+		</dependency>
+		<!-- 应用服务模块 -->
+
+		<dependency>
+			<groupId>com.framework.zcsoft</groupId>
+			<artifactId>issp-service</artifactId>
+			<version>1.0.0</version>
+		</dependency>
+
+		<dependency>
+			<groupId>com.framework.bes</groupId>
+			<artifactId>bes-service</artifactId>
+			<version>1.0.0</version>
+		</dependency>
+
+	</dependencies>
+
+	<build>
+		<finalName>energy</finalName>
+		<plugins>
+			<!-- Package as an executable jar/war -->
+			<plugin>
+				<groupId>org.springframework.boot</groupId>
+				<artifactId>spring-boot-maven-plugin</artifactId>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-surefire-plugin</artifactId>
+				<configuration>
+					<testFailureIgnore>true</testFailureIgnore>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
+</project>

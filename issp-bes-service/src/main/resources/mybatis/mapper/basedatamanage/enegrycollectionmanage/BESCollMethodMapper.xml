@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.efounder.JEnterprise.mapper.basedatamanage.enegrycollectionmanage.BESCollMethodMapper" >
+
+  <resultMap id="CollMethodMap" type="com.efounder.JEnterprise.model.basedatamanage.enegrycollectionmanage.BESCollMethod" >
+    <result column="F_CJFABH" property="fCjfabh" />
+    <result column="F_CJFAMC" property="fCjfamc" />
+    <result column="F_YQBH" property="fZzjgbh" />
+    <result column="F_NYBH" property="fNybh" />
+    <result column="F_CRDATE" property="fCrdate" />
+    <result column="F_CHDATE" property="fChdate" />
+  </resultMap>
+  
+  <sql id="Base_Column_List" >
+    F_CJFABH, F_CJFAMC, F_YQBH, F_NYBH,
+    date_format(F_CRDATE,'%Y-%m-%d %H:%i:%s' ) F_CRDATE ,date_format(F_CHDATE,'%Y-%m-%d %H:%i:%s' ) F_CHDATE
+  </sql>
+
+  <!--获取全部采集方案数据-->
+  <select id="loadAll" resultMap="CollMethodMap" parameterType="java.lang.String" >
+    select
+    <include refid="Base_Column_List" />
+    from bes_coll_method
+  </select>
+ 
+  <!-- 查询采集方案列表/关键字查询 -->
+  <select id="getCollMethodList" resultMap="CollMethodMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from bes_coll_method
+    <where>
+		1=1 
+		<if test="keywords != null and keywords != ''"> 
+			 and CONCAT(`F_CJFABH`,'##',`F_CJFAMC` ) LIKE CONCAT('%',#{keywords},'%')
+		</if>
+	</where>
+    order by F_CJFABH
+  </select>
+  <!-- 通过园区和能源查询采集方案 -->
+  <select id="getCMbyZzjgbh" resultMap="CollMethodMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from bes_coll_method
+    <where>
+      1=1
+      <if test="fyqbh != null and fyqbh != ''">
+        and F_YQBH = #{fyqbh}
+      </if>
+      <if test="fnybh != null and fnybh != ''">
+        and F_NYBH = #{fnybh}
+      </if>
+    </where>
+    order by F_CJFABH
+  </select>
+  
+  <!-- 通过采集方案编号查询 -->
+  <select id="getCMbyCjfabh" resultMap="CollMethodMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from bes_coll_method
+    where F_CJFABH = #{fCjfabh}
+    order by F_CJFABH
+  </select>
+  <!-- 新增采集方案 -->
+  <insert id="add_CollM" parameterType="com.efounder.JEnterprise.model.basedatamanage.enegrycollectionmanage.BESCollMethod" >
+    insert into bes_coll_method (F_CJFABH, F_CJFAMC, F_YQBH,
+      F_NYBH, F_CRDATE, F_CHDATE
+      )
+    values (#{fCjfabh}, #{fCjfamc}, #{fZzjgbh}, 
+      #{fNybh}, current_timestamp(),current_timestamp()
+      )
+  </insert>
+
+  <!-- 删除采集参数 -->
+  <delete id="del_CollM" parameterType="java.lang.String" >
+    delete from bes_coll_method
+    where F_CJFABH = #{fCjfabh}
+  </delete>
+  
+  <!-- 编辑采集方案 -->
+  <update id="edit_CollM" parameterType="com.efounder.JEnterprise.model.basedatamanage.enegrycollectionmanage.BESElectricParams" >
+    update bes_coll_method
+    <set >
+      <if test="fCjfamc != null" >
+        F_CJFAMC = #{fCjfamc},
+      </if>
+      <if test="fNybh != null" >
+        F_NYBH = #{fNybh},
+      </if>
+        F_CHDATE = current_timestamp()
+    </set>
+    where F_CJFABH = #{fCjfabh}
+  </update>
+
+
+
+
+  <select id="findPark_EnergyType" parameterType="string" resultType="java.util.HashMap">
+    SELECT a.F_YQBH as F_YQBH , a.F_NYBH  as  F_NYBH ,c.F_YQMC as F_YQMC,b.F_NYMC as F_NYMC
+    FROM bes_park_energytype_rlgl a
+    left join bes_energy_type b on a. F_NYBH =b.F_NYBH
+    left join bes_park c on a. F_YQBH =c.F_YQBH
+    <where>
+      1=1
+      <if test="fyqbh != null and fyqbh != ''">
+        and a.F_YQBH = #{fyqbh}
+      </if>
+    </where>
+	ORDER BY a.F_NYBH
+
+  </select>
+
+</mapper>

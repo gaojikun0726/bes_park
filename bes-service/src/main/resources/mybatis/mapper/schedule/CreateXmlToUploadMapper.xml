@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.efounder.JEnterprise.mapper.schedule.CreateXmlToUploadMapper">
+
+	<resultMap id="CommonAndDataCenterBaseInfoMap" type="com.efounder.JEnterprise.model.schedule.CommonAndDataCenterBaseInfo">
+		<result column="F_BUDING_CODE" property="f_buding_code" />
+		<result column="F_BUDING_LETTER" property="f_buding_letter" />
+		<result column="F_BUDING_NAME" property="f_buding_name" />
+		<result column="F_DESCRIBE" property="f_describe" />
+		<result column="F_DATACENTER_NAME" property="f_datacenter_name" />
+		<result column="F_DATACENTER_TYPE" property="f_datacenter_type" />
+		<result column="F_GOVERNING_BODY" property="f_governing_body" />
+		<result column="F_DATACENTER_DESCRIBE" property="f_datacenter_describe" />
+		<result column="F_CONTACTPERSON" property="f_contactperson" />
+		<result column="F_PHONE" property="f_phone" />
+	</resultMap>
+	<resultMap id="BuildBaseInfoMap" type="com.efounder.JEnterprise.model.schedule.BuildBaseInfo">
+		<result column="F_BUDING_CODE" property="f_buding_code" />
+		<result column="F_BUDING_NAME" property="f_buding_name" />
+		<result column="F_BUDING_LETTER" property="f_buding_letter" />
+		<result column="F_BUDING_OWNER" property="f_buding_owner" />
+		<result column="F_STATE" property="f_state" />
+		<result column="F_DISTRICTCODE" property="f_districtcode" />
+		<result column="F_BUDING_ADDRESS" property="f_buding_address" />
+		<result column="F_BUDING_LONGITUDE" property="f_buding_longitude" />
+		<result column="F_BUDING_LATITUDE" property="f_buding_latitude" />
+		<result column="F_BUDING_DATE" property="f_buding_date" />
+		<result column="F_BUDING_LAYERSON" property="f_buding_layerson" />
+		<result column="F_BUDING_LAYERSUNDER" property="f_buding_layersunder" />
+		<result column="F_BUDING_FUNCTION" property="f_buding_function" />
+		<result column="F_AIRCONDITIONER_AREA" property="f_airconditioner_area" />
+		<result column="F_HEATING_AREA" property="f_heating_area" />
+		<result column="F_AIRTYPE" property="f_airtype" />
+		<result column="F_HEATTYPE" property="f_heattype" />
+		<result column="F_BODYCOEF" property="f_bodycoef" />
+		<result column="F_STRUTYPE" property="f_strutype" />
+		<result column="F_WALLMATTYPE" property="f_wallmattype" />
+		<result column="F_WALLWARMTYPE" property="f_wallwarmtype" />
+		<result column="F_WALLWINTYPE" property="f_wallwintype" />
+		<result column="F_GLASSTYPE" property="f_glasstype" />
+		<result column="F_WINFRAMETYPE" property="f_winframetype" />
+		<result column="F_ISSTANDARD" property="f_isstandard" />
+		<result column="F_DESIGN_ORGANIZATION" property="f_design_organization" />
+		<result column="F_ENGINEERING_CONSTRUCTION" property="f_engineering_construction" />
+		<result column="F_ENTRY_TIME" property="f_entry_time" />
+		<result column="F_ACCEPTANCE_TIME" property="f_acceptance_time" />
+	</resultMap>
+	<resultMap id="EnergyItemHourResultMap" type="com.efounder.JEnterprise.model.schedule.EnergyItemHourResult">
+		<result column="F_DATA" property="f_data" />
+		<result column="F_ZLBH" property="f_zlbh" />
+		<result column="F_CJSJ" property="f_cjsj" />
+		<result column="F_EQUIPMENT_SET" property="f_equipment_set" />
+	</resultMap>
+	
+	<!-- 根据设备类型编号加载报警等级 -->
+	<select id="getCommonAndDataCenterBaseInfo"  resultMap="CommonAndDataCenterBaseInfoMap">
+		select bi.F_BUDING_CODE ,bi.F_BUDING_LETTER,bi.F_BUDING_NAME,bi.F_DESCRIBE,dc.F_DATACENTER_NAME,dc.F_DATACENTER_TYPE,dc.F_GOVERNING_BODY,
+			   dc.F_DATACENTER_DESCRIBE,dc.F_CONTACTPERSON,dc.F_PHONE 
+		from bes_buding_information bi,bes_data_center dc
+		where bi.F_CENTER_ID=dc.F_DATACENTER_ID and bi.F_BUDING_CODE = (SELECT F_BUDING_CODE FROM bes_buding_information limit 1)
+	</select>
+
+	<!-- 根据设备类型编号加载报警等级 -->
+	<select id="getBuildBaseInfo"  resultMap="BuildBaseInfoMap">
+		SELECT 	F_BUDING_CODE,F_BUDING_NAME,F_BUDING_LETTER,F_BUDING_OWNER,F_BUDING_DETECTION F_State,F_BUDING_NODE F_DistrictCode,F_BUDING_ADDRESS,
+			F_BUDING_LONGITUDE,F_BUDING_LATITUDE,F_BUDING_DATE,F_BUDING_LAYERSON,F_BUDING_LAYERSUNDER,F_BUDING_FUNCTION,F_BUDING_AREA,
+			F_AIRCONDITIONER_AREA,F_HEATING_AREA,F_AIRCONDITIONER_SYSTEM F_AirType,F_HEATING_SYSTEM F_HeatType,F_BUDING_COEFFICIENT F_BodyCoef,
+			F_ARCHITECTURAL_FORM F_StruType,F_EXTERIORWALL_FORM F_WallMatType,F_EXTERIORWALL_INSULATION_FORM F_WallWarmType,
+			F_BUDING_EXTERIOR_TYPE F_WallWinType,F_BUDING_GLASS_TYPE F_GlassType,F_MATERIAL_TYPE F_WinFrameType,F_BENCHMARKING F_IsStandard,
+			F_DESIGN_ORGANIZATION,F_ENGINEERING_CONSTRUCTION,F_ENTRY_TIME,F_ACCEPTANCE_TIME
+		FROM bes_buding_information
+	</select>
+
+	<!-- 获取主园区能耗建筑代码 -->
+	<select id="getBudingCode"  resultType="string">
+		select F_BUDING_CODE from bes_buding_information LIMIT 1
+	</select>
+
+	<!-- 获取建筑代码列表用于生成能耗XML,此sql只是应用于廉政 -->
+	<select id="getNodeCodeList"  resultType="string">
+		SELECT F_NODE_CODE FROM BES_PARK_COPY WHERE F_YQBH !='0000' AND F_YQBH !='0006' ORDER BY F_NODE_CODE
+	</select>
+
+	<!-- 获取建筑代码列表用于生成能耗XML,此sql只是应用于廉政 -->
+	<select id="getZlbhList"  resultType="string">
+		select F_ZLBH from bes_branch_conf where F_PZLBH='01'
+	</select>
+
+	<!-- 获取建筑代码列表用于生成能耗XML -->
+	<select id="getZlbhListByZlbhTs"  resultType="string">
+		select F_ZLBH from bes_branch_conf where F_PZLBH=#{zlbh}
+	</select>
+	
+	<select id="getEnergyItemHourResultList"  resultMap="EnergyItemHourResultMap">
+		select bd.F_DATA,bd.F_ZLBH,bd.f_cjsj,bc.F_EQUIPMENT_SET from bes_branch_data bd ,(SELECT  BC.F_ZLBH,BC.F_ZLMC,BC.F_EQUIPMENT_SET FROM(
+						SELECT @ids as _ids, ( SELECT @ids := GROUP_CONCAT(F_ZLBH) FROM BES_BRANCH_CONF  WHERE FIND_IN_SET(F_PZLBH, @ids) ) as cids, @l := @l+1 as level  
+						FROM BES_BRANCH_CONF, (SELECT @ids :=#{electricityZlbh}, @l := 0 ) b WHERE @ids IS NOT NULL ) F_ZLBH, BES_BRANCH_CONF BC 
+						WHERE FIND_IN_SET(BC.F_ZLBH, F_ZLBH._ids) and f_js!='6'
+						ORDER BY  F_ZLBH,F_EQUIPMENT_SET) bc where bd.F_ZLBH = bc.F_ZLBH and bd.F_type='0' and f_cjsj = #{startHour}
+						union 
+						SELECT BBD.F_DATA,BBD.F_ZLBH,BBD.F_CJSJ,BBC.F_EQUIPMENT_SET FROM BES_BRANCH_DATA BBD,BES_BRANCH_CONF BBC
+						WHERE BBD.F_ZLBH=BBC.F_ZLBH AND BBD.F_ZLBH =#{waterZlbh}  AND BBD.F_TYPE='0' AND F_CJSJ = #{startHour}
+						union
+						SELECT BBD.F_DATA,BBD.F_ZLBH,BBD.F_CJSJ,BBC.F_EQUIPMENT_SET FROM BES_BRANCH_DATA BBD,BES_BRANCH_CONF BBC
+						WHERE BBD.F_ZLBH=BBC.F_ZLBH AND BBD.F_ZLBH = #{gasZlbh} AND BBD.F_TYPE='0' AND F_CJSJ = #{startHour}
+	</select>
+</mapper>
+
+

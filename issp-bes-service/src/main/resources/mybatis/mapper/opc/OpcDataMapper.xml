@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+
+<mapper namespace="com.efounder.JEnterprise.mapper.opc.OpcDataMapper">
+	<!-- 查询所有节点及属性 -->
+	<select id="getAllData" resultType="java.util.HashMap">
+		SELECT
+			a.F_ID,
+			a.F_SYS_NAME,
+			a.F_NICK_NAME,
+			a.F_TYPE ,
+			a.F_ALLPATH,
+			b.F_NODE_TABLE,
+			c.COLUMN_NAME
+		FROM
+			bes_sbpz_struct a
+			INNER JOIN bes_sbtree_nodetype b ON a.F_TYPE = b.F_NODE_TYPE
+			INNER JOIN information_schema.COLUMNS c on c.TABLE_NAME = b.F_NODE_TABLE
+		<where>
+			c.TABLE_SCHEMA = #{dbname}
+<!-- 			<if test="f_id != null and f_id != ''">  -->
+<!-- 				and a.F_ID =  #{f_id} -->
+<!-- 			</if> -->
+			<if test="f_sys_name != null and f_sys_name != ''"> 
+				and a.F_SYS_NAME =  #{f_sys_name}
+			</if>
+		</where>
+	</select>
+	<!-- 查询节点的属性表 -->
+	<select id="getNodeTable"  resultType="java.util.HashMap">
+		SELECT			
+			a.F_ID,a.F_SYS_NAME,a.F_ALLPATH,b.F_NODE_TABLE
+		FROM
+			bes_sbpz_struct a
+			INNER JOIN bes_sbtree_nodetype b ON a.F_TYPE = b.F_NODE_TYPE
+		where  a.F_SYS_NAME = #{f_sys_name}
+	</select>
+	<!-- 查询单个节点所有属性 -->
+	<select id="getNodeData" resultType="java.util.HashMap">
+		select * from ${F_NODE_TABLE} where  F_SYS_NAME = #{F_SYS_NAME}
+	</select>
+	<!-- 查询单条OPC数据 -->
+	<select id="queryOpcData" resultType="java.util.HashMap">
+		select * from opc_data where o_key = #{o_key}
+	</select>
+	<!-- 查询所有OPC数据 -->
+	<select id="getOpcData" resultType="java.util.HashMap">
+		select * from opc_data 
+	</select>
+	<!-- 新增OPC数据 -->
+	<insert id="insertData" parameterType="java.util.HashMap">
+		insert opc_data (
+			<if test=" allData.o_key != null and allData.o_key != '' "> <!-- key值 -->
+				o_key,
+		 	</if>
+		 	<if test=" allData.o_val != null and allData.o_val != '' "> <!-- value值 -->
+				o_val,
+		 	</if>
+		 	<if test=" allData.o_descripe != null and allData.o_descripe != '' "> <!-- 描述 -->
+				o_descripe,
+		 	</if>
+		 		o_crdate
+		) values (
+			<if test=" allData.o_key != null and allData.o_key != '' "> <!-- 设备id -->
+				#{allData.o_key},
+		 	</if>
+		 	<if test=" allData.o_val != null and allData.o_val != '' "> <!-- 设备id -->
+				#{allData.o_val},
+			</if>
+			<if test=" allData.o_descripe != null and allData.o_descripe != '' "> <!-- 描述 -->
+				#{allData.o_descripe},
+			</if>
+				current_timestamp()
+		)		
+	</insert>
+	<!-- 根据o_key删除OPC数据 -->
+    <delete id="delOpcData" parameterType="string">
+        DELETE
+        FROM opc_data
+        WHERE o_key = #{o_key}
+    </delete>
+    <!-- 根据o_key删编辑该条数据 -->
+    <update id="editData" parameterType="java.util.HashMap">
+    	update opc_data
+	    <set >
+	      <if test="allData.o_val != null" >
+	        o_val = #{allData.o_val},
+	      </if>
+	      <if test="allData.o_descripe != null" >
+	        o_descripe = #{allData.o_descripe},
+	      </if>	     
+	        o_chdate = current_timestamp()
+	    </set>
+	    where o_key = #{allData.o_key}
+    </update>
+</mapper>

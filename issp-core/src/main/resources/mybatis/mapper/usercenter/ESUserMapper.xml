@@ -1,0 +1,261 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.efounder.JEnterprise.mapper.usercenter.ESUserMapper">
+
+	<resultMap id="userMap" type="com.efounder.JEnterprise.model.usercenter.ESUser">
+		<result column="F_ID" property="f_id" />
+		<result column="F_YHBH" property="f_yhbh" />
+		<result column="F_PASS" property="f_pass" />
+		<result column="F_SALT" property="salt" />
+		<result column="F_NAME" property="f_name" />
+		<result column="F_COMPANY" property="f_company" />
+		<result column="F_ZZJGBH" property="f_zzjgbh" />
+		<result column="F_PHONE" property="f_phone" />
+		<result column="F_EMAIL" property="f_email" />
+		<result column="F_CRDATE" property="f_crdate" />
+		<result column="F_CHDATE" property="f_chdate" />
+		<result column="F_ROLEBH" property="f_rolebh" />
+		<result column="F_ROLEMC" property="f_rolemc" />
+		<result column="F_HEADIMG" property="f_headimg" />
+	</resultMap>
+
+	<insert id="addUser" parameterType="com.efounder.JEnterprise.model.usercenter.ESUser">
+		INSERT INTO ES_USER(F_YHBH ,F_PASS, F_SALT,F_NAME, F_COMPANY , F_ZZJGBH , F_PHONE, F_EMAIL,F_CRDATE, F_CHDATE)
+		 VALUES(#{f_yhbh} , #{f_pass} , #{salt} , #{f_name} , #{f_company} , #{f_zzjgbh} , #{f_phone},#{f_email},current_timestamp(),current_timestamp())
+	</insert>
+
+	<sql id="find_xxx">
+	    <![CDATA[
+			SELECT F_ID, F_YHBH ,F_PASS,F_SALT, F_NAME, F_COMPANY , F_ZZJGBH , F_PHONE,F_EMAIL,F_HEADIMG,date_format(F_CRDATE,'%Y-%m-%d %H:%i:%s' )F_CRDATE ,date_format(F_CHDATE,'%Y-%m-%d %H:%i:%s' )F_CHDATE
+	    ]]>
+	</sql>
+
+	<sql id="from_xxx">
+	    <![CDATA[
+	    	FROM ES_USER
+	    ]]>
+	</sql>
+
+	<sql id="where_xxx">
+	    <![CDATA[
+	    	WHERE 1=1
+	    ]]>
+	</sql>
+
+
+    <select id="findUserByusername" parameterType="string" resultMap="userMap">
+    		SELECT
+    		b.F_ID,
+		b.F_YHBH,
+		b.F_NAME,
+		b.F_COMPANY,
+		b.F_ZZJGBH,
+		c.F_ROLEBH,
+		c.F_ROLEMC
+		FROM
+		es_user b
+		LEFT JOIN es_user_role_rlgl a ON a.F_YHBH = b.F_YHBH
+		LEFT JOIN es_role c ON a.F_ROLEGUID = c.F_ROLEBH
+		WHERE
+		b.F_yhbh =#{username}
+    </select>
+
+
+
+	<select id="findUsers" parameterType="string" resultMap="userMap">
+		<include refid="find_xxx" />
+		<include refid="from_xxx" />
+		<![CDATA[
+			ORDER BY F_CHDATE
+		]]>
+	</select>
+
+	<select id="findUserByZzjgId" parameterType="string" resultMap="userMap">
+		<include refid="find_xxx" />
+		<include refid="from_xxx" />
+		<![CDATA[
+		WHERE F_ZZJGBH = #{zzjgbh}
+			ORDER BY F_CHDATE
+		]]>
+	</select>
+
+	<!--根据组织机构查询用户信息-->
+	<select id="getUserByZzjg" resultMap="userMap">
+		<include refid="find_xxx" />
+		<include refid="from_xxx" />
+		where f_zzjgbh in
+		<foreach collection="array" separator="," item="item" open="(" close=")">
+			#{item}
+		</foreach>
+	</select>
+
+	<select id="findUserByRlglId" parameterType="string" resultMap="userMap">
+		<include refid="find_xxx" />
+		<include refid="from_xxx" />
+		<![CDATA[
+		WHERE F_YHBH = #{yhbh}
+			ORDER BY F_CHDATE
+		]]>
+	</select>
+
+	<select id="findUserById" parameterType="string" resultMap="userMap">
+		<include refid="find_xxx" />
+		<include refid="from_xxx" />
+		<![CDATA[
+			WHERE F_YHBH = #{id}
+		]]>
+	</select>
+
+	<select id="findUserByBH" parameterType="string" resultMap="userMap">
+		<include refid="find_xxx" />
+		<include refid="from_xxx" />
+		<![CDATA[
+			WHERE F_YHBH = #{id}
+		]]>
+	</select>
+
+	<select id="findUserByName" parameterType="string" resultMap="userMap">
+		<include refid="find_xxx" />
+		<include refid="from_xxx" />
+		<![CDATA[
+			WHERE F_NAME=#{f_name}
+		]]>
+	</select>
+
+	<select id="findUserByPage" parameterType="string" resultMap="userMap">
+		<include refid="find_xxx" />
+		<include refid="from_xxx" />
+		<where>
+		1=1
+			<if test="keywords != null and keywords != ''">
+			 and CONCAT(`f_name`,'##',`f_yhbh`,'##',`f_company`) LIKE CONCAT('%',#{keywords},'%')
+			 </if>
+		</where>
+		order by F_CHDATE
+	</select>
+	<!--用户表维护——搜索  -->
+	<select id="findUserBykey" parameterType="string" resultMap="userMap">
+		<include refid="find_xxx" />
+		<include refid="from_xxx" />
+		<where>
+			<if test="euserkeywords != null and euserkeywords != ''">
+			  and CONCAT(`f_name`,'##', `f_yhbh`,'##', `f_company`) LIKE CONCAT('%',#{euserkeywords},'%')
+			</if>
+		</where>
+		order by F_CHDATE
+	</select>
+	<!--用户组关系表——搜索  -->
+	<select id="findUsersByKeywords" parameterType="string" resultMap="userMap">
+		<include refid="find_xxx" />
+		<include refid="from_xxx" />
+		<where>
+		1=1
+			<if test="keywords != null and keywords != ''">
+			 and CONCAT(`f_name`,'##',`f_yhbh`) LIKE CONCAT('%',#{keywords},'%')
+			 </if>
+		</where>
+		order by F_CHDATE
+	</select>
+	<!-- 重置密码(用户页面) -->
+	<update id="resetPass" parameterType="com.efounder.JEnterprise.model.usercenter.ESUser">
+		UPDATE ES_USER
+		<set>
+			<if test="salt != null and salt !='' ">
+				F_SALT = #{salt},
+			</if>
+			<if test="f_pass != null  and f_pass !='' ">
+				F_PASS = #{f_pass},
+			</if>
+			F_CHDATE =NOW()
+		</set>
+		WHERE F_YHBH = #{f_yhbh}
+	</update>
+	<!-- 更新修改用户(用户页面) -->
+	<update id="upUser" parameterType="com.efounder.JEnterprise.model.usercenter.ESUser">
+		UPDATE ES_USER
+		<set>
+			<if test="f_yhbh != null and f_yhbh!='' ">
+				F_YHBH = #{f_yhbh},
+			</if>
+			<if test="salt != null and salt !='' ">
+				F_SALT = #{salt},
+			</if>
+			<if test="f_pass != null  and f_pass !='' ">
+				F_PASS = #{f_pass},
+			</if>
+			<if test="f_name != null and f_name!='' ">
+				F_NAME = #{f_name},
+			</if>
+			<if test="f_company != null and f_company!=''">
+				F_COMPANY = #{f_company},
+			</if>
+			<if test="f_zzjgbh != null and f_zzjgbh!=''">
+				F_ZZJGBH = #{f_zzjgbh},
+			</if>
+
+				F_PHONE = #{f_phone},
+
+				F_EMAIL = #{f_email},
+
+			<if test="f_headimg != null and f_headimg !=''">
+				F_HEADIMG = #{f_headimg},
+			</if>
+			F_CHDATE =NOW()
+		</set>
+		WHERE F_YHBH = #{f_yhbh}
+	</update>
+	<!-- 修改用户信息(个人中心) -->
+	<update id="updatePersonalCenterUserInfo" parameterType="com.efounder.JEnterprise.model.usercenter.ESUser">
+		UPDATE ES_USER
+		<set>
+				F_PHONE = #{f_phone},
+				F_EMAIL = #{f_email},
+				F_CHDATE =NOW()
+		</set>
+		WHERE F_YHBH = #{f_yhbh}
+	</update>
+	<!-- 修改用户密码(个人中心) -->
+	<update id="updatePersonalCenterPassword" parameterType="com.efounder.JEnterprise.model.usercenter.ESUser">
+		UPDATE ES_USER
+		<set>
+			<if test="f_yhbh != null and f_yhbh!='' ">
+				F_PASS = #{f_pass},
+				F_SALT = #{salt},
+				F_CHDATE = NOW()
+			</if>
+		</set>
+		<where>
+			<if test="f_yhbh != null and f_yhbh!='' ">
+				 F_YHBH = #{f_yhbh}
+			</if>
+		</where>
+	</update>
+	<update id="updatePersonalCenterUserhead" parameterType="com.efounder.JEnterprise.model.usercenter.ESUser">
+		UPDATE ES_USER
+		<set>
+			<if test="f_yhbh != null and f_yhbh!='' ">
+				F_HEADIMG = #{f_headimg},
+				F_CHDATE = NOW()
+			</if>
+		</set>
+		<where>
+			<if test="f_yhbh != null and f_yhbh!='' ">
+				 F_YHBH = #{f_yhbh}
+			</if>
+		</where>
+	</update>
+
+	<delete id="delUser" parameterType="com.efounder.JEnterprise.model.usercenter.ESUser">
+		DELETE FROM ES_USER WHERE F_YHBH = #{f_yhbh}
+	</delete>
+
+	<select id="interceptIP" parameterType="String" resultType="int">
+		select COUNT(F_IP) from bes_white_list where F_IP=#{fip}
+	</select>
+
+	<select id="username" parameterType="String" resultType="String">
+		select F_YHBH from  bes_white_list where F_IP=#{fip}
+	</select>
+
+</mapper>

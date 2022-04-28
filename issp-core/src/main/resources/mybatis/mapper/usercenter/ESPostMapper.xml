@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.efounder.JEnterprise.mapper.usercenter.ESPostMapper">
+
+	<resultMap id="postMap" type="com.efounder.JEnterprise.model.usercenter.ESPost">
+		<result column="F_GUID" property="f_guid" />
+		<result column="F_GWBH" property="f_gwbh" />
+		<result column="F_GWMC" property="f_gwmc" />
+		<result column="F_REMARK" property="f_remark" />
+		<result column="F_ZZJGBH" property="f_zzjgbh" />
+		<result column="F_CRDATE" property="f_crdate" />
+		<result column="F_CHDATE" property="f_chdate" />
+
+	</resultMap>
+
+	<resultMap id="userMap" type="com.efounder.JEnterprise.model.usercenter.ESUser">
+		<result column="F_YHBH" property="f_yhbh" />
+		<result column="F_NAME" property="f_name" />
+	</resultMap>
+
+	<sql id="find_xxx">
+	    <![CDATA[
+			SELECT F_GUID , F_GWBH , F_GWMC, F_REMARK , F_ZZJGBH , date_format(F_CRDATE,'%Y-%m-%d %H:%i:%s' )F_CRDATE ,date_format(F_CHDATE,'%Y-%m-%d %H:%i:%s' )F_CHDATE
+	    ]]>
+	</sql>
+
+	<sql id="from_xxx">
+	    <![CDATA[
+	    	FROM ES_POST
+	    ]]>
+	</sql>
+
+	<sql id="where_xxx">
+	    <![CDATA[
+	    	WHERE 1=1
+	    ]]>
+	</sql>
+
+	<select id="findPosts" parameterType="string" resultMap="postMap">
+		<include refid="find_xxx" />
+		<include refid="from_xxx" />
+		<![CDATA[
+			ORDER BY F_GWBH
+		]]>
+	</select>
+
+	<select id="findUserPost" parameterType="string" resultMap="postMap">
+		<include refid="find_xxx" />
+		<include refid="from_xxx" />
+		<where>
+		1=1
+			<if test="keywords != null and keywords != ''">
+			 and CONCAT(`f_gwbh`,'##',`f_gwmc` ) LIKE CONCAT('%',#{keywords},'%')
+			 </if>
+		</where>
+	</select>
+
+	<select id="findPostById" parameterType="string" resultMap="postMap">
+		<include refid="find_xxx" />
+		<include refid="from_xxx" />
+		<![CDATA[
+			WHERE F_GUID = #{id}
+		]]>
+	</select>
+
+	<select id="findPostByZzjgId" parameterType="string" resultMap="postMap">
+		<include refid="find_xxx" />
+		<include refid="from_xxx" />
+		<![CDATA[
+			WHERE F_ZZJGBH = #{zzjgbh}
+		]]>
+	</select>
+
+	<select id="findPostByZzjgbh" parameterType="string" resultMap="postMap">
+		SELECT A.F_GUID,A.F_GWBH,A.F_GWMC,A.F_REMARK,A.F_ZZJGBH,date_format(A.F_CRDATE,'%Y-%m-%d %H:%i:%s') F_CRDATE,date_format(A.F_CHDATE,'%Y-%m-%d %H:%i:%s') F_CHDATE,
+		B.F_ZZJGMC
+ 		FROM ES_POST A
+ 		LEFT JOIN ES_ZZJG B ON A.F_ZZJGBH = B.F_ZZJGBH
+		<![CDATA[
+			WHERE B.F_ZZJGBH IN (${zzjgbh})
+		]]>
+	</select>
+
+	<select id="findPostByZzjgbhArray" resultMap="postMap">
+		SELECT A.F_GUID,A.F_GWBH,A.F_GWMC,A.F_REMARK,A.F_ZZJGBH,date_format(A.F_CRDATE,'%Y-%m-%d %H:%i:%s') F_CRDATE,date_format(A.F_CHDATE,'%Y-%m-%d %H:%i:%s') F_CHDATE,
+		B.F_ZZJGMC
+ 		FROM ES_POST A
+ 		LEFT JOIN ES_ZZJG B ON A.F_ZZJGBH = B.F_ZZJGBH
+			WHERE B.F_ZZJGBH IN
+			<foreach collection="array" open="(" close=")" item="item" separator=",">
+				#{item}
+			</foreach>
+	</select>
+
+	<select id="findPostByUserId" parameterType="string" resultMap="postMap">
+		SELECT post.F_GUID ,post.F_GWBH , post.F_GWMC , post.F_REMARK , post.F_ZZJGBH, post.F_CRDATE, post.F_CHDATE FROM ES_POST AS post INNER JOIN ES_USER_POST_RLGL AS rlgl
+		ON rlgl.F_GWGUID = post.F_GUID AND rlgl.F_YHBH = #{userId} ORDER BY post.F_GWBH
+	</select>
+
+	<select id="findUserByPostId" parameterType="string" resultMap="userMap">
+		SELECT u.F_YHBH, u.F_NAME FROM ES_USER AS u INNER JOIN ES_USER_POST_RLGL AS r ON r.F_YHBH = u.F_YHBH
+		AND r.F_GWBH = #{id} ORDER BY r.F_YHBH
+	</select>
+
+	<select id="findUserPostByPage" parameterType="string" resultMap="postMap">
+		<include refid="find_xxx" />
+		<include refid="from_xxx" />
+		<![CDATA[
+			ORDER BY F_GWBH
+		]]>
+	</select>
+
+	<insert id="addPost" parameterType="com.efounder.JEnterprise.model.usercenter.ESPost">
+        INSERT INTO ES_Post(F_GUID,F_GWBH,F_GWMC, F_REMARK, F_ZZJGBH,F_CRDATE, F_CHDATE) values(#{f_guid},#{f_gwbh},#{f_gwmc},#{f_remark},#{f_zzjgbh},NOW(),NOW())
+    </insert>
+
+   	<delete id="delPost" parameterType="com.efounder.JEnterprise.model.usercenter.ESPost">
+		DELETE FROM ES_POST WHERE F_GUID = #{f_guid}
+	</delete>
+
+	<update id="upPost" parameterType="com.efounder.JEnterprise.model.usercenter.ESPost">
+		UPDATE ES_POST
+		<set>
+			<if test="f_gwmc != null and f_gwmc!='' ">
+				F_GWMC = #{f_gwmc},
+			</if>
+			<if test="f_remark != null and f_remark!='' ">
+				F_REMARK = #{f_remark},
+			</if>
+			<if test="f_zzjgbh != null and f_zzjgbh!='' ">
+				F_ZZJGBH = #{f_zzjgbh},
+			</if>
+			F_CHDATE=NOW()
+		</set>
+		WHERE F_GWBH = #{f_gwbh}
+	</update>
+
+
+	<select id="findPostByPostBh" parameterType="string" resultMap="postMap">
+		<include refid="find_xxx" />
+		<include refid="from_xxx" />
+		<![CDATA[
+			WHERE F_GUID = #{f_gwguid}
+		]]>
+	</select>
+
+</mapper>

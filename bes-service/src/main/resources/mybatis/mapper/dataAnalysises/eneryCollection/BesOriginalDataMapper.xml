@@ -1,0 +1,259 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper
+	namespace="com.efounder.JEnterprise.mapper.dataAnalysises.BesOriginalDataMapper">
+	<resultMap id="BaseResultMap" type="com.efounder.JEnterprise.model.dataAnalysises.BesOriginalData">
+		<id column="F_ID" property="fId" jdbcType="VARCHAR" />
+		<result column="F_DBSYS_NAME" property="fDbsysName" jdbcType="VARCHAR" />
+		<result column="F_DNBH" property="fDnbh" jdbcType="VARCHAR" />
+		<result column="F_DATA" property="fData" jdbcType="VARCHAR" />
+		<result column="F_CJSJ" property="fCjsj" jdbcType="TIMESTAMP" />
+		<result column="F_TYPE" property="fType" jdbcType="VARCHAR" />
+		<result column="F_CRDATE" property="fCrdate" jdbcType="TIMESTAMP" />
+		<result column="F_CHDATE" property="fChdate" jdbcType="TIMESTAMP" />
+	</resultMap>
+	
+	<sql id="Base_Column_List">
+		F_ID, F_DBSYS_NAME, F_DNBH, F_DATA, F_CJSJ, F_TYPE,F_CRDATE, F_CHDATE
+	</sql>
+
+	<!-- 查询二级支路下所有电表信息 -->
+	<select id="two_pin_table" resultMap="BaseResultMap" parameterType="java.lang.String">
+		select
+		<include refid="Base_Column_List" />
+		from bes_original_data
+		where F_ID = #{fId,jdbcType=VARCHAR}
+	</select>
+	<!--查询三级支路所有信息 -->
+	<select id="three_pin_table" resultMap="BaseResultMap"	parameterType="java.lang.String">
+		select
+		<include refid="Base_Column_List" />
+		from bes_original_data
+		where F_ID = #{fId,jdbcType=VARCHAR}
+	</select>
+
+	<!-- 利用列转行 查询二级支路下所有的支路 -->
+	<select id="getzlids" resultType="String" parameterType="java.lang.String">
+	    SELECT F_ZLBH ZLIDS  FROM bes_branch_conf
+	    where f_pzlbh= #{zlid}
+	    group by F_ZLBH;
+	</select>
+	
+<!-- 利用列转行查询所有支路下所有的电表id -->
+	<select id="getamterids" resultType="String" parameterType="java.lang.String">
+
+		SELECT f_dbsys_name AMTTERIDS  FROM bes_branch_ammeter_rlgl
+		where F_ZLBH in
+		<foreach collection="zlids" item="zlids" separator="," open="(" close=")">
+			#{zlids}
+		</foreach>
+		group by f_dbsys_name;
+	</select>
+	
+	<select id="getamtterlist" resultType="HashMap" parameterType="java.lang.String">
+		SELECT r.f_zlbh ZLBH,r.f_dbsys_name ,a.f_guid ,a.f_sys_name AMTTERIDS, a.F_SYS_NAME_OLD f_sys_name_old, F_NICK_NAME f_nick_name  FROM bes_branch_ammeter_rlgl r left join bes_ammeter a on a.f_sys_name=r.f_dbsys_name
+	    where F_ZLBH in
+	    <foreach collection="zlids" item="zlids" separator="," open="(" close=")">
+            #{zlids}
+        </foreach>
+	</select>
+	
+<!-- 根据电表关联字段查询实时数据表的数据 -->
+	<select id="getsssjlist_two" resultType="HashMap" parameterType="java.lang.String">
+		SELECT F_DNBH DNBH,F_DATA DATA FROM bes_original_data
+	    where F_DBSYS_NAME =#{amtterids}
+        and f_dnbh = #{dnbh}
+        ORDER BY F_CJSJ DESC LIMIT 1
+	</select>
+	
+<!--根据电表id查询电表相关数据 -->
+	<select id="getdbxx" resultType="HashMap" parameterType="java.lang.String">
+		select f_sys_name DBMC , F_SBLXBH DBXLH ,F_NICK_NAME NICKNAME 
+		from bes_ammeter a where a.f_sys_name = #{ammeterid} 
+	</select>
+	
+<!-- 根据电表id和起始时间查询数据 -->
+	<select id="getStrat_data" resultType="String" parameterType="java.lang.String">
+		select F_DATA DATA FROM 
+		bes_calculate_data  where f_dbsys_name = #{ammeterid} AND
+		<![CDATA[ DATE_FORMAT(F_CJSJ, '%Y-%m-%d')  =  #{start}  ]]>
+		order by f_cjsj asc  limit 1;
+	</select>
+	
+	<select id="getEnd_data" resultType="String" parameterType="java.lang.String">
+		select F_DATA DATA FROM 
+		bes_calculate_data  where f_dbsys_name = #{ammeterid} AND
+		<![CDATA[ DATE_FORMAT(F_CJSJ, '%Y-%m-%d')  =  #{end}  ]]>
+		 order by f_cjsj desc  limit 1;
+	</select>
+	
+<!-- 分时段统计 js为2-->
+	<select id="Select_fsdtj" resultType="HashMap" parameterType="java.lang.String">
+		select SUM(ROUND(F_DATA,2)) DQJDNH,
+		SUM(ROUND(F_DATA,2)) XJJDNHHJ ,'0' DQJDHXJJDHJZ , '0' CCBFB ,
+		SUM(ROUND(F_ALL_MONEY,2)) JE ,SUM(ROUND(F_COAL_AMOUNT,2)) MHL,
+		SUM(ROUND(F_CO2,2)) CO ,SUM(ROUND(F_PERMAN_DATA,2)) RJNH ,
+		SUM(ROUND(F_PERMAN_MONEY,2)) RJJE ,
+		SUM(ROUND(F_UNITAREA_DATA,2)) DWMJNH ,
+		SUM(ROUND(F_UNITAREA_MONEY,2)) DWMJJE
+		FROM BES_BRANCH_DATA
+		WHERE F_TYPE='0' AND 
+		<![CDATA[ DATE_FORMAT(F_CJSJ, '%Y-%m-%d')  >=  #{start}  ]]> 
+		and 
+		<![CDATA[ DATE_FORMAT(F_CJSJ, '%Y-%m-%d')  <=  #{end}  ]]>
+		and F_ZLBH = #{zlid}
+	</select>
+<!-- 分时段统计 js不为2-->
+	<select id="Select_fsdtj_notwo" resultType="HashMap" parameterType="java.lang.String">
+		select SUM(ROUND(F_DATA,2)) DQJDNH,'-' XJJDNHHJ ,'-' DQJDHXJJDHJZ , '-' CCBFB ,
+		SUM(ROUND(F_ALL_MONEY,2)) JE ,
+		SUM(ROUND(F_COAL_AMOUNT,2)) MHL,
+		SUM(ROUND(F_CO2,2)) CO ,
+		SUM(ROUND(F_PERMAN_DATA,2)) RJNH ,
+		SUM(ROUND(F_PERMAN_MONEY,2)) RJJE ,
+		SUM(ROUND(F_UNITAREA_DATA,2)) DWMJNH ,
+		SUM(ROUND(F_UNITAREA_MONEY,2)) DWMJJE
+		FROM BES_BRANCH_DATA
+		WHERE F_TYPE='0' AND 
+		<![CDATA[ DATE_FORMAT(F_CJSJ, '%Y-%m-%d')  >=  #{start}  ]]> 
+		and 
+		<![CDATA[ DATE_FORMAT(F_CJSJ, '%Y-%m-%d')  <=  #{end}  ]]>
+		and F_ZLBH = #{zlid}
+	</select>
+<!-- 获取支路名称 -->
+	<select id="getzlmc" resultType="String" parameterType="java.lang.String">
+		select f_zlmc from bes_branch_conf where f_zlbh = #{zlid}
+	</select>
+	
+<!--获取支路级数 -->
+	<select id="getjs" resultType="String" parameterType="java.lang.String">
+		select f_js from bes_branch_conf where f_zlbh = #{zlid}
+	</select>
+	
+<!-- 获取分户支路名称 -->
+	<select id="getfhzlmc" resultType="String" parameterType="java.lang.String">
+		select F_FHMC from BES_HOUSEHOLD_CONF where F_FHBH = #{zlid}
+	</select>
+	
+<!-- 获取分项支路名称 -->
+	<select id="getfxzlmc" resultType="String" parameterType="java.lang.String">
+		select F_FXMC from bes_subitem_conf where F_FXBH = #{zlid}
+	</select>
+	
+<!-- 根据zlid获取电表数据 -->
+	<select id="Select_ammeterlist" resultType="HashMap" parameterType="java.lang.String">
+		SELECT DISTINCT(r.F_DBSYS_NAME) NAME,b.F_NICK_NAME NICKNAME FROM bes_branch_ammeter_rlgl r left join bes_ammeter b on b.F_SYS_NAME=r.F_DBSYS_NAME
+		 WHERE r.F_ZLBH in
+		<foreach collection="zlidList" item="zlid" separator="," open="(" close=")">
+			#{zlid}
+		</foreach>
+	</select>
+	
+<!--根据电表id获取电能参数 -->
+	<select id="zl_cscx_Select_dncs" resultType="HashMap" parameterType="java.lang.String">
+		SELECT F_DNBH ID,F_DNMC NAME,F_UNIT BS  FROM bes_electric_params
+		WHERE F_DNBH IN (SELECT F_NHBH FROM bes_electric_coll_rlgl WHERE F_CJFABH IN (SELECT F_CJFABH FROM bes_ammeter WHERE F_SYS_NAME =#{ammeterid} ))
+	</select>
+	
+<!--电能参数统计分析查询 -->
+	<select id="dncsList" resultType="HashMap" parameterType="java.lang.String">
+		select f_dbsys_name,f_dnbh,f_data,date_format(f_cjsj, '%Y-%m-%d %H:%i:%S') f_cjsj 
+		from bes_original_data 
+		where date_format(f_cjsj, '%Y-%m-%d')=#{time} 
+		and f_dbsys_name = #{ammeterid} and f_dnbh in  
+		<foreach collection="dncsid" item="dncsid" separator="," open="(" close=")">
+            #{dncsid}
+        </foreach>
+        order by f_cjsj asc 
+	</select>
+	
+<!-- 根据时间重新查询数据 -->
+	<select id="getdate" resultType="String" parameterType="java.lang.String">
+		Select F_DATA DATA from bes_original_data WHERE F_DBSYS_NAME = #{ammeterid} AND 
+		<![CDATA[ DATE_FORMAT(F_CJSJ, '%Y-%m-%d %H:%i:%s')  =  #{time}  ]]> and 
+		F_DNBH = #{dncsid} order by f_cjsj asc limit 1
+	</select>
+	
+<!--根据id查询对能参数名称 -->
+	<select id="getdncsname" resultType="String" parameterType="java.lang.String">
+		SELECT F_DNMC NAME FROM BES_ELECTRIC_PARAMS WHERE F_DNBH = #{dncsid}
+	</select>
+	
+<!--分户用能分时段统计 -->
+	<select id="fh_Select_fsdtj" resultType="HashMap" parameterType="java.lang.String">
+		select SUM(ROUND(F_DATA,2)) DQJDNH,
+		 '-' XJJDNHHJ ,'-' DQJDHXJJDHJZ , '-' CCBFB ,
+		SUM(ROUND(F_ALL_MONEY,2)) JE ,
+		SUM(ROUND(F_COAL_AMOUNT,2)) MHL,
+		SUM(ROUND(F_CO2,2)) CO ,
+		SUM(ROUND(F_PERMAN_DATA,2)) RJNH ,
+		SUM(ROUND(F_PERMAN_MONEY,2)) RJJE ,
+		SUM(ROUND(F_UNITAREA_DATA,2)) DWMJNH ,
+		SUM(ROUND(F_UNITAREA_MONEY,2)) DWMJJE
+		FROM BES_HOUSEHOLD_DATA
+		WHERE F_TYPE='0' AND 
+		<![CDATA[ DATE_FORMAT(F_CJSJ, '%Y-%m-%d')  >=  #{start}  ]]> 
+		and 
+		<![CDATA[ DATE_FORMAT(F_CJSJ, '%Y-%m-%d')  <=  #{end}  ]]>
+		and F_FHBH = #{zlid}
+	</select>
+	
+<!--分项用能分时段统计 -->
+	<select id="fx_Select_fsdtj" resultType="HashMap" parameterType="java.lang.String">
+		select SUM(ROUND(F_DATA,2)) DQJDNH,
+		'-' XJJDNHHJ ,'-' DQJDHXJJDHJZ , '-' CCBFB ,
+		SUM(ROUND(F_ALL_MONEY,2)) JE ,
+		SUM(ROUND(F_COAL_AMOUNT,2)) MHL,
+		SUM(ROUND(F_CO2,2)) CO ,
+		SUM(ROUND(F_PERCAPITA_ENERGY,2)) RJNH ,
+		SUM(ROUND(F_PERCAPITA_MONEY,2)) RJJE ,
+		SUM(ROUND(F_UNITAREA_DATA,2)) DWMJNH ,
+		SUM(ROUND(F_UNITAREA_MONEY,2)) DWMJJE
+		FROM bes_subitem_data
+		WHERE F_TYPE='0' AND 
+		<![CDATA[ DATE_FORMAT(F_CJSJ, '%Y-%m-%d')  >=  #{start}  ]]> 
+		and 
+		<![CDATA[ DATE_FORMAT(F_CJSJ, '%Y-%m-%d')  <=  #{end}  ]]>
+		and F_FXBH = #{zlid}
+	</select>
+<!--根据电表id查询起始数据 -->
+	<select id="getqslist" resultType="HashMap" parameterType="java.lang.String">
+		select F_DATA DATA , DATE_FORMAT(F_CJSJ, '%Y-%m-%d') SJ FROM 
+		bes_calculate_data  where f_dbsys_name = #{dbid} AND
+		<![CDATA[ F_CJSJ >=  #{start}  ]]>
+		and
+		<![CDATA[ F_CJSJ <=  #{end}  ]]>
+		order by f_cjsj asc
+	</select>
+
+	<select id="getByStartTimeAndEndTimeAndSysName" resultType="HashMap" parameterType="java.lang.String">
+		<foreach collection="dbid" item="itme" separator="union all">
+			(SELECT F_DATA data, F_DBSYS_NAME fDbsysName, DATE_FORMAT(F_CJSJ, '%Y-%m-%d') fCjsj FROM bes_calculate_data WHERE f_dbsys_name = #{itme} AND F_CJSJ >= #{start} LIMIT 1)
+			  union all
+			(SELECT F_DATA data, F_DBSYS_NAME fDbsysName, DATE_FORMAT(F_CJSJ, '%Y-%m-%d') fCjsj FROM bes_calculate_data WHERE f_dbsys_name = #{itme} AND <![CDATA[ F_CJSJ < #{end} ]]> ORDER BY F_CJSJ DESC LIMIT 1)
+		</foreach>
+	</select>
+
+<!--根据能源编号获取动态表头 -->
+	<select id="getheaderList" resultType="HashMap" parameterType="java.lang.String">
+		SELECT F_DNBH DNBH,F_DNMC NAME,F_UNIT UNIT FROM bes_electric_params 
+		WHERE F_NYBH = #{fnybh} 
+	</select>
+
+	<!--根据能源类型查询能源单位-->
+    <select id="getUnitByEnergyType" resultType="java.lang.String">
+		select f_unit from bes_energy_type where f_NYBH = #{energyType}
+	</select>
+
+	<!--根据电表系统名称查询当前电表的电能参数-->
+	<select id="selectElectric_paramsList" resultType="java.util.Map">
+		SELECT * from bes_electric_params where F_DNBH in(
+		SELECT F_NHBH from bes_electric_coll_rlgl where F_CJFABH in (
+		SELECT F_CJFABH from bes_coll_method where F_CJFAMC in (
+		SELECT F_CJFAMC from bes_ammeter where F_SYS_NAME_OLD in
+		<foreach collection="amttername" item="amttername" separator="," open="(" close=")">
+			#{amttername}
+		</foreach>
+		)))
+	</select>
+</mapper>

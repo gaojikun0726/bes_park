@@ -1,0 +1,358 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.efounder.JEnterprise.mapper.basedatamanage.eqmanage.BESSbdyExcelTableImportMapper">
+    <!-- 设备树结构 BES_SBPZ_STRUCT -->
+    <resultMap id="sbdyMap"
+               type="com.efounder.JEnterprise.model.basedatamanage.eqmanage.BESSbPzStruct">
+        <id column="F_SYS_NAME" property="f_sys_name" />
+        <result column="F_ID" property="f_id" />
+        <result column="F_SYS_NAME_OLD" property="f_sys_name_old" />
+        <result column="F_SBID" property="f_sbid" />
+        <result column="F_NICK_NAME" property="f_nick_name" />
+        <result column="F_DESCRIPTION" property="f_description" />
+        <result column="F_ALLPATH" property="f_allpath" />
+        <result column="F_TYPE" property="f_type" />
+        <result column="F_ISSYN" property="f_issyn" />
+        <result column="F_PSYS_NAME" property="f_psys_name" />
+        <result column="F_STATUS" property="f_status" />
+        <result column="F_TO_OPC" property="f_to_opc" />
+        <result column="F_OPC_WR" property="f_opc_wr" />
+        <result column="F_CRDATE" property="f_crdate" />
+        <result column="F_CHDATE" property="f_chdate" />
+        <result column="F_XH_TYPE" property="f_xh_type" />
+        <result column="F_NODE_ATTRIBUTION" property="f_node_attribution" />
+    </resultMap>
+
+    <sql id="find_xxx">
+	    <![CDATA[
+			SELECT F_ID,F_SBID,F_SYS_NAME,F_SYS_NAME_OLD, F_NICK_NAME,F_ALLPATH,F_DESCRIPTION, F_TYPE,F_NODE_ATTRIBUTION, F_ISSYN, F_PSYS_NAME, F_STATUS, F_TO_OPC, F_OPC_WR,F_CRDATE, F_CHDATE,F_XH_TYPE
+	    ]]>
+	</sql>
+    <!--通过系统名称获取设备树信息 -->
+    <select id="getSbTreeInfoBySysName" parameterType="String" resultMap="sbdyMap">
+        <include refid="find_xxx" />
+        FROM BES_SBPZ_STRUCT
+        <where>
+            F_SYS_NAME_OLD = #{f_sys_name} || F_SYS_NAME=#{f_sys_name}
+            <!-- 			<if test="f_sys_name != null and f_sys_name != ''"> F_SYS_NAME = #{f_sys_name}</if> -->
+        </where>
+    </select>
+
+    <!--wanghongjie start 20200623 ip是否重复-->
+    <select id="getSizeByIpAddrBesDdc" parameterType="string" resultType="java.lang.Integer">
+		SELECT COUNT(*) from bes_ddc where F_IP_ADDR = #{f_ip_addr} || F_CHANNEL_ID = #{f_ip_addr}
+	</select>
+
+    <select id="getSizeByIpAddrBesCollector" parameterType="string" resultType="java.lang.Integer">
+		select COUNT(*) from bes_collector where F_IP_ADDR = #{f_ip_addr} || F_CHANNEL_ID = #{f_ip_addr}
+	</select>
+
+    <!-- 获取采集器的最大设备id -->
+    <select id="queryCollectorMaxId" parameterType="String" resultType="String">
+		 SELECT  max(CAST(F_SBID as SIGNED)) as maxId  FROM bes_collector
+	</select>
+    <!--Excel表格导入,导入能耗控制器节点的信息到bes_controller表-->
+    <insert id="add_sbdyStructCollector">
+		insert into bes_collector (F_GUID,F_SBID,F_SYS_NAME_OLD,F_SYS_NAME,F_NICK_NAME,F_ENABLED,F_SSQY,F_AZWZ,F_DESCRIPTION,F_IP_ADDR,F_COLL_CYCLE,
+		F_NODE_TYPE,F_HIS_DATA_SAVE_CYCLE,F_YQBH,F_COLLECTOR_STATE,F_ONLINE_STATE,F_CHANNEL_ID,F_UPLOAD_CYCLE,
+		F_GATEWAY,F_MASK,F_IP_MASTER,F_PORT_MASTER,F_CRDATE,F_CHDATE)
+		values (#{fGuid},#{fSbId},#{fSysName},#{fSysName},#{fNickName},#{fEnabled},#{fSsqy},#{fAzwz},#{fDescription},#{fIpAddr},#{fCollCycle},
+		#{fNodeType},#{fHisDataSaveCycle},#{fParkYqbh},#{fCollectorState},#{fOnlinestate},#{fChannelId},#{fUploadCycle},
+		#{fGateway},#{fMask},#{fIpMaster},#{fPortMaster},current_timestamp(),current_timestamp())
+	</insert>
+
+    <!--Excel表格导入,导入能耗总线节点的信息到bes_bus表-->
+    <insert id="add_sbdyStructBus">
+		insert into bes_bus (F_SYS_NAME_OLD,F_SYS_NAME,F_NICK_NAME,F_PORT,F_CRDATE,F_CHDATE)
+		values (#{fSysName},#{fSysName},#{fNickName},#{fPort},current_timestamp(),current_timestamp())
+	</insert>
+
+    <!--Excel表格导入,导入能耗电表节点的信息到bes_ammeter表-->
+    <insert id="add_sbdyStructAmmeter">
+		insert into bes_ammeter (F_GUID,F_SBID,F_SYS_NAME_OLD,F_SYS_NAME,F_NICK_NAME,F_ENABLED,F_AZWZ,F_WLDZ,F_DESCRIPTION,F_TYPE,
+		F_COMM_RATE,F_COMM_RATE_MC,F_PROTOCOL_TYPE,F_PROTOCOL_TYPE_MC,F_CJFABH,F_CJFAMC,F_BLXBH,F_BLXMC,F_COMMUNICATION_PORT,F_YQBH,
+		F_PERCENTAGE,F_AMMETER_STATE,F_COM_DATA_BIT,F_COM_PARITY_BIT,F_COM_STOP_BIT,F_FUNCTION_CODE, F_CRDATE,F_CHDATE)
+		values (#{fGuid},#{fSbid},#{fSysName},#{fSysName},#{fNickName},#{fEnabled},#{fAzwz},#{fWldz},#{fDescription},#{fType},
+		#{fCommRate},#{fCommRateMc},#{fProtocolType},#{fProtocolTypeMc},#{fCjfabh},#{fCjfamc},#{fBlxbh},#{fBlxmc},#{fCommunicationPort},#{fYqbh},
+		#{fPercentage},#{fAmmeterState},#{fComDataBit},#{fComParityBit},#{fComStopBit},#{fFunctionCode},current_timestamp(),current_timestamp())
+	</insert>
+
+    <insert id="add_sbdyStructDDC">
+		insert into bes_ddc (F_SBID,F_POLL_STATUS,F_SYS_NAME_OLD,F_SYS_NAME,F_NICK_NAME,F_ENABLED,F_SSQY,F_NODE_TYPE,F_AZWZ,F_DESCRIPTION,
+		F_IP_ADDR,F_DDC_STATE,F_ONLINE_STATE,F_YQBH,F_CHANNEL_ID,F_GATEWAY,F_MASK,F_IP_MASTER,F_PORT_MASTER,F_CRDATE,F_CHDATE)
+		values (#{fSbid},#{fPollStatus},#{fSysName},#{fSysName},#{fNickName},#{fEnabled},#{fSsqy},#{fNodeType},#{fAzwz},#{fDescription},
+		#{fIpAddr},#{fDdcState},#{fOnlineState},#{fYqbh},#{fChannelId},#{fGateway},#{fMask},#{fIpMaster},#{fPortMaster},current_timestamp(),current_timestamp())
+	</insert>
+
+    <!--Excel表格导入,根据模块的名称查询模块类型表的f_id-->
+    <select id="selectModuleTypeId" resultType="java.lang.String">
+		select f_id from bes_module_type where F_MODULE_TYPE = #{f_module_type}
+	</select>
+    <!--Excel表格导入,根据模块的名称查询模块类型表的f_id-->
+    <select id="selectPointTypeClByModule" resultType="java.lang.String">
+		select F_POINT_TYPE_CL from bes_module_type where F_MODULE_TYPE = #{f_module_type}
+	</select>
+
+    <!--Excel表格导入,添加模块信息-->
+    <insert id="add_sbdyStructModule">
+		insert into bes_module (F_SBID,F_STRUCT_ID,F_SYS_NAME_OLD,F_SYS_NAME,F_NICK_NAME,F_NODE_TYPE,F_ENABLED,F_TYPE,F_AZWZ,F_DESCRIPTION,
+		F_ADDR,F_YQBH,F_CRDATE,F_CHDATE)
+		values (#{fSbid},#{fStructId},#{fSysName},#{fSysName},#{fNickName},#{fNodeType},#{fEnabled},#{fType},#{fAzwz},#{fDescription},
+		#{fAddr},#{fYqbh},current_timestamp(),current_timestamp())
+	</insert>
+
+    <!--Excel表格导入,添加耦合器节点信息-->
+    <insert id="add_sbdyStructCoupler">
+		insert into bes_coupler (F_SYS_NAME_OLD,F_SYS_NAME,F_NICK_NAME,F_TYPE,F_NODE_TYPE,F_AZWZ,F_DESCRIPTION,F_ADDR,F_BELONG_IPROUTER,F_CRDATE)
+		values (#{fSysName},#{fSysName},#{fNickName},#{fType},#{fNodeType},#{fAzwz},#{fDescription},#{fAddr},#{fBelongIprouter},current_timestamp())
+	</insert>
+
+	<!--wanghongjie start 20200910 根据通信波特率编号查询通信波特率名称-->
+	<select id="selectF_comm_rate_mc" resultType="java.lang.String">
+    select F_COMM_RATE from bes_rate where f_rate_bh = #{f_comm_rate}
+  </select>
+
+	<!--wanghongjie start 20200910 根据通信协议类型编号查询通信协议名称-->
+	<select id="selectF_protocol_type_mc" resultType="java.lang.String">
+    select f_type from bes_protocol where f_txxybh = #{f_protocol_type}
+  </select>
+
+	<!--wanghongjie start 20200910 根据采集方案编号查询采集方案名称-->
+	<select id="selectF_cjfabh_mc" resultType="java.lang.String">
+    select f_cjfamc from bes_coll_method where f_cjfabh = #{f_cjfabh}
+  </select>
+
+	<!--wanghongjie start 20200914 根据电表类型编号查询电表类型名称-->
+	<select id="selectF_blxbh_mc" resultType="java.lang.String">
+      select f_lxmc from bes_ammeter_type where F_LXBH = #{f_blxbh}
+    </select>
+
+	<!-- 获取电表的最大设备id -->
+	<select id="queryAmmeterMaxId" parameterType="String" resultType="String">
+		 SELECT  max(CAST(F_SBID as SIGNED)) as maxId  FROM bes_ammeter
+	</select>
+
+
+	<!--wanghongjie 20200826 根据父节点名称查询数据库中是否有这个名称-->
+	<select id="selectSbdyByPsysName" resultType="java.util.Map">
+        select * from bes_sbpz_struct where F_SYS_NAME = #{fPsysname}
+    </select>
+	<!--wanghongjie 20200914 查询该节点的父节点的类型-->
+	<select id="selectPSysNameType" resultType="java.lang.String">
+        select f_type from bes_sbpz_struct where f_sys_name_old = #{getfPsysname}
+    </select>
+	<!--wanghongjie 20200915 查询当前模块下所有的点位-->
+	<select id="selectModule_pointList" resultType="java.util.Map">
+        select f_sys_name_old from bes_sbpz_struct_copy where f_psys_name = #{getfPsysname}
+    </select>
+
+	<!--wanghongjie 20200915 修改设备配置的点位信息-->
+	<update id="updateStructPoint">
+        update bes_sbpz_struct
+        set F_SYS_NAME_OLD = #{f_sys_name_old},
+        F_NICK_NAME = #{f_nick_name},
+        F_ALLPATH = #{allpath},
+        F_DESCRIPTION = #{f_description},
+        F_TYPE = #{f_type},
+        F_CHDATE = current_timestamp()
+        where f_id = #{f_idBySbdyStruct}
+    </update>
+
+	<!--产业园临时用-->
+	<update id="updateStructPointCopy">
+        update bes_sbpz_struct_copy
+        set F_SYS_NAME_OLD = #{f_sys_name_old},
+        F_NICK_NAME = #{f_nick_name},
+        F_ALLPATH = #{allpath},
+        F_DESCRIPTION = #{f_description},
+        F_TYPE = #{f_type},
+        F_CHDATE = current_timestamp()
+        where f_id = #{f_idBySbdyStruct}
+    </update>
+
+	<!--wanghongjie 20200915 添加点位信息到相应的节点表中-->
+	<insert id="insertPointMapToNodeTable_DO_DI">
+		insert into ${tabName}
+		(F_SBID,F_STRUCT_ID,F_SYS_NAME_OLD,F_SYS_NAME,F_NICK_NAME,F_NODE_TYPE,F_CHANNEL_INDEX,F_ENABLED,F_REVERSED,
+		<if test='tabName == "BES_DIGIT_INPUT"'>
+			F_SOURCED,
+		</if>
+		F_WORK_MODE,F_ALARM_ENABLE,F_ALARM_TYPE,F_CLOSE_STATE,F_ALARM_PRIORITY,F_INIT_VAL,F_DESCRIPTION,F_YQBH,
+		<if test='tabName == "BES_DIGIT_OUPUT"'>
+			F_DO_STATE,
+		</if>
+		<if test='tabName == "BES_DIGIT_INPUT"'>
+			F_DI_STATE,
+		</if>
+		F_FAULT_STATE,
+		F_CRDATE)
+		values (
+		#{besPoint.fSbid},#{besPoint.fStructId},#{besPoint.fSysNameOld},#{besPoint.fSysName},#{besPoint.fNickName},#{besPoint.fNodeType},
+		#{besPoint.fChannelIndex},#{besPoint.fEnabled},#{besPoint.fReversed},
+		<if test='tabName == "BES_DIGIT_INPUT"'>
+			#{besPoint.fSourced},
+		</if>
+		#{besPoint.fWorkMode},#{besPoint.fAlarmEnable},#{besPoint.fAlarmType},#{besPoint.fCloseState},#{besPoint.fAlarmPriority},
+		#{besPoint.fInitVal},#{besPoint.fDescription},#{besPoint.fYqbh},
+		<if test='tabName == "BES_DIGIT_OUPUT"'>
+			#{besPoint.fPointState},
+		</if>
+		<if test='tabName == "BES_DIGIT_INPUT"'>
+			#{besPoint.fPointState},
+		</if>
+		#{besPoint.fFaultState},
+		current_timestamp()
+		)
+	</insert>
+
+	<!--wanghongjie 20200915 添加点位信息到相应的节点表中-->
+	<insert id="insertPointMapToNodeTable_AO_AI" >
+		insert into ${tabName}
+		(F_SBID,F_STRUCT_ID,F_SYS_NAME_OLD,F_SYS_NAME,F_NICK_NAME,F_NODE_TYPE,F_CHANNEL_INDEX,F_ENABLED,F_ENGINEER_UNIT,F_REVERSED,
+		F_SINNAL_TYPE,F_MIN_VAL,F_MAX_VAL,F_ACCURACY,
+		F_WORK_MODE,F_ALARM_ENABLE,F_ALARM_TYPE,F_HIGH_LIMIT,F_LOW_LIMIT,F_ALARM_PRIORITY,F_INIT_VAL,F_DESCRIPTION,F_YQBH,
+		<if test='tabName == "BES_ANALOG_OUPUT"'>
+			F_AO_STATE,
+		</if>
+		<if test='tabName == "BES_ANALOG_INPUT"'>
+			F_AI_STATE,F_ENERGYSTATICS,
+		</if>
+
+		F_CRDATE)
+		values (
+		#{besPoint.fSbid},#{besPoint.fStructId},#{besPoint.fSysNameOld},#{besPoint.fSysName},#{besPoint.fNickName},#{besPoint.fNodeType},
+		#{besPoint.fChannelIndex},#{besPoint.fEnabled},#{besPoint.fEngineerUnit},#{besPoint.fReversed},
+		#{besPoint.fSinnalType},#{besPoint.fMinVal},#{besPoint.fMaxVal},#{besPoint.fAccuracy},
+		#{besPoint.fWorkMode},#{besPoint.fAlarmEnable},#{besPoint.fAlarmType},#{besPoint.fHighLimit},#{besPoint.fLowLimit},#{besPoint.fAlarmPriority},
+		#{besPoint.fInitVal},#{besPoint.fDescription},#{besPoint.fYqbh},
+		<if test='tabName == "BES_ANALOG_OUPUT"'>
+			#{besPoint.fPointState},
+		</if>
+		<if test='tabName == "BES_ANALOG_INPUT"'>
+			#{besPoint.fPointState},#{besPoint.fEnergystatics},
+		</if>
+		current_timestamp()
+		)
+	</insert>
+
+	<!--wanghongjie 20200915 判断当前点位的通道索引是否符合模块的模块型号,首先查出模块的点集合-->
+	<select id="selectF_POINT_TYPE_CL" resultType="java.util.Map">
+        select * from bes_module_type where F_ID = (
+        SELECT F_TYPE FROM bes_module WHERE F_SYS_NAME_OLD = #{getfPsysname}
+        )
+    </select>
+
+	<!--wanghongjie 20200916 添加虚点DO,DI点位信息到虚点表-->
+	<insert id="insertVPointMapToNodeTable_DO_DI">
+        insert into bes_vpoint
+        (F_SBID,F_SYS_NAME_OLD,F_SYS_NAME,F_NICK_NAME,F_NODE_TYPE,F_ENABLED,F_INIT_VAL,F_ALARM_ENABLE,F_ALARM_TYPE,F_CLOSE_STATE,
+        F_ALARM_PRIORITY,F_DESCRIPTION,F_YQBH,F_SYNC_STATE,F_FAULT_STATE,F_CRDATE)
+        values
+        (#{fSbid},#{fSysNameOld},#{fSysNameOld},#{fNickName},#{fNodeType},#{fEnabled},#{fInitVal},#{fAlarmEnable},#{fAlarmType},#{fCloseState},
+        #{fAlarmPriority},#{fDescription},#{fYqbh},#{fPointState},#{fFaultState},current_timestamp())
+    </insert>
+
+	<!--wanghongjie 20200916 添加虚点AO,AI点位信息到虚点表-->
+	<insert id="insertVPointMapToNodeTable_AO_AI">
+		insert into bes_vpoint
+		(F_SBID,F_SYS_NAME_OLD,F_SYS_NAME,F_NICK_NAME,F_NODE_TYPE,F_ENABLED,F_INIT_VAL,F_ALARM_ENABLE,F_ALARM_TYPE,
+		F_ACCURACY,F_ENGINEER_UNIT,
+		<if test="fHighLimit != null">
+			F_HIGH_LIMIT,
+		</if>
+		<if test="fLowLimit != null">
+			F_LOW_LIMIT,
+		</if>
+		<if test="fEnergystatics != null">
+			F_ENERGYSTATICS,
+		</if>
+		F_ALARM_PRIORITY,F_DESCRIPTION,F_YQBH,F_SYNC_STATE,F_CRDATE)
+		values
+		(#{fSbid},#{fSysNameOld},#{fSysNameOld},#{fNickName},#{fNodeType},#{fEnabled},#{fInitVal},#{fAlarmEnable},#{fAlarmType},
+		#{fAccuracy},#{fEngineerUnit},
+		<if test="fHighLimit != null">
+			#{fHighLimit},
+		</if>
+		<if test="fLowLimit != null">
+			#{fLowLimit},
+		</if>
+		<if test="fEnergystatics != null">
+			#{fEnergystatics},
+		</if>
+		#{fAlarmPriority},#{fDescription},#{fYqbh},#{fPointState},current_timestamp())
+	</insert>
+
+	<!--wanghongjie 20200917 根据耦合器节点点位的父节点名称查询父节点下所有的点位-->
+	<select id="selectLightCouplerList" resultType="java.util.Map">
+        select F_SYS_NAME_OLD,F_TYPE FROM bes_sbpz_struct WHERE F_PSYS_NAME = #{getfPsysname}
+    </select>
+
+	<insert id="add_sbdyStruct" parameterType="com.efounder.JEnterprise.model.basedatamanage.eqmanage.BESSbPzStruct">
+		insert into bes_sbpz_struct (F_SYS_NAME_OLD, F_SYS_NAME,F_NICK_NAME,F_ALLPATH,F_DESCRIPTION,F_TYPE,F_NODE_ATTRIBUTION,
+		F_PSYS_NAME,F_STATUS,F_CRDATE,F_CHDATE)
+    values (#{f_sys_name},#{f_sys_name},#{f_nick_name},#{f_allpath},#{f_description},#{f_type},#{f_node_attribution},
+    #{f_psys_name},#{f_status}, current_timestamp(),current_timestamp())
+	</insert>
+
+	<!--新增临时表,导入完成后,替换掉bes_sbdy_struct表中的数据-->
+	<insert id="add_sbdyStructCopy" parameterType="com.efounder.JEnterprise.model.basedatamanage.eqmanage.BESSbPzStruct">
+		insert into bes_sbpz_struct_copy (F_SYS_NAME_OLD, F_SYS_NAME,F_NICK_NAME,F_ALLPATH,F_DESCRIPTION,F_TYPE,F_NODE_ATTRIBUTION,
+		F_PSYS_NAME,F_STATUS,F_CRDATE,F_CHDATE)
+    values (#{f_sys_name},#{f_sys_name},#{f_nick_name},#{f_allpath},#{f_description},#{f_type},#{f_node_attribution},
+    #{f_psys_name},#{f_status}, current_timestamp(),current_timestamp())
+	</insert>
+
+	<!--wanghongjie start 20200622 查询bes_ddc表的最大的f_sbid-->
+	<select id="select_f_sbid_By_Bes_Ddc" resultType="java.lang.String" parameterType="java.lang.String">
+		SELECT  max(CAST(F_SBID as SIGNED)) as F_SBID  FROM bes_ddc
+	</select>
+
+	<!--如果模块的通信地址在当前ddc下有相同的地址,则在页面提示通信地址重复,添加失败-->
+	<select id="f_addrListByPName" resultType="java.util.Map">
+		SELECT * from bes_module where F_SYS_NAME_OLD in
+		(select F_SYS_NAME_OLD from bes_sbpz_struct where F_PSYS_NAME = #{f_psys_name})
+	</select>
+
+	<!--wanghongjie 修改查询模块所在DDC控制器的信息的sql,当新增模块的时候,根据线路名称查询不到DDC控制器的信息-->
+	<select id="queryDDCInfoByModule" resultType="java.util.HashMap">
+		select * from
+		bes_ddc where F_SYS_NAME =
+		(select F_PSYS_NAME from bes_sbpz_struct
+		where f_sys_name =
+		(select F_PSYS_NAME from bes_sbpz_struct where
+		f_sys_name = #{f_psys_name})) || F_SYS_NAME =
+		(select F_PSYS_NAME from bes_sbpz_struct where f_sys_name =
+		(select F_PSYS_NAME from bes_sbpz_struct where f_sys_name =
+		(select F_PSYS_NAME from bes_sbpz_struct where
+		f_sys_name = #{f_psys_name})))
+	</select>
+
+	<!--wanghongjie start 20200730 查询模块所属LDC控制器-->
+	<select id="queryLDCInfoByModule" resultType="java.util.Map">
+		select * from bes_ddc
+    	where F_SYS_NAME = #{f_psys_name} || F_SYS_NAME =
+		(select F_PSYS_NAME from bes_sbpz_struct
+		where f_sys_name =
+		(select F_PSYS_NAME from bes_sbpz_struct where
+		f_sys_name = #{f_psys_name} )) || F_SYS_NAME =
+		(select F_PSYS_NAME from bes_sbpz_struct
+		where f_sys_name = #{f_psys_name}
+		)
+	</select>
+
+	<!--wanghongjie start 20200707 查询当前模块的F_ID-->
+	<select id="selectIdByModule" parameterType="String" resultType="java.lang.String">
+	<!--select F_ID from bes_sbpz_struct where F_SYS_NAME_OLD = #{name}-->
+    select F_ID from bes_sbpz_struct_copy where F_SYS_NAME_OLD = #{name}
+</select>
+
+<!--wanghongjie start 20200630 查询模块表的最大的sbid-->
+	<select id="select_f_sbid_By_Bes_Module" resultType="java.lang.String">
+		SELECT max(CAST(F_SBID AS signed)) F_SBID  from bes_module
+	</select>
+
+	<!--wanghongjie 20200714 查询相应的点位表中是否存在这个点位-->
+	<select id="selectPointMap" resultType="java.util.Map">
+        select * from ${tabName} where F_SYS_NAME_OLD = #{f_sys_name_old}
+    </select>
+</mapper>

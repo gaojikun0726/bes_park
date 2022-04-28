@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.efounder.JEnterprise.mapper.filedownload.expExcelMapper">
+
+    <select id="expExcel" resultType="java.util.Map" parameterType="String" >
+        select ${keys} from 
+        ${tableName}
+    </select>
+
+    <delete id="Delete" parameterType="java.lang.String" >
+        delete from ${TableName}
+        where 1=1
+        <if test="id != null and id != ''">
+            and ${col} = #{id,jdbcType=VARCHAR}
+        </if>
+    </delete>
+
+    <select id="selectVlaues" resultType="java.util.Map" parameterType="String" >
+        select * from
+        ${TableName}
+        where
+        ${col} = #{id,jdbcType=VARCHAR}
+    </select>
+    
+</mapper>

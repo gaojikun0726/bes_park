@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.efounder.JEnterprise.mapper.basedatamanage.enegrycollectionmanage.BESElectric_Coll_RlglMapper" >
+
+  <resultMap id="ElectricCRMap" type="com.efounder.JEnterprise.model.basedatamanage.enegrycollectionmanage.BESElectric_Coll_Rlgl" >
+    <id column="F_CJFABH" property="fCjfabh"/>
+    <id column="F_NHBH" property="fNhbh"/>
+    <result column="F_STATISTICAL_PARAM" property="fStatisticalParam"/>
+    <result column="F_IS_RATE" property="fIsRate"/>
+    <result column="F_CRDATE" property="fCrdate"/>
+    <result column="F_CHDATE" property="fChdate"/>
+  </resultMap>
+  
+  <sql id="Base_Column_List" >
+    F_CJFABH, F_NHBH, F_STATISTICAL_PARAM, F_IS_RATE, F_CRDATE, F_CHDATE
+  </sql>
+
+    <!-- 获取全部数据 -->
+    <select id="loadAll" resultMap="ElectricCRMap" parameterType="com.efounder.JEnterprise.model.basedatamanage.enegrycollectionmanage.BESElectric_Coll_Rlgl" >
+        select
+        <include refid="Base_Column_List" />
+        from bes_electric_coll_rlgl
+    </select>
+
+  <!-- 通过电能编号查询 -->
+  <select id="queryByDnbh" resultMap="ElectricCRMap" parameterType="com.efounder.JEnterprise.model.basedatamanage.enegrycollectionmanage.BESElectric_Coll_Rlgl" >
+    select 
+    <include refid="Base_Column_List" />
+    from bes_electric_coll_rlgl
+    where F_NHBH != #{fDnbh}
+  </select>
+
+  <!-- 通过采集方案编号查询 -->
+  <select id="queryECRList" resultMap="ElectricCRMap" parameterType="com.efounder.JEnterprise.model.basedatamanage.enegrycollectionmanage.BESElectric_Coll_Rlgl" >
+    select
+    <include refid="Base_Column_List" />
+    from bes_electric_coll_rlgl
+    where F_CJFABH = #{fCjfabh}
+  </select>
+
+    <!--  -->
+  <select id="queryrlglList" resultMap="ElectricCRMap" parameterType="com.efounder.JEnterprise.model.basedatamanage.enegrycollectionmanage.BESElectric_Coll_Rlgl" >
+    select 
+    <include refid="Base_Column_List" />
+    from bes_electric_coll_rlgl
+    where F_CJFABH = #{fCjfabh}
+		and F_NHBH != #{fNhbh}
+  </select>
+  <select id="queryByDnbhAndCjfabh" resultMap="ElectricCRMap" parameterType="com.efounder.JEnterprise.model.basedatamanage.enegrycollectionmanage.BESElectric_Coll_Rlgl" >
+    select
+    <include refid="Base_Column_List" />
+    from bes_electric_coll_rlgl
+    where F_CJFABH = #{fCjfabh}
+		and F_NHBH = #{fNhbh}
+  </select>
+  <!-- 删除采集方案中的一个电能参数 -->
+  <delete id="CollMethod_deleteElectricP" parameterType="com.efounder.JEnterprise.model.basedatamanage.enegrycollectionmanage.BESElectric_Coll_Rlgl" >
+    delete from bes_electric_coll_rlgl
+    where F_NHBH = #{fNhbh} and F_CJFABH = #{fCjfabh}
+  </delete>
+  
+  <!-- 删除采集方案中的全部电能参数 -->
+  <delete id="CollMethod_leftmoveAll" parameterType="com.efounder.JEnterprise.model.basedatamanage.enegrycollectionmanage.BESElectric_Coll_Rlgl" >
+    delete from bes_electric_coll_rlgl
+    where F_CJFABH = #{fCjfabh}
+  </delete>
+  
+  <!-- 新增 -->
+  <insert id="CollMethod_insertElectricP" parameterType="com.efounder.JEnterprise.model.basedatamanage.enegrycollectionmanage.BESElectric_Coll_Rlgl" >
+    insert into bes_electric_coll_rlgl (F_CJFABH, F_NHBH,F_STATISTICAL_PARAM, F_CRDATE, 
+      F_CHDATE)
+    values (#{fCjfabh}, #{fNhbh},#{fStatisticalParam}, current_timestamp(),current_timestamp())
+  </insert>
+  
+  <insert id="insertSelective" parameterType="com.efounder.JEnterprise.model.basedatamanage.enegrycollectionmanage.BESElectric_Coll_Rlgl" >
+    insert into bes_electric_coll_rlgl
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="fCjfabh != null" >
+        F_CJFABH,
+      </if>
+      <if test="fNhbh != null" >
+        F_NHBH,
+      </if>
+      <if test="fStatisticalParam != null" >
+        F_STATISTICAL_PARAM,
+      </if>
+      <if test="fCrdate != null" >
+        F_CRDATE,
+      </if>
+      <if test="fChdate != null" >
+        F_CHDATE,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="fCjfabh != null" >
+        #{fCjfabh,jdbcType=VARCHAR},
+      </if>
+      <if test="fNhbh != null" >
+        #{fNhbh,jdbcType=VARCHAR},
+      </if>
+      <if test="fStatisticalParam != null" >
+        #{fStatisticalParam},
+      </if>
+      <if test="fCrdate != null" >
+        #{fCrdate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="fChdate != null" >
+        #{fChdate,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+	<update id="update_inclu_fStatisticalParam"
+		parameterType="com.efounder.JEnterprise.model.basedatamanage.enegrycollectionmanage.BESElectric_Coll_Rlgl">
+		update bes_electric_coll_rlgl
+		<set>
+			<if test="fStatisticalParam != null">
+				F_STATISTICAL_PARAM = #{fStatisticalParam},
+			</if>
+
+			F_CHDATE = current_timestamp()
+		</set>
+		where F_CJFABH = #{fCjfabh,jdbcType=VARCHAR}
+		and F_NHBH = #{fNhbh,jdbcType=VARCHAR}
+	</update>
+  <!--更新变比-->
+	<update id="update_inclu_fIsRate"
+		parameterType="com.efounder.JEnterprise.model.basedatamanage.enegrycollectionmanage.BESElectric_Coll_Rlgl">
+		update bes_electric_coll_rlgl
+		<set>
+			<if test="fIsRate != null">
+              F_IS_RATE = #{fIsRate},
+			</if>
+
+			F_CHDATE = current_timestamp()
+		</set>
+		where F_CJFABH = #{fCjfabh,jdbcType=VARCHAR}
+		and F_NHBH = #{fNhbh,jdbcType=VARCHAR}
+	</update>
+</mapper>

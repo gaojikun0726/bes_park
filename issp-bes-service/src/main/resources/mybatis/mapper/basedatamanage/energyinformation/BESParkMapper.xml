@@ -1,0 +1,233 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.efounder.JEnterprise.mapper.basedatamanage.energyinformation.BESParkMapper">
+
+	<resultMap id="BESParkMap" type="com.efounder.JEnterprise.model.basedatamanage.energyinformation.BESPark">
+		<result column="F_YQBH" property="f_yqbh" />
+		<result column="F_USER_NAME" property="f_user_name" />
+		<result column="F_ZZJG_ID" property="f_zzjg_id" />
+		<result column="F_YQMC" property="f_yqmc" />
+		<result column="F_NODE_CODE" property="f_node_code" />
+		<result column="F_ALL_AREA" property="f_all_area" />
+		<result column="F_MONITOR_AREA" property="f_monitor_area" />
+		<result column="F_HEAT_AREA" property="f_heat_area" />
+		<result column="F_PERSON_NUMS" property="f_person_nums" />
+		<result column="F_BUILD_TIME" property="f_build_time" />
+		<result column="F_EQUIPMENT_RUNTIME" property="f_equipment_runtime" />
+		<result column="F_CONTACT_NAME" property="f_contact_name" />
+		<result column="F_CONTACT_PHONE" property="f_contact_phone" />
+		<result column="F_CONTACT_EMAIL" property="f_contact_email" />
+		<result column="F_CRDATE" property="f_crdate" />
+		<result column="F_CHDATE" property="f_chdate" />
+	</resultMap>
+
+	<insert id="addPark" parameterType="com.efounder.JEnterprise.model.basedatamanage.energyinformation.BESPark">
+		INSERT INTO BES_PARK(F_YQBH ,F_YQMC,F_NODE_CODE, F_ALL_AREA,F_USER_NAME,F_ZZJG_ID,
+		F_MONITOR_AREA,F_HEAT_AREA,F_PERSON_NUMS,F_BUILD_TIME,
+		F_EQUIPMENT_RUNTIME,F_CONTACT_NAME,F_CONTACT_PHONE,F_CONTACT_EMAIL,
+		F_CRDATE, F_CHDATE, F_LONGITUDE, F_LATITUDE)
+		 VALUES(#{f_yqbh} , #{f_yqmc} ,#{f_node_code}, #{f_all_area} ,#{f_user_name},#{f_zzjg_id},
+		 #{f_monitor_area} ,#{f_heat_area},#{f_person_nums} ,#{f_build_time},
+		 #{f_equipment_runtime},#{f_contact_name},#{f_contact_phone},
+		 #{f_contact_email}, current_timestamp(),current_timestamp(), #{f_longitude} ,#{f_latitude})
+	</insert>
+
+	<sql id="find_xxx">
+	    <![CDATA[
+			SELECT F_YQBH ,F_USER_NAME,F_ZZJG_ID,F_YQMC,F_NODE_CODE, F_ALL_AREA,F_MONITOR_AREA,
+			F_HEAT_AREA,F_PERSON_NUMS,date_format(F_BUILD_TIME,'%Y-%m-%d' )F_BUILD_TIME,
+			date_format(F_EQUIPMENT_RUNTIME,'%Y-%m-%d' )F_EQUIPMENT_RUNTIME,F_CONTACT_NAME,
+			F_CONTACT_PHONE,F_CONTACT_EMAIL,date_format(F_CRDATE,'%Y-%m-%d %H:%i:%s' )F_CRDATE ,date_format
+		(F_CHDATE,'%Y-%m-%d %H:%i:%s' )F_CHDATE, F_LONGITUDE, F_LATITUDE
+	    ]]>
+	</sql>
+
+	<sql id="from_xxx">
+	    <![CDATA[
+	    	FROM BES_PARK
+	    ]]>
+	</sql>
+
+	<sql id="where_xxx">
+	    <![CDATA[
+	    	WHERE 1=1
+	    ]]>
+	</sql>
+	<!-- 查询全部 -->
+	<select id="findAllPark" parameterType="string" resultMap="BESParkMap">
+		<include refid="find_xxx" />
+		<include refid="from_xxx" />
+		<where>
+		1 = 1
+			<if test="groupbh != null and groupbh.size() > 0">
+				AND F_ZZJG_ID in
+				<foreach item="item" index="index" collection="groupbh"
+						 open="(" separator="," close=")">
+					#{item}
+				</foreach>
+			</if>
+			<if test='userId!= null and userId!= ""'>
+				and F_USER_NAME = #{userId}
+			</if>
+		</where>
+		<![CDATA[
+			ORDER BY F_YQBH
+		]]>
+	</select>
+  
+	<!-- 根据编号查询 -->
+	<select id="findParkByYqbh" parameterType="string" resultMap="BESParkMap">
+		<include refid="find_xxx" />
+		<include refid="from_xxx" />
+		<![CDATA[
+		WHERE F_YQBH = #{f_yqbh}
+			ORDER BY F_CHDATE
+		]]>
+	</select>
+	<!-- 根据编号查询表 -->
+		<!-- WHERE F_YQBH = #{f_yqbh} -->
+	<select id="findParkinfoListByYqbh" parameterType="string" resultMap="BESParkMap">
+		<include refid="find_xxx" />
+		<include refid="from_xxx" />
+		<![CDATA[
+			ORDER BY F_CHDATE
+		]]>
+	</select>
+	<!-- 根据名称查询 -->
+	<select id="findParkByYqmc" parameterType="string" resultMap="BESParkMap">
+		<include refid="find_xxx" />
+		<include refid="from_xxx" />
+		<![CDATA[
+			WHERE F_YQMC=#{f_yqmc}
+		]]>
+	</select>
+	 
+	 <!-- 分页 -->
+	<select id="findParkByPage" parameterType="string" resultMap="BESParkMap">
+		<include refid="find_xxx" />
+		<include refid="from_xxx" />
+		<where>
+		1=1
+			<if test="groupbh != null and groupbh.size() > 0">
+				AND F_ZZJG_ID in
+				<foreach item="item" index="index" collection="groupbh"
+						 open="(" separator="," close=")">
+					#{item}
+				</foreach>
+			</if>
+			<if test='userId!= null and userId!= ""'>
+				and F_USER_NAME = #{userId}
+			</if>
+			<if test="keywords != null and keywords != ''">
+			 and CONCAT(`f_yqbh`,'##',`f_yqmc`,'##',`f_all_area`,'##',`f_monitor_area`,'##',`f_heat_area`,'##',`f_person_nums`,'##',`f_contact_name`,'##',`f_contact_phone`,'##',`f_contact_email`) LIKE CONCAT('%',#{keywords},'%')
+			 </if>
+		</where>
+		order by f_yqbh
+	</select> 
+	
+	<select id="findMaxYqbh"  parameterType="string" resultType="string">
+		select MAX(F_YQBH) from BES_PARK
+	</select>
+	
+	<!--模糊查询  -->
+	<select id="findParkByKeywords" parameterType="string" resultMap="BESParkMap">
+		<include refid="find_xxx" />
+		<include refid="from_xxx" />
+		<where>
+		1=1 
+			<if test="keywords != null and keywords != ''">
+			 and CONCAT(`f_yqbh`,'##',`f_yqmc`,'##',`f_all_area`,'##',`f_monitor_area`,'##',`f_heat_area`,'##',`f_person_nums`,'##',`f_contact_name`,'##',`f_contact_phone`,'##',`f_contact_email`) LIKE CONCAT('%',#{keywords},'%')
+			 </if>
+		</where>
+		order by F_CHDATE
+	</select>	
+	<!-- 修改 -->
+	<update id="upDatePark" parameterType="com.efounder.JEnterprise.model.basedatamanage.energyinformation.BESPark">
+		UPDATE BES_PARK
+		<set>
+			<if test="f_yqbh != null and f_yqbh !='' ">
+				F_YQBH = #{f_yqbh},
+			</if>
+			<if test="f_user_name != null and f_user_name !='' ">
+				F_USER_NAME = #{f_user_name},
+			</if>
+			<if test="f_zzjg_id != null and f_zzjg_id !='' ">
+				F_ZZJG_ID = #{f_zzjg_id},
+			</if>
+			<if test="f_yqmc != null and f_yqmc !='' ">
+				F_YQMC = #{f_yqmc},
+			</if>
+			<if test="f_node_code != null and f_node_code !='' ">
+				F_NODE_CODE = #{f_node_code},
+			</if>
+			<if test="f_all_area != null and f_all_area !='' ">
+				F_ALL_AREA = #{f_all_area},
+			</if>
+			<if test="f_monitor_area != null and f_monitor_area !='' ">
+				F_MONITOR_AREA = #{f_monitor_area},
+			</if>
+			<if test="f_heat_area != null and f_heat_area !='' ">
+				F_HEAT_AREA = #{f_heat_area},
+			</if>
+			<if test="f_person_nums != null and f_person_nums !='' ">
+				F_PERSON_NUMS = #{f_person_nums},
+			</if>
+			<if test="f_build_time != null and f_build_time !='' ">
+				F_BUILD_TIME = #{f_build_time},
+			</if>
+			<if test="f_equipment_runtime != null and f_equipment_runtime !='' ">
+				F_EQUIPMENT_RUNTIME = #{f_equipment_runtime},
+			</if>
+			<if test="f_contact_name != null and f_contact_name !='' ">
+				F_CONTACT_NAME = #{f_contact_name},
+			</if>
+			<if test="f_contact_phone != null and f_contact_phone !='' ">
+				F_CONTACT_PHONE = #{f_contact_phone},
+			</if>
+			<if test="f_contact_email != null and f_contact_email !='' ">
+				F_CONTACT_EMAIL = #{f_contact_email},
+			</if>
+			<if test="f_longitude != null and f_longitude !='' ">
+				F_LONGITUDE = #{f_longitude},
+			</if>
+			<if test="f_latitude != null and f_latitude !='' ">
+				F_LATITUDE = #{f_latitude},
+			</if>
+			F_CHDATE =NOW()
+		</set>
+		WHERE F_YQBH = #{f_yqbh}
+	</update>
+	<!-- 删除 -->
+	<delete id="deleteByYqbh" parameterType="com.efounder.JEnterprise.model.basedatamanage.energyinformation.BESPark">
+		DELETE FROM BES_PARK WHERE F_YQBH = #{f_yqbh}
+	</delete>
+
+	<!--判断分项配置中是否在此园区下新增分项-->
+	<select id="subOptionDeploy" resultType="java.util.Map">
+		select * from bes_subitem_conf where F_YQBH = #{yqbh}
+	</select>
+
+	<!--判断分户配置中是否在此园区下新增分户-->
+	<select id="householdDeploy" resultType="java.util.Map">
+		select * from bes_household_conf where F_YQBH = #{yqbh}
+	</select>
+
+	<!--判断支路配置中是否在此园区下新增支路-->
+	<select id="branchRoadDeploy" resultType="java.util.Map">
+		select * from bes_branch_conf where F_YQBH = #{yqbh}
+	</select>
+
+	<!--判断采集方案中是否在此园区下配置采集方案-->
+	<!--<select id="collectionPlanDeploy" resultType="java.util.Map">
+		select * from bes_subitem_conf where F_YQBH = #{yqbh}
+	</select>-->
+
+	<!--判断设备配置中是否在此园区下配置设备-->
+	<select id="deviceConfigurationDeploy" resultType="java.util.Map">
+		select *  from  bes_sbpz_struct where F_SYS_NAME_OLD = #{yqbh}
+	</select>
+    <select id="energyTypeDeploy" resultType="java.util.Map">
+		select F_NYBH from bes_park_energytype_rlgl WHERE F_YQBH = #{yqbh}
+	</select>
+</mapper>

@@ -1,0 +1,190 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper
+	namespace="com.efounder.JEnterprise.mapper.basedatamanage.workbench.BESWorkbenchCrossMapper">
+	<resultMap id="BESWorkbenchCrossType"
+		type="com.efounder.JEnterprise.model.BesWorkbench.BESWorkbenchCrossType">
+		<id column="f_id" property="f_id" jdbcType="VARCHAR" />
+		<result column="f_gztzzjg_id" property="f_gztzzjg_id"
+			jdbcType="VARCHAR" />
+		<result column="f_name" property="f_name" jdbcType="VARCHAR" />
+		<result column="f_type" property="f_type" jdbcType="VARCHAR" />
+		<result column="f_description" property="f_description"
+			jdbcType="VARCHAR" />
+		<result column="F_CRDATE" property="F_CRDATE"
+			jdbcType="TIMESTAMP" />
+		<result column="F_CHDATE" property="F_CHDATE"
+			jdbcType="TIMESTAMP" />
+	</resultMap>
+
+	<sql id="Base_Column_List">
+		f_id, f_gztzzjg_id, f_name, f_type, f_description, F_CRDATE, F_CHDATE
+	</sql>
+
+	<select id="selectByPrimaryKey"
+		resultMap="BESWorkbenchCrossType" parameterType="java.lang.String">
+		select
+		<include refid="Base_Column_List" />
+		from bes_gztcross
+		where f_id = #{fId,jdbcType=VARCHAR}
+	</select>
+
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+		delete from bes_gztcross
+		where f_id = #{fId,jdbcType=VARCHAR}
+	</delete>
+
+	<insert id="insert"
+		parameterType="com.efounder.JEnterprise.model.BesWorkbench.BESWorkbenchCrossType">
+		insert into bes_gztcross (f_id, f_gztzzjg_id, f_name,
+		f_type, f_description, F_CRDATE, F_CHDATE)
+		values (#{fId,jdbcType=VARCHAR}, #{fGztzzjgId,jdbcType=VARCHAR},
+		#{fName,jdbcType=VARCHAR},
+		#{fType,jdbcType=VARCHAR}, #{fDescription,jdbcType=VARCHAR}, #{FCRDATE,jdbcType=TIMESTAMP},
+		#{FCHDATE,jdbcType=TIMESTAMP})
+	</insert>
+
+	<insert id="insertSelective"
+		parameterType="com.efounder.JEnterprise.model.BesWorkbench.BESWorkbenchCrossType">
+		insert into bes_gztcross
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="fId != null">
+				f_id,
+			</if>
+			<if test="fGztzzjgId != null">
+				f_gztzzjg_id,
+			</if>
+			<if test="fName != null">
+				f_name,
+			</if>
+			<if test="fType != null">
+				f_type,
+			</if>
+			<if test="fDescription != null">
+				f_description,
+			</if>
+			<if test="FCRDATE != null">
+				F_CRDATE,
+			</if>
+			<if test="FCHDATE != null">
+				F_CHDATE,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="fId != null">
+				#{fId,jdbcType=VARCHAR},
+			</if>
+			<if test="fGztzzjgId != null">
+				#{fGztzzjgId,jdbcType=VARCHAR},
+			</if>
+			<if test="fName != null">
+				#{fName,jdbcType=VARCHAR},
+			</if>
+			<if test="fType != null">
+				#{fType,jdbcType=VARCHAR},
+			</if>
+			<if test="fDescription != null">
+				#{fDescription,jdbcType=VARCHAR},
+			</if>
+			<if test="FCRDATE != null">
+				#{FCRDATE,jdbcType=TIMESTAMP},
+			</if>
+			<if test="FCHDATE != null">
+				#{FCHDATE,jdbcType=TIMESTAMP},
+			</if>
+		</trim>
+	</insert>
+
+	<update id="updateByPrimaryKeySelective"
+		parameterType="com.efounder.JEnterprise.model.BesWorkbench.BESWorkbenchCrossType">
+		update bes_gztcross
+		<set>
+			<if test="fGztzzjgId != null">
+				f_gztzzjg_id = #{fGztzzjgId,jdbcType=VARCHAR},
+			</if>
+			<if test="fName != null">
+				f_name = #{fName,jdbcType=VARCHAR},
+			</if>
+			<if test="fType != null">
+				f_type = #{fType,jdbcType=VARCHAR},
+			</if>
+			<if test="fDescription != null">
+				f_description = #{fDescription,jdbcType=VARCHAR},
+			</if>
+			<if test="FCRDATE != null">
+				F_CRDATE = #{FCRDATE,jdbcType=TIMESTAMP},
+			</if>
+			<if test="FCHDATE != null">
+				F_CHDATE = #{FCHDATE,jdbcType=TIMESTAMP},
+			</if>
+		</set>
+		where f_id = #{fId,jdbcType=VARCHAR}
+	</update>
+
+	<update id="updateByPrimaryKey"
+		parameterType="com.efounder.JEnterprise.model.BesWorkbench.BESWorkbenchCrossType">
+		update bes_gztcross
+		set f_gztzzjg_id = #{fGztzzjgId,jdbcType=VARCHAR},
+		f_name = #{fName,jdbcType=VARCHAR},
+		f_type = #{fType,jdbcType=VARCHAR},
+		f_description = #{fDescription,jdbcType=VARCHAR}
+		f_description = #{FCRDATE,jdbcType=TIMESTAMP}
+		f_description = #{FCHDATE,jdbcType=TIMESTAMP}
+		where f_id = #{fId,jdbcType=VARCHAR}
+	</update>
+	
+	<!-- 我的getWorkbenchCrossList -->
+	<select id="getWorkbenchCrossList"
+		resultType="java.util.HashMap">
+		select
+		f_name, f_type, f_description, F_CRDATE, F_CHDATE
+		from bes_gztcross
+		order by f_id
+	</select>
+	
+	<!-- 我的getWorkbenchTable -->
+	<select id="getWorkbenchTableList" resultMap="BESWorkbenchCrossType">
+	select
+	f_id, f_name, f_type, f_description,  DATE_FORMAT(F_CRDATE , '%Y-%m-%d-%H:%m:%s') as F_CRDATE , DATE_FORMAT(F_CHDATE , '%Y-%m-%d-%H:%m:%s') as F_CHDATE
+	from bes_gztcross where 1=1 and f_gztzzjg_id = #{f_gztzzjg_id}
+	order by F_CRDATE desc
+	</select>
+  
+	<!--我的getWorkbench -->
+	<select id="getWorkbench" resultMap="BESWorkbenchCrossType" parameterType="java.lang.String">
+		select f_id,
+		f_name, f_type, f_description
+		from bes_gztcross
+		where
+		1=1 and f_id = #{bh}
+	</select>
+
+	<!-- 我的delete -->
+	<delete id="del_WorkbenchCross"
+		parameterType="com.efounder.JEnterprise.model.BesWorkbench.BESWorkbenchCrossType">
+		delete from
+		bes_gztcross
+		where f_id = #{id}
+	</delete>
+	
+	<!--我的insert -->
+	<insert id="add_WorkbenchCross"
+		parameterType="com.efounder.JEnterprise.model.BesWorkbench.BESWorkbenchCrossType">
+		insert into bes_gztcross (f_id, f_gztzzjg_id, f_name,
+		f_type, f_description,F_CRDATE)
+		values (#{f_id}, #{f_gztzzjg_id},
+		#{f_name},
+		#{f_type}, #{f_description}, #{F_CRDATE})
+	</insert>
+
+	<!--我的edit -->
+	<update id="edit_WorkbenchCross"
+		parameterType="com.efounder.JEnterprise.model.BesWorkbench.BESWorkbenchCrossType">
+		update bes_gztcross
+		<set>
+			f_name= #{f_name} ,f_type= #{f_type},
+			f_description=#{f_description},F_CHDATE=#{F_CHDATE}
+		</set>
+		where f_id = #{f_id}
+	</update>
+</mapper>

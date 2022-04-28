@@ -1,0 +1,173 @@
+# 多环境配置
+#spring.profiles.active=test
+JEnterprise:
+  ApplicationId: bes
+  ApplicationName: 综合能源管控平台
+
+
+mybatis:
+  config-location: classpath:mybatis/mybatis.cfg.xml    # mybatis配置文件所在路径
+  type-aliases-package: com.efounder.JEnterprise.model  # 定义所有操作类的别名所在包
+  mapper-locations:                                     # 所有的mapper映射文件
+  - classpath*:/mybatis/mapper/**/*.xml
+spring:
+    profiles:
+        active: dev
+    jackson:
+        default-property-inclusion: non_default
+    messages:
+        basename: i18n/Messages,i18n/Pages
+    datasource:
+            type: com.alibaba.druid.pool.DruidDataSource    # 配置当前要使用的数据源的操作类型
+            driver-class-name: org.gjt.mm.mysql.Driver      # 配置MySQL的驱动程序类
+            url: jdbc:mysql://172.16.13.201/bestest           # 数据库连接地址172.16.13.201
+            username: root                                  # 数据库用户名
+            password: 123456                            # 数据库连接密码123456
+            filters: stat,wall,log4j
+server:
+      tomcat:
+        max-threads: 100
+        min-spare-threads: 10
+      connection-timeout: 5000
+      ssl:
+        key-store: classpath:.keystore
+        key-store-type: JKS
+        key-password: qq123456
+        key-alias: tomcat
+      context-path: /energy
+      port: 8083
+
+  #配置文件访问映射地址
+uploadFile:
+  resourceHandler: /file/**   #请求 url 中的资源映射
+  location: D:/file #自定义上传文件本地保存路径
+  urlPrefix: https://127.0.0.1:${server.port}${server.context-path}/file
+
+#数据中心配置信息
+data-centre:
+  # 是否启用数据中心能耗上传（0 不启用 1 启用）
+  enable: 1
+  #文件存储位置
+  file-storage-location: /opt/file/buildAndEnergyInfo
+
+
+#是否启用oauth2单点登录 enable: true启用
+sso:
+  oauth2:
+    enable: false
+    sso_ip: 172.16.26.20
+    client:
+      client_id: park_energy    #注册到中台的appId
+      client_secret: qz_opm  #中台分配的secret
+      grant_type: authorization_code #授权码模式
+      redirect_uri: http://172.31.14.209:8082/BESServer/callback
+      access-token-uri: http://${sso.oauth2.sso_ip}:8991/auth/oauth/token  #token获取
+      user-authorization-uri: http://${sso.oauth2.sso_ip}:8991/auth/oauth/authorize  #授权
+      check-token-endpoint-uri: http://${sso.oauth2.sso_ip}:8991/auth/oauth/check_token #校验token
+      client-authentication-scheme: form #允许form(如果是后端页面配置)
+    resource:
+      user-info-uri:  http://${sso.oauth2.sso_ip}:8080/sys/user/oauth/info  #用户信息获取,根据实际来
+      prefer-token-info: true
+  #中台在oauth2基础上修改的单点登录
+  sso_ip: 172.16.26.56
+  sso_token_uri: http://${sso.sso_ip}:8080/auth/sso/token
+  sso_user_uri: http://${sso.sso_ip}:8080/sys/user/info
+  logout_url: http://${sso.sso_ip}:8080/auth/user/logout
+#  #获取测试用的ssoToken，用于获取真实access_token
+#  test_ssotoken_url: http://${sso.sso_ip}:8080/auth/sso/test/code?username=admin
+#中台接口访问配置
+opm:
+  access_ip: http://172.16.26.56:8080
+  appId: park_energy #系统标识
+  clientSecret: qz_opm
+#  获取token
+  get_token:
+    token_url: ${opm.access_ip}/auth/client/token
+#    token_url: ${opm.access_ip}/login
+#    username: admin
+#    password: hnsGx0lb9uJGh0AYTh5WVUVIZuVY0IJg1ouI4GkzJCKapLJ/fphISdq+zenyqSRD/sORQZc8ryrgmoLsPx7sag==
+#    captcha: sdvz #验证码，中台去掉了验证码后台校验
+#    uuid: 1c6c77e8-2ce2-4156-89d9-339f5cfeccd8
+  get_dept:
+    dept_url: ${opm.access_ip}/api/service/dept/v1/sync_dept_info
+#  #人员接口
+#  get_person:
+#    person_url: ${opm.access_ip}/api/property/v1/center/get_all_user
+#    #用户接口
+#  get_user:
+#    user_url: ${opm.access_ip}/api/uaa/v2/user/info_sync/${opm.appId}
+#    #角色接口
+#  get_role:
+#    role_url: ${opm.access_ip}/api/property/v1/center/get_all_role
+#    #角色与菜单权限信息接口
+#  get_role_menu:
+#    role_menu_url: ${opm.access_ip}/api/property/v1/center/get_all_role_menu
+#区域位置接口
+  get_position:
+    position_url: ${opm.access_ip}/api/service/bes/v1/building_info_list
+#    appId: ${opm.appId}
+#    syncTimeStamp: 0  #时间戳，后期可能会去掉这个参数
+  get_assets:
+    #获取全部的资产数据
+    all_assets_url: ${opm.access_ip}/api/service/assets/v1/all_inventory
+    #根据资产类型编码获取资产数据
+    assets_url: ${opm.access_ip}/api/service/assets/v1/category_inventory
+#    appId: ${opm.appId}
+    #资产类型编码，编码尚未确定
+    category_code:
+      conditioner_code: 1030509  #空调
+      electric_curtain_code: 10601010313  #电动窗帘
+      light_code: 10503030803  #灯
+      fresh_air_code: 1030505 #新风
+      temperature_controller_code: 1050108 #温控器
+      adjust_light: 10503030803  #可调光灯
+      air_handing_unit_code: 1030505  #组合式空调机组
+      socket_code: 10503030201 #插座
+      light_pole_code: 10503030804  #灯杆
+      well_lid_code: 1010102 #井盖
+      #仪表编码：电表编码，气表编码，水表编码等，以逗号分隔
+      meter_code: 106010201,106010104,106010101
+  push_device_alarm:
+    #推送设备报警
+    alarm_url: ${opm.access_ip}/api/service/ops/v1/alarm/push_device_alarm
+    #获取报警类型
+    alarm_type_url: ${opm.access_ip}/api/service/ops/v1/alarm/alarm_type_by_systemcode
+    device_alarm_code: bes002
+    #向大数据系统推送用电数据
+  push_electric_data:
+    path: http://10.166.139.86:8080/api/dc/databus/sendtodc
+    table: opt_energy_use_electric
+    appid: park_energy
+  loginName: admin #外部系统登录使用的用户名
+
+
+
+lightPole:
+  screen:
+    url: http://10.168.137.10:8063/command/ #智慧灯杆大屏请求统一接口
+  sound:
+    url: http://192.168.1.100:7788/php/  #智慧灯杆音柱请求接口--公共部分
+    broadcast:  #广播配置
+      playControl: ${lightPole.sound.url}exeRealPlayFile.php  #广播播放、停止控制
+  pdu:
+    switch:
+      #PDU开关控制url
+      control_url: http://10.168.54.29:8088/api/pole/pdu/switchControl
+      #PDU开关状态获取url
+      status_url: http://10.168.54.29:8088/api/pole/pdu/switchStatus
+      #PDU推送开关状态url
+      push_status_url: http://localhost:18080/api/public/testRealData
+      #向信息发布推送显示屏的开关状态
+      push_screen_status_url: http://localhost:18080/api/public/testRealData
+      #获取在线设备数据
+      get_online_data_url: http://localhost:8060/api/pole/pdu/getOnlineData
+
+
+# 海康配置路径
+ArtemisConfig:
+  host: 119.164.216.90:1443
+  appKey: 28399386
+  appSecret: DO38aCiUplCIO8WOKekJ
+
+mediaStream:
+  getStreamUrl: http://10.168.137.10:8086/media/media/getStreamApi

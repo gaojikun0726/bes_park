@@ -1,0 +1,51 @@
+/*实时监控页面的图例样式*/
+.legend{
+    position:absolute;right:100px;top:20px;z-index: 100;
+    cursor: pointer;
+}
+/*.legendIcon{*/
+/*right: 10px;*/
+/*}*/
+.legendDiv{
+    background: #eeeeee;
+    /*background: #ffffff;*/
+    border-radius: 4px;
+    opacity: 0.8;
+    padding: 10px;
+    display: none;
+}
+.legendDiv table td{
+    padding:5px;
+}
+.legendDiv .stateLegend .btnColor{
+    border-radius: 5px;
+    text-align: center;
+    padding: 2px 5px;
+    color: #ffffff;
+}
+.legendDiv .stateLegend .blue{
+    background-color:#4e8ae8;
+}
+.legendDiv .stateLegend .green{
+    background-color:#006400;
+}
+.legendDiv .stateLegend .red{
+    background-color:#c51e1e;
+}
+.legendDiv .stateLegend .gray{
+    background-color:#808080;
+}
+.legendDiv .stateLegend .brown{
+    background-color:#795548;
+}
+.legendDiv .text{
+    font-weight:bold;
+}
+
+.legendIcon img{
+    width:50px;
+}
+.conditionerLegend img,.legend img.fan{
+    width:33px;
+}
+

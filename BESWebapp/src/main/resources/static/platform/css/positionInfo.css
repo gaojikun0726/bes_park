@@ -1,0 +1,32 @@
+.position_tree_leftarea{
+    width: 22.4% !important;
+}
+.position_tree_right{
+    width:77.6%!important;
+}
+
+.design_area_tree_div #positionInfoTree{
+    padding:0 10px;
+    height: calc(100% - 40px);
+}
+/*.design_area_tree_div .jstree-default .jstree-ellipsis{*/
+    /*overflow:auto!important;*/
+    /*height:100%;*/
+/*}*/
+
+#positionInfoTree{
+    height:40vh;
+}
+
+#positionInfoTree > ul {
+    overflow: auto;
+    height: 100%;
+}
+
+#positionInfoTree .jstree-default .jstree-ellipsis .jstree-anchor {
+    width: calc(100% - 29px);
+    text-overflow: initial !important;
+    overflow:initial!important;
+    /* text-overflow: ellipsis; */
+    /* overflow: hidden; */
+}

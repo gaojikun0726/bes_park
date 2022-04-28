@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.efounder.JEnterprise.mapper.dataAnalysises.BesHouseholdPlanDataMapper" >
+
+    <resultMap id="BesHouseholdPlanDataMap" type="com.efounder.JEnterprise.model.dataAnalysises.BesHouseholdPlanData" >
+        <id column="F_GUID" property="fGuid" jdbcType="VARCHAR" />
+        <result column="F_FHBH" property="fFhbh" jdbcType="VARCHAR" />
+        <result column="F_EFFICIENTNAME" property="fEfficientName" jdbcType="VARCHAR" />
+        <result column="F_ALLENERGY" property="fAllEnegry" jdbcType="VARCHAR" />
+        <result column="F_GUID" property="fGuid" jdbcType="VARCHAR" />
+        <result column="F_ALL_MONEY" property="fAllMoney" jdbcType="VARCHAR" />
+        <result column="F_PERMAN_DATA" property="fPermanData" jdbcType="VARCHAR" />
+        <result column="F_PERMAN_MONEY" property="fPermanMoney" jdbcType="VARCHAR" />
+        <result column="F_UNITAREA_DATA" property="fUnitareaData" jdbcType="VARCHAR" />
+        <result column="F_UNITAREA_MONEY" property="fUnitareaMoney" jdbcType="VARCHAR" />
+        <result column="F_COAL_AMOUNT" property="fCoalAmount" jdbcType="VARCHAR" />
+        <result column="F_PERMAN_MONEY" property="fPermanMoney" jdbcType="VARCHAR" />
+        <result column="F_CO2" property="fCo2" jdbcType="VARCHAR" />
+        <result column="F_PMONTH" property="fPmonth" jdbcType="VARCHAR" />
+        <result column="F_PYEAR" property="fPyear" jdbcType="VARCHAR" />
+        <result column="F_ENABLE" property="fEnable" jdbcType="VARCHAR"  />
+        <result column="F_PERSON_NUMS" property="fPersonNums" jdbcType="VARCHAR"  />
+        <result column="F_AREA" property="fArea" jdbcType="VARCHAR"  />
+        <result column="F_ALERT_TYPE" property="fAlertType" jdbcType="VARCHAR"  />
+        <result column="F_NYBH" property="fNybh" jdbcType="VARCHAR"  />
+        <result column="F_NYMC" property="fNymc" jdbcType="VARCHAR"  />
+        <result column="F_PRICE" property="fPrice" jdbcType="VARCHAR"  />
+    	<result column="rows" property="rows" />
+    </resultMap>
+
+	<sql id="Base_Column_List" >
+        F_GUID,  F_EFFICIENTNAME, F_ALLENERGY, F_ALL_MONEY, F_PERMAN_DATA, F_PERMAN_MONEY, F_UNITAREA_DATA, F_CO2, 
+        F_UNITAREA_MONEY, F_COAL_AMOUNT, F_PERMAN_MONEY, F_UNITAREA_DATA, F_UNITAREA_MONEY, F_PMONTH
+    </sql>
+
+<!-- 获取能源计划分配数据 -->
+  <select id="getHouseholdPlanData" parameterType="string" resultMap="BesHouseholdPlanDataMap">
+	select
+	a.F_GUID,
+	a.F_EFFICIENTNAME,
+    a.F_ALLENERGY,
+	a.F_ALL_MONEY, 
+	a.F_PERMAN_DATA,
+	a.F_PERMAN_MONEY,
+	a.F_UNITAREA_DATA,
+	a.F_CO2, 
+    a.F_UNITAREA_MONEY,
+    a.F_COAL_AMOUNT, 
+    a.F_PERMAN_MONEY, 
+    a.F_UNITAREA_DATA, 
+    a.F_UNITAREA_MONEY, 
+    a.F_PMONTH,
+    a.F_ENABLE,
+    b.F_PERSON_NUMS,
+    b.F_AREA,
+    b.F_ALERT_TYPE
+    <if test="fNybh !=null and fNybh != ''">
+    ,c.F_NYMC,
+    c.F_PRICE,
+    c.F_COAL_AMOUNT as fECoalAmount ,
+    c.F_CO2 as fECo2
+    </if>
+	from bes_household_plan a 
+	left join bes_household_conf b on a.F_FHbh=b.F_FHBH
+	<if test="fNybh !=null and fNybh != ''">
+	right join bes_energy_type c on b.F_NYBH=c.F_NYBH
+	</if>
+	<where>
+	1=1
+    	<if test="fPyear !=null and fPyear != ''">
+   		    and a.F_PYEAR = #{fPyear}   	    
+    	</if>
+    	<if test="fFhbh !=null and fFhbh != ''">
+   		    and a.F_FHBH = #{fFhbh}   	    
+    	</if>
+    	<if test="fGuid !=null and fGuid != ''">
+   		    and a.F_GUID = #{fGuid}   	    
+    	</if>
+    	 <if test="fNybh !=null and fNybh != ''">
+   	 	 	and b.F_NYBH = #{fNybh} 
+    	 </if>
+    </where>
+	ORDER BY F_GUID
+	
+  </select>
+<!--更新分户数据 -->
+<update id="updateHouseholdPlan" parameterType="com.efounder.JEnterprise.model.dataAnalysises.BesHouseholdPlanData" >
+        update bes_household_conf
+        <set >
+            <if test="fPersonNums != null" >
+                F_PERSON_NUMS = #{fPersonNums,jdbcType=VARCHAR},
+            </if>
+            <if test="fArea != null" >
+                F_AREA = #{fArea},
+            </if>
+            <if test="fAlertType != null" >
+                F_ALERT_TYPE = #{fAlertType,jdbcType=VARCHAR},
+            </if>
+        </set>
+        where 
+        	F_FHBH = #{fFhbh}
+      
+    </update>
+    
+       
+    
+    <!-- 更新能源计划配置数据 -->
+    <update id="updateHouseholdPlanData" parameterType="com.efounder.JEnterprise.model.dataAnalysises.BesHouseholdPlanData" >
+        update bes_household_plan
+        <set >
+            <if test="fAllEnegry != null" >
+                F_ALLENERGY = #{fAllEnegry,jdbcType=VARCHAR},
+            </if>
+            <if test="fAllMoney != null" >
+                F_ALL_MONEY = #{fAllMoney},
+            </if>
+            <if test="fPermanData != null" >
+                F_PERMAN_DATA = #{fPermanData,jdbcType=VARCHAR},
+            </if>
+            
+            <if test="fPermanMoney != null" >
+                F_PERMAN_MONEY = #{fPermanMoney,jdbcType=VARCHAR},
+            </if>
+            
+            <if test="fPermanMoney != null" >
+                F_UNITAREA_DATA = #{fUnitareaData,jdbcType=VARCHAR},
+            </if>
+            <if test="fUnitareaMoney != null" >
+                F_UNITAREA_MONEY = #{fUnitareaMoney,jdbcType=VARCHAR},
+            </if>
+            
+            <if test="fCoalAmount != null" >
+                F_COAL_AMOUNT = #{fCoalAmount,jdbcType=VARCHAR},
+            </if>
+            
+            <if test="fCo2 != null" >
+                F_CO2 = #{fCo2,jdbcType=VARCHAR},
+            </if>
+            
+            <if test="fEnable != null" >
+                F_ENABLE = #{fEnable,jdbcType=VARCHAR},
+            </if>
+            
+        </set>
+        where 
+        	F_GUID = #{fGuid}
+      
+    </update>
+
+    <!-- 保存能源计划统计数据 -->
+    <insert id="insert"  parameterType="com.efounder.JEnterprise.model.dataAnalysises.BesHouseholdPlanData" >
+        insert into bes_household_plan (F_GUID,F_FHBH, F_EFFICIENTNAME,F_PMONTH,F_PYEAR)
+        values ( #{fGuid,jdbcType=VARCHAR},#{fFhbh,jdbcType=VARCHAR}, #{fEfficientName,jdbcType=VARCHAR} ,#{fPmonth,jdbcType=VARCHAR}, #{fPyear,jdbcType=VARCHAR})
+    </insert>
+
+
+  
+</mapper>

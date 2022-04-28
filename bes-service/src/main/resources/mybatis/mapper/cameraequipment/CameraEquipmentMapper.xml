@@ -1,0 +1,200 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.efounder.JEnterprise.mapper.cameraequipment.CameraEquipmentMapper">
+	
+	<select id="getCameraEquipmentInfo" resultType="java.util.HashMap">
+		<include refid="find_camera_equipment_detailInfo" />
+		<include refid="from_camera_equipment_detailInfo" />
+		<where>
+			F_SBLX_TYPE in ('00000000014','00000000015','00000000016','00000000059','00000000060','00000000061','00000000100','00000000178','00000000185','00000000200','00000000204','00000000206','00000000212','00000012406')
+			<if test="devId != null and devId != ''">
+				 <![CDATA[
+					and F_SBB = #{devId}
+				]]>
+			</if>
+			<if test="id != null and id != ''">
+				<![CDATA[
+					and F_ID > #{id}
+				]]>
+			</if>
+		</where>
+		<![CDATA[  order by F_ID ASC LIMIT 1000; ]]>
+	</select>
+	
+	
+	<!-- 查询摄像机的设备状态并返回结果 start -->
+	<select id="getCameraStatusInfo" resultType="java.util.HashMap">
+		<include refid="find_camera_equipment_detailInfo" />
+		<include refid="from_camera_equipment_detailInfo" />
+		<where>
+		 F_SBLX_TYPE in ('00000000014','00000000016','00000000059','00000000060','00000000061','00000000100','00000000178','00000000185','00000000200','00000000204','00000000206','00000000212')
+			<if test="deviceId != null and deviceId != ''">
+				 <![CDATA[
+					and F_SBB = #{deviceId}
+				]]>
+			</if>
+		
+		</where>
+	</select>
+	<!-- end -->
+	
+	<!--获取所有摄像机基础信息  -->
+	<select id="getCameraBaseInfo" resultType="java.util.HashMap" >
+		SELECT bel.F_SBB,bel.F_SBMC,bel.F_XLID,bel.F_XLMC,bel.F_STATUS,bel.F_ZH,bel.F_ROAD_DIRECTION,
+	bel.F_LONG,
+  bel.f_lat,ez.F_ZZJGMC FROM
+	bes_equipment_list bel
+	LEFT JOIN es_zzjg ez ON bel.F_GLDW = ez.F_ID
+	WHERE
+		1 = 1
+	AND bel.F_SBLX_TYPE IN ('00000000014','00000000015','00000000016','00000000059','00000000060','00000000061','00000000100','00000000178',
+	'00000000185','00000000200','00000000204','00000000206','00000000212','00000012406')
+	AND bel.F_STATUS IN (0, 1, 2)
+	<if test="localInfo != null and localInfo != ''">
+				 <![CDATA[
+					and F_LOCAL_INFO = #{localInfo}
+				]]>
+			</if>
+	AND bel.F_SFJK = "1"
+	</select>
+
+	<!-- 查询摄像机的设备状态并返回结果 start -->
+	<select id="getVideoMethodByDevId" resultType="java.util.HashMap">
+		SELECT F_SBB,F_METHOD,F_VIDEO_CHANNEL,F_ALARM_CODE FROM bes_camera_method WHERE F_SBB = #{deviceId}
+	</select>
+	<!-- end -->
+
+	<sql id="find_camera_equipment_detailInfo">
+		<![CDATA[
+			SELECT
+			F_ID,
+			F_SBB,
+			F_SBMC,
+			F_BRANDID,
+			F_BRANDMC,
+			F_XLID,
+			F_XLMC,
+			F_SN,
+			F_SBLX_TYPE,
+			F_SBXH_TYPE,
+			F_SBLEMC,
+			F_SBXHMC,
+			F_LACATION,
+			F_SYDW,
+			F_JBR,
+			F_LONG,
+			F_LAT,
+			F_SCS,
+			F_GMRQ,
+			F_BXNX,
+			F_UNIT_PRICE,
+			F_STATUS,
+			F_LAST_GXSJ,
+			F_LAST_GXR,
+			F_AZSJ,
+			F_WHS,
+			F_CKDID,
+			F_LYJG,
+			F_LYR,
+			F_ZH,
+			F_GLDW,
+			F_SCRQ,
+			F_BXDQR,
+			F_CZRQ,
+			F_SYNX,
+			F_RKSJ,
+			F_SFJK,
+			F_LAST_STATUS,
+			F_UNIT
+		]]>
+	</sql>
+	<sql id="from_camera_equipment_detailInfo">
+		<![CDATA[
+			FROM   BES_EQUIPMENT_LIST
+		]]>
+	</sql>
+	  <!--查询道路监控下所有的设备-->
+    <select id="getsxtsb_list" resultType="java.lang.String">
+        SELECT F_GLDW ZZJG_ID FROM bes_equipment_list where F_SFJK = '1' and F_SBLX_TYPE in
+        <foreach collection="list" item="Id" separator="," open="(" close=")">
+            #{Id}
+        </foreach>
+    </select>
+	 <select id="GetxlidList" resultType="java.lang.String">
+        SELECT t.F_XLBH FROM bes_route_part p
+        LEFT JOIN bes_route t ON t.F_ID=p.F_XLID
+        where f_zzjgid in
+        <foreach collection="list" item="Id" separator="," open="(" close=")">
+            #{Id}
+        </foreach>
+    </select>
+     <select id="GetAllxlList" resultType="java.util.Map">
+        SELECT concat(#{PId},'-',f_xlbh) AS CId ,F_XLBH,replace(F_XLMC,'公路','') AS CMc ,#{CJs} AS CJs,#{PId} as PId  FROM bes_route
+        where f_xlbh in
+        <foreach collection="Id" item="Id" separator="," open="(" close=")">
+            #{Id}
+        </foreach>
+    </select>
+    
+    <select id="GetxlZzjgList" resultType="java.util.Map">
+        SELECT DISTINCT CId,F_XLBH,CMc,CJs,PId FROM (
+        SELECT concat(#{SJid},'-',r.F_XLBH,'_',a.F_ZZJGID) AS CId,r.F_XLBH,e.F_ZZJGMC AS CMc,#{CJs} CJs,concat(#{XLid},'-',r.F_XLBH) AS PId
+        FROM bes_route_part a
+        left join bes_route r on r.F_ID=A.F_XLID
+        left join es_zzjg e on e.F_ID=a.F_ZZJGID
+        where
+        1=1 AND e.F_PZZJGBH !='' and
+        a.f_zzjgid in
+        <foreach collection="Id" item="Id" separator="," open="(" close=")">
+            #{Id}
+        </foreach>
+        )A
+    </select>
+        <select id="GetzzjgsxtList" resultType="java.util.Map">
+        SELECT E.F_ID AS CId,concat(C.F_XLID,'-',E.F_ZH,' ',E.F_ROAD_DIRECTION) AS CMc,E.F_SBB AS CJs,concat(#{SJid},'-',E.F_XLID,'_',E.F_GLDW) AS PId
+        FROM bes_equipment_list E
+        LEFT JOIN BES_CAMERA_LIST C ON C.F_SBB = E.F_SBB
+        where
+        E.F_SFJK = '1' AND
+        E.F_SBLX_TYPE in
+        <foreach collection="Id" item="Id" separator="," open="(" close=")">
+            #{Id}
+        </foreach>
+        AND E.F_XLID IS NOT NULL AND E.F_GLDW IS NOT NULL
+    </select>
+     <select id="GetSxtzcSum" resultType="java.lang.String">
+        SELECT count(*) count FROM bes_equipment_list where
+        1=1 and F_STATUS = '0'
+        and F_SFJK = '1' AND
+        F_SBLX_TYPE in
+        <foreach collection="list" item="Id" separator="," open="(" close=")">
+            #{Id}
+        </foreach>
+    </select>
+    <select id="GetSxtbjSum" resultType="java.lang.String">
+        SELECT count(*) count FROM bes_equipment_list where
+        1=1 and F_STATUS = '1' and F_SFJK = '1' AND
+        F_SBLX_TYPE in
+        <foreach collection="list" item="Id" separator="," open="(" close=")">
+            #{Id}
+        </foreach>
+    </select>
+       <select id="GetSxtycSum" resultType="java.lang.String">
+        SELECT count(*) count FROM bes_equipment_list where
+        1=1 and F_STATUS = '2' and F_SFJK = '1' AND
+        F_SBLX_TYPE in
+        <foreach collection="list" item="Id" separator="," open="(" close=")">
+            #{Id}
+        </foreach>
+    </select>
+    <select id="GetSxtXlzcSum" resultType="java.lang.String">
+        SELECT count(*) count FROM bes_equipment_list E
+        LEFT JOIN BES_CAMERA_LIST C ON C.F_SBB = E.F_SBB
+        where
+        1=1 AND E.F_STATUS = #{fStatus} and F_SFJK = '1' AND
+        C.F_XLID IN
+        <foreach collection="Id" item="Id" separator="," open="(" close=")">
+            #{Id}
+        </foreach>
+    </select>
+</mapper>

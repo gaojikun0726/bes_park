@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.efounder.JEnterprise.mapper.usercenter.ESUserGnqxManageMapper">
+
+	<resultMap id="userGnqxMap" type="com.efounder.JEnterprise.model.usercenter.ESUserGnqxManage">
+		<result column="F_YHBH" property="f_yhbh" />
+		<result column="F_GNZDID" property="f_gnzdid" />
+		<result column="F_SH" property="f_sh" />
+		<result column="F_CRDATE" property="f_crdate" />
+		<result column="F_CHDATE" property="f_chdate" />
+	</resultMap>
+	
+
+	<sql id="find_xxx">
+	    <![CDATA[
+			SELECT F_YHBH ,F_GNZDID, F_SH ,date_format(F_CRDATE,'%Y-%m-%d %H:%i:%s' )F_CRDATE ,date_format(F_CHDATE,'%Y-%m-%d %H:%i:%s' )F_CHDATE
+	    ]]>
+	</sql>
+
+	<sql id="from_xxx">
+	    <![CDATA[
+	    	FROM ES_USER_GNQX
+	    ]]>
+	</sql>
+
+	<sql id="where_xxx">
+	    <![CDATA[
+	    	WHERE 1=1
+	    ]]>
+	</sql>
+
+	<select id="findUserGnqx" parameterType="string" resultMap="userGnqxMap">
+		<include refid="find_xxx" />
+		<include refid="from_xxx" />
+		<![CDATA[
+			ORDER BY F_CHDATE
+		]]>
+	</select>
+	
+	<select id="findUserGnqxByYhbh" parameterType="string" resultMap="userGnqxMap">
+		<include refid="find_xxx" />
+		 FROM  ${usergnqxTb}
+		<![CDATA[
+			WHERE F_YHBH = #{f_yhbh}
+		]]>
+	</select>
+    
+    <insert id="addUserGnqx"  parameterType="java.util.ArrayList">
+		INSERT INTO ${tablename}
+		(F_YHBH, F_GNZDID, F_SH, F_CRDATE, F_CHDATE)
+		VALUES
+		<foreach collection="list" item="item" index="index" separator=","> 
+        	(#{item.f_yhbh},#{item.f_gnzdid},#{item.f_sh},current_timestamp(), current_timestamp()) 
+    	</foreach> 
+	</insert>
+	
+	<!-- 批量删除 -->
+    <delete id="delUserGnqx">
+        delete from ${tablename} where  F_YHBH=#{f_yhbh} and F_GNZDID in
+        <foreach collection="list" item="item" separator="," open="(" close=")">
+         #{item.f_gnzdid}
+        </foreach>
+	</delete>
+
+	<!--删除用户关联的功能权限-->
+	<delete id="delGnqxByUser" parameterType="com.efounder.JEnterprise.model.usercenter.ESUser">
+		delete from es_user_gnqx where f_yhbh = #{f_yhbh}
+	</delete>
+
+	<!--删除功能字典关联的用户功能权限-->
+	<delete id="delRelativeGnqx">
+		delete from es_user_gnqx where f_gnzdid in
+		<foreach collection="list" item="item" separator="," open="(" close=")">
+			#{item}
+		</foreach>
+	</delete>
+
+   	<!-- <delete id="delUserGnqx" parameterType="string">
+		delete a from es_user_gnqx a INNER JOIN es_gnzd b on b.F_GNBH = a.F_GNZDID WHERE a.F_YHBH=#{f_yhbh} and  b.F_MKGUID =#{mkguid}
+	</delete> -->
+	<update id="upUserGnqx">
+			update ${tablename} 
+			<set>
+			 F_SH= '1'
+			</set>
+			WHERE F_YHBH = #{f_yhbh} and F_GNZDID in 
+		 <foreach collection="list" item="item" separator="," open="("  close=")">
+			 #{item.f_gnzdid}
+		</foreach>
+	</update>
+
+</mapper>

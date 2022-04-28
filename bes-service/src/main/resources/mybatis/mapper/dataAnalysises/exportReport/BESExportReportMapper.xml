@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper
+    namespace="com.efounder.JEnterprise.mapper.dataAnalysises.BESExportReportMapper">
+    <resultMap id="ExportReportMap" type="com.efounder.JEnterprise.model.dataAnalysises.exportAnalysis.BESExportReport">
+        <result column="F_ZLBH" property="fZlbh" jdbcType="VARCHAR" />
+        <result column="F_ZLMC" property="fZlmc" jdbcType="VARCHAR" />
+        <result column="F_DATA" property="fData" jdbcType="VARCHAR" />
+        <result column="F_TIME" property="fTime" jdbcType="VARCHAR" />
+        <result column="F_PZLMC" property="fPzlmc" jdbcType="VARCHAR" />
+    </resultMap>
+<!--     查询支路分页报表数据 -->
+     <select id="getZlExportReport" resultType="HashMap" >
+        select D.F_ZLBH ID,c.f_zlmc F_ZLMC,round(sum(D.${exportType}),2)F_DATA ,date_format(D.f_cjsj,'%Y-%m')F_TIME,
+        (select f_zlmc from bes_branch_conf where c.F_PZLBH=F_ZLBH)F_PZLMC  
+        from 
+        bes_branch_data D LEFT JOIN bes_branch_conf c on c.f_zlbh = d.f_zlbh
+        where 1=1 and 
+        D.f_zlbh =#{fZlbh} and D.F_TYPE=#{timeType}
+        <![CDATA[ and ${f_cjsj} >= #{startTime} ]]> 
+        <![CDATA[ and ${f_cjsj} <= #{endTime} ]]>
+        group by id,F_TIME
+    </select>
+<!--     查询分项分页报表数据 -->
+    <select id="getFxExportReport" resultType="HashMap" >
+        select D.F_FXBH ID,c.f_FXMC F_FXMC,round(sum(D.${exportType}),2)F_DATA ,date_format(D.f_cjsj,'%Y-%m')F_TIME,
+        (select F_FXMC from bes_subitem_conf where c.F_PFXBH=F_FXBH)F_PFXMC  
+        from 
+        bes_subitem_data D LEFT JOIN bes_subitem_conf c on c.f_fxbh = d.f_fxbh
+        where 1=1 and 
+        D.f_fxbh =#{fZlbh} 
+        <![CDATA[ and date_format(D.f_cjsj, '%Y-%m') >= #{startTime} ]]> 
+        <![CDATA[ and date_format(D.f_cjsj ,'%Y-%m') <= #{endTime} ]]>
+        group by id,F_TIME
+    </select>
+<!-- 查询所有能源下的支路 -->
+    <select id="AllZlList" resultType="HashMap" >
+        select F_ZLBH ID,F_JS JS from bes_branch_conf  where f_nybh = #{energyType}
+    </select>
+<!--查询所有能源下的分项 -->
+    <select id="AllFxList" resultType="HashMap" >
+        select F_FXBH ID from bes_subitem_conf  where f_nybh = #{energyType}
+    </select>
+    
+    <select id="getDownCount" resultType="Integer" >
+        SELECT COUNT(F_ZLBH) FROM bes_branch_conf WHERE F_PZLBH=#{ZLID}
+    </select>
+</mapper>

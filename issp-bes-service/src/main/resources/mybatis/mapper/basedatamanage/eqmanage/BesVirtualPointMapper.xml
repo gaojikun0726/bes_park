@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.efounder.JEnterprise.mapper.basedatamanage.eqmanage.BesVirtualPointMapper" >
+  <resultMap id="BESVirtualPointMap" type="com.efounder.JEnterprise.model.basedatamanage.eqmanage.BesVirtualPoint" >
+    <id column="F_GUID" property="f_guid" />
+    <result column="F_SBID" property="f_sbid" />
+    <result column="F_SYS_NAME_OLD" property="f_sys_name_old" />
+    <result column="F_SYS_NAME" property="f_sys_name" />
+    <result column="F_NICK_NAME" property="f_nick_name" />
+    <result column="F_NODE_TYPE" property="f_node_type" />
+    <result column="F_POINT_TYPE" property="f_point_type" />
+    <result column="F_ENABLED" property="f_enabled" />
+    <result column="F_INIT_VAL" property="f_init_val" />
+    <result column="F_ACCURACY" property="f_accuracy" />
+    <result column="F_ENGINEER_UNIT" property="f_engineer_unit" />
+    <result column="F_ALARM_ENABLE" property="f_alarm_enable" />
+    <result column="F_ALARM_TYPE" property="f_alarm_type" />
+    <result column="F_HIGH_LIMIT" property="f_high_limit" />
+    <result column="F_LOW_LIMIT" property="f_low_limit" />
+    <result column="F_CLOSE_STATE" property="f_close_state" />
+    <result column="F_ALARM_PRIORITY" property="f_alarm_priority" />
+    <result column="F_DESCRIPTION" property="f_description" />
+    <result column="F_YQBH" property="f_yqbh" />
+    <result column="F_ENERGYSTATICS" property="f_energystatics" />
+    <result column="F_STATICSTIME" property="f_staticstime" />
+    <result column="F_CRDATE" property="f_crdate" />
+    <result column="F_CHDATE" property="f_chdate" />
+    <result column="F_ENERGY_TYPE" property="f_energy_type" />
+    <result column="F_SYNC_STATE" property="f_sync_state" />
+    <result column="F_FAULT_STATE" property="f_fault_state" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+      F_GUID,
+      F_SBID,
+      F_SYS_NAME_OLD,
+      F_SYS_NAME,
+      F_NICK_NAME,
+      F_NODE_TYPE,
+      F_POINT_TYPE,
+      F_ENABLED,
+      F_INIT_VAL,
+      F_ACCURACY,
+      F_ENGINEER_UNIT,
+      F_ALARM_ENABLE,
+      F_ALARM_TYPE,
+      F_HIGH_LIMIT,
+      F_LOW_LIMIT,
+      F_CLOSE_STATE,
+      F_ALARM_PRIORITY,
+      F_DESCRIPTION,
+      F_YQBH,
+      F_ENERGYSTATICS,
+      F_STATICSTIME,
+      F_CRDATE,
+      F_CHDATE,
+      F_ENERGY_TYPE,
+      F_SYNC_STATE,
+      F_FAULT_STATE
+  </sql>
+
+  <!-- 查询虚点根据 -->
+  <select id="queryVirtualPoint" resultMap="BESVirtualPointMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from bes_vpoint
+    	<![CDATA[
+			WHERE F_SYS_NAME = #{f_sys_name}
+		]]>
+  </select>
+
+  <!--获取所有虚点数据-->
+  <select id="loadAll" resultMap="BESVirtualPointMap">
+    select
+    <include refid="Base_Column_List" />
+    from bes_vpoint
+  </select>
+
+</mapper>

@@ -1,0 +1,188 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.efounder.JEnterprise.mapper.basedatamanage.dwxxpz.ESDwxxpzMapper">
+
+	<resultMap id="dwxxMap" type="com.efounder.JEnterprise.model.basedatamanage.dwxxpz.ESDwxxpz">
+	    <result column="F_ID" property="f_id" />
+		<result column="F_ZZJGBH" property="f_dwxxbh" />
+		<result column="F_ZZJGMC" property="f_dwxxmc" />
+		<result column="F_PZZJGBH" property="f_pdwxxbh" />
+		<result column="F_REMARK" property="f_remark" />
+		<result column="F_JS" property="f_js" />
+		<result column="F_MX" property="f_mx" />
+
+		<result column="F_CRDATE" property="f_crdate" />
+		<result column="F_CHDATE" property="f_chdate" />
+	</resultMap>
+
+	<sql id="find_xxx">
+	    <![CDATA[
+			SELECT F_ID ,F_ZZJGBH , F_ZZJGMC , F_PZZJGBH ,F_REMARK , F_JS , F_MX , date_format(F_CRDATE,'%Y-%m-%d %H:%i:%s' )F_CRDATE ,date_format(F_CHDATE,'%Y-%m-%d %H:%i:%s' )F_CHDATE
+	    ]]>
+	</sql>
+
+	<sql id="from_xxx">
+	    <![CDATA[
+	    	FROM es_dwxxpz
+	    ]]>
+	</sql>
+
+	<sql id="where_xxx">
+	    <![CDATA[
+	    	WHERE 1=1
+	    ]]>
+	</sql>
+
+	<select id="getBranchOffice" parameterType="string" resultMap="dwxxMap">
+		<include refid="find_xxx" />
+		<include refid="from_xxx" />
+		<![CDATA[
+			WHERE F_PZZJGBH = "00"
+		]]>
+	</select>
+	<select id="findById" parameterType="string" resultMap="dwxxMap">
+		<include refid="find_xxx" />
+		<include refid="from_xxx" />
+		<![CDATA[
+			WHERE F_ID=#{f_id}
+		]]>
+	</select>
+
+	<select id="loadDwxxTreeJsTwo" parameterType="string" resultMap="dwxxMap">
+		<include refid="find_xxx" />
+		<include refid="from_xxx" />
+		where
+		<![CDATA[
+			F_JS < 2
+		]]>
+	</select>
+
+	<select id="loadAll" parameterType="string" resultMap="dwxxMap">
+		<include refid="find_xxx" />
+		<include refid="from_xxx" />
+		where
+		${checkDataLimit}
+	</select>
+
+	<select id="findDwxxByPage" parameterType="string" resultMap="dwxxMap">
+		<include refid="find_xxx" />
+		<include refid="from_xxx" />
+		<where>
+		1=1
+			<if test="keywords != null and keywords != ''">
+			 and CONCAT(`f_dwxxbh`,'##',`f_dwxxmc` ) LIKE CONCAT('%',#{keywords},'%')
+			</if>
+		</where>
+		order by F_CRDATE
+	</select>
+
+	<select id="findDwxxListByLikeBhAndCheckDataLimit" parameterType="string" resultMap="dwxxMap">
+		<include refid="find_xxx" />
+		<include refid="from_xxx" />
+		<where>
+			<if test="f_dwxxbh != null and f_dwxxbh != ''">
+				F_PZZJGBH = #{f_dwxxbh} and
+				<!-- and F_ZZJGBH LIKE CONCAT('%',#{f_dwxxbh},'%') -->
+			</if>
+			(${checkDataLimit})
+		</where>
+	</select>
+
+	<select id="findDwxxListByLikeBh" parameterType="string" resultMap="dwxxMap">
+		<include refid="find_xxx" />
+		<include refid="from_xxx" />
+		<where>
+		1=1
+			<if test="f_dwxxbh != null and f_dwxxbh != ''">
+			 and F_ZZJGBH LIKE CONCAT(#{f_dwxxbh},'%')
+			</if>
+		</where>
+	</select>
+	<select id="findSonDwxxByPage" parameterType="string" resultMap="dwxxMap">
+		<include refid="find_xxx" />
+		<include refid="from_xxx" />
+		<where>
+			<if test="f_dwxxbh != null and f_dwxxbh != ''"> f_pdwxxbh = #{f_dwxxbh}</if>
+		</where>
+		order by F_CRDATE
+	</select>
+	<!-- 根据编号查找所有子节点 -->
+	<select id="findChildByBh" parameterType="string" resultMap="dwxxMap">
+		<include refid="find_xxx" />
+		<include refid="from_xxx" />
+		<where>
+			F_PZZJGBH = #{f_dwxxbh}
+		</where>
+		order by F_ZZJGBH
+	</select>
+
+	<update id="update" parameterType="com.efounder.JEnterprise.model.basedatamanage.dwxxpz.ESDwxxpz">
+		UPDATE es_dwxxpz
+		<set>
+			<if test="f_dwxxmc != null and f_dwxxmc!=''">
+				F_ZZJGMC = #{f_dwxxmc},
+			</if>
+			<if test="f_remark!= null and f_remark!='' ">
+				F_REMARK = #{f_remark},
+			</if>
+			<!--修改时间  -->
+			F_CHDATE = current_timestamp()
+		</set>
+		WHERE F_ID=#{f_id}
+	</update>
+	<!-- 根据编号更新明细 -->
+	<update id="updateMxByBh" parameterType="string">
+		UPDATE es_dwxxpz
+		<set>
+			F_MX = #{f_mx}
+		</set>
+		WHERE F_ZZJGBH=#{f_dwxxbh}
+	</update>
+
+	<insert id="insert" parameterType="com.efounder.JEnterprise.model.basedatamanage.dwxxpz.ESDwxxpz">
+		INSERT INTO es_dwxxpz(F_ID ,F_ZZJGBH ,F_ZZJGMC, F_PZZJGBH,F_REMARK,F_JS,F_MX,  F_CRDATE, F_CHDATE)
+		 VALUES(#{f_id} ,#{f_dwxxbh} , #{f_dwxxmc} , #{f_pdwxxbh} , #{f_remark} , #{f_js} ,#{f_mx},  current_timestamp(),current_timestamp())
+	</insert>
+
+	<delete id="delete" parameterType="string">
+		DELETE FROM es_dwxxpz WHERE F_ZZJGBH = #{f_dwxxbh}
+	</delete>
+
+	<!-- 删除节点 -->
+	<delete id="deleteByBH" parameterType="string">
+		DELETE FROM es_dwxxpz WHERE F_ID = #{f_id}
+	</delete>
+
+	<select id="getId" parameterType="string" resultMap="dwxxMap">
+		SELECT F_ID,F_ZZJGBH FROM ES_ZZJG
+		<![CDATA[
+	    	WHERE 1=1
+	    ]]>
+	    <if test="f_dwxxbh != null and f_dwxxbh!=''">
+				AND F_ZZJGBH in (${f_dwxxbh})
+			</if>
+
+	</select>
+
+	<select id="getDwxxIdBybh" parameterType="string" resultMap="dwxxMap">
+		SELECT F_ID,F_ZZJGBH ,F_ZZJGMC FROM ES_ZZJG
+		<![CDATA[
+	    	WHERE 1=1
+	    ]]>
+	    <if test="f_dwxxbh != null and f_dwxxbh!=''">
+				AND F_ZZJGBH = #{f_dwxxbh}
+			</if>
+
+	</select>
+		<select id="getbh" parameterType="string" resultMap="dwxxMap">
+		SELECT F_ZZJGBH FROM ES_ZZJG
+		<![CDATA[
+	    	WHERE 1=1
+	    ]]>
+	    <if test="id != null and id !=''">
+				AND F_ID =#{id}
+			</if>
+
+	</select>
+</mapper>

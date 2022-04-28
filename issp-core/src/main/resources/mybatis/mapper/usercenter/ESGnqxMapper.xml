@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.efounder.JEnterprise.mapper.usercenter.ESGnqxMapper">
+
+	<resultMap id="gnqxMap" type="com.efounder.JEnterprise.model.usercenter.ESGnqx">
+		<result column="F_QXBH" property="f_qxbh" />
+		<result column="F_QXMC" property="f_qxmc" />
+		<result column="F_XTBH" property="f_xtbh" />
+		<result column="F_TABN" property="f_tabn" />
+		<result column="F_BHZD" property="f_bhzd" />
+		<result column="F_MCZD" property="f_mczd" />
+		<result column="F_SFSY" property="f_sfsy" />
+		<result column="F_USER_QXB" property="f_user_qxb" />
+		<result column="F_YHZ_QXB" property="f_yhz_qxb" />
+		<result column="F_ROLE_QXB" property="f_role_qxb" />
+		<result column="F_GW_QXB" property="f_gw_qxb" />
+		<result column="F_CRDATE" property="f_crdate" />
+		<result column="F_CHDATE" property="f_chdate" />
+		
+	</resultMap>
+	
+
+
+	<sql id="find_xxx">
+	    <![CDATA[
+			SELECT F_QXBH , F_QXMC , F_XTBH, F_TABN , F_BHZD, F_MCZD ,
+			F_SFSY,F_USER_QXB,F_YHZ_QXB,F_ROLE_QXB,F_GW_QXB,
+			date_format(F_CRDATE,'%Y-%m-%d %H:%i:%s' )F_CRDATE ,date_format(F_CHDATE,'%Y-%m-%d %H:%i:%s' )F_CHDATE
+	    ]]>
+	</sql>
+
+	<sql id="from_xxx">
+	    <![CDATA[
+	    	FROM ES_GNQX
+	    ]]>
+	</sql>
+
+	<sql id="where_xxx">
+	    <![CDATA[
+	    	WHERE 1=1
+	    ]]>
+	</sql>
+	
+	<!-- 查询所有数据权限信息 -->
+	<select id="findGnqxs" parameterType="string" resultMap="gnqxMap">
+		<include refid="find_xxx" />
+		<include refid="from_xxx" />
+		<![CDATA[
+			ORDER BY F_QXBH
+		]]>
+	</select>
+	
+	<!-- 根据关键字高级搜索数据权限 -->
+	<select id="findGnqxBykeywords" parameterType="string" resultMap="gnqxMap">
+		<include refid="find_xxx" />
+		<include refid="from_xxx" />
+		<where>
+		 F_XTBH = #{f_xtbh} 
+			<if test="keywords != null and keywords != ''"> 
+			 and CONCAT(`f_qxbh`,'##',`f_qxmc` ) LIKE CONCAT('%',#{keywords},'%')
+			 </if>
+		</where>
+	</select>
+	
+	<!-- 根据数据权限编号查询信息 -->
+	<select id="findGnqxById" parameterType="string" resultMap="gnqxMap">
+		<include refid="find_xxx" />
+		<include refid="from_xxx" />
+		<![CDATA[
+			WHERE F_QXBH = #{id}
+		]]>
+	</select>
+	<!-- 根据系统编号查询信息 -->
+	<select id="findGnqxByXtbh" parameterType="string" resultMap="gnqxMap">
+		<include refid="find_xxx" />
+		<include refid="from_xxx" />
+		<![CDATA[
+			WHERE F_XTBH = #{id}
+		]]>
+	</select>
+	
+	<!--分页  -->
+	<select id="findGnqxByPage" parameterType="string" resultMap="gnqxMap">
+		<include refid="find_xxx" />
+		<include refid="from_xxx" />
+		<![CDATA[
+			ORDER BY F_QXBH
+		]]>
+	</select>
+	
+	<!--添加数据权限  -->
+	<insert id="addGnqx" parameterType="com.efounder.JEnterprise.model.usercenter.ESGnqx"> 
+        INSERT INTO ES_GNQX(F_QXBH , F_QXMC , F_XTBH, F_TABN ,
+         F_BHZD, F_MCZD ,F_SFSY,F_USER_QXB,F_YHZ_QXB,F_ROLE_QXB,F_GW_QXB,F_CRDATE,F_CHDATE) 
+         values(#{f_qxbh},#{f_qxmc},#{f_xtbh},#{f_tabn},
+         #{f_bhzd},#{f_mczd},#{f_sfsy},#{f_user_qxb},#{f_yhz_qxb},#{f_role_qxb},#{f_gw_qxb},NOW(),NOW())  
+    </insert>
+    
+    <!--根据数据权限编码删除信息  -->
+   	<delete id="delGnqx" parameterType="com.efounder.JEnterprise.model.usercenter.ESGnqx">
+		DELETE FROM ES_GNQX WHERE F_QXBH = #{f_qxbh}
+	</delete>
+	
+	<!--更新数据权限  -->
+	<update id="upGnqx" parameterType="com.efounder.JEnterprise.model.usercenter.ESGnqx">
+		UPDATE ES_GNQX
+		<set>
+				F_QXMC = #{f_qxmc},
+				F_TABN = #{f_tabn},
+				F_BHZD = #{f_bhzd},
+				F_MCZD = #{f_mczd},
+				F_SFSY = #{f_sfsy},
+				F_USER_QXB = #{f_user_qxb},
+				F_YHZ_QXB = #{f_yhz_qxb},
+				F_ROLE_QXB = #{f_role_qxb},
+				F_GW_QXB = #{f_gw_qxb},
+			F_CHDATE=NOW() 
+		</set>
+		WHERE F_QXBH = #{f_qxbh}
+	</update>
+
+</mapper>

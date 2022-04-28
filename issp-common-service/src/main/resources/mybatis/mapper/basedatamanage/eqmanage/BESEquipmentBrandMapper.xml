@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.efounder.JEnterprise.mapper.basedatamanage.eqmanage.BESEquipmentBrandMapper">
+
+	<resultMap id="BES_Equipment_BrandMap" type="com.efounder.JEnterprise.model.basedatamanage.eqmanage.BESEquipmentBrand">
+		<result column="ID" property="id" />
+		<result column="F_BRANDBH" property="f_brandbh" />
+		<result column="F_BRANDMC" property="f_brandmc" />
+		<result column="F_SCSID" property="f_scsid" />
+		<result column="F_SBLX" property="f_sblx" />
+		<result column="F_CRDATE" property="f_crdate" />
+		<result column="F_CHDATE" property="f_chdate" />
+		<result column="F_SBMC" property="f_sbmc"/>
+	</resultMap>
+
+	<insert id="addEquipmentBrand" parameterType="com.efounder.JEnterprise.model.basedatamanage.eqmanage.BESEquipmentBrand">
+		INSERT INTO BES_EQUIPMENT_BRAND(ID ,F_BRANDBH, F_BRANDMC,F_SCSID,F_CRDATE, F_CHDATE)
+		 VALUES(#{id} , #{f_brandbh} , #{f_brandmc} ,#{f_scsid} , current_timestamp(),current_timestamp() )
+	</insert>
+
+	<sql id="find_xxx">
+	    <![CDATA[
+			SELECT DISTINCT b.f_sbmc,a.ID,a.F_BRANDBH,a.F_BRANDMC,a.F_SBLX,a.F_SCSID,date_format(a.F_CRDATE,'%Y-%m-%d %H:%i:%s' )F_CRDATE ,date_format
+(a.F_CHDATE,'%Y-%m-%d %H:%i:%s' )F_CHDATE
+	    ]]>
+	</sql>
+
+	<sql id="from_xxx">
+	    <![CDATA[
+	    	FROM BES_EQUIPMENT_BRAND a LEFT JOIN bes_equipment_mold b ON a.F_SBLX = b.F_TYPE
+	    ]]>
+	</sql>
+
+	<sql id="where_xxx">
+	    <![CDATA[
+	    	WHERE 1=1
+	    ]]>
+	</sql>
+	<!-- 查询全部 -->
+	<select id="findAllEquipmentBrand" parameterType="string" resultMap="BES_Equipment_BrandMap">
+		<include refid="find_xxx" />
+		<include refid="from_xxx" />
+		<![CDATA[
+			ORDER BY F_CHDATE
+		]]>
+	</select>
+  
+	<!-- 根据编号查询 -->
+	<select id="findEquipmentBrandByBrandbh" parameterType="string" resultMap="BES_Equipment_BrandMap">
+		<include refid="find_xxx" />
+		<include refid="from_xxx" />
+		<![CDATA[
+		WHERE ID = #{id}
+			ORDER BY F_CHDATE
+		]]>
+	</select>
+	<!-- 根据名称查询 -->
+	<select id="findEquipmentBrandByBrandmc" parameterType="string" resultMap="BES_Equipment_BrandMap">
+		<include refid="find_xxx" />
+		<include refid="from_xxx" />
+		<![CDATA[
+			WHERE F_BRANDMC=#{f_brandmc}
+		]]>
+	</select>
+	 
+	 <!-- 分页 -->
+	<select id="findEquipmentBrandByPage" parameterType="string" resultMap="BES_Equipment_BrandMap">
+		<include refid="find_xxx" />
+		<include refid="from_xxx" />
+		<where>
+		1=1 
+			<if test="keywords != null and keywords != ''">
+			 and CONCAT(`f_brandmc`,'##',`f_brandbh`,'##',`f_scsid`,'##',`f_sblx`) LIKE CONCAT('%',#{keywords},'%')
+			 </if>
+		</where>
+		order by F_CHDATE
+	</select> 
+	
+	<select id="findMaxBrandbh"  parameterType="string" resultType="string">
+		select MAX(F_BRANDBH) from BES_EQUIPMENT_BRAND
+	</select>
+	
+	<!--模糊查询  -->
+	<select id="findEquipmentBrandByKeywords" parameterType="string" resultMap="BES_Equipment_BrandMap">
+		<include refid="find_xxx" />
+		<include refid="from_xxx" />
+		<where>
+		1=1 
+			<if test="keywords != null and keywords != ''">
+			 and CONCAT(`f_brandmc`,'##',`f_brandbh`) LIKE CONCAT('%',#{keywords},'%')
+			 </if>
+		</where>
+		order by F_CHDATE
+	</select>	
+	
+
+	<update id="upDateEquipmentBrand" parameterType="com.efounder.JEnterprise.model.basedatamanage.eqmanage.BESEquipmentBrand">
+		UPDATE BES_EQUIPMENT_BRAND 
+		<set>
+			<if test="f_brandbh != null and f_brandbh !='' ">
+				F_BRANDBH = #{f_brandbh},
+			</if>
+			<if test="f_brandmc != null and f_brandmc !='' ">
+				F_BRANDMC = #{f_brandmc},
+			</if>
+			<if test="f_scsid != null and f_scsid !='' ">
+				F_SCSID = #{f_scsid},
+			</if>
+			<if test="f_sblx != null and f_sblx !='' ">
+				F_SBLX = #{f_sblx},
+			</if>
+			F_CHDATE =NOW()
+		</set>
+		WHERE ID = #{id}
+	</update>
+
+	<delete id="deleteByBrandbh" parameterType="com.efounder.JEnterprise.model.basedatamanage.eqmanage.BESEquipmentBrand">
+		DELETE FROM BES_EQUIPMENT_BRAND WHERE ID = #{id}
+	</delete>
+  <!-- 获取设备品牌列表 -->
+  <select id="getEquipmentBrandList" resultMap="BES_Equipment_BrandMap" parameterType="java.lang.String" >
+    <!-- select F_BRANDBH,F_BRANDMC,F_SCSID,F_SBLX
+    from bes_equipment_brand -->
+    <include refid="find_xxx" />
+		<include refid="from_xxx" />
+  </select>
+  
+    <!-- 获取设备品牌名称        tianjaingwei -->
+  <select id="getBrand" resultMap="BES_Equipment_BrandMap" parameterType="java.lang.String" >
+    SELECT ID ,F_BRANDMC FROM BES_EQUIPMENT_BRAND
+  </select>
+</mapper>

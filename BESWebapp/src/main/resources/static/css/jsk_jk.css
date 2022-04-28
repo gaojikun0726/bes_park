@@ -1,0 +1,200 @@
+/* 灯光关闭状态 */
+.online{
+/*     background: url("static/images/jk_button1.gif") no-repeat center; */
+	border:2px solid #e6cb07;
+	color: #e6cb07;
+}
+.offline{
+	border:2px solid #b3b39f;
+	color: #b3b39f;
+}
+.partonline{
+	border:2px solid #f55b12;
+	color: #f55b12;
+}
+/* 灯光开关按钮 */
+.switch-button{
+    background-color: rgba(30, 98, 140, 0.98); 
+    background-size: 95px 40px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+    border-radius: 3px;
+}
+
+/* 开关按钮 */
+.small-button{
+	background: #052249;
+    /* background-size: 50px 25px; */
+/*     width: 3vw; */
+/*     border: solid 2px #9acdcd; */
+    margin-left: 1vw;
+    height: 2.9vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 12px;
+    position: absolute;
+}
+/* 房间号图标 */
+.room-button{
+	/* background: url("static/images/room_button.png") no-repeat center; */
+	background-size: 80px 20px;
+/* 	width: 4vw; */
+    height: 3vh;
+/*     border: solid 2px #9acdcd; */
+    background: #1d638c;
+/*     display: flex; */
+/*     justify-content: center; */
+    align-items: center;
+    position: absolute;
+}
+.corridor-button{
+	/* background: url("static/images/room_button.png") no-repeat center; */
+	background-size: 80px 20px;
+/* 	width: 4vw; */
+    height: 3vh;
+/*     border: solid 2px #9acdcd;  */
+    background: #1e5d82;
+/*     display: flex; */
+/*     justify-content: center; */
+    align-items: center;
+    position: absolute;
+    cursor : default;
+}
+.circle-button{
+    width: 35px;
+    height: 35px;
+    align-items: center;
+    position: absolute;
+}
+.circleonline{
+	background: url("../images/zmjk/online.png") no-repeat center;
+}
+.circleoffline{
+	background: url("../images/zmjk/offline.png") no-repeat center;
+}
+.circlepartonline{
+	background: url("../images/zmjk/partonline.png") no-repeat center;
+}
+.left-top{
+	height: 32%;
+	width: 18%;
+	border:0px solid #000;
+	position: absolute;
+	left: 5%;
+}
+.center-top{
+	height: 24%;
+	width: 46%;
+	border:0px solid #000;
+	position: absolute;
+	left: 25%;
+}
+.center-center{
+	height: 50%;
+	width: 48%;
+	border:0px solid #000;
+	position: absolute;
+	left: 24%;
+	top: 27%;
+}
+.left-bottom{
+	height: 41%;
+	width: 17%;
+	border:0px solid #000;
+	position: absolute;
+	left: 6%;
+	bottom: 2%;
+}
+.buttom-buttom{
+	height: 22%;
+	width: 46%;
+	border:0px solid #000;
+	position: absolute;
+	left: 24%;
+	bottom: 0;
+}
+.right{
+	height: 91%;
+	width: 13%;
+	border:0px solid #000;
+	position: absolute;
+	right: 12%;
+	top: 8%;
+}
+.zm-left-top{
+    height: 54%;
+    width: 55%;
+/*     border: 1px solid #000; */
+    position: absolute;
+    margin-top: 1%;
+    left: 5%;
+}
+.zm-left-top>ul{
+    height: 12%;
+/*     border: 1px solid red; */
+    padding: 4px;
+}
+.zm-left-top>ul>li{
+    height: 100%;
+    display: inline-block;
+    padding-top: 1.1%;
+}
+.zm-left-top>ul>li:nth-child(1) {
+	padding-top: 1.3%;
+}
+.zm-left-top>ul>li:nth-child(2) {
+    position: absolute;
+    left: 10%;
+}
+.zm-switch-button{
+    background-color: rgba(30, 98, 140, 0.98); 
+    background-size: 95px 40px;
+    justify-content: center;
+    align-items: center;
+    border-radius: 3px;
+    
+    display: inline-block!important;
+    position: initial!important;
+}
+
+.jskjk_row{
+	width: 100%;height: 35%;border: 1px solid red;position: absolute;
+}
+.jskjk_top_left{
+	width: 48%;
+	height: 100%;
+	border: 1px solid #464647;
+	display: inline-block;
+	position: absolute;
+	left:0vh;
+}
+.jskjk_top_right{
+	width: 50%;
+	height: 100%;
+	border: 1px solid #252428;
+	display: inline-block;
+	position: absolute;
+	right:0vh;
+}
+.jskjk_top_left_all>ul>li:nth-child(odd){
+	display: inline-block;
+	padding: 2vh;
+	width: 20%;
+	text-align: right;
+}
+.jskjk_top_left_all>ul>li:nth-child(even){
+	display: inline-block;
+}
+.jskjk_top_right_all>ul>li:nth-child(odd){
+	display: inline-block;
+	padding: 2vh;
+	width: 25%;
+	text-align: right;
+}
+.jskjk_top_right_all>ul>li:nth-child(even){
+	display: inline-block;
+	width: 5%;
+}

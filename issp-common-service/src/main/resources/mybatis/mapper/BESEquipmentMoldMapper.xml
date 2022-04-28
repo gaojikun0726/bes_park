@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.efounder.JEnterprise.mapper.BESEquipmentMoldMapper">
+
+	<!-- 设备类型 BES_EQUIPMENT_MOLD -->
+	<resultMap id="equipmentMoldMap"
+	type="com.efounder.JEnterprise.model.BESEquipmentMold">
+		<result column="F_TYPE" property="f_type" />
+		<result column="F_SBMC" property="f_sbmc" />
+		<result column="F_PTYPE" property="f_ptype" />
+		<result column="F_SBJCXXB" property="f_sbjcxxb" />
+		<result column="F_SBSJB" property="f_sbsjb" />
+		<result column="F_REMARK" property="f_remark" />
+		<result column="F_CRDATE" property="f_crdate" />
+		<result column="F_CHDATE" property="f_chdate" />
+	</resultMap>
+	<!--txt编译前文本表 bes_txt_begin-->
+	<resultMap id="besTxt" type="com.efounder.JEnterprise.model.basedatamanage.eqmanage.BesTxt">
+		<result column="f_id" property="id"/>
+		<result column="f_guid" property="guid"/>
+		<result column="f_txt" property="txt"/>
+	</resultMap>
+
+	<!-- 获取设备类型信息 -->
+	<select id="getAllEquipmentMold" parameterType="String" resultMap="equipmentMoldMap">
+		<include refid="find_xxx" />
+		<include refid="from_xxx" />
+	</select>
+	
+<!-- 	根据类型id获取设备类型信息 -->
+	<select id="getIdEquipmentMold" parameterType="String" resultMap="equipmentMoldMap">
+		<include refid="find_xxx" />
+		<include refid="from_xxx" />
+			<where>
+				1=1 
+			 <if test="ftype != null and ftype != ''"> 
+			 and F_TYPE = #{ftype}
+			</if>
+			</where>
+	</select>
+	
+	<sql id="find_xxx">
+	    <![CDATA[
+			SELECT F_TYPE, F_SBMC,F_PTYPE,F_SBJCXXB,F_SBSJB,F_REMARK,date_format(F_CRDATE,'%Y-%m-%d %H:%i:%s' )F_CRDATE ,date_format(F_CHDATE,'%Y-%m-%d %H:%i:%s' )F_CHDATE
+	    ]]>
+	</sql>
+	<sql id="from_xxx">
+	    <![CDATA[
+	    	FROM BES_EQUIPMENT_MOLD
+	    ]]>
+	</sql>
+	<sql id="where_xxx">
+	    <![CDATA[
+	    	WHERE 1=1
+	    ]]>
+	</sql>
+	<select id="loadAll" parameterType="string" resultMap="equipmentMoldMap">
+		<include refid="find_xxx" />
+		<include refid="from_xxx" />
+	</select>
+	
+	<!-- 根据编号查找所有子节点 -->
+	<select id="findChildByZtype" parameterType="string" resultMap="equipmentMoldMap">
+		<include refid="find_xxx" />
+		<include refid="from_xxx" />
+		<where>
+			F_PTYPE = #{f_type} 
+		</where>
+		order by F_TYPE
+	</select>
+<!-- -->
+    <!-- 根据（多个）f_type查询设备名称 -->
+	<select id="getEquipmentMoldById" parameterType="string" resultMap="equipmentMoldMap">
+		SELECT F_TYPE, F_SBMC
+		FROM BES_EQUIPMENT_MOLD
+		<where>
+			F_TYPE in (${f_type}) 
+		</where>
+	</select>
+	<!-- 模糊查询父级与子级type  -->
+	<select id="findAllLikeTp" parameterType="string" resultMap="equipmentMoldMap">
+		<include refid="find_xxx" />
+		<include refid="from_xxx" />
+		<where>
+		1=1 
+			<if test="f_type != null and f_type != ''"> 
+			 and F_TYPE LIKE CONCAT('%',#{f_type},'%')
+			</if>
+		</where>
+	</select>
+	
+	<!-- 根据条件查询设备类型信息 -->
+	<select id="getEqTypeList" parameterType="string" resultMap="equipmentMoldMap">
+		<include refid="find_xxx" />
+		<include refid="from_xxx" />
+		<where>
+		1=1 
+			<if test="f_sbmc != null and f_sbmc != ''"> 
+			 and CONCAT(`f_type`,'##',`f_sbmc`,'##',`f_ptype` ) LIKE CONCAT('%',#{f_sbmc},'%')
+			 </if>
+		</where>
+	</select>
+	
+	<!-- 根据设备编号查找设备信息 -->
+	<select id="findeqTypeByBh" parameterType="string" resultMap="equipmentMoldMap">
+		<include refid="find_xxx" />
+		<include refid="from_xxx" />
+		<where>
+			F_TYPE = #{f_type} 
+		</where>
+		order by F_TYPE
+	</select>
+	<!-- 新增设备信息 -->
+	 <insert id="add_eqType" parameterType="com.efounder.JEnterprise.model.BESEquipmentMold">
+		INSERT INTO BES_EQUIPMENT_MOLD(F_TYPE ,F_SBMC,F_PTYPE, F_SBJCXXB, F_SBSJB ,F_REMARK ,F_CRDATE, F_CHDATE)
+		 VALUES(#{f_type} , #{f_sbmc} , #{f_ptype} , #{f_sbjcxxb} , #{f_sbsjb} ,#{f_remark},  NOW() ,NOW())
+	</insert>
+	
+	
+		<update id="upeqType" parameterType="com.efounder.JEnterprise.model.BESEquipmentMold">
+		UPDATE BES_EQUIPMENT_MOLD
+		<set>
+			<if test="f_type != null and f_type!='' ">
+				F_TYPE = #{f_type},
+			</if>
+			<if test="f_sbmc != null and f_sbmc !='' ">
+				F_SBMC = #{f_sbmc},
+			</if>
+			<if test="f_ptype != null  and f_ptype !='' ">
+				F_PTYPE = #{f_ptype},
+			</if>
+			<if test="f_sbsjb != null and f_sbsjb!='' ">
+				F_SBSJB = #{f_sbsjb},
+			</if>
+			<if test="f_sbjcxxb != null and f_sbjcxxb!=''">
+				F_SBJCXXB = #{f_sbjcxxb},
+			</if>
+			<if test="f_remark != null and f_remark!=''">
+				F_REMARK = #{f_remark},
+			</if>
+			
+			F_CHDATE =NOW()
+		</set>
+		WHERE F_TYPE = #{f_type}
+	</update>
+	
+	<delete id="delete" parameterType="string">
+		DELETE FROM BES_EQUIPMENT_MOLD WHERE F_TYPE = #{f_type}
+	</delete>
+
+	<!--查询bes_txt_end表里面有没有当前id关联的txt文本 -->
+	<select id="selectProgrammInfo" parameterType="integer" resultType="string" >
+		SELECT f_txt from bes_txt_end where f_guid = #{f_id}
+	</select>
+	
+	
+</mapper>

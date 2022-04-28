@@ -1,0 +1,177 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.efounder.JEnterprise.mapper.thetimer.ISSPTimerManageMapper">
+
+	<resultMap id="TimerManageMap" type="com.efounder.JEnterprise.model.thetimer.ISSPTimerManage">
+		<result column="F_TIMER_BH" property="fTimerBh" />
+		<result column="F_TIMER_NAME" property="fTimerName" />
+		<result column="F_START_TIME" property="fStartTime" />
+		<result column="F_STOP_TIME" property="fStopTime" />
+		<result column="F_TIMER_STATE" property="fTimerState" />
+		<result column="F_TIMER_PARAMS" property="fTimerParams" />
+		<result column="F_CRDATE" property="fCrdate" />
+		<result column="F_CHDATE" property="fChdate" />
+	</resultMap>
+	
+	<resultMap id="TimerListMap" type="com.efounder.JEnterprise.model.thetimer.ISSPTimerList">
+		<result column="F_TIMER_BH" property="fTimerBh" />
+		<result column="F_TIMER_NAME" property="fTimerName" />
+		<result column="F_TIMER_CLASSBH" property="fTimerClassbh" />
+		<result column="F_TIMER_TYPEBH" property="fTimerTypebh" />
+		<result column="F_LOOP_TIME" property="fLoopTime" />
+		<result column="F_FIXED_TIME" property="fFixedTime" />
+		<result column="F_VAR_TIME" property="fVarTime" />
+		<result column="F_CRDATE" property="fCrdate" />
+		<result column="F_CHDATE" property="fChdate" />
+	</resultMap>
+
+	<resultMap id="TimerClassMap" type="com.efounder.JEnterprise.model.thetimer.ISSPTimerClass">
+		<result column="F_CLASS_BH" property="fClassBh" />
+		<result column="F_CLASS_NAME" property="fClassName" />
+		<result column="F_CLASS_PATH" property="fClassPath" />
+		<result column="F_CRDATE" property="fCrdate" />
+		<result column="F_CHDATE" property="fChdate" />
+	</resultMap>
+	
+	<resultMap id="TimerTypeMap" type="com.efounder.JEnterprise.model.thetimer.ISSPTimerType">
+		<result column="F_TYPE" property="fType" />
+		<result column="F_NAME" property="fName" />
+		<result column="F_REMARK" property="fRemark" />
+		<result column="F_CRDATE" property="fCrdate" />
+		<result column="F_CHDATE" property="fChdate" />
+	</resultMap>
+
+
+	<!-- 查询定时器管理列表 -->
+	<select id="getTimerManageList" parameterType="string" resultMap="TimerManageMap">
+		SELECT 
+			F_TIMER_BH, 
+			F_TIMER_NAME,
+			date_format(F_START_TIME,'%Y-%m-%d %H:%i:%s' )F_START_TIME,
+			date_format(F_STOP_TIME,'%Y-%m-%d %H:%i:%s' )F_STOP_TIME,
+			F_TIMER_STATE,
+			F_TIMER_PARAMS,
+			date_format(F_CRDATE,'%Y-%m-%d %H:%i:%s' )F_CRDATE ,
+			date_format(F_CHDATE,'%Y-%m-%d %H:%i:%s' )F_CHDATE
+		FROM issp_timer_manage
+		where
+			1=1
+			<if test="keywords != null and keywords != ''"> 
+				and CONCAT(`F_TIMER_BH`,'##',`F_TIMER_NAME` ) LIKE CONCAT('%',#{keywords},'%')
+			</if>
+	</select>
+	
+	<!-- 查询定时器管理信息 -->
+	<select id="getTimerManage" parameterType="com.efounder.JEnterprise.model.thetimer.ISSPTimerManage" resultMap="TimerManageMap">
+		SELECT 
+			F_TIMER_BH, 
+			F_TIMER_NAME,
+			F_START_TIME,
+			F_STOP_TIME,
+			F_TIMER_STATE,
+			F_TIMER_PARAMS,
+			date_format(F_CRDATE,'%Y-%m-%d %H:%i:%s' )F_CRDATE ,
+			date_format(F_CHDATE,'%Y-%m-%d %H:%i:%s' )F_CHDATE
+		FROM issp_timer_manage
+		where
+			1=1
+			<if test="fTimerBh != null and fTimerBh != ''"> 
+				and F_TIMER_BH = #{fTimerBh}
+			</if>
+	</select>
+	
+	<!-- 查询定时器列表 -->
+	<select id="getTimerList" parameterType="string" resultMap="TimerListMap">
+		SELECT
+			a.F_TIMER_BH, 
+			a.F_TIMER_NAME,
+			a.F_TIMER_CLASSBH,
+			a.F_TIMER_TYPEBH,
+			a.F_LOOP_TIME,
+			a.F_FIXED_TIME,
+			a.F_VAR_TIME,
+			date_format(a.F_CRDATE,'%Y-%m-%d %H:%i:%s' )F_CRDATE ,
+			date_format(a.F_CHDATE,'%Y-%m-%d %H:%i:%s' )F_CHDATE,
+			c.F_SERVICE_URL,
+			c.F_SERVICE_MC,
+			c.F_METHOD
+		FROM
+			issp_timer_list a 
+		LEFT JOIN issp_eq_join_task b on a.F_TIMER_BH = b.F_TIMER_BH
+		LEFT JOIN issp_intefaceadapter c on b.F_INTERFACE_GUID = c.F_GUID
+		WHERE
+			1=1
+		<if test="fTimerBh != null and fTimerBh != ''"> 
+			 and a.F_TIMER_BH = #{fTimerBh}
+		</if>
+	</select>
+	
+	<!-- 查询定时器对象 -->
+	<select id="getTimerClass" parameterType="string" resultMap="TimerClassMap">
+		SELECT
+			F_CLASS_BH, 
+			F_CLASS_NAME,
+			F_CLASS_PATH,
+			date_format(F_CRDATE,'%Y-%m-%d %H:%i:%s' )F_CRDATE ,
+			date_format(F_CHDATE,'%Y-%m-%d %H:%i:%s' )F_CHDATE
+		FROM
+			issp_timer_class
+		WHERE
+			1=1
+		<if test="fTimerClassbh != null and fTimerClassbh != ''"> 
+			 and F_CLASS_BH = #{fTimerClassbh}
+		</if>
+	</select>
+	
+	<!-- 查询定时器类型 -->
+	<select id="getTimerType" parameterType="string" resultMap="TimerTypeMap">
+		SELECT
+			F_TYPE, 
+			F_NAME,
+			F_REMARK,
+			date_format(F_CRDATE,'%Y-%m-%d %H:%i:%s' )F_CRDATE ,
+			date_format(F_CHDATE,'%Y-%m-%d %H:%i:%s' )F_CHDATE
+		FROM
+			issp_timer_type
+		WHERE
+			1=1
+		<if test="fTimerTypebh != null and fTimerTypebh != ''"> 
+			 and F_TYPE = #{fTimerTypebh}
+		</if>
+	</select>
+	<!-- 更改状态 -->
+	<update id="upTimerManage" parameterType="com.efounder.JEnterprise.model.thetimer.ISSPTimerManage">
+		update issp_timer_manage
+		<set>
+			<if test="fTimerState != null and fTimerState != ''">
+				F_TIMER_STATE = #{fTimerState},
+			</if>
+			<if test="fStartTime != null and fStartTime != ''">
+				F_START_TIME = #{fStartTime},
+			</if>
+			<if test="fStopTime != null and fStopTime != ''">
+				F_STOP_TIME = #{fStopTime},
+			</if>
+			F_CHDATE = current_timestamp()
+		</set>
+		where F_TIMER_BH = #{fTimerBh}
+	</update>
+
+	<select id="getinterface" parameterType="string" resultType="java.util.HashMap">
+		SELECT
+			a.F_TIMER_BH,
+			a.F_TIMER_NAME,
+			b.F_SERVICE_URL,
+			b.F_SERVICE_MC,
+			b.F_METHOD
+		FROM
+			issp_eq_join_task a
+		LEFT JOIN issp_intefaceadapter b on a.F_INTERFACE_GUID = b.F_GUID
+		WHERE
+			1=1
+		<if test="fTimerBh != null and fTimerBh != ''"> 
+			 and a.F_TIMER_BH = #{fTimerBh}
+		</if>
+	</select>
+</mapper>

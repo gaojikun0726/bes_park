@@ -1,0 +1,247 @@
+
+/**
+低档温控器样式
+ */
+.design_low_conditioner.list_img,.design_low_conditioner.icon_win_img{
+    width:300px;
+    border: 2px #b5b5b5 solid;
+    border-radius: 10px;
+}
+.design_low_conditioner.list_img img.bg_img,.design_low_conditioner.icon_win_img img.bg_img{
+    width:100%;
+}
+.design_low_conditioner.icon_img img.gray_img{
+    display: none;
+}
+.design_low_conditioner .screenDiv.whiteSkin{
+    background: lightgray;
+}
+
+/*background:#4d9aea;*/
+
+.design_low_conditioner .screenDiv.blueSkin{
+    background: darkgray;
+    color: #333;
+}
+
+#design_low_conditioner_relative.design_relative_win .choosePointBtn{
+    width: 7vw !important;
+}
+.design_low_conditioner .screenDiv{
+    /*position: absolute;*/
+    /*width: 235px;*/
+    /*height: 157px;*/
+    /*top: 30px;*/
+    /*left: 32px;*/
+    position: absolute;
+    width: 239px;
+    height: 159px;
+    top: 29px;
+    left: 31px;
+    border-radius: 4px;
+    color:#8FE3F7;
+}
+
+/*.design_low_conditioner .high_speed img{*/
+    /*height:18px;*/
+/*}*/
+.design_low_conditioner .topItem {
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+    font-size: 10px;
+    top: 5px;
+    width:18px;
+}
+.design_low_conditioner .topItem img{
+    height:18px;
+}
+.design_low_conditioner .topDiv{
+    position:relative;
+    width:100%;
+    text-align: center;
+    height:38px;
+    margin-left: 4px;
+}
+.design_low_conditioner .high_speed{
+    left: 10px;
+}
+.design_low_conditioner .middle_speed{
+    left: 47px;
+}
+
+.design_low_conditioner .low_speed{
+    left: 84px;
+}
+.design_low_conditioner .cooling{
+    left: 121px;
+}
+.design_low_conditioner .heating{
+    left: 158px;
+}
+
+.design_low_conditioner .energy{
+    left: 195px;
+}
+
+.design_low_conditioner .middleDiv{
+    position:absolute;
+    width: 100%;
+    top:40px;
+    height:80px;
+}
+
+.design_low_conditioner .indoor_temperature{
+    position: absolute;
+    left: 10px;
+    width: 65%;
+}
+.design_low_conditioner .indoor_text{
+    text-align: center;
+}
+
+.design_low_conditioner .indoor_num{
+    font-size: 60px;
+    top: 5px;
+    position: absolute;
+    /*font-family: Montserrat,Fjalla One,微软雅黑,sans-serif;*/
+}
+
+.design_low_conditioner .indoor_unit{
+    top: 20px;
+    left: 78%;
+    position: absolute;
+    font-size: 18px;
+    font-weight: 400;
+}
+
+.design_low_conditioner .set_remperature{
+    position: absolute;
+    left: 70%;
+}
+
+.design_low_conditioner .set_text{
+    font-size: 12px;
+}
+.design_low_conditioner .set_num{
+    font-size: 25px;
+    font-weight: 500;
+}
+.design_low_conditioner .set_unit{
+    top: 20px;
+    font-size: 13px;
+    left: 100%;
+    position: absolute;
+    font-weight: 400;
+}
+.design_low_conditioner .logo{
+    position: absolute;
+    /*left: 65%;*/
+    top: 54px;
+    width: 35px;
+    height: 20px;
+}
+.design_low_conditioner .logo img{
+    width:100%;
+    /*height:20px;*/
+}
+.design_low_conditioner .bottomDiv{
+    position:absolute;
+    width: 100%;
+    height: 32px;
+    top: 123px;
+    /*margin-left: 4px;*/
+}
+.design_low_conditioner .auto{
+    left: 10px;
+}
+.design_low_conditioner .network{
+    left: 65px;
+}
+
+/*鼠标点击切换锁定状态*/
+.design_low_conditioner .lock,.design_low_conditioner .unlock{
+    left: 120px;
+    cursor:pointer;
+    width: 40px;
+}
+.design_low_conditioner .bottomDiv .topItem{
+    top:2px;
+}
+
+.design_low_conditioner .bottomDiv .topItem img{
+    width:16px;
+    height:16px;
+    /*margin-left: 1px;*/
+    margin: 0 auto;
+}
+
+.design_low_conditioner .timingDiv{
+    position:absolute;
+    left:70%;
+}
+.design_low_conditioner .timing_num,.design_low_conditioner .timing_close_num,.design_low_conditioner .timing_open_num{
+    font-size:18px;
+}
+.design_low_conditioner .timing_open{
+    font-size: 8px;
+    position: absolute;
+    top: 20px;
+    left: -2px;
+    display: none;
+}
+.design_low_conditioner .timing_close{
+    font-size: 8px;
+    position: absolute;
+    top: 20px;
+    left: 60%;
+    display: none;
+}
+/*实体按钮区域样式*/
+.design_low_conditioner .buttonDiv{
+    position:absolute;
+    width: 100%;
+    top: 203px;
+    height: 78px;
+    padding: 0 20px;
+}
+
+.design_low_conditioner .buttonDiv .btnItem{
+    position:absolute;
+    width: 82px;
+    height: 24px;
+    border-radius: 11px;
+    cursor:pointer;
+}
+.design_low_conditioner .buttonDiv .modeBtn{
+    top:0;
+}
+.design_low_conditioner .buttonDiv .speedBtn{
+    top: 54px;
+}
+.design_low_conditioner .buttonDiv .upBtn{
+    left: 198px;
+}
+
+.design_low_conditioner .buttonDiv .downBtn{
+    left: 198px;
+    top: 54px;
+}
+.design_low_conditioner .buttonDiv .switchBtn{
+    width: 72px;
+    height: 72px;
+    left: 114px;
+    top: 3px;
+    border-radius: 50%;
+}
+
+/*鼠标不能点击*/
+.notCursor{
+    /*cursor: not-allowed!important;*/
+    pointer-events:none!important;
+}
+
+.design_low_conditioner .timing_open_num,.design_low_conditioner .timing_close_num{
+    display: none;
+}

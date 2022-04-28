@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.efounder.JEnterprise.mapper.strongAndWeakElectricityIntegration.deviceConfig.AmmeterConfigMapper" >
+
+    <sql id="col_name">
+      id                        id,
+      name                      name,
+      cabinet_name              cabinetName,
+      instant_energy            instantEnergy,
+      total_energy              totalEnergy,
+      a_phase_voltage           aPhaseVoltage,
+      b_phase_voltage           bPhaseVoltage,
+      c_phase_voltage           cPhaseVoltage,
+      a_phase_current           aPhaseCurrent,
+      b_phase_current           bPhaseCurrent,
+      c_phase_current           cPhaseCurrent,
+      instant_energy_display    instantEnergyDisplay,
+      total_energy_display      totalEnergyDisplay,
+      a_phase_voltage_display   aPhaseVoltageDisplay,
+      b_phase_voltage_display   bPhaseVoltageDisplay,
+      c_phase_voltage_display   cPhaseVoltageDisplay,
+      a_phase_current_display   aPhaseCurrentDisplay,
+      b_phase_current_display   bPhaseCurrentDisplay,
+      c_phase_current_display   cPhaseCurrentDisplay
+
+	</sql>
+
+    <sql id="table_name">
+        strongandweakelectricityintegration_ammeterconfig
+    </sql>
+
+    <insert id="insert">
+
+        insert into
+        <include refid="table_name"/>
+
+        (
+            name,
+            cabinet_name,
+            instant_energy,
+            total_energy,
+            a_phase_voltage,
+            b_phase_voltage,
+            c_phase_voltage,
+            a_phase_current,
+            b_phase_current,
+            c_phase_current,
+            instant_energy_display,
+            total_energy_display,
+            a_phase_voltage_display,
+            b_phase_voltage_display,
+            c_phase_voltage_display,
+            a_phase_current_display,
+            b_phase_current_display,
+            c_phase_current_display
+        )
+        values
+        (
+
+            #{name},
+            #{cabinetName},
+            #{instantEnergy},
+            #{totalEnergy},
+            #{aPhaseVoltage},
+            #{bPhaseVoltage},
+            #{cPhaseVoltage},
+            #{aPhaseCurrent},
+            #{bPhaseCurrent},
+            #{cPhaseCurrent},
+            #{instantEnergyDisplay},
+            #{totalEnergyDisplay},
+            #{aPhaseVoltageDisplay},
+            #{bPhaseVoltageDisplay},
+            #{cPhaseVoltageDisplay},
+            #{aPhaseCurrentDisplay},
+            #{bPhaseCurrentDisplay},
+            #{cPhaseCurrentDisplay}
+
+        )
+
+
+    </insert>
+
+    <select id="findList" resultType="com.efounder.JEnterprise.model.strongAndWeakElectricityIntegration.deviceConfig.AmmeterConfigModel">
+
+        select
+
+        <include refid="col_name"/>
+
+        from
+
+        <include refid="table_name"/>
+        <where>
+
+            <if test="id != null and id != ''" >
+                id    =   #{id}
+            </if>
+
+            <if test="name != null and name != ''" >
+                and name  =   #{name}
+            </if>
+
+        </where>
+
+    </select>
+
+
+    <update id="update">
+
+        update
+          <include refid="table_name"/>
+
+		set
+         name                      =   #{name},
+         cabinet_name              =   #{cabinetName},
+         instant_energy            =   #{instantEnergy},
+         total_energy              =   #{totalEnergy},
+         a_phase_voltage           =   #{aPhaseVoltage},
+         b_phase_voltage           =   #{bPhaseVoltage},
+         c_phase_voltage           =   #{cPhaseVoltage},
+         a_phase_current           =   #{aPhaseCurrent},
+         b_phase_current           =   #{bPhaseCurrent},
+         c_phase_current           =   #{cPhaseCurrent},
+         instant_energy_display    =   #{instantEnergyDisplay},
+         total_energy_display      =   #{totalEnergyDisplay},
+         a_phase_voltage_display   =   #{aPhaseVoltageDisplay},
+         b_phase_voltage_display   =   #{bPhaseVoltageDisplay},
+         c_phase_voltage_display   =   #{cPhaseVoltageDisplay},
+         a_phase_current_display   =   #{aPhaseCurrentDisplay},
+         b_phase_current_display   =   #{bPhaseCurrentDisplay},
+         c_phase_current_display   =   #{cPhaseCurrentDisplay}
+
+        where
+
+            id              =         #{id}
+    </update>
+
+    <delete id="delete">
+
+        delete from
+          <include refid="table_name"/>
+        where
+             id = #{id}
+    </delete>
+    
+</mapper>

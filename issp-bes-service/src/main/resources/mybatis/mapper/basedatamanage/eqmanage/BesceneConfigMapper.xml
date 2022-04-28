@@ -1,0 +1,313 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.efounder.JEnterprise.mapper.basedatamanage.eqmanage.BesceneConfigMapper" >
+
+    <!-- 获取树数据 -->
+    <select id="getSceneTree" resultType="com.efounder.JEnterprise.model.basedatamanage.eqmanage.BeSceneInfo">
+        select
+		f_id,
+        f_name,
+        f_type,
+        f_scenename,
+        f_scenenickname,
+        f_discription,
+        f_pId,
+        f_active,
+        f_usenum
+        FROM
+        bes_sceneinfo
+        ORDER BY f_id + 0
+    </select>
+
+    <!--    &lt;!&ndash; 获取最大id &ndash;&gt;-->
+    <select id="querySceneInfoMaxId" parameterType="String" resultType="String">
+		 SELECT  max(CAST(F_ID as SIGNED)) as maxId  FROM  bes_sceneinfo
+	</select>
+
+    <!-- 新增场景 -->
+    <insert id="insertSceneInfo" parameterType="com.efounder.JEnterprise.model.basedatamanage.eqmanage.BeSceneInfo">
+        insert into bes_sceneinfo (
+            f_id, f_name,f_type,f_pId
+        )
+        values
+        (
+            #{f_id,jdbcType=VARCHAR}, #{f_name,jdbcType=VARCHAR}, #{f_type,jdbcType=VARCHAR},
+            #{f_pId,jdbcType=VARCHAR}
+        )
+    </insert>
+
+    <update id="editSceneInfo" parameterType="com.efounder.JEnterprise.model.basedatamanage.eqmanage.BeSceneInfo">
+        update bes_sceneinfo
+        <set >
+            <if test="f_name != null" >
+                f_name = #{f_name,jdbcType=VARCHAR},
+            </if>
+        </set>
+        where f_id = #{f_id,jdbcType=VARCHAR}
+    </update>
+
+    <delete id="deleteSceneInfo" parameterType="String">
+        delete from bes_sceneinfo
+        where f_id = #{id,jdbcType=VARCHAR}
+    </delete>
+
+
+    <!-- 查询table内的指令信息-->
+    <select id="queryTableParam" parameterType="String" resultType="map">
+            select
+                info.f_id,
+                info.f_type,
+                info.f_active,
+                info.f_scenename,
+                info.f_scenenickname,
+                info.f_discription
+            from
+                bes_sceneinfo AS info
+            WHERE f_id = #{id,jdbcType=VARCHAR}
+    </select>
+
+<!--模式点位信息-->
+    <select id="queryModeParamById" parameterType="String" resultType="map">
+        SELECT a.*, b.num pointCount from bes_scenemode a
+        LEFT JOIN(
+        SELECT COUNT(f_scenemodeId) num,f_scenemodeId,f_sceneInfoId from bes_scenepoint GROUP BY f_scenemodeId
+        ) b
+        on  a.f_id = b.f_scenemodeId where a.f_sceneInfoId = #{id}  GROUP BY a.f_id ORDER BY a.f_id asc
+    </select>
+
+    <insert id="insertSceneMode" parameterType="com.efounder.JEnterprise.model.basedatamanage.eqmanage.BeSceneMode">
+         insert into bes_scenemode(
+          f_modename,f_sceneInfoId,f_modetype,f_enable,f_synchro
+         )
+         values (
+          #{f_modename,jdbcType=VARCHAR},#{f_sceneInfoId,jdbcType=VARCHAR},
+          #{f_modetype,jdbcType=VARCHAR}, #{f_enable,jdbcType=VARCHAR},#{f_synchro,jdbcType=VARCHAR}
+         )
+    </insert>
+
+    <update id="updateSceneMode" parameterType="com.efounder.JEnterprise.model.basedatamanage.eqmanage.BeSceneMode">
+        update bes_scenemode
+        <set >
+            <if test="f_modename != null" >
+                f_modename = #{f_modename}
+            </if>
+        </set>
+        where f_id = #{f_id,jdbcType=VARCHAR}
+    </update>
+
+    <select id="querySceneModeMaxId" parameterType="String" resultType="String">
+        SELECT  max(CAST(F_ID as SIGNED)) as maxId  FROM  bes_scenemode
+    </select>
+
+    <select id="selectAllModePoint" parameterType="string" resultType="map">
+        SELECT DISTINCT
+            f_pointname,
+            f_id f_scenepointId,
+            f_pointId,
+            f_scenemodeId
+        FROM
+            bes_scenepoint
+        WHERE
+            f_sceneInfoId = #{sceneId,jdbcType=VARCHAR}
+		AND
+		    f_scenemodeId = #{modeId,jdbcType=VARCHAR}
+    </select>
+
+    <select id="selectBeSceneModeByInfoId" parameterType="string" resultType="java.lang.Object">
+        select f_id from bes_scenemode where f_sceneInfoId = #{f_sceneInfoId,jdbcType=VARCHAR}
+    </select>
+
+    <insert id="insertSceneValue" parameterType="com.efounder.JEnterprise.model.basedatamanage.eqmanage.BeScenePoint">
+         insert into bes_scenepoint(
+            f_pointname,f_pointype,f_pointId,f_sceneInfoId,f_scenemodeId,f_pointnameDetailed
+         )
+         values (
+            #{f_pointname,jdbcType=VARCHAR},#{f_pointype,jdbcType=VARCHAR},#{f_pointId,jdbcType=VARCHAR},
+            #{f_sceneInfoId,jdbcType=VARCHAR},#{f_scenemodeId,jdbcType=VARCHAR},#{f_pointnameDetailed,jdbcType=VARCHAR}
+         )
+    </insert>
+
+    <select id="selectRepeatModeName" parameterType="string" resultType="string">
+        select f_id as modeId from bes_scenemode where f_modename = #{modename,jdbcType=VARCHAR}
+    </select>
+
+    <insert id="insertBeScenePoint" parameterType="com.efounder.JEnterprise.model.basedatamanage.eqmanage.BeScenePoint">
+        insert into bes_scenepoint(
+            f_pointname,f_pointype,f_pointId,f_sceneInfoId,f_scenemodeId,f_pointnameDetailed
+        )
+        values(
+            #{f_pointname},#{f_pointype},#{f_pointId},#{f_sceneInfoId},#{f_scenemodeId},#{f_pointnameDetailed}
+        )
+    </insert>
+
+    <select id="selectModeIdByModeName" parameterType="string" resultType="string">
+        select f_id as modeId from bes_scenemode where f_modename = #{modename,jdbcType=VARCHAR}
+    </select>
+
+    <select id="selectPublicScenePoint" parameterType="string" resultType="map">
+        SELECT DISTINCT
+            f_pointname,
+            f_pointype,
+            f_pointId,
+            f_sceneInfoId
+        FROM
+            bes_scenepoint
+        WHERE
+            f_sceneInfoId = #{f_sceneInfoId,jdbcType=VARCHAR}
+    </select>
+
+    <update id="saveSceneInfomation" parameterType="com.efounder.JEnterprise.model.basedatamanage.eqmanage.BeSceneInfo">
+        update bes_sceneinfo
+        <set >
+            <if test="f_scenename != null" >
+                f_scenename = #{f_scenename},
+            </if>
+            <if test="f_scenenickname != null" >
+                f_scenenickname = #{f_scenenickname},
+            </if>
+            <if test="f_discription != null" >
+                f_discription = #{f_discription},
+            </if>
+            <if test="f_active != null" >
+                f_active = #{f_active},
+            </if>
+        </set>
+        where f_id = #{f_id,jdbcType=VARCHAR}
+    </update>
+
+
+    <insert id="insertDefaultMode" parameterType="com.efounder.JEnterprise.model.basedatamanage.eqmanage.BeSceneMode">
+         insert into bes_scenemode(
+          f_id,f_modename,f_sceneInfoId,f_modetype,f_enable
+         )
+         values (
+          #{f_id,jdbcType=VARCHAR},#{f_modename,jdbcType=VARCHAR},#{f_sceneInfoId,jdbcType=VARCHAR},
+          #{f_modetype,jdbcType=VARCHAR}, #{f_enable,jdbcType=VARCHAR}
+         )
+    </insert>
+
+    <select id="selectRepeatModeId" parameterType="string" resultType="map">
+        select f_id,f_modename from bes_scenemode where f_id = #{fId,jdbcType=VARCHAR}
+    </select>
+
+    <select id="selectModeInfoBySceneId" parameterType="string" resultType="map">
+        select * from bes_scenemode where f_sceneInfoId = #{sceneId,jdbcType=VARCHAR}
+    </select>
+
+    <delete id="deleteScenemodeInfomation" parameterType="string">
+        delete from bes_scenemode where f_id = #{modeId,jdbcType=VARCHAR}
+    </delete>
+
+    <delete id="deleteScenepointInfomation" parameterType="string">
+        delete from bes_scenepoint where f_scenemodeId = #{modeId,jdbcType=VARCHAR}
+    </delete>
+
+    <delete id="deleteSceneModeBySceneId" parameterType="string">
+        delete from bes_scenemode where f_sceneInfoId = #{sceneId,jdbcType=VARCHAR}
+    </delete>
+
+    <delete id="deleteScenePointBySceneId" parameterType="string">
+        delete from bes_scenepoint where f_sceneInfoId = #{sceneId,jdbcType=VARCHAR}
+    </delete>
+
+    <select id="selectScenePointBySceneId" parameterType="string" resultType="map">
+        select f_pointId from bes_scenepoint where f_sceneInfoId = #{id,jdbcType=VARCHAR}
+    </select>
+
+    <select id="selectScenePointBySceneAndPointId" parameterType="string" resultType="map">
+        select f_pointId from bes_scenepoint where f_sceneInfoId = #{sceneId,jdbcType=VARCHAR} and f_scenemodeId = #{modeId,jdbcType=VARCHAR}
+    </select>
+
+    <select id="selectModeIdBySceneId" parameterType="string" resultType="map">
+        select distinct f_scenemodeId from bes_scenepoint where f_sceneInfoId = #{sceneId,jdbcType=VARCHAR}
+    </select>
+
+    <select id="queryChannelByIdLDC" parameterType="string" resultType="map">
+		select * from bes_ddc where
+		F_SYS_NAME_OLD in (
+		select f_psys_name from bes_sbpz_struct where F_SYS_NAME_OLD in (
+		select f_psys_name from bes_sbpz_struct where F_ID = #{f_id} ||
+		F_SYS_NAME_OLD in
+		(select f_psys_name from bes_sbpz_struct where F_ID = #{f_id} ||
+		F_SYS_NAME_OLD =
+		(select f_psys_name from bes_sbpz_struct where F_ID = #{f_id}
+		))))
+    </select>
+
+    <select id="queryChannelByIdDDC" parameterType="string" resultType="map">
+		select * from bes_ddc where F_SYS_NAME_OLD = (
+		select f_psys_name FROM bes_sbpz_struct where F_SYS_NAME_OLD = (
+		select f_psys_name FROM bes_sbpz_struct where F_SYS_NAME_OLD = (
+		select f_psys_name FROM bes_sbpz_struct where F_SYS_NAME_OLD = (
+		select f_psys_name FROM bes_sbpz_struct where F_ID = #{f_id}
+		))))
+    </select>
+
+    <select id="selectModeListById" parameterType="string" resultType="map">
+        select f_id from bes_scenemode where f_sceneInfoId = #{id,jdbcType=VARCHAR}
+    </select>
+
+    <select id="selectSceneInfoBySceneId" parameterType="string" resultType="map">
+        select * from bes_sceneinfo where f_id = #{sceneId,jdbcType=VARCHAR}
+    </select>
+
+    <select id="selectModeInfoByModeId" parameterType="string" resultType="map">
+        select * from bes_scenemode where f_id = #{modeId,jdbcType=VARCHAR}
+    </select>
+
+    <insert id="insertIntoSynchroState" parameterType="string">
+         UPDATE bes_scenemode set f_synchro = #{f_synchro,jdbcType=VARCHAR} WHERE f_id = #{modeId,jdbcType=VARCHAR}
+    </insert>
+
+    <select id="selectSchroStateById" parameterType="string" resultType="map">
+        select f_synchro from bes_scenemode WHERE f_id = #{modeId,jdbcType=VARCHAR}
+    </select>
+
+    <!--从数据库中查询出全部”场景模式定义“数据-->
+    <select id="loadSceneModeAll"
+            resultType="com.efounder.JEnterprise.model.basedatamanage.eqmanage.BeSceneMode">
+        select * from bes_scenemode
+    </select>
+
+    <!--点位关联模式定义-->
+    <select id="loadScenePointAll"
+            resultType="com.efounder.JEnterprise.model.basedatamanage.eqmanage.BeScenePoint">
+        select * from bes_scenepoint
+    </select>
+
+    <!--首先删除 bes_scenepoint 点位关联模式表中的相关点位信息-->
+    <delete id="deleteScenepointByScenemodeId">
+        delete from bes_scenepoint where f_scenemodeId = #{modeId}
+    </delete>
+
+    <!--获取别的场景下所有的点位-->
+    <select id="selectPointMap" resultType="java.util.Map">
+    SELECT a.f_pointId, b.f_modename,c.f_name sceneInfoName from bes_scenepoint a,bes_scenemode b,bes_sceneinfo c
+    where a.f_sceneInfoId != #{f_sceneInfoId} and a.f_pointype = #{f_pointType}
+    and a.f_scenemodeId = b.f_id and b.f_sceneInfoId = c.f_id
+    </select>
+
+    <!--根据模式点位表的id修改点位的值和单位-->
+    <update id="updateScenepointValue">
+        update bes_scenepoint
+        <set>
+            <if test="f_value != null">
+                f_value = #{f_value},
+            </if>
+            <if test="f_unit != null">
+                f_unit = #{f_unit},
+            </if>
+            <if test="f_pointname != null">
+                f_pointnameDetailed = #{f_pointname},
+            </if>
+        </set>
+        where f_id = #{f_id}
+    </update>
+
+    <!--根据模式id查询模式点位表中的数据-->
+    <select id="scenePointList" resultType="java.util.Map">
+        select * from bes_scenepoint where f_scenemodeId = #{modeId}
+    </select>
+
+</mapper>

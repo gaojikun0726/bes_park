@@ -1,0 +1,15 @@
+/*按钮样式*/
+.design_frame_btn{
+    margin-left:25px;
+    border-radius: 1vw;
+}
+#design_mode,#run_mode{
+    width: 7vw !important;
+    font-size: 0.9vw;
+    max-height: 2.8vh;
+}
+#restoreBtn{
+    width: 5vw;
+    margin-left: 60%;
+    font-size: 0.9vw;
+}

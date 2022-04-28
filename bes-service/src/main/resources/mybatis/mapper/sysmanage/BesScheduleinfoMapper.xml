@@ -1,0 +1,284 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.efounder.JEnterprise.mapper.sysmanage.BesScheduleConfigMapper" >
+
+    <resultMap id="BesScheduleConfigMap" type="com.efounder.JEnterprise.model.sysmanage.BesScheduleinfo" >
+        <id column="F_ID" property="fId" jdbcType="VARCHAR" />
+        <result column="F_TYPE" property="fType" jdbcType="VARCHAR" />
+        <result column="F_NAME" property="fName" jdbcType="VARCHAR" />
+        <result column="F_PARENTID" property="fParentid" jdbcType="VARCHAR" />
+    </resultMap>
+
+    <resultMap id="BesScheduleMap" type="com.efounder.JEnterprise.model.sysmanage.BesSchedule" >
+        <result column="F_ID" property="fId" jdbcType="VARCHAR" />
+        <result column="F_SYS_NAME" property="fSysName" jdbcType="VARCHAR" />
+        <result column="F_NICK_NAME" property="fNickName" jdbcType="VARCHAR" />
+        <result column="F_START_DATE" property="fStartDate"/>
+        <result column="F_END_DATE" property="fEndDate"/>
+        <result column="F_START_TIME" property="fStartTime" jdbcType="TIMESTAMP" />
+        <result column="F_END_TIME" property="fEndTime" jdbcType="TIMESTAMP" />
+        <result column="F_ISHOLIDAYS" property="fIsholidays" jdbcType="VARCHAR" />
+        <result column="F_WEEKMASK" property="fWeekmask" jdbcType="VARCHAR" />
+        <result column="F_ZONEID" property="fZoneid" jdbcType="VARCHAR" />
+        <result column="F_ZONE_TYPE" property="fZoneType" jdbcType="VARCHAR" />
+        <result column="F_ZONEMODE_ID" property="fZonemodeId" jdbcType="VARCHAR" />
+        <result column="F_ENABLED" property="fEnabled" jdbcType="VARCHAR" />
+        <result column="F_ISSPAN" property="fIsspan" jdbcType="VARCHAR" />
+        <result column="F_SCHEDULEINFO_ID" property="fScheduleinfoId" jdbcType="VARCHAR" />
+        <result column="F_CRDATE" property="fCrdate" jdbcType="TIMESTAMP" />
+        <result column="F_CHDATE" property="fChdate" jdbcType="TIMESTAMP" />
+    </resultMap>
+
+	<!-- 查询计划任务树 -->
+    <select id="getScheduleTreeList" resultMap="BesScheduleConfigMap" parameterType="java.lang.String" >
+        select * from bes_scheduleinfo
+    </select>
+
+	<!-- 关键字查询，分页查询 -->
+	<select id="getScheduleList" resultMap="BesScheduleMap" parameterType="java.lang.String">
+		select *
+		from bes_schedule
+		<where>
+			1=1
+			<if test="keywords != null and keywords != ''">
+				and CONCAT(`F_NICK_NAME`,'##',`F_SYS_NAME` ) LIKE CONCAT('%',#{keywords},'%')
+			</if>
+			<if test="fId != null and fId != ''">
+				and F_SCHEDULEINFO_ID = #{fId}
+			</if>
+		</where>
+		order by F_ID
+	</select>
+  
+	<!-- 查询一条计划详情 -->
+    <!--<select id="get_scheduleTask" resultMap="BesScheduleMap" parameterType="java.lang.String" >-->
+        <!--select * from bes_schedule -->
+        <!--where F_SYS_NAME = #{fSysname}-->
+    <!--</select>-->
+    <!-- 删除计划类型 -->
+    <delete id="del_schedule" parameterType="java.lang.String" >
+        delete from bes_scheduleinfo
+        where F_ID = #{fId,jdbcType=VARCHAR}
+    </delete>
+    <!-- 删除计划详情 -->
+    <delete id="del_scheduletask" parameterType="java.lang.String" >
+        delete from bes_schedule
+        where F_SYS_NAME = #{fSysname}
+    </delete>
+	<!-- 新增计划类型 -->
+    <insert id="add_schedule" parameterType="com.efounder.JEnterprise.model.sysmanage.BesScheduleinfo" >
+        insert into bes_scheduleinfo
+        <trim prefix="(" suffix=")" suffixOverrides="," >
+            <if test="fId != null" >
+                F_ID,
+            </if>
+            <if test="fType != null" >
+                F_TYPE,
+            </if>
+            <if test="fName != null" >
+                F_NAME,
+            </if>
+            <if test="fParentid != null" >
+                F_PARENTID,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides="," >
+            <if test="fId != null" >
+                #{fId,jdbcType=VARCHAR},
+            </if>
+            <if test="fType != null" >
+                #{fType,jdbcType=VARCHAR},
+            </if>
+            <if test="fName != null" >
+                #{fName,jdbcType=VARCHAR},
+            </if>
+            <if test="fParentid != null" >
+                #{fParentid,jdbcType=VARCHAR},
+            </if>
+        </trim>
+    </insert>
+
+    <update id="editscheduleTask" parameterType="com.efounder.JEnterprise.model.sysmanage.BesSchedule" >
+        update bes_schedule
+        <set >
+            <if test="fNickName != null" >
+                F_NICK_NAME = #{fNickName,jdbcType=VARCHAR},
+            </if>
+            <if test="fStartDate != null" >
+                F_START_DATE = #{fStartDate},
+            </if>
+            <if test="fEndDate != null" >
+                F_END_DATE = #{fEndDate},
+            </if>
+            <if test="fStartTime != null" >
+                #{fStartTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="fEndTime != null" >
+                #{fEndTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="fIsholidays != null" >
+                F_ISHOLIDAYS = #{fIsholidays,jdbcType=VARCHAR},
+            </if>
+            <if test="fWeekmask != null" >
+                F_WEEKMASK = #{fWeekmask,jdbcType=VARCHAR},
+            </if>
+            <if test="fZoneid != null" >
+                F_ZONEID = #{fZoneid,jdbcType=VARCHAR},
+            </if>
+            <if test="fZoneType != null" >
+                F_ZONE_TYPE = #{fZoneType,jdbcType=VARCHAR},
+            </if>
+            <if test="fZonemodeId != null" >
+                F_ZONEMODE_ID = #{fZonemodeId,jdbcType=VARCHAR},
+            </if>
+            <if test="fEnabled != null" >
+                F_ENABLED = #{fEnabled,jdbcType=VARCHAR},
+            </if>
+            <if test="fIsspan != null" >
+                F_ISSPAN = #{fIsspan,jdbcType=VARCHAR},
+            </if>
+            <if test="fScheduleinfoId != null" >
+                F_SCHEDULEINFO_ID = #{fScheduleinfoId,jdbcType=VARCHAR},
+            </if>
+
+                F_CHDATE = current_timestamp(),
+        </set>
+        where F_SYS_NAME = #{fSysName}
+    </update>
+    <!-- 新增计划详情 -->
+    <insert id="add_scheduleTask" parameterType="com.efounder.JEnterprise.model.sysmanage.BesSchedule" >
+        insert into bes_schedule
+        <trim prefix="(" suffix=")" suffixOverrides="," >
+            <if test="fId != null" >
+                F_ID,
+            </if>
+            <if test="fSysName != null" >
+                F_SYS_NAME,
+            </if>
+            <if test="fNickName != null" >
+                F_NICK_NAME,
+            </if>
+            <if test="fStartDate != null" >
+                F_START_DATE,
+            </if>
+            <if test="fEndDate != null" >
+                F_END_DATE,
+            </if>
+            <if test="fStartTime != null" >
+                F_START_TIME,
+            </if>
+            <if test="fEndTime != null" >
+                F_END_TIME,
+            </if>
+            <if test="fIsholidays != null" >
+                F_ISHOLIDAYS,
+            </if>
+            <if test="fWeekmask != null" >
+                F_WEEKMASK,
+            </if>
+            <if test="fZoneid != null" >
+                F_ZONEID,
+            </if>
+            <if test="fZoneType != null" >
+                F_ZONE_TYPE,
+            </if>
+            <if test="fZonemodeId != null" >
+                F_ZONEMODE_ID,
+            </if>
+            <if test="fEnabled != null" >
+                F_ENABLED,
+            </if>
+            <if test="fIsspan != null" >
+                F_ISSPAN,
+            </if>
+            <if test="fScheduleinfoId != null" >
+                F_SCHEDULEINFO_ID,
+            </if>
+            <if test="fCrdate != null" >
+                F_CRDATE,
+            </if>
+            <if test="fChdate != null" >
+                F_CHDATE,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides="," >
+            <if test="fId != null" >
+                #{fId,jdbcType=VARCHAR},
+            </if>
+            <if test="fSysName != null" >
+                #{fSysName,jdbcType=VARCHAR},
+            </if>
+            <if test="fNickName != null" >
+                #{fNickName,jdbcType=VARCHAR},
+            </if>
+            <if test="fStartDate != null" >
+                #{fStartDate},
+            </if>
+            <if test="fEndDate != null" >
+                #{fEndDate},
+            </if>
+            <if test="fStartTime != null" >
+                #{fStartTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="fEndTime != null" >
+                #{fEndTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="fIsholidays != null" >
+                #{fIsholidays,jdbcType=VARCHAR},
+            </if>
+            <if test="fWeekmask != null" >
+                #{fWeekmask,jdbcType=VARCHAR},
+            </if>
+            <if test="fZoneid != null" >
+                #{fZoneid,jdbcType=VARCHAR},
+            </if>
+            <if test="fZoneType != null" >
+                #{fZoneType,jdbcType=VARCHAR},
+            </if>
+            <if test="fZonemodeId != null" >
+                #{fZonemodeId,jdbcType=VARCHAR},
+            </if>
+            <if test="fEnabled != null" >
+                #{fEnabled,jdbcType=VARCHAR},
+            </if>
+            <if test="fIsspan != null" >
+                #{fIsspan,jdbcType=VARCHAR},
+            </if>
+            <if test="fScheduleinfoId != null" >
+                #{fScheduleinfoId,jdbcType=VARCHAR},
+            </if>
+            <if test="fCrdate != null" >
+                current_timestamp(),
+            </if>
+            <if test="fChdate != null" >
+                current_timestamp(),
+            </if>
+        </trim>
+    </insert>
+    
+    <!-- 查询表中最大id -->
+    <select id="queryMaxId" parameterType="String" resultType="String">
+        select max(CAST(F_ID as SIGNED)) as maxId from ${TabName}
+    </select>
+    <!-- 查询场景所在的DDC信息 -->
+	<select id="queryDDCInfo" resultType="java.util.HashMap">
+		select * from bes_ddc where F_GUID =
+		(select F_ParentID from bes_zone where F_ID = #{fZoneid})
+	</select>
+    <!-- 查询场景中的模式 -->
+	<select id="loadZoneMode" resultType="java.util.HashMap">
+		SELECT c.F_ID,c.F_TYPE,b.F_PARAM as fkey,a.F_PARAM as fval 
+		FROM bes_zonemode a RIGHT JOIN bes_repertory b on a.F_ZONEID=b.F_ZONEID
+		LEFT JOIN bes_zone c on a.F_ZONEID=c.F_ID
+		where b.F_ZONEID = #{fZoneid}
+	</select>
+	
+	<!-- 查询场景类型 -->
+	<select id="queryZoneType" parameterType="String" resultType="String">
+		select F_TYPE FROM bes_zone where F_ID = #{fZoneid}
+	</select>
+    <select id="get_scheduleTask" resultMap="BesScheduleMap" parameterType="String">
+        select * from bes_schedule
+        where F_SYS_NAME = #{fSysname}
+    </select>
+</mapper>

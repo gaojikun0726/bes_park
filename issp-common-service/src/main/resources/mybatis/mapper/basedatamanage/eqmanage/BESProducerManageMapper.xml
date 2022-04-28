@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.efounder.JEnterprise.mapper.basedatamanage.eqmanage.BESProducerManageMapper" ><!-- BESProducerManageMapper.java路径 -->
+  
+  
+  <resultMap id="producerMap" type="com.efounder.JEnterprise.model.basedatamanage.eqmanage.BESProducerManage" ><!-- 实体类——model-BESProducerManage.java路径 -->
+    <id column="F_ID" property="fId" /><!--column数据库表中一般是大写，对应的property是小写  -->
+    <result column="F_SCSMC" property="fScsmc" />
+    <result column="F_SCSDZ" property="fScsdz" />
+    <result column="F_SCSLXR" property="fScslxr" />
+    <result column="F_SCSLXFS" property="fScslxfs" />
+    <result column="F_CRDATE" property="fCrdate" />
+    <result column="F_CHDATE" property="fChdate" />
+  </resultMap>
+  
+  	<!--拼接1  -->
+  	<sql id="find_xxx">
+	    <![CDATA[          
+			SELECT F_ID,F_SCSMC,F_SCSDZ,F_SCSLXR,F_SCSLXFS,date_format(F_CRDATE,'%Y-%m-%d %H:%i:%s' )F_CRDATE,date_format(F_CHDATE,'%Y-%m-%d %H:%i:%s' )F_CHDATE
+	    ]]>
+	</sql>
+	<!--拼接2  -->
+	<sql id="from_xxx">
+	    <![CDATA[
+	    	FROM bes_eq_producer
+	    ]]>
+	</sql>
+	<!--拼接3  -->
+	<sql id="where_xxx">
+	    <![CDATA[
+	    	WHERE 1=1
+	    ]]>
+	</sql>
+	<!--加载生产商对象  -->
+	<select id="getBESProducerManageObj" parameterType="string" resultMap="producerMap">
+		<include refid="find_xxx" /><!--SELECT id,name,score  -->
+		<include refid="from_xxx" /><!--FROM bes_eq_producer  -->
+		<where>
+		1=1 and F_ID = #{fId}
+		</where>
+	</select>
+	<!--初始加载生产商列表  -->
+	<select id="getBESProducerManageList" parameterType="string" resultMap="producerMap">
+		<include refid="find_xxx" /><!--SELECT id,name,score  -->
+		<include refid="from_xxx" /><!--FROM student  -->
+		<where>
+		1=1
+		</where>
+		order by F_ID
+	</select>
+	<!-- 搜索生产商 -->
+	<select id="findproducter" parameterType="string" resultMap="producerMap">
+		<include refid="find_xxx" />
+		<include refid="from_xxx" />
+		<where>
+		1=1 
+			<if test="keywords != null and keywords != ''"> 
+			 and CONCAT(`F_SCSMC` ) LIKE CONCAT('%',#{keywords},'%')
+			 </if>
+		</where>
+	</select>
+	<!-- 分页 -->
+	<select id="findProducerByPage" parameterType="string" resultMap="producerMap">
+  	<include refid="find_xxx" />
+	<include refid="from_xxx" />
+		<where>
+		1=1
+			<if test="keywords != null and keywords != ''"> 
+			and CONCAT(`F_SCSMC`) LIKE CONCAT('%',#{keywords},'%')
+			</if>
+		</where>
+		order by F_CHDATE
+  </select>  
+	<!-- 添加生产商 -->
+	<insert id="addProducer" parameterType="com.efounder.JEnterprise.model.basedatamanage.eqmanage.BESProducerManage"> 
+        INSERT INTO bes_eq_producer(F_ID,F_SCSMC,F_SCSDZ, F_SCSLXR,F_SCSLXFS,F_CRDATE, F_CHDATE) values(#{fId},#{fScsmc},#{fScsdz},#{fScslxr},#{fScslxfs},#{fCrdate},#{fChdate})  
+    </insert>
+    <!-- 删除生产商 -->
+    <delete id="delProducer" parameterType="com.efounder.JEnterprise.model.basedatamanage.eqmanage.BESProducerManage">
+		DELETE FROM bes_eq_producer WHERE F_ID = #{fId}
+	</delete> 
+	<!-- 编辑生产商 -->
+	<update id="updateProducer" parameterType="com.efounder.JEnterprise.model.basedatamanage.eqmanage.BESProducerManage">
+	  update bes_eq_producer
+    <set >
+     	 F_SCSMC=#{fScsmc},
+	     F_SCSDZ=#{fScsdz},
+	     F_SCSLXR=#{fScslxr},
+	     F_SCSLXFS=#{fScslxfs},
+	     F_CHDATE=#{fChdate},
+    </set>
+    where F_ID=#{fId}
+	</update> 
+  </mapper> 

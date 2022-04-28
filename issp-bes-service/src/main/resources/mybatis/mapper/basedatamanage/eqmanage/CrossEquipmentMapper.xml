@@ -1,0 +1,415 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper
+	namespace="com.efounder.JEnterprise.mapper.basedatamanage.eqmanage.CrossEquipmentMapper">
+
+	<!-- 查询模块所在DDC控制器的信息  -->
+	<!--wanghongjie 修改查询模块所在DDC控制器的信息的sql,当新增模块的时候,根据线路名称查询不到DDC控制器的信息-->
+	<select id="queryDDCInfoByModule" resultType="java.util.HashMap">
+		select * from
+		bes_ddc where F_SYS_NAME =
+		(select F_PSYS_NAME from bes_sbpz_struct
+		where f_sys_name =
+		(select F_PSYS_NAME from bes_sbpz_struct where
+		f_sys_name = #{f_psys_name})) || F_SYS_NAME =
+		(select F_PSYS_NAME from bes_sbpz_struct where f_sys_name =
+		(select F_PSYS_NAME from bes_sbpz_struct where f_sys_name =
+		(select F_PSYS_NAME from bes_sbpz_struct where
+		f_sys_name = #{f_psys_name})))
+	</select>
+
+	<!-- 查询模块所在总线的名称 -->
+	<select id="queryBusByModule" resultType="java.lang.String">
+		SELECT F_PSYS_NAME FROM
+		bes_sbpz_struct where F_SYS_NAME =
+		(SELECT F_PSYS_NAME FROM
+		bes_sbpz_struct where F_SYS_NAME = #{fSysName} )
+	</select>
+
+	<!-- 查询模块信息 -->
+	<select id="queryModuleInfo" resultType="java.util.HashMap">
+		SELECT * FROM bes_module
+		where F_SYS_NAME_OLD = #{f_sys_name}
+	</select>
+
+	<!-- 查询逻辑实点所在DDC控制器的信息 -->
+	<!--wanghongjie 修改根据系统名称查询DDC信息-->
+	<select id="queryDDCInfoByPoint" resultType="java.util.HashMap">
+		select * from
+		bes_ddc where F_SYS_NAME =
+		(select F_PSYS_NAME from bes_sbpz_struct where F_SYS_NAME_OLD =
+		(select F_PSYS_NAME from bes_sbpz_struct where F_SYS_NAME_OLD =
+		(select F_PSYS_NAME from bes_sbpz_struct where F_SYS_NAME_OLD =
+		(select F_PSYS_NAME from bes_sbpz_struct where F_SYS_NAME_OLD = #{old_f_sys_name} || F_SYS_NAME=#{old_f_sys_name})
+		|| F_SYS_NAME=
+		(select F_PSYS_NAME from bes_sbpz_struct where F_SYS_NAME_OLD = #{old_f_sys_name} || F_SYS_NAME=#{old_f_sys_name}))))
+		|| F_SYS_NAME =
+		(select F_PSYS_NAME from bes_sbpz_struct where F_SYS_NAME_OLD =
+		(select F_PSYS_NAME from bes_sbpz_struct where F_SYS_NAME_OLD =
+		(select F_PSYS_NAME from bes_sbpz_struct where F_SYS_NAME_OLD =
+		(select F_PSYS_NAME from bes_sbpz_struct where F_SYS_NAME_OLD =
+		(select F_PSYS_NAME from bes_sbpz_struct where F_SYS_NAME_OLD = #{old_f_sys_name} || F_SYS_NAME=#{old_f_sys_name})))))
+	</select>
+	<!--wanghongjie 修改根据系统名称查询DDC信息-->
+	<select id="queryDDCInfoByPointChange" resultType="java.util.HashMap">
+		select * from
+		bes_ddc where F_SYS_NAME =
+		(select F_PSYS_NAME from bes_sbpz_struct where F_SYS_NAME =
+		(select F_PSYS_NAME from bes_sbpz_struct where F_SYS_NAME =
+		(select F_PSYS_NAME from bes_sbpz_struct where F_SYS_NAME =
+		(select F_PSYS_NAME from bes_sbpz_struct where F_SYS_NAME = #{f_sys_name}))))
+		|| F_SYS_NAME =
+		(select F_PSYS_NAME from bes_sbpz_struct where F_SYS_NAME_OLD =
+		(select F_PSYS_NAME from bes_sbpz_struct where F_SYS_NAME_OLD =
+		(select F_PSYS_NAME from bes_sbpz_struct where F_SYS_NAME_OLD =
+		(select F_PSYS_NAME from bes_sbpz_struct where F_SYS_NAME_OLD =
+		(select F_PSYS_NAME from bes_sbpz_struct where F_SYS_NAME_OLD = #{f_sys_name} || F_SYS_NAME=#{f_sys_name})))))
+	</select>
+	<select id="queryDDCInfoByPointxd" resultType="java.util.HashMap">
+		select * from
+		bes_ddc where F_SYS_NAME =
+		(select F_PSYS_NAME from bes_sbpz_struct where f_sys_name =
+		(select F_PSYS_NAME from bes_sbpz_struct where f_sys_name = #{f_sys_name}))
+	</select>
+
+	<!-- 查询逻辑虚点所在DDC控制器的信息 wanghongjie 修改查询虚点所在的DDC的详细信息-->
+	<select id="queryDDCInfoByVPoint" resultType="java.util.HashMap">
+		select * from bes_ddc where F_SYS_NAME =
+		(SELECT F_PSYS_NAME from bes_sbpz_struct where F_SYS_NAME_OLD=
+		(SELECT F_PSYS_NAME from bes_sbpz_struct where F_SYS_NAME_OLD=
+		(SELECT F_SYS_NAME_OLD FROM bes_sbpz_struct q where q.F_SYS_NAME_OLD =#{f_psys_name})))
+		|| F_SYS_NAME =
+		(SELECT F_PSYS_NAME from bes_sbpz_struct where F_SYS_NAME_OLD=
+		(SELECT F_SYS_NAME_OLD FROM bes_sbpz_struct q where q.F_SYS_NAME_OLD =#{f_psys_name}))
+	</select>
+
+	<!-- 查询照明干路、干路所在IP路由器的信息   tianjiangwei -->
+	<select id="queryIpInfo" resultType="java.util.HashMap">
+		(select * from bes_ddc where F_SYS_NAME =
+			(SELECT F_PSYS_NAME FROM bes_sbpz_struct where F_SYS_NAME = #{f_psys_name}))
+		UNION ALL
+		(select * from bes_ddc where F_SYS_NAME =
+			(SELECT F_PSYS_NAME FROM bes_sbpz_struct where F_SYS_NAME =
+			(SELECT F_PSYS_NAME FROM bes_sbpz_struct where F_SYS_NAME = #{f_psys_name})))
+		UNION ALL
+		(select * from bes_ddc where F_SYS_NAME = #{f_psys_name})
+	</select>
+
+	<!-- 查询逻辑虚点所有信息 -->
+	<select id="queryimPoitntByDDCinfo" resultType="java.util.HashMap">
+		select max(CAST(F_SBID as SIGNED)) as F_SBID from bes_sbpz_struct where F_PSYS_NAME = #{f_psys_name}
+	</select>
+
+	<!-- 查询逻辑点所在模块的信息
+	 王红杰修改-->
+	<select id="queryModuleInfoByPoint" resultType="java.util.HashMap">
+		select * from
+		bes_module where F_SYS_NAME =
+		(select F_PSYS_NAME from bes_sbpz_struct where f_sys_name_old = #{f_sys_name} || f_sys_name= #{f_sys_name})
+	</select>
+	<select id="queryModuleInfoByPointChange" resultType="java.util.HashMap">
+		select * from
+		bes_module where F_SYS_NAME =
+		(select F_PSYS_NAME from bes_sbpz_struct where f_sys_name_OLD = #{f_sys_name} )
+	</select>
+
+	<!-- 查询逻辑点信息 王红杰修改 -->
+	<select id="queryPointInfo" parameterType="String" resultType="java.util.HashMap">
+		SELECT tb.*,bm.F_TYPE,bss.F_TYPE as B_TYPE FROM ${tabName} tb
+		left join bes_sbpz_struct bss on bss.f_sys_name_old = tb.f_sys_name_old
+		left join bes_module bm on bm.f_sys_name_old = bss.F_PSYS_NAME
+		where tb.F_SYS_NAME_OLD = #{f_sys_name} || tb.F_SYS_NAME = #{f_sys_name}
+	</select>
+	<select id="queryPointInfoChange" parameterType="String" resultType="java.util.HashMap">
+		SELECT tb.*,bm.F_TYPE,bss.F_TYPE as B_TYPE FROM ${tabName} tb
+		left join bes_sbpz_struct bss on bss.f_sys_name_old = tb.f_sys_name_old
+		left join bes_module bm on bm.f_sys_name_old = bss.F_PSYS_NAME
+		where tb.F_SYS_NAME = #{f_sys_name} || tb.F_SYS_NAME_OLD=#{f_sys_name}
+	</select>
+    <!--王红杰  DO-->
+	<select id="queryPointInfoDO" parameterType="String" resultType="java.util.HashMap">
+		SELECT tb.*,bm.F_TYPE,bss.F_TYPE as B_TYPE,bss.F_NODE_ATTRIBUTION FROM ${tabNameDO} tb
+		left join bes_sbpz_struct bss on bss.f_sys_name = tb.f_sys_name
+		left join bes_module bm on bm.f_sys_name = bss.F_PSYS_NAME
+		where tb.F_GUID = #{DO}
+	</select>
+	<!--王红杰  DI-->
+	<select id="queryPointInfoDI" parameterType="String" resultType="java.util.HashMap">
+		SELECT tb.*,bm.F_TYPE,bss.F_TYPE as B_TYPE,bss.F_NODE_ATTRIBUTION FROM ${tabNameDI} tb
+		left join bes_sbpz_struct bss on bss.f_sys_name = tb.f_sys_name
+		left join bes_module bm on bm.f_sys_name = bss.F_PSYS_NAME
+		where tb.F_GUID = #{DI}
+	</select>
+	<!--王红杰  AO-->
+	<select id="queryPointInfoAO" parameterType="String" resultType="java.util.HashMap">
+		SELECT tb.*,bm.F_TYPE,bss.F_TYPE as B_TYPE,bss.F_NODE_ATTRIBUTION FROM ${tabNameAO} tb
+		left join bes_sbpz_struct bss on bss.f_sys_name = tb.f_sys_name
+		left join bes_module bm on bm.f_sys_name = bss.F_PSYS_NAME
+		where tb.F_GUID = #{AO}
+	</select>
+	<!--王红杰  AI-->
+	<select id="queryPointInfoAI" parameterType="String" resultType="java.util.HashMap">
+		SELECT tb.*,bm.F_TYPE,bss.F_TYPE as B_TYPE,bss.F_NODE_ATTRIBUTION FROM ${tabNameAI} tb
+		left join bes_sbpz_struct bss on bss.f_sys_name = tb.f_sys_name
+		left join bes_module bm on bm.f_sys_name = bss.F_PSYS_NAME
+		where tb.F_GUID = #{AI}
+	</select>
+	<!--王红杰  DDC-->
+	<select id="queryPointInfoDDC" parameterType="String" resultType="java.util.HashMap">
+		SELECT tb.*,bm.F_TYPE,bss.F_TYPE as B_TYPE,bss.F_NODE_ATTRIBUTION FROM ${tabNameDDC} tb
+		left join bes_sbpz_struct bss on bss.f_sys_name = tb.f_sys_name
+		left join bes_module bm on bm.f_sys_name = bss.F_PSYS_NAME
+		where tb.F_GUID = #{DDC}
+	</select>
+
+	<!--王红杰  module-->
+	<select id="queryPointInfomodule" parameterType="String" resultType="java.util.HashMap">
+		SELECT tb.*,bm.F_TYPE,bss.F_TYPE as B_TYPE,bss.F_NODE_ATTRIBUTION FROM ${tabNamemodule} tb
+		left join bes_sbpz_struct bss on bss.f_sys_name = tb.f_sys_name
+		left join bes_module bm on bm.f_sys_name = bss.F_PSYS_NAME
+		where tb.F_GUID = #{module}
+	</select>
+	<!--王红杰  module-->
+	<select id="queryPointInfocollector" parameterType="String" resultType="java.util.HashMap">
+		SELECT tb.*,bm.F_TYPE,bss.F_TYPE as B_TYPE,bss.F_NODE_ATTRIBUTION FROM ${tabNamecollector} tb
+		left join bes_sbpz_struct bss on bss.f_sys_name = tb.f_sys_name
+		left join bes_module bm on bm.f_sys_name = bss.F_PSYS_NAME
+		where tb.F_GUID = #{collector}
+	</select>
+<!--设备型号列表-->
+	<select id="queryPointInfoxh" parameterType="String" resultType="java.util.HashMap">
+		SELECT * from bes_sbpz_struct where f_id=#{xh_id}
+	</select>
+
+	<select id="getPointInfoSBDY" parameterType="String" resultType="java.util.HashMap">
+		SELECT * from bes_sbpz_struct where f_sys_name=#{f_sys_name}
+	</select>
+
+	<select id="queryPointInfoammeter" parameterType="String" resultType="java.util.HashMap">
+		SELECT * from bes_sbpz_struct where f_sys_name_old=#{f_sys_name_ammeter}
+	</select>
+
+	<select id="queryPointInfoammeterown" parameterType="String" resultType="java.util.HashMap">
+		SELECT * from ${tabNameammeter} where f_guid=#{all}
+	</select>
+	<!-- 查询lamp模块所在IP路由器的信息 -->
+	<select id="queryLampDDCInfoByModule" resultType="java.util.HashMap">
+		select * from bes_ddc where F_SYS_NAME = #{f_psys_name}
+	</select>
+	<!-- 通过耦合器查询lamp模块所在IP路由器的信息 -->
+	<!--wanghongjie 修改支路下的新增模块查询DDC的ip的xml模块-->
+	<select id="queryLampDDCInfoByCoupler" resultType="java.util.HashMap">
+		select * from bes_ddc where F_SYS_NAME = (SELECT F_PSYS_NAME FROM bes_sbpz_struct where F_SYS_NAME =
+		(SELECT F_PSYS_NAME FROM bes_sbpz_struct where F_SYS_NAME = #{f_psys_name}))
+
+	</select>
+	<!-- 查询lamp逻辑点所在IP路由器的信息 -->
+	<!--wanghongjie 修改照明逻辑点位由f_sys_name变为f_sys_name_old去查询DDC的IP路由器信息-->
+	<select id="queryLampDDCInfoByPoint" parameterType="String" resultType="java.util.HashMap">
+		select * from bes_ddc where F_SYS_NAME =
+		(select F_PSYS_NAME from bes_sbpz_struct where F_SYS_NAME =
+		(select F_PSYS_NAME from bes_sbpz_struct where f_sys_name_old = #{old_f_sys_name} || f_sys_name = #{old_f_sys_name}))
+	</select>
+	<!--wanghongjie 修改根据f_id查询逻辑点所属IP路由器的IP地址-->
+	<select id="queryLampDDCInfoByPointByFid" parameterType="String" resultType="java.util.HashMap">
+		select * from bes_ddc where F_SYS_NAME =
+		(select F_PSYS_NAME from bes_sbpz_struct where F_SYS_NAME =
+		(select F_PSYS_NAME from bes_sbpz_struct where F_ID = #{f_id}))
+	</select>
+	<!-- 查询支路耦合器下模块所在ip路由器的信息  -->
+	<!--wanghongjie 修改照明逻辑点位由f_sys_name变为f_sys_name_old去查询DDC的IP路由器信息-->
+	<select id="queryDDCByModuleBranchCoupler" resultType="java.util.HashMap">
+		SELECT * from bes_ddc where F_SYS_NAME =
+		(select F_PSYS_NAME from bes_sbpz_struct where F_SYS_NAME =
+		(select F_PSYS_NAME from bes_sbpz_struct where F_SYS_NAME =
+		(select F_PSYS_NAME from bes_sbpz_struct where f_sys_name_old = #{f_sys_name})))
+	</select>
+
+
+	<!-- 查询下下级信息 -->
+	<select id="queryCrossModule" resultType="java.util.HashMap">
+		select
+		F_SYS_NAME,F_PSYS_NAME,F_TYPE
+		from bes_sbpz_struct
+		where
+		F_PSYS_NAME in (
+			select F_SYS_NAME from bes_sbpz_struct  where F_PSYS_NAME = #{pSysName}
+		)
+	</select>
+
+	<!-- 查询下级信息 -->
+	<select id="queryModule" resultType="java.util.HashMap">
+		select
+		F_SYS_NAME,F_PSYS_NAME,F_TYPE
+		from bes_sbpz_struct
+		where
+		F_SYS_NAME in (
+			select F_SYS_NAME from bes_sbpz_struct  where F_PSYS_NAME = #{pSysName}
+		)
+	</select>
+
+	<!--判断当前系统名称在相应的四种点位表里面有没有,有的话将f_sys_name输入框设置成不能输入-->
+	<select id="getInfo_f_sys_name" parameterType="String" resultType="int">
+		select COUNT(*) from ${tabName} where F_SYS_NAME_OLD= #{f_sys_name}
+	</select>
+
+	<!--wanghongjie 获取相应的点位的f_node_attribution-->
+	<select id="f_node_attribution" parameterType="String" resultType="java.util.HashMap">
+		SELECT tb.* FROM bes_sbpz_struct tb
+		where tb.f_sys_name = #{f_sys_name} || tb.f_sys_name_old = #{f_sys_name}
+	</select>
+
+	<!-- 查询所有智能照明能耗统计点位信息 15分钟-->
+	<select id="queryStaticsEnergyPointByMinute" resultType="java.util.HashMap">
+		select ai.F_STATICSTIME,ai.F_SYS_NAME,ai.F_SBID,sb.F_PSYS_NAME from bes_analog_input ai left join bes_sbpz_struct sb on  ai.f_sys_name = sb.f_sys_name where ai.F_ENERGYSTATICS = "0" AND ai.F_STATICSTIME = "0"
+	</select>
+
+	<!-- 查询所有智能照明能耗统计点位信息 1小时-->
+	<select id="queryStaticsEnergyPointByHour" resultType="java.util.HashMap">
+		select ai.F_STATICSTIME,ai.F_SYS_NAME,ai.F_SBID,sb.F_PSYS_NAME from bes_analog_input ai left join bes_sbpz_struct sb on  ai.f_sys_name = sb.f_sys_name where ai.F_ENERGYSTATICS = "0" AND ai.F_STATICSTIME = "1"
+	</select>
+
+	<!-- 查询所有智能照明能耗统计点位信息 1天-->
+	<select id="queryStaticsEnergyPointByDay" resultType="java.util.HashMap">
+		select ai.F_STATICSTIME,ai.F_SYS_NAME,ai.F_SBID,sb.F_PSYS_NAME from bes_analog_input ai left join bes_sbpz_struct sb on  ai.f_sys_name = sb.f_sys_name where ai.F_ENERGYSTATICS = "0" AND ai.F_STATICSTIME = "2"
+	</select>
+
+	<!--查询当前DDC下,所有的模块的信息-->
+	<select id="queryBusInfo" resultType="java.util.HashMap">
+		SELECT * from bes_sbpz_struct where F_PSYS_NAME = #{f_sys_name}
+	</select>
+	<!--wanghongjie start 20200625 查询当前DDC下所有模块点的信息-->
+	<select id="queryModelInfo" resultType="java.util.Map">
+		select * from bes_sbpz_struct where F_PSYS_NAME IN
+		(
+		SELECT f_SYS_NAME from bes_sbpz_struct where F_PSYS_NAME = #{f_psys_name}
+		)
+	</select>
+	<!--wanghongjie start 20200625 根据点位名称查询模块表的信息-->
+	<select id="selectBesModule" resultType="java.util.Map">
+		select * from bes_module where F_SYS_NAME_OLD = #{name}
+	</select>
+	<!--wanghongjie start 20200625 查询总线名称-->
+	<select id="selectFln" resultType="java.lang.String">
+		select f_nick_name from bes_sbpz_struct where f_sys_name_old = #{name}
+	</select>
+	<!--wanghongjie start 20200625 查询当前ddc下所有的点位信息-->
+	<select id="querypointList" resultType="java.util.Map">
+		SELECT * from bes_sbpz_struct where F_PSYS_NAME IN(
+		SELECT F_SYS_NAME_OLD from bes_sbpz_struct where F_PSYS_NAME IN(
+		SELECT F_SYS_NAME_OLD from bes_sbpz_struct where F_PSYS_NAME IN(
+		SELECT F_SYS_NAME_OLD from bes_sbpz_struct where F_PSYS_NAME = #{f_sys_name}
+		)))
+	</select>
+	<!--wanghongjie start 20200625 根据点位类型查询点位表名称-->
+	<select id="selectTabName" resultType="java.lang.String">
+		select F_NODE_TABLE FROM bes_sbtree_nodetype where F_NODE_TYPE = #{f_type}
+	</select>
+	<!--wanghongjie start 20200625 查询当前点位所在点位表的信息-->
+	<select id="selectPointMap" resultType="java.util.Map">
+		select * from ${tabName} where F_SYS_NAME_OLD = #{f_sys_name} || F_SYS_NAME = #{f_sys_name}
+	</select>
+	<!--wanghongjie start 20200628 查询当前点位所在模块的信息-->
+	<select id="selectModuleMap" resultType="java.util.Map">
+		SELECT * from bes_module where F_SYS_NAME_OLD =(
+		select F_PSYS_NAME from bes_sbpz_struct where F_SYS_NAME_OLD = #{f_sys_name}
+		)
+	</select>
+	<!--wanghongjie start 20200628 查询当前模块下所有的点位信息-->
+	<select id="selectPointList" resultType="java.util.Map">
+		SELECT * from bes_sbpz_struct where F_PSYS_NAME = #{f_psys_name}
+	</select>
+	<select id="selectType" resultType="java.lang.String">
+		select F_TYPE from bes_sbpz_struct where f_sys_name_old = #{f_sys_name}
+	</select>
+	<!--wanghongjie start 20200628 根据虚点总线名称查询下面所有的虚点-->
+	<select id="selectVpointList" resultType="java.util.Map">
+	SELECT * from bes_sbpz_struct where F_PSYS_NAME = #{f_psys_name}
+	</select>
+	<!--wanghongjie start 20200628 根据名称查询虚点表的点位信息-->
+	<select id="selectVpointMap" resultType="java.util.Map">
+		select * from bes_vpoint where f_sys_name_old = #{name}
+	</select>
+
+	<select id="findVpointBySysName" resultType="java.util.Map">
+		select * from bes_vpoint where f_sys_name = #{name}
+	</select>
+	<!--wanghongjie start 20200628 根据设备配置的f_id查询所属的模块信息-->
+	<select id="selectModuleMapById" resultType="java.util.Map">
+		SELECT * from bes_module where F_SYS_NAME_OLD =(
+		select F_PSYS_NAME from bes_sbpz_struct where F_ID = #{f_id}
+		)
+	</select>
+	<!--wanghongjie start 20200706 查询模块的详细信息-->
+	<select id="moduleMap" resultType="java.util.Map">
+		select * from bes_module where F_SBID = #{f_sbid_module}
+	</select>
+	<!--wanghongjie start 20200706 查询模块下的子节点-->
+	<select id="pointMapList" resultType="java.util.Map">
+		SELECT *  from bes_sbpz_struct where F_PSYS_NAME = #{name}
+	</select>
+	<!--wanghongjie start 20200706 查询点位的信息-->
+	<select id="pointMap" resultType="java.util.Map">
+		select * from ${tabName} where F_SYS_NAME_OLD = #{pointName}
+	</select>
+
+	<!--wanghongjie start 20200730 查询模块所属LDC控制器-->
+	<select id="queryLDCInfoByModule" resultType="java.util.Map">
+		select * from bes_ddc
+    	where F_SYS_NAME = #{f_psys_name} || F_SYS_NAME =
+		(select F_PSYS_NAME from bes_sbpz_struct
+		where f_sys_name =
+		(select F_PSYS_NAME from bes_sbpz_struct where
+		f_sys_name = #{f_psys_name} )) || F_SYS_NAME =
+		(select F_PSYS_NAME from bes_sbpz_struct
+		where f_sys_name = #{f_psys_name}
+		)
+	</select>
+
+	<!--wanghongjie start 20200731 查询当前模块所属的ddc-->
+	<select id="queryLDCInfoByModuleByfSysName" resultType="java.util.Map">
+		select * from bes_ddc
+    	where F_SYS_NAME = #{fSysName} || F_SYS_NAME =
+		(select F_PSYS_NAME from bes_sbpz_struct
+		where f_sys_name =
+		(select F_PSYS_NAME from bes_sbpz_struct
+		where f_sys_name =
+		(select F_PSYS_NAME from bes_sbpz_struct where
+		f_sys_name = #{fSysName} ))) || F_SYS_NAME =
+		(select F_PSYS_NAME from bes_sbpz_struct
+		where f_sys_name = #{fSysName}
+		)|| F_SYS_NAME =
+		(select F_PSYS_NAME from bes_sbpz_struct
+		where f_sys_name =
+		(select F_PSYS_NAME from bes_sbpz_struct
+		where f_sys_name = #{fSysName}
+		))
+	</select>
+
+	<!--wanghongjie start 20200805 根据id查询表名-->
+    <select id="selectTableName" resultType="java.lang.String">
+		SELECT f_node_table from bes_sbtree_nodetype where F_NODE_TYPE =
+		(SELECT f_type from bes_sbpz_struct where f_id = #{id})
+	</select>
+
+	<!--wanghongjie start 20200805 根据id查询虚点的点位信息-->
+	<select id="selectVPointMapByID" resultType="java.util.Map">
+		select * from BES_VPOINT where F_SBID = #{id}
+	</select>
+
+	<!--wanghongjie start 20200805 根据id和表名查询实点的点位信息-->
+	<select id="selectPointMapByID" resultType="java.util.Map">
+		select * from ${tabName} where  F_STRUCT_ID = #{id}
+	</select>
+
+	<!--wanghongjie start 20200810  根据前台传的模块型号编码查询模块类型表中的F_TYPE_CODE,这个字段才是下发到下位机的模块型号编码-->
+    <select id="queryTypeCodeByModuleType" resultType="java.lang.Integer">
+		select F_TYPE_CODE  from bes_module_type where F_ID = #{modelID}
+	</select>
+
+	<!--wanghongjie start 20200810 根据父节点的名称查询模块类型表的信息-->
+    <select id="selectModelTypeByPsysName" resultType="java.util.Map">
+		select a.*,b.F_ALLPATH from  bes_module_type a,bes_sbpz_struct b where a.F_ID = (
+		select f_type from bes_module where F_SYS_NAME_OLD =  #{f_psys_name}) and b.F_SYS_NAME_OLD = #{f_psys_name}
+	</select>
+</mapper>

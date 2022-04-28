@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.efounder.JEnterprise.mapper.basedatamanage.energyinformation.BESPark_EnergyTypeMapper">
+
+	<resultMap id="park_EnergyTypeMap" type="com.efounder.JEnterprise.model.basedatamanage.energyinformation.BESPark_EnergyType">
+		<result column="F_YQBH" property="f_yqbh" />
+		<result column="F_NYBH" property="f_nybh" />
+		<result column="F_CRDATE" property="f_crdate" />
+		<result column="F_CHDATE" property="f_chdate" />
+	</resultMap>
+	
+	<sql id="find_xxx">
+	    <![CDATA[
+			SELECT F_YQBH , F_NYBH ,date_format(F_CRDATE,'%Y-%m-%d %H:%i:%s' )F_CRDATE ,date_format(F_CHDATE,'%Y-%m-%d %H:%i:%s' )F_CHDATE
+	    ]]>
+	</sql>
+
+	<sql id="from_xxx">
+	    <![CDATA[
+	    	FROM bes_park_energytype_rlgl
+	    ]]>
+	</sql>
+
+	<sql id="where_xxx">
+	    <![CDATA[
+	    	WHERE 1=1
+	    ]]>
+	</sql>
+	<select id="findPark_EnergyType" parameterType="string" resultMap="park_EnergyTypeMap">
+		<include refid="find_xxx" />
+		<include refid="from_xxx" />
+		<![CDATA[
+			ORDER BY F_CHDATE
+		]]>
+	</select>
+<!-- 显示园区能源类型列表，实现关联 -->
+	<select id="getgllist" parameterType="string" resultType="java.util.HashMap">
+	select a.F_NYBH,a.F_NYMC,a.F_PRICE,a.F_COAL_AMOUNT,a.F_CO2,b.F_NYBH as F_PARK_ENENGGY_RLGL from bes_energy_type a LEFT JOIN
+   (select * from bes_park_energytype_rlgl where F_YQBH = #{f_yqbh}) b on a.F_NYBH=b.F_NYBH
+	</select>
+<!-- 保存时先删除后添加 -->
+	<insert id="addpark_energytype" parameterType="com.efounder.JEnterprise.model.basedatamanage.energyinformation.BESPark_EnergyType"> 
+        INSERT INTO bes_park_energytype_rlgl(F_YQBH,F_NYBH,F_CRDATE,F_CHDATE) values(#{f_yqbh},#{f_nybh},NOW(),NOW()) 
+    </insert>
+
+	<delete id="delpark_energytype" parameterType="com.efounder.JEnterprise.model.basedatamanage.energyinformation.BESPark_EnergyType">
+		DELETE FROM bes_park_energytype_rlgl WHERE F_YQBH = #{f_yqbh} and F_NYBH = #{f_nybh}
+	</delete>
+	
+	<select id="findpark_energytype" parameterType="com.efounder.JEnterprise.model.basedatamanage.energyinformation.BESPark_EnergyType" resultType="java.util.HashMap">
+		select * from bes_park_energytype_rlgl where F_YQBH = #{f_yqbh} and F_NYBH = #{f_nybh}
+	</select>
+	
+	<!-- 显示个别园区能源类型列表，实现关联 -->
+	<select id="getenergylist" parameterType="string" resultType="java.util.HashMap">
+	select a.F_NYBH,a.F_NYMC,a.F_PRICE,a.F_COAL_AMOUNT,a.F_CO2,b.F_NYBH as F_PARK_ENENGGY_RLGL from bes_energy_type a RIGHT JOIN
+   (select * from bes_park_energytype_rlgl where F_YQBH = #{f_yqbh}) b on a.F_NYBH=b.F_NYBH order by CAST(b.f_nybh as SIGNED)
+   
+	</select>
+	
+</mapper>

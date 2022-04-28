@@ -1,0 +1,46 @@
+PPCL()
+{
+//初始化
+ CoolingTowerParamInit(CoolingTowerValveState, CoolingTowerFanRunState, CoolingTowerFanRate, CoolingTowertroubleState, airconditioningRequest, 203);
+ CoolingTowerRequest = 0;
+//临时变量 
+ PcpMalloc(tempvalveState,CoolingTowerValveState,4);
+    PcpMalloc(tempFanRunState,CoolingTowerFanRunState,4); 
+ PcpMalloc(tempFanRate,CoolingTowerFanRate,4);
+ PcpMalloc(temptroubleState,CoolingTowertroubleState,4); 
+ 
+ TimerAcountInit( CoolingTowerRunTime, CoolingTowerFanRunState, 0, 0, 0, 0);
+ START_COUNT();
+ 
+ WHILE(1)
+ {
+   IF(CoolingTowerRequest == 2)
+   {
+    IF(tempvalveState != CoolingTowerValveState)
+    {
+     tempvalveState = CoolingTowerValveState;
+     IF(CT1MODULE == 0)
+      airconditioningRequest = 1;
+    }
+    IF(tempFanRate != CoolingTowerFanRate)
+    {
+     tempFanRate = CoolingTowerFanRate;
+     IF(CT1MODULE == 0)
+      airconditioningRequest = 1;
+    }
+   }
+   IF(CoolingTowerRequest == 1)
+   {
+    CoolingTowerRequest = 0;
+    IF(CT1MODULE == 0)
+     airconditioningRequest = 0;
+   }
+   IF(CoolingTowerRequest == 3)
+   {
+    airconditioningRequest = CoolingTowerRunTime;
+    CoolingTowerRequest = 0;
+   }
+  
+ }
+ 
+}

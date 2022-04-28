@@ -1,0 +1,54 @@
+/*列表部分样式*/
+.content_div{
+    height:100%;
+}
+.layui_content_div{
+    margin:10px;
+}
+.layui_content_div .layui-form-label{
+    width: 46% !important;
+}
+
+.layui_content_div .queryBtnDiv{
+    margin: 3px 15px;
+    float:left;
+}
+.layui_content_div .controlBtnDiv {
+    margin: 8px 15px;
+    float:left;
+}
+
+.layui_content_div .query_item{
+    width:20%;
+    float:left;
+}
+
+.layui_content_div .layui-form-checkbox {
+    display: inline-block;
+}
+
+.layui_content_div .layui-input-block {
+    display: flex;
+    align-items: center;
+    margin-left: 20px;
+}
+.layui_content_div .layui-btn {
+    /* background-color: #2071b9 !important; */
+    height: 30px !important;
+    line-height: 31px !important;
+}
+
+.layui_content_div .layui-table,.layui_content_div .layui-table-view {
+    margin: 0 !important;
+}
+
+/*弹窗相关样式*/
+.add_div_content{
+    margin: 20px 40px 20px 20px;
+}
+.add_div_content .layui-form-label{
+    width: 120px;
+}
+.add_div_content .btnDiv{
+    text-align: center;
+}

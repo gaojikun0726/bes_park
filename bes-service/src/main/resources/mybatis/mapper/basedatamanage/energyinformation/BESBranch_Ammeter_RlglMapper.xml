@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.efounder.JEnterprise.mapper.basedatamanage.energyinformation.BESBranch_Ammeter_RlglMapper" >
+
+  <resultMap id="BESBARMap" type="com.efounder.JEnterprise.model.basedatamanage.energyinformation.BESBranch_Ammeter_Rlgl" >
+    <id column="F_DBSYS_NAME" property="fDbsysName" />
+    <id column="F_ZLBH" property="fZlbh" />
+    <result column="F_OPERATOR" property="fOperator" />
+    <result column="F_CRDATE" property="fCrdate" />
+    <result column="F_CHDATE" property="fChdate" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    F_DBSYS_NAME, F_ZLBH,F_OPERATOR, F_CRDATE, F_CHDATE
+  </sql>
+  
+  <!-- 根据支路编号查询 -->
+  <select id="queryBARList" resultMap="BESBARMap" parameterType="com.efounder.JEnterprise.model.basedatamanage.energyinformation.BESBranch_Ammeter_Rlgl" >
+    select 
+    <include refid="Base_Column_List" />
+    from bes_branch_ammeter_rlgl
+    where F_ZLBH = #{fZlbh}
+  </select>
+  <!-- 插入 -->
+  <insert id="branchconf_insertAmmeter" parameterType="com.efounder.JEnterprise.model.basedatamanage.energyinformation.BESBranch_Ammeter_Rlgl" >
+    insert into bes_branch_ammeter_rlgl (F_DBSYS_NAME, F_ZLBH, F_OPERATOR,F_CRDATE, 
+      F_CHDATE)
+    values (#{fDbsysName}, #{fZlbh}, #{fOperator},current_timestamp(),current_timestamp())
+  </insert>
+  <insert id="insertBranchAmmeterLog" parameterType="com.efounder.JEnterprise.model.basedatamanage.energyinformation.BESBranch_Ammeter_Rlgl" >
+    insert into bes_branch_ammeter_log (F_DBSYS_NAME, F_ZLBH,F_OPERATOR,F_TYPE, F_CRDATE)
+    values (#{fDbsysName}, #{fZlbh}, #{fOperator},#{fType},current_timestamp())
+  </insert>
+  <!-- 根据电表名删除支路中的一条电表配置 -->  
+  <delete id="branchconf_deleteAmmeter" parameterType="com.efounder.JEnterprise.model.basedatamanage.energyinformation.BESBranch_Ammeter_Rlgl" >
+    delete from bes_branch_ammeter_rlgl
+    where F_ZLBH = #{fZlbh} and F_DBSYS_NAME = #{fDbsysName}
+  </delete>
+  <!-- 移除全部支路包含电表 -->
+  <delete id="branchconf_leftmoveAll" parameterType="com.efounder.JEnterprise.model.basedatamanage.energyinformation.BESBranch_Ammeter_Rlgl" >
+    delete from bes_branch_ammeter_rlgl
+    where F_ZLBH = #{fZlbh} and F_DBSYS_NAME = #{fDbsysName}
+  </delete>
+
+  <insert id="insertSelective" parameterType="com.efounder.JEnterprise.model.basedatamanage.energyinformation.BESBranch_Ammeter_Rlgl" >
+    insert into bes_branch_ammeter_rlgl
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="fDbsysName != null" >
+        F_DBSYS_NAME,
+      </if>
+      <if test="fZlbh != null" >
+        F_ZLBH,
+      </if>
+      <if test="fCrdate != null" >
+        F_CRDATE,
+      </if>
+      <if test="fChdate != null" >
+        F_CHDATE,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="fDbsysName != null" >
+        #{fDbsysName,jdbcType=VARCHAR},
+      </if>
+      <if test="fZlbh != null" >
+        #{fZlbh,jdbcType=VARCHAR},
+      </if>
+      <if test="fCrdate != null" >
+        #{fCrdate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="fChdate != null" >
+        #{fChdate,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+
+  <update id="updateByPrimaryKeySelective" parameterType="com.efounder.JEnterprise.model.basedatamanage.energyinformation.BESBranch_Ammeter_Rlgl" >
+    update bes_branch_ammeter_rlgl
+    <set >
+      <if test="fCrdate != null" >
+        F_CRDATE = #{fCrdate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="fChdate != null" >
+        F_CHDATE = #{fChdate,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where F_DBSYS_NAME = #{fDbsysName,jdbcType=VARCHAR}
+      and F_ZLBH = #{fZlbh,jdbcType=VARCHAR}
+  </update>
+  <update id="update_inclu_fOperator" parameterType="java.lang.String" >
+    update bes_branch_ammeter_rlgl
+    set 
+    	F_OPERATOR = #{fOperator},
+      F_CHDATE = current_timestamp()
+    where F_DBSYS_NAME = #{fSysName}
+      and F_ZLBH = #{fZlbh}
+  </update>
+<!--根据分户编号查询关联的支路-->
+  <select id="selectZlbh" resultType="java.util.Map" parameterType="com.efounder.JEnterprise.model.basedatamanage.energyinformation.BESBranch_Ammeter_Rlgl">
+    select * from bes_branch_ammeter_rlgl where F_ZLBH = #{fZlbh} and F_DBSYS_NAME = #{fDbsysName}
+  </select>
+  <!--支路中移除电表 往上 级联删除-->
+  <delete id="beshousehold_delBranch_jl_up" parameterType="com.efounder.JEnterprise.model.basedatamanage.energyinformation.BESBranch_Ammeter_Rlgl">
+    delete from bes_branch_ammeter_rlgl
+    where F_ZLBH = #{fZlbh} and F_DBSYS_NAME = #{fDbsysName}
+  </delete>
+  <!--查询支路电表关系表中是否存在当前支路关联的电表-->
+  <select id="selectbesBranch_Ammeter_RlglDbbh" resultType="java.util.Map">
+    select * from bes_branch_ammeter_rlgl where F_ZLBH = #{f_zlbh} and F_DBSYS_NAME = #{fDbsysName}
+  </select>
+  <!--删除当前支路电表的点位信息-->
+  <delete id="delZlAndDb">
+    delete from bes_branch_ammeter_rlgl where F_ZLBH = #{f_zlbh} and F_DBSYS_NAME = #{fDbsysName}
+  </delete>
+</mapper>

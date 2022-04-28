@@ -1,0 +1,914 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.efounder.JEnterprise.mapper.basedatamanage.energydataReport.BesBudingInformationMapper" >
+    <resultMap id="BaseResultMap" type="com.efounder.JEnterprise.model.basedatamanage.energydataReport.BesBudingInformation" >
+        <id column="F_BUDING_ID" property="fBudingId" jdbcType="VARCHAR" />
+        <result column="F_BUDING_CODE" property="fBudingCode" jdbcType="VARCHAR" />
+        <result column="F_CENTER_ID" property="fCenterId" jdbcType="VARCHAR" />
+        <result column="F_BUDING_NAME" property="fBudingName" jdbcType="VARCHAR" />
+        <result column="F_BUDING_NODE" property="fBudingNode" jdbcType="VARCHAR" />
+        <result column="F_BUDING_LETTER" property="fBudingLetter" jdbcType="VARCHAR" />
+        <result column="F_BUDING_OWNER" property="fBudingOwner" jdbcType="VARCHAR" />
+        <result column="F_BUDING_OWNER_COMPANY" property="fBudingOwnerCompany" jdbcType="VARCHAR" />
+        <result column="F_COUNTY_AREA" property="fCountyArea" jdbcType="VARCHAR" />
+        <result column="F_BUDING_CONTACT" property="fBudingContact" jdbcType="VARCHAR" />
+        <result column="F_CONTACT_INFORMATION" property="fContactInformation" jdbcType="VARCHAR" />
+        <result column="F_BUDING_DETECTION" property="fBudingDetection" jdbcType="VARCHAR" />
+        <result column="F_BUDING_ADDRESS" property="fBudingAddress" jdbcType="VARCHAR" />
+        <result column="F_BUDING_STATE" property="fBudingState" jdbcType="VARCHAR" />
+        <result column="F_DATE_COMPLETION" property="fDateCompletion" jdbcType="VARCHAR" />
+        <result column="F_BUDING_DATE" property="fBudingDate" jdbcType="VARCHAR" />
+        <result column="F_BUDING_LONGITUDE" property="fBudingLongitude" jdbcType="VARCHAR" />
+        <result column="F_BUDING_LATITUDE" property="fBudingLatitude" jdbcType="VARCHAR" />
+        <result column="F_BUDING_LAYERSON" property="fBudingLayerson" jdbcType="VARCHAR" />
+        <result column="F_BUDING_LAYERSUNDER" property="fBudingLayersunder" jdbcType="VARCHAR" />
+        <result column="F_BUDING_HEIGHT" property="fBudingHeight" jdbcType="VARCHAR" />
+        <result column="F_BUDING_FUNCTION" property="fBudingFunction" jdbcType="VARCHAR" />
+        <result column="F_BUDING_AREA" property="fBudingArea" jdbcType="VARCHAR" />
+        <result column="F_AIRCONDITIONER_AREA" property="fAirconditionerArea" jdbcType="VARCHAR" />
+        <result column="F_HEATING_AREA" property="fHeatingArea" jdbcType="VARCHAR" />
+        <result column="F_BUDING_YNRS" property="fBudingYnrs" jdbcType="VARCHAR" />
+        <result column="F_HEATING_MODE" property="fHeatingMode" jdbcType="VARCHAR" />
+        <result column="F_COOLING_MODE" property="fCoolingMode" jdbcType="VARCHAR" />
+        <result column="F_AIRCONDITIONER_SYSTEM" property="fAirconditionerSystem" jdbcType="VARCHAR" />
+        <result column="F_HEATING_SYSTEM" property="fHeatingSystem" jdbcType="VARCHAR" />
+        <result column="F_BUDING_COEFFICIENT" property="fBudingCoefficient" jdbcType="VARCHAR" />
+        <result column="F_ARCHITECTURAL_FORM" property="fArchitecturalForm" jdbcType="VARCHAR" />
+        <result column="F_EXTERIORWALL_FORM" property="fExteriorwallForm" jdbcType="VARCHAR" />
+        <result column="F_EXTERIORWALL_INSULATION_FORM" property="fExteriorwallInsulationForm" jdbcType="VARCHAR" />
+        <result column="F_BUDING_EXTERIOR_TYPE" property="fBudingExteriorType" jdbcType="VARCHAR" />
+        <result column="F_BUDING_GLASS_TYPE" property="fBudingGlassType" jdbcType="VARCHAR" />
+        <result column="F_MATERIAL_TYPE" property="fMaterialType" jdbcType="VARCHAR" />
+        <result column="F_SAVING_STANDARD" property="fSavingStandard" jdbcType="VARCHAR" />
+        <result column="F_SAVING_TRANSFORMATION" property="fSavingTransformation" jdbcType="VARCHAR" />
+        <result column="F_BUDING_GOVERNMENT" property="fBudingGovernment" jdbcType="VARCHAR" />
+        <result column="F_BENCHMARKING" property="fBenchmarking" jdbcType="VARCHAR" />
+        <result column="F_SCHEME_DESIGN" property="fSchemeDesign" jdbcType="VARCHAR" />
+        <result column="F_OPERATOR_NAME" property="fOperatorName" jdbcType="VARCHAR" />
+        <result column="F_ENGINEERING_CONSTRUCTION" property="fEngineeringConstruction" jdbcType="VARCHAR" />
+        <result column="F_ENGINEERING_CONTACTS" property="fEngineeringContacts" jdbcType="VARCHAR" />
+        <result column="F_ENGINEERING_CONTACTS_BGDH" property="fEngineeringContactsBgdh" jdbcType="VARCHAR" />
+        <result column="F_ENGINEERING_CONTACTS_YDDH" property="fEngineeringContactsYddh" jdbcType="VARCHAR" />
+        <result column="F_BUDING_POPULATION" property="fBudingPopulation" jdbcType="VARCHAR" />
+        <result column="F_MONITORING_AREA" property="fMonitoringArea" jdbcType="VARCHAR" />
+        <result column="F_SYSTEM_SOFTWARE" property="fSystemSoftware" jdbcType="VARCHAR" />
+        <result column="F_COLLECTOR_TYPE" property="fCollectorType" jdbcType="VARCHAR" />
+        <result column="F_ENTRY_TIME" property="fEntryTime" jdbcType="VARCHAR" />
+        <result column="F_DETECTION_TIME" property="fDetectionTime" jdbcType="TIMESTAMP" />
+        <result column="F_ACCEPTANCE_TIME" property="fAcceptanceTime" jdbcType="TIMESTAMP" />
+        <result column="F_UPDATE_TIME" property="fUpdateTime" jdbcType="VARCHAR" />
+        <result column="F_DESIGN_ORGANIZATION" property="fDesignOrganization" jdbcType="VARCHAR" />
+        <result column="F_DESCRIBE" property="fDescribe" jdbcType="VARCHAR" />
+    </resultMap>
+
+    <sql id="Base_Column_List" >
+        F_BUDING_ID, F_BUDING_CODE, F_CENTER_ID, F_BUDING_NAME, F_BUDING_NODE, F_BUDING_LETTER, 
+        F_BUDING_OWNER, F_BUDING_OWNER_COMPANY, F_COUNTY_AREA, F_BUDING_CONTACT, F_CONTACT_INFORMATION, 
+        F_BUDING_DETECTION, F_BUDING_ADDRESS, F_BUDING_STATE, F_DATE_COMPLETION, F_BUDING_DATE, 
+        F_BUDING_LONGITUDE, F_BUDING_LATITUDE, F_BUDING_LAYERSON, F_BUDING_LAYERSUNDER, F_BUDING_HEIGHT, 
+        F_BUDING_FUNCTION, F_BUDING_AREA, F_AIRCONDITIONER_AREA, F_HEATING_AREA, F_BUDING_YNRS, 
+        F_HEATING_MODE, F_COOLING_MODE, F_AIRCONDITIONER_SYSTEM, F_HEATING_SYSTEM, F_BUDING_COEFFICIENT, 
+        F_ARCHITECTURAL_FORM, F_EXTERIORWALL_FORM, F_EXTERIORWALL_INSULATION_FORM, F_BUDING_EXTERIOR_TYPE, 
+        F_BUDING_GLASS_TYPE, F_MATERIAL_TYPE, F_SAVING_STANDARD, F_SAVING_TRANSFORMATION, 
+        F_BUDING_GOVERNMENT, F_BENCHMARKING, F_SCHEME_DESIGN, F_OPERATOR_NAME, F_ENGINEERING_CONSTRUCTION, 
+        F_ENGINEERING_CONTACTS, F_ENGINEERING_CONTACTS_BGDH, F_ENGINEERING_CONTACTS_YDDH, 
+        F_BUDING_POPULATION, F_MONITORING_AREA, F_SYSTEM_SOFTWARE, F_COLLECTOR_TYPE, F_ENTRY_TIME, 
+        F_DETECTION_TIME, F_ACCEPTANCE_TIME, F_UPDATE_TIME, F_DESIGN_ORGANIZATION,F_DESCRIBE
+    </sql>
+    
+	  <!-- 关键字查询，分页查询 -->
+	  <select id="getBudingList" resultMap="BaseResultMap" parameterType="java.lang.String" >
+	    select 
+	    <include refid="Base_Column_List" />
+	    ,(case F_BUDING_DETECTION when '1'  then '启用检测'  when '0'  then '停用检测'  else '' end ) as JCZTMC
+	    from bes_buding_information 
+			<where>
+			1=1
+				<if test="keywords != null and keywords != ''"> 
+				and CONCAT(`F_BUDING_CODE`,'##',`F_BUDING_NAME` ) LIKE CONCAT('%',#{keywords},'%')
+				</if>
+			</where>    
+	  </select>
+<!-- 	  数据中心下拉查询 -->
+	  <select id="getSjzxTypeList"  resultType="java.util.HashMap" >
+		    select 
+		    F_DATACENTER_ID ID,F_DATACENTER_NAME NAME
+		    from bes_data_center
+ 	  </select>
+
+    <!--查询所有建筑物信息-->
+    <select id="queryBuildingList" resultMap="BaseResultMap" parameterType="java.lang.String" >
+        select
+        <include refid="Base_Column_List" />
+        from bes_buding_information
+    </select>
+
+    <select id="getBudingType" resultMap="BaseResultMap" parameterType="java.lang.String" >
+        select 
+        <include refid="Base_Column_List" />
+        from bes_buding_information
+        where F_BUDING_ID = #{bh,jdbcType=VARCHAR}
+    </select>
+	<select id="getBuildingList" resultMap="BaseResultMap" parameterType="java.lang.String">
+		select * from bes_buding_information
+	</select>
+    <!--查询建筑物信息根据数据中心id-->
+    <select id="queryBuildingByCenterIdList" resultMap="BaseResultMap" parameterType="java.lang.String" >
+        select
+        <include refid="Base_Column_List" />
+        from bes_buding_information
+        where F_CENTER_ID = #{fCenterId}
+    </select>
+    <delete id="del_BudingType" parameterType="java.lang.String" >
+        delete from bes_buding_information
+        where F_BUDING_ID = #{id,jdbcType=VARCHAR}
+    </delete>
+	<insert id="addBudingInfo"  useGeneratedKeys="true" keyProperty="F_BUDING_ID" parameterType="java.util.ArrayList">
+		INSERT INTO bes_buding_information
+			(F_BUDING_ID, F_BUDING_CODE, F_CENTER_ID, 
+            F_BUDING_NAME, F_BUDING_NODE, F_BUDING_LETTER, 
+            F_BUDING_OWNER, F_BUDING_OWNER_COMPANY, F_COUNTY_AREA, 
+            F_BUDING_CONTACT, F_CONTACT_INFORMATION, 
+            F_BUDING_DETECTION, F_BUDING_ADDRESS, F_BUDING_STATE, 
+            F_DATE_COMPLETION, F_BUDING_DATE, F_BUDING_LONGITUDE, 
+            F_BUDING_LATITUDE, F_BUDING_LAYERSON, F_BUDING_LAYERSUNDER,             
+            F_BUDING_HEIGHT, F_BUDING_FUNCTION, F_BUDING_AREA, 
+            F_AIRCONDITIONER_AREA, F_HEATING_AREA, F_BUDING_YNRS, 
+            F_HEATING_MODE, F_COOLING_MODE, F_AIRCONDITIONER_SYSTEM,             
+            F_HEATING_SYSTEM, F_BUDING_COEFFICIENT, F_ARCHITECTURAL_FORM, 
+            F_EXTERIORWALL_FORM, F_EXTERIORWALL_INSULATION_FORM, 
+            F_BUDING_EXTERIOR_TYPE, F_BUDING_GLASS_TYPE,             
+            F_MATERIAL_TYPE, F_SAVING_STANDARD, F_SAVING_TRANSFORMATION, 
+            F_BUDING_GOVERNMENT, F_BENCHMARKING, F_SCHEME_DESIGN, 
+            F_OPERATOR_NAME, F_ENGINEERING_CONSTRUCTION,             
+            F_ENGINEERING_CONTACTS, F_ENGINEERING_CONTACTS_BGDH, 
+            F_ENGINEERING_CONTACTS_YDDH, F_BUDING_POPULATION, 
+            F_MONITORING_AREA, F_SYSTEM_SOFTWARE, F_COLLECTOR_TYPE,            
+            F_ENTRY_TIME, F_DETECTION_TIME, F_ACCEPTANCE_TIME, 
+            F_UPDATE_TIME)
+		VALUES
+		<foreach collection="list" item="item" index="index" separator=","> 
+        	(#{item.fBudingId},#{item.fBudingCode},#{item.fCenterId},
+        	 #{item.fBudingName},#{item.fBudingNode},#{item.fBudingLetter},
+             #{item.fBudingOwner},#{item.fBudingOwnerCompany},#{item.fCountyArea}, 
+             #{item.fBudingContact},#{item.fContactInformation}, 
+             #{item.fBudingDetection},#{item.fBudingAddress},#{item.fBudingState},
+        	 #{item.fDateCompletion},#{item.fBudingDate},#{item.fBudingLongitude},        	 
+             #{item.fBudingLatitude},#{item.fBudingLayerson},#{item.fBudingLayersunder},                          
+             #{item.fBudingHeight},#{item.fBudingFunction},#{item.fBudingArea}, 
+             #{item.fAirconditionerArea},#{item.fHeatingArea},#{item.fBudingYnrs},
+        	 #{item.fHeatingMode},#{item.fCoolingMode},#{item.fAirconditionerSystem},        	       	 
+             #{item.fHeatingSystem},#{item.fBudingCoefficient},#{item.fArchitecturalForm}, 
+             #{item.fExteriorwallForm},#{item.fExteriorwallInsulationForm},
+             #{item.fBudingExteriorType},#{item.fBudingGlassType},             
+        	 #{item.fMaterialType},#{item.fSavingStandard},#{item.fSavingTransformation},
+             #{item.fBudingGovernment},#{item.fBenchmarking},#{item.fSchemeDesign}, 
+             #{item.fOperatorName},#{item.fEngineeringConstruction},             
+             #{item.fEngineeringContacts},#{item.fEngineeringContactsBgdh},
+        	 #{item.fEngineeringContactsYddh},#{item.fBudingPopulation},
+             #{item.fMonitoringArea},#{item.fSystemSoftware},#{item.fCollectorType},              
+             #{item.fEntryTime},#{item.fDetectionTime},#{item.fAcceptanceTime}, 
+             #{item.fUpdateTime}
+             ) 
+    	</foreach> 
+	</insert>
+
+
+    <insert id="add_BudingType" parameterType="com.efounder.JEnterprise.model.basedatamanage.energydataReport.BesBudingInformation" >
+
+        <!--insert into bes_buding_information (F_BUDING_ID, F_BUDING_CODE, F_CENTER_ID,
+            F_BUDING_NAME, F_BUDING_NODE, F_BUDING_LETTER,
+            F_BUDING_OWNER, F_BUDING_OWNER_COMPANY, F_COUNTY_AREA,
+            F_BUDING_CONTACT, F_CONTACT_INFORMATION,
+            F_BUDING_DETECTION, F_BUDING_ADDRESS, F_BUDING_STATE,
+            F_DATE_COMPLETION, F_BUDING_DATE, F_BUDING_LONGITUDE,
+            F_BUDING_LATITUDE, F_BUDING_LAYERSON, F_BUDING_LAYERSUNDER,
+            F_BUDING_HEIGHT, F_BUDING_FUNCTION, F_BUDING_AREA,
+            F_AIRCONDITIONER_AREA, F_HEATING_AREA, F_BUDING_YNRS,
+            F_HEATING_MODE, F_COOLING_MODE, F_AIRCONDITIONER_SYSTEM,
+            F_HEATING_SYSTEM, F_BUDING_COEFFICIENT, F_ARCHITECTURAL_FORM,
+            F_EXTERIORWALL_FORM, F_EXTERIORWALL_INSULATION_FORM,
+            F_BUDING_EXTERIOR_TYPE, F_BUDING_GLASS_TYPE,
+            F_MATERIAL_TYPE, F_SAVING_STANDARD, F_SAVING_TRANSFORMATION,
+            F_BUDING_GOVERNMENT, F_BENCHMARKING, F_SCHEME_DESIGN,
+            F_OPERATOR_NAME, F_ENGINEERING_CONSTRUCTION,
+            F_ENGINEERING_CONTACTS, F_ENGINEERING_CONTACTS_BGDH,
+            F_ENGINEERING_CONTACTS_YDDH, F_BUDING_POPULATION,
+            F_MONITORING_AREA, F_SYSTEM_SOFTWARE, F_COLLECTOR_TYPE,
+            F_ENTRY_TIME, F_DETECTION_TIME, F_ACCEPTANCE_TIME,
+            F_UPDATE_TIME,F_DESIGN_ORGANIZATION,F_DESCRIBE)
+        values (#{fBudingId,jdbcType=VARCHAR}, #{fBudingCode,jdbcType=VARCHAR}, #{fCenterId,jdbcType=VARCHAR},
+            #{fBudingName,jdbcType=VARCHAR}, #{fBudingNode,jdbcType=VARCHAR}, #{fBudingLetter,jdbcType=VARCHAR},
+            #{fBudingOwner,jdbcType=VARCHAR}, #{fBudingOwnerCompany,jdbcType=VARCHAR}, #{fCountyArea,jdbcType=VARCHAR},
+            #{fBudingContact,jdbcType=VARCHAR}, #{fContactInformation,jdbcType=VARCHAR},
+            #{fBudingDetection,jdbcType=VARCHAR}, #{fBudingAddress,jdbcType=VARCHAR}, #{fBudingState,jdbcType=VARCHAR},
+            #{fDateCompletion,jdbcType=VARCHAR}, #{fBudingDate,jdbcType=VARCHAR}, #{fBudingLongitude,jdbcType=VARCHAR},
+            #{fBudingLatitude,jdbcType=VARCHAR}, #{fBudingLayerson,jdbcType=VARCHAR}, #{fBudingLayersunder,jdbcType=VARCHAR},
+            #{fBudingHeight,jdbcType=VARCHAR}, #{fBudingFunction,jdbcType=VARCHAR}, #{fBudingArea,jdbcType=VARCHAR},
+            #{fAirconditionerArea,jdbcType=VARCHAR}, #{fHeatingArea,jdbcType=VARCHAR}, #{fBudingYnrs,jdbcType=VARCHAR},
+            #{fHeatingMode,jdbcType=VARCHAR}, #{fCoolingMode,jdbcType=VARCHAR}, #{fAirconditionerSystem,jdbcType=VARCHAR},
+            #{fHeatingSystem,jdbcType=VARCHAR}, #{fBudingCoefficient,jdbcType=VARCHAR}, #{fArchitecturalForm,jdbcType=VARCHAR},
+            #{fExteriorwallForm,jdbcType=VARCHAR}, #{fExteriorwallInsulationForm,jdbcType=VARCHAR},
+            #{fBudingExteriorType,jdbcType=VARCHAR}, #{fBudingGlassType,jdbcType=VARCHAR},
+            #{fMaterialType,jdbcType=VARCHAR}, #{fSavingStandard,jdbcType=VARCHAR}, #{fSavingTransformation,jdbcType=VARCHAR},
+            #{fBudingGovernment,jdbcType=VARCHAR}, #{fBenchmarking,jdbcType=VARCHAR}, #{fSchemeDesign,jdbcType=VARCHAR},
+            #{fOperatorName,jdbcType=VARCHAR}, #{fEngineeringConstruction,jdbcType=VARCHAR},
+            #{fEngineeringContacts,jdbcType=VARCHAR}, #{fEngineeringContactsBgdh,jdbcType=VARCHAR},
+            #{fEngineeringContactsYddh,jdbcType=VARCHAR}, #{fBudingPopulation,jdbcType=VARCHAR},
+            #{fMonitoringArea,jdbcType=VARCHAR}, #{fSystemSoftware,jdbcType=VARCHAR}, #{fCollectorType,jdbcType=VARCHAR},
+            #{fEntryTime,jdbcType=VARCHAR}, #{fDetectionTime,jdbcType=TIMESTAMP}, #{fAcceptanceTime,jdbcType=TIMESTAMP},
+            #{fUpdateTime,jdbcType=VARCHAR}, #{fDesignOrganization,jdbcType=VARCHAR},#{fDescribe,jdbcType=VARCHAR})
+            -->
+            insert into bes_buding_information (F_BUDING_ID, F_CENTER_ID,F_BUDING_CODE,
+            F_BUDING_NAME, F_BUDING_NODE, F_BUDING_LETTER,
+            F_BUDING_OWNER, F_BUDING_OWNER_COMPANY,
+            F_BUDING_CONTACT, F_CONTACT_INFORMATION,
+            F_BUDING_DETECTION, F_BUDING_ADDRESS, F_BUDING_STATE,
+            F_BUDING_DATE, F_BUDING_LONGITUDE,
+            F_BUDING_LATITUDE, F_BUDING_LAYERSON, F_BUDING_LAYERSUNDER,
+            F_BUDING_HEIGHT, F_BUDING_FUNCTION, F_BUDING_AREA,
+            F_AIRCONDITIONER_AREA, F_HEATING_AREA, F_BUDING_YNRS,
+            F_HEATING_MODE, F_COOLING_MODE, F_AIRCONDITIONER_SYSTEM,
+            F_HEATING_SYSTEM, F_BUDING_COEFFICIENT, F_ARCHITECTURAL_FORM,
+            F_EXTERIORWALL_FORM, F_EXTERIORWALL_INSULATION_FORM,
+            F_BUDING_EXTERIOR_TYPE, F_BUDING_GLASS_TYPE,
+            F_MATERIAL_TYPE, F_SAVING_STANDARD, F_SAVING_TRANSFORMATION,
+            F_BUDING_GOVERNMENT, F_BENCHMARKING, F_SCHEME_DESIGN,
+            F_ENGINEERING_CONSTRUCTION,
+            F_ENGINEERING_CONTACTS, F_ENGINEERING_CONTACTS_BGDH,
+            F_BUDING_POPULATION,
+            F_MONITORING_AREA,
+            F_ENTRY_TIME, F_DETECTION_TIME,
+            <if test="fAcceptanceTime != null and fAcceptanceTime != ''">
+                F_ACCEPTANCE_TIME,
+            </if>
+            F_DESIGN_ORGANIZATION,F_DESCRIBE)
+        values (#{fBudingId,jdbcType=VARCHAR}, #{fCenterId,jdbcType=VARCHAR},#{fBudingCode,jdbcType=VARCHAR},
+            #{fBudingName,jdbcType=VARCHAR}, #{fBudingNode,jdbcType=VARCHAR}, #{fBudingLetter,jdbcType=VARCHAR},
+            #{fBudingOwner,jdbcType=VARCHAR}, #{fBudingOwnerCompany,jdbcType=VARCHAR},
+            #{fBudingContact,jdbcType=VARCHAR}, #{fContactInformation,jdbcType=VARCHAR},
+            #{fBudingDetection,jdbcType=VARCHAR}, #{fBudingAddress,jdbcType=VARCHAR}, #{fBudingState,jdbcType=VARCHAR},
+             #{fBudingDate,jdbcType=VARCHAR}, #{fBudingLongitude,jdbcType=VARCHAR},
+            #{fBudingLatitude,jdbcType=VARCHAR}, #{fBudingLayerson,jdbcType=VARCHAR}, #{fBudingLayersunder,jdbcType=VARCHAR},
+            #{fBudingHeight,jdbcType=VARCHAR}, #{fBudingFunction,jdbcType=VARCHAR}, #{fBudingArea,jdbcType=VARCHAR},
+            #{fAirconditionerArea,jdbcType=VARCHAR}, #{fHeatingArea,jdbcType=VARCHAR}, #{fBudingYnrs,jdbcType=VARCHAR},
+            #{fHeatingMode,jdbcType=VARCHAR}, #{fCoolingMode,jdbcType=VARCHAR}, #{fAirconditionerSystem,jdbcType=VARCHAR},
+            #{fHeatingSystem,jdbcType=VARCHAR}, #{fBudingCoefficient,jdbcType=VARCHAR}, #{fArchitecturalForm,jdbcType=VARCHAR},
+            #{fExteriorwallForm,jdbcType=VARCHAR}, #{fExteriorwallInsulationForm,jdbcType=VARCHAR},
+            #{fBudingExteriorType,jdbcType=VARCHAR}, #{fBudingGlassType,jdbcType=VARCHAR},
+            #{fMaterialType,jdbcType=VARCHAR}, #{fSavingStandard,jdbcType=VARCHAR}, #{fSavingTransformation,jdbcType=VARCHAR},
+            #{fBudingGovernment,jdbcType=VARCHAR}, #{fBenchmarking,jdbcType=VARCHAR}, #{fSchemeDesign,jdbcType=VARCHAR},
+            #{fEngineeringConstruction,jdbcType=VARCHAR},
+            #{fEngineeringContacts,jdbcType=VARCHAR}, #{fEngineeringContactsBgdh,jdbcType=VARCHAR},
+            #{fBudingPopulation,jdbcType=VARCHAR},
+            #{fMonitoringArea,jdbcType=VARCHAR},
+            #{fEntryTime,jdbcType=VARCHAR}, #{fDetectionTime,jdbcType=TIMESTAMP},
+        <if test="fAcceptanceTime != null and fAcceptanceTime != ''">
+            #{fAcceptanceTime,jdbcType=TIMESTAMP},
+        </if>
+            #{fDesignOrganization,jdbcType=VARCHAR},#{fDescribe,jdbcType=VARCHAR})
+    </insert>
+
+    <insert id="insertSelective" parameterType="com.efounder.JEnterprise.model.basedatamanage.energydataReport.BesBudingInformation" >
+        insert into bes_buding_information
+        <trim prefix="(" suffix=")" suffixOverrides="," >
+            <if test="fBudingId != null" >
+                F_BUDING_ID,
+            </if>
+            <if test="fBudingCode != null" >
+                F_BUDING_CODE,
+            </if>
+            <if test="fCenterId != null" >
+                F_CENTER_ID,
+            </if>
+            <if test="fBudingName != null" >
+                F_BUDING_NAME,
+            </if>
+            <if test="fBudingNode != null" >
+                F_BUDING_NODE,
+            </if>
+            <if test="fBudingLetter != null" >
+                F_BUDING_LETTER,
+            </if>
+            <if test="fBudingOwner != null" >
+                F_BUDING_OWNER,
+            </if>
+            <if test="fBudingOwnerCompany != null" >
+                F_BUDING_OWNER_COMPANY,
+            </if>
+            <if test="fCountyArea != null" >
+                F_COUNTY_AREA,
+            </if>
+            <if test="fBudingContact != null" >
+                F_BUDING_CONTACT,
+            </if>
+            <if test="fContactInformation != null" >
+                F_CONTACT_INFORMATION,
+            </if>
+            <if test="fBudingDetection != null" >
+                F_BUDING_DETECTION,
+            </if>
+            <if test="fBudingAddress != null" >
+                F_BUDING_ADDRESS,
+            </if>
+            <if test="fBudingState != null" >
+                F_BUDING_STATE,
+            </if>
+            <if test="fDateCompletion != null" >
+                F_DATE_COMPLETION,
+            </if>
+            <if test="fBudingDate != null" >
+                F_BUDING_DATE,
+            </if>
+            <if test="fBudingLongitude != null" >
+                F_BUDING_LONGITUDE,
+            </if>
+            <if test="fBudingLatitude != null" >
+                F_BUDING_LATITUDE,
+            </if>
+            <if test="fBudingLayerson != null" >
+                F_BUDING_LAYERSON,
+            </if>
+            <if test="fBudingLayersunder != null" >
+                F_BUDING_LAYERSUNDER,
+            </if>
+            <if test="fBudingHeight != null" >
+                F_BUDING_HEIGHT,
+            </if>
+            <if test="fBudingFunction != null" >
+                F_BUDING_FUNCTION,
+            </if>
+            <if test="fBudingArea != null" >
+                F_BUDING_AREA,
+            </if>
+            <if test="fAirconditionerArea != null" >
+                F_AIRCONDITIONER_AREA,
+            </if>
+            <if test="fHeatingArea != null" >
+                F_HEATING_AREA,
+            </if>
+            <if test="fBudingYnrs != null" >
+                F_BUDING_YNRS,
+            </if>
+            <if test="fHeatingMode != null" >
+                F_HEATING_MODE,
+            </if>
+            <if test="fCoolingMode != null" >
+                F_COOLING_MODE,
+            </if>
+            <if test="fAirconditionerSystem != null" >
+                F_AIRCONDITIONER_SYSTEM,
+            </if>
+            <if test="fHeatingSystem != null" >
+                F_HEATING_SYSTEM,
+            </if>
+            <if test="fBudingCoefficient != null" >
+                F_BUDING_COEFFICIENT,
+            </if>
+            <if test="fArchitecturalForm != null" >
+                F_ARCHITECTURAL_FORM,
+            </if>
+            <if test="fExteriorwallForm != null" >
+                F_EXTERIORWALL_FORM,
+            </if>
+            <if test="fExteriorwallInsulationForm != null" >
+                F_EXTERIORWALL_INSULATION_FORM,
+            </if>
+            <if test="fBudingExteriorType != null" >
+                F_BUDING_EXTERIOR_TYPE,
+            </if>
+            <if test="fBudingGlassType != null" >
+                F_BUDING_GLASS_TYPE,
+            </if>
+            <if test="fMaterialType != null" >
+                F_MATERIAL_TYPE,
+            </if>
+            <if test="fSavingStandard != null" >
+                F_SAVING_STANDARD,
+            </if>
+            <if test="fSavingTransformation != null" >
+                F_SAVING_TRANSFORMATION,
+            </if>
+            <if test="fBudingGovernment != null" >
+                F_BUDING_GOVERNMENT,
+            </if>
+            <if test="fBenchmarking != null" >
+                F_BENCHMARKING,
+            </if>
+            <if test="fSchemeDesign != null" >
+                F_SCHEME_DESIGN,
+            </if>
+            <if test="fOperatorName != null" >
+                F_OPERATOR_NAME,
+            </if>
+            <if test="fEngineeringConstruction != null" >
+                F_ENGINEERING_CONSTRUCTION,
+            </if>
+            <if test="fEngineeringContacts != null" >
+                F_ENGINEERING_CONTACTS,
+            </if>
+            <if test="fEngineeringContactsBgdh != null" >
+                F_ENGINEERING_CONTACTS_BGDH,
+            </if>
+            <if test="fEngineeringContactsYddh != null" >
+                F_ENGINEERING_CONTACTS_YDDH,
+            </if>
+            <if test="fBudingPopulation != null" >
+                F_BUDING_POPULATION,
+            </if>
+            <if test="fMonitoringArea != null" >
+                F_MONITORING_AREA,
+            </if>
+            <if test="fSystemSoftware != null" >
+                F_SYSTEM_SOFTWARE,
+            </if>
+            <if test="fCollectorType != null" >
+                F_COLLECTOR_TYPE,
+            </if>
+            <if test="fEntryTime != null" >
+                F_ENTRY_TIME,
+            </if>
+            <if test="fDetectionTime != null" >
+                F_DETECTION_TIME,
+            </if>
+            <if test="fAcceptanceTime != null" >
+                F_ACCEPTANCE_TIME,
+            </if>
+            <if test="fUpdateTime != null" >
+                F_UPDATE_TIME,
+            </if>
+            <if test="fDesignOrganization != null" >
+                F_DESIGN_ORGANIZATION,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides="," >
+            <if test="fBudingId != null" >
+                #{fBudingId,jdbcType=VARCHAR},
+            </if>
+            <if test="fBudingCode != null" >
+                #{fBudingCode,jdbcType=VARCHAR},
+            </if>
+            <if test="fCenterId != null" >
+                #{fCenterId,jdbcType=VARCHAR},
+            </if>
+            <if test="fBudingName != null" >
+                #{fBudingName,jdbcType=VARCHAR},
+            </if>
+            <if test="fBudingNode != null" >
+                #{fBudingNode,jdbcType=VARCHAR},
+            </if>
+            <if test="fBudingLetter != null" >
+                #{fBudingLetter,jdbcType=VARCHAR},
+            </if>
+            <if test="fBudingOwner != null" >
+                #{fBudingOwner,jdbcType=VARCHAR},
+            </if>
+            <if test="fBudingOwnerCompany != null" >
+                #{fBudingOwnerCompany,jdbcType=VARCHAR},
+            </if>
+            <if test="fCountyArea != null" >
+                #{fCountyArea,jdbcType=VARCHAR},
+            </if>
+            <if test="fBudingContact != null" >
+                #{fBudingContact,jdbcType=VARCHAR},
+            </if>
+            <if test="fContactInformation != null" >
+                #{fContactInformation,jdbcType=VARCHAR},
+            </if>
+            <if test="fBudingDetection != null" >
+                #{fBudingDetection,jdbcType=VARCHAR},
+            </if>
+            <if test="fBudingAddress != null" >
+                #{fBudingAddress,jdbcType=VARCHAR},
+            </if>
+            <if test="fBudingState != null" >
+                #{fBudingState,jdbcType=VARCHAR},
+            </if>
+            <if test="fDateCompletion != null" >
+                #{fDateCompletion,jdbcType=VARCHAR},
+            </if>
+            <if test="fBudingDate != null" >
+                #{fBudingDate,jdbcType=VARCHAR},
+            </if>
+            <if test="fBudingLongitude != null" >
+                #{fBudingLongitude,jdbcType=VARCHAR},
+            </if>
+            <if test="fBudingLatitude != null" >
+                #{fBudingLatitude,jdbcType=VARCHAR},
+            </if>
+            <if test="fBudingLayerson != null" >
+                #{fBudingLayerson,jdbcType=VARCHAR},
+            </if>
+            <if test="fBudingLayersunder != null" >
+                #{fBudingLayersunder,jdbcType=VARCHAR},
+            </if>
+            <if test="fBudingHeight != null" >
+                #{fBudingHeight,jdbcType=VARCHAR},
+            </if>
+            <if test="fBudingFunction != null" >
+                #{fBudingFunction,jdbcType=VARCHAR},
+            </if>
+            <if test="fBudingArea != null" >
+                #{fBudingArea,jdbcType=VARCHAR},
+            </if>
+            <if test="fAirconditionerArea != null" >
+                #{fAirconditionerArea,jdbcType=VARCHAR},
+            </if>
+            <if test="fHeatingArea != null" >
+                #{fHeatingArea,jdbcType=VARCHAR},
+            </if>
+            <if test="fBudingYnrs != null" >
+                #{fBudingYnrs,jdbcType=VARCHAR},
+            </if>
+            <if test="fHeatingMode != null" >
+                #{fHeatingMode,jdbcType=VARCHAR},
+            </if>
+            <if test="fCoolingMode != null" >
+                #{fCoolingMode,jdbcType=VARCHAR},
+            </if>
+            <if test="fAirconditionerSystem != null" >
+                #{fAirconditionerSystem,jdbcType=VARCHAR},
+            </if>
+            <if test="fHeatingSystem != null" >
+                #{fHeatingSystem,jdbcType=VARCHAR},
+            </if>
+            <if test="fBudingCoefficient != null" >
+                #{fBudingCoefficient,jdbcType=VARCHAR},
+            </if>
+            <if test="fArchitecturalForm != null" >
+                #{fArchitecturalForm,jdbcType=VARCHAR},
+            </if>
+            <if test="fExteriorwallForm != null" >
+                #{fExteriorwallForm,jdbcType=VARCHAR},
+            </if>
+            <if test="fExteriorwallInsulationForm != null" >
+                #{fExteriorwallInsulationForm,jdbcType=VARCHAR},
+            </if>
+            <if test="fBudingExteriorType != null" >
+                #{fBudingExteriorType,jdbcType=VARCHAR},
+            </if>
+            <if test="fBudingGlassType != null" >
+                #{fBudingGlassType,jdbcType=VARCHAR},
+            </if>
+            <if test="fMaterialType != null" >
+                #{fMaterialType,jdbcType=VARCHAR},
+            </if>
+            <if test="fSavingStandard != null" >
+                #{fSavingStandard,jdbcType=VARCHAR},
+            </if>
+            <if test="fSavingTransformation != null" >
+                #{fSavingTransformation,jdbcType=VARCHAR},
+            </if>
+            <if test="fBudingGovernment != null" >
+                #{fBudingGovernment,jdbcType=VARCHAR},
+            </if>
+            <if test="fBenchmarking != null" >
+                #{fBenchmarking,jdbcType=VARCHAR},
+            </if>
+            <if test="fSchemeDesign != null" >
+                #{fSchemeDesign,jdbcType=VARCHAR},
+            </if>
+            <if test="fOperatorName != null" >
+                #{fOperatorName,jdbcType=VARCHAR},
+            </if>
+            <if test="fEngineeringConstruction != null" >
+                #{fEngineeringConstruction,jdbcType=VARCHAR},
+            </if>
+            <if test="fEngineeringContacts != null" >
+                #{fEngineeringContacts,jdbcType=VARCHAR},
+            </if>
+            <if test="fEngineeringContactsBgdh != null" >
+                #{fEngineeringContactsBgdh,jdbcType=VARCHAR},
+            </if>
+            <if test="fEngineeringContactsYddh != null" >
+                #{fEngineeringContactsYddh,jdbcType=VARCHAR},
+            </if>
+            <if test="fBudingPopulation != null" >
+                #{fBudingPopulation,jdbcType=VARCHAR},
+            </if>
+            <if test="fMonitoringArea != null" >
+                #{fMonitoringArea,jdbcType=VARCHAR},
+            </if>
+            <if test="fSystemSoftware != null" >
+                #{fSystemSoftware,jdbcType=VARCHAR},
+            </if>
+            <if test="fCollectorType != null" >
+                #{fCollectorType,jdbcType=VARCHAR},
+            </if>
+            <if test="fEntryTime != null" >
+                #{fEntryTime,jdbcType=VARCHAR},
+            </if>
+            <if test="fDetectionTime != null" >
+                #{fDetectionTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="fAcceptanceTime != null" >
+                #{fAcceptanceTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="fUpdateTime != null" >
+                #{fUpdateTime,jdbcType=VARCHAR},
+            </if>
+            <if test="fDesignOrganization != null" >
+                #{fDesignOrganization,jdbcType=VARCHAR},
+            </if>
+        </trim>
+    </insert>
+
+    <update id="del_BudingType1" parameterType="com.efounder.JEnterprise.model.basedatamanage.energydataReport.BesBudingInformation" >
+        update bes_buding_information
+        <set >
+            <if test="fBudingCode != null" >
+                F_BUDING_CODE = #{fBudingCode,jdbcType=VARCHAR},
+            </if>
+            <if test="fCenterId != null" >
+                F_CENTER_ID = #{fCenterId,jdbcType=VARCHAR},
+            </if>
+            <if test="fBudingName != null" >
+                F_BUDING_NAME = #{fBudingName,jdbcType=VARCHAR},
+            </if>
+            <if test="fBudingNode != null" >
+                F_BUDING_NODE = #{fBudingNode,jdbcType=VARCHAR},
+            </if>
+            <if test="fBudingLetter != null" >
+                F_BUDING_LETTER = #{fBudingLetter,jdbcType=VARCHAR},
+            </if>
+            <if test="fBudingOwner != null" >
+                F_BUDING_OWNER = #{fBudingOwner,jdbcType=VARCHAR},
+            </if>
+            <if test="fBudingOwnerCompany != null" >
+                F_BUDING_OWNER_COMPANY = #{fBudingOwnerCompany,jdbcType=VARCHAR},
+            </if>
+            <if test="fCountyArea != null" >
+                F_COUNTY_AREA = #{fCountyArea,jdbcType=VARCHAR},
+            </if>
+            <if test="fBudingContact != null" >
+                F_BUDING_CONTACT = #{fBudingContact,jdbcType=VARCHAR},
+            </if>
+            <if test="fContactInformation != null" >
+                F_CONTACT_INFORMATION = #{fContactInformation,jdbcType=VARCHAR},
+            </if>
+            <if test="fBudingDetection != null" >
+                F_BUDING_DETECTION = #{fBudingDetection,jdbcType=VARCHAR},
+            </if>
+            <if test="fBudingAddress != null" >
+                F_BUDING_ADDRESS = #{fBudingAddress,jdbcType=VARCHAR},
+            </if>
+            <if test="fBudingState != null" >
+                F_BUDING_STATE = #{fBudingState,jdbcType=VARCHAR},
+            </if>
+            <if test="fDateCompletion != null" >
+                F_DATE_COMPLETION = #{fDateCompletion,jdbcType=VARCHAR},
+            </if>
+            <if test="fBudingDate != null" >
+                F_BUDING_DATE = #{fBudingDate,jdbcType=VARCHAR},
+            </if>
+            <if test="fBudingLongitude != null" >
+                F_BUDING_LONGITUDE = #{fBudingLongitude,jdbcType=VARCHAR},
+            </if>
+            <if test="fBudingLatitude != null" >
+                F_BUDING_LATITUDE = #{fBudingLatitude,jdbcType=VARCHAR},
+            </if>
+            <if test="fBudingLayerson != null" >
+                F_BUDING_LAYERSON = #{fBudingLayerson,jdbcType=VARCHAR},
+            </if>
+            <if test="fBudingLayersunder != null" >
+                F_BUDING_LAYERSUNDER = #{fBudingLayersunder,jdbcType=VARCHAR},
+            </if>
+            <if test="fBudingHeight != null" >
+                F_BUDING_HEIGHT = #{fBudingHeight,jdbcType=VARCHAR},
+            </if>
+            <if test="fBudingFunction != null" >
+                F_BUDING_FUNCTION = #{fBudingFunction,jdbcType=VARCHAR},
+            </if>
+            <if test="fBudingArea != null" >
+                F_BUDING_AREA = #{fBudingArea,jdbcType=VARCHAR},
+            </if>
+            <if test="fAirconditionerArea != null" >
+                F_AIRCONDITIONER_AREA = #{fAirconditionerArea,jdbcType=VARCHAR},
+            </if>
+            <if test="fHeatingArea != null" >
+                F_HEATING_AREA = #{fHeatingArea,jdbcType=VARCHAR},
+            </if>
+            <if test="fBudingYnrs != null" >
+                F_BUDING_YNRS = #{fBudingYnrs,jdbcType=VARCHAR},
+            </if>
+            <if test="fHeatingMode != null" >
+                F_HEATING_MODE = #{fHeatingMode,jdbcType=VARCHAR},
+            </if>
+            <if test="fCoolingMode != null" >
+                F_COOLING_MODE = #{fCoolingMode,jdbcType=VARCHAR},
+            </if>
+            <if test="fAirconditionerSystem != null" >
+                F_AIRCONDITIONER_SYSTEM = #{fAirconditionerSystem,jdbcType=VARCHAR},
+            </if>
+            <if test="fHeatingSystem != null" >
+                F_HEATING_SYSTEM = #{fHeatingSystem,jdbcType=VARCHAR},
+            </if>
+            <if test="fBudingCoefficient != null" >
+                F_BUDING_COEFFICIENT = #{fBudingCoefficient,jdbcType=VARCHAR},
+            </if>
+            <if test="fArchitecturalForm != null" >
+                F_ARCHITECTURAL_FORM = #{fArchitecturalForm,jdbcType=VARCHAR},
+            </if>
+            <if test="fExteriorwallForm != null" >
+                F_EXTERIORWALL_FORM = #{fExteriorwallForm,jdbcType=VARCHAR},
+            </if>
+            <if test="fExteriorwallInsulationForm != null" >
+                F_EXTERIORWALL_INSULATION_FORM = #{fExteriorwallInsulationForm,jdbcType=VARCHAR},
+            </if>
+            <if test="fBudingExteriorType != null" >
+                F_BUDING_EXTERIOR_TYPE = #{fBudingExteriorType,jdbcType=VARCHAR},
+            </if>
+            <if test="fBudingGlassType != null" >
+                F_BUDING_GLASS_TYPE = #{fBudingGlassType,jdbcType=VARCHAR},
+            </if>
+            <if test="fMaterialType != null" >
+                F_MATERIAL_TYPE = #{fMaterialType,jdbcType=VARCHAR},
+            </if>
+            <if test="fSavingStandard != null" >
+                F_SAVING_STANDARD = #{fSavingStandard,jdbcType=VARCHAR},
+            </if>
+            <if test="fSavingTransformation != null" >
+                F_SAVING_TRANSFORMATION = #{fSavingTransformation,jdbcType=VARCHAR},
+            </if>
+            <if test="fBudingGovernment != null" >
+                F_BUDING_GOVERNMENT = #{fBudingGovernment,jdbcType=VARCHAR},
+            </if>
+            <if test="fBenchmarking != null" >
+                F_BENCHMARKING = #{fBenchmarking,jdbcType=VARCHAR},
+            </if>
+            <if test="fSchemeDesign != null" >
+                F_SCHEME_DESIGN = #{fSchemeDesign,jdbcType=VARCHAR},
+            </if>
+            <if test="fOperatorName != null" >
+                F_OPERATOR_NAME = #{fOperatorName,jdbcType=VARCHAR},
+            </if>
+            <if test="fEngineeringConstruction != null" >
+                F_ENGINEERING_CONSTRUCTION = #{fEngineeringConstruction,jdbcType=VARCHAR},
+            </if>
+            <if test="fEngineeringContacts != null" >
+                F_ENGINEERING_CONTACTS = #{fEngineeringContacts,jdbcType=VARCHAR},
+            </if>
+            <if test="fEngineeringContactsBgdh != null" >
+                F_ENGINEERING_CONTACTS_BGDH = #{fEngineeringContactsBgdh,jdbcType=VARCHAR},
+            </if>
+            <if test="fEngineeringContactsYddh != null" >
+                F_ENGINEERING_CONTACTS_YDDH = #{fEngineeringContactsYddh,jdbcType=VARCHAR},
+            </if>
+            <if test="fBudingPopulation != null" >
+                F_BUDING_POPULATION = #{fBudingPopulation,jdbcType=VARCHAR},
+            </if>
+            <if test="fMonitoringArea != null" >
+                F_MONITORING_AREA = #{fMonitoringArea,jdbcType=VARCHAR},
+            </if>
+            <if test="fSystemSoftware != null" >
+                F_SYSTEM_SOFTWARE = #{fSystemSoftware,jdbcType=VARCHAR},
+            </if>
+            <if test="fCollectorType != null" >
+                F_COLLECTOR_TYPE = #{fCollectorType,jdbcType=VARCHAR},
+            </if>
+            <if test="fEntryTime != null" >
+                F_ENTRY_TIME = #{fEntryTime,jdbcType=VARCHAR},
+            </if>
+            <if test="fDetectionTime != null" >
+                F_DETECTION_TIME = #{fDetectionTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="fAcceptanceTime != null" >
+                F_ACCEPTANCE_TIME = #{fAcceptanceTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="fUpdateTime != null" >
+                F_UPDATE_TIME = #{fUpdateTime,jdbcType=VARCHAR},
+            </if>
+            <if test="fDesignOrganization != null" >
+                F_DESIGN_ORGANIZATION = #{fDesignOrganization,jdbcType=VARCHAR},
+            </if>
+        </set>
+        where F_BUDING_ID = #{id,jdbcType=VARCHAR}
+    </update>
+
+    <update id="edit_BudingType" parameterType="com.efounder.JEnterprise.model.basedatamanage.energydataReport.BesBudingInformation" >
+        <!--
+      update bes_buding_information
+      set F_BUDING_CODE = #{fBudingCode,jdbcType=VARCHAR},
+          F_CENTER_ID = #{fCenterId,jdbcType=VARCHAR},
+          F_BUDING_NAME = #{fBudingName,jdbcType=VARCHAR},
+          F_BUDING_NODE = #{fBudingNode,jdbcType=VARCHAR},
+          F_BUDING_LETTER = #{fBudingLetter,jdbcType=VARCHAR},
+          F_BUDING_OWNER = #{fBudingOwner,jdbcType=VARCHAR},
+          F_BUDING_OWNER_COMPANY = #{fBudingOwnerCompany,jdbcType=VARCHAR},
+          F_COUNTY_AREA = #{fCountyArea,jdbcType=VARCHAR},
+          F_BUDING_CONTACT = #{fBudingContact,jdbcType=VARCHAR},
+          F_CONTACT_INFORMATION = #{fContactInformation,jdbcType=VARCHAR},
+          F_BUDING_DETECTION = #{fBudingDetection,jdbcType=VARCHAR},
+          F_BUDING_ADDRESS = #{fBudingAddress,jdbcType=VARCHAR},
+          F_BUDING_STATE = #{fBudingState,jdbcType=VARCHAR},
+          F_DATE_COMPLETION = #{fDateCompletion,jdbcType=VARCHAR},
+          F_BUDING_DATE = #{fBudingDate,jdbcType=VARCHAR},
+          F_BUDING_LONGITUDE = #{fBudingLongitude,jdbcType=VARCHAR},
+          F_BUDING_LATITUDE = #{fBudingLatitude,jdbcType=VARCHAR},
+          F_BUDING_LAYERSON = #{fBudingLayerson,jdbcType=VARCHAR},
+          F_BUDING_LAYERSUNDER = #{fBudingLayersunder,jdbcType=VARCHAR},
+          F_BUDING_HEIGHT = #{fBudingHeight,jdbcType=VARCHAR},
+          F_BUDING_FUNCTION = #{fBudingFunction,jdbcType=VARCHAR},
+          F_BUDING_AREA = #{fBudingArea,jdbcType=VARCHAR},
+          F_AIRCONDITIONER_AREA = #{fAirconditionerArea,jdbcType=VARCHAR},
+          F_HEATING_AREA = #{fHeatingArea,jdbcType=VARCHAR},
+          F_BUDING_YNRS = #{fBudingYnrs,jdbcType=VARCHAR},
+          F_HEATING_MODE = #{fHeatingMode,jdbcType=VARCHAR},
+          F_COOLING_MODE = #{fCoolingMode,jdbcType=VARCHAR},
+          F_AIRCONDITIONER_SYSTEM = #{fAirconditionerSystem,jdbcType=VARCHAR},
+          F_HEATING_SYSTEM = #{fHeatingSystem,jdbcType=VARCHAR},
+          F_BUDING_COEFFICIENT = #{fBudingCoefficient,jdbcType=VARCHAR},
+          F_ARCHITECTURAL_FORM = #{fArchitecturalForm,jdbcType=VARCHAR},
+          F_EXTERIORWALL_FORM = #{fExteriorwallForm,jdbcType=VARCHAR},
+          F_EXTERIORWALL_INSULATION_FORM = #{fExteriorwallInsulationForm,jdbcType=VARCHAR},
+          F_BUDING_EXTERIOR_TYPE = #{fBudingExteriorType,jdbcType=VARCHAR},
+          F_BUDING_GLASS_TYPE = #{fBudingGlassType,jdbcType=VARCHAR},
+          F_MATERIAL_TYPE = #{fMaterialType,jdbcType=VARCHAR},
+          F_SAVING_STANDARD = #{fSavingStandard,jdbcType=VARCHAR},
+          F_SAVING_TRANSFORMATION = #{fSavingTransformation,jdbcType=VARCHAR},
+          F_BUDING_GOVERNMENT = #{fBudingGovernment,jdbcType=VARCHAR},
+          F_BENCHMARKING = #{fBenchmarking,jdbcType=VARCHAR},
+          F_SCHEME_DESIGN = #{fSchemeDesign,jdbcType=VARCHAR},
+          F_OPERATOR_NAME = #{fOperatorName,jdbcType=VARCHAR},
+          F_ENGINEERING_CONSTRUCTION = #{fEngineeringConstruction,jdbcType=VARCHAR},
+          F_ENGINEERING_CONTACTS = #{fEngineeringContacts,jdbcType=VARCHAR},
+          F_ENGINEERING_CONTACTS_BGDH = #{fEngineeringContactsBgdh,jdbcType=VARCHAR},
+          F_ENGINEERING_CONTACTS_YDDH = #{fEngineeringContactsYddh,jdbcType=VARCHAR},
+          F_BUDING_POPULATION = #{fBudingPopulation,jdbcType=VARCHAR},
+          F_MONITORING_AREA = #{fMonitoringArea,jdbcType=VARCHAR},
+          F_SYSTEM_SOFTWARE = #{fSystemSoftware,jdbcType=VARCHAR},
+          F_COLLECTOR_TYPE = #{fCollectorType,jdbcType=VARCHAR},
+          F_ENTRY_TIME = #{fEntryTime,jdbcType=VARCHAR},
+          F_DETECTION_TIME = #{fDetectionTime,jdbcType=TIMESTAMP},
+          F_ACCEPTANCE_TIME = #{fAcceptanceTime,jdbcType=TIMESTAMP},
+          F_UPDATE_TIME = #{fUpdateTime,jdbcType=VARCHAR},
+          F_DESIGN_ORGANIZATION = #{fDesignOrganization,jdbcType=VARCHAR},
+          F_DESCRIBE = #{fDescribe,jdbcType=VARCHAR}
+      where F_BUDING_ID = #{fBudingId,jdbcType=VARCHAR}
+      -->
+        update bes_buding_information
+        set F_BUDING_CODE = #{fBudingCode,jdbcType=VARCHAR},
+        F_CENTER_ID = #{fCenterId,jdbcType=VARCHAR},
+        F_BUDING_NAME = #{fBudingName,jdbcType=VARCHAR},
+        F_BUDING_NODE = #{fBudingNode,jdbcType=VARCHAR},
+        F_BUDING_LETTER = #{fBudingLetter,jdbcType=VARCHAR},
+        F_BUDING_OWNER = #{fBudingOwner,jdbcType=VARCHAR},
+        F_BUDING_OWNER_COMPANY = #{fBudingOwnerCompany,jdbcType=VARCHAR},
+        F_BUDING_CONTACT = #{fBudingContact,jdbcType=VARCHAR},
+        F_CONTACT_INFORMATION = #{fContactInformation,jdbcType=VARCHAR},
+        F_BUDING_DETECTION = #{fBudingDetection,jdbcType=VARCHAR},
+        F_BUDING_ADDRESS = #{fBudingAddress,jdbcType=VARCHAR},
+        F_BUDING_STATE = #{fBudingState,jdbcType=VARCHAR},
+        F_BUDING_DATE = #{fBudingDate,jdbcType=VARCHAR},
+        F_BUDING_LONGITUDE = #{fBudingLongitude,jdbcType=VARCHAR},
+        F_BUDING_LATITUDE = #{fBudingLatitude,jdbcType=VARCHAR},
+        F_BUDING_LAYERSON = #{fBudingLayerson,jdbcType=VARCHAR},
+        F_BUDING_LAYERSUNDER = #{fBudingLayersunder,jdbcType=VARCHAR},
+        F_BUDING_HEIGHT = #{fBudingHeight,jdbcType=VARCHAR},
+        F_BUDING_FUNCTION = #{fBudingFunction,jdbcType=VARCHAR},
+        F_BUDING_AREA = #{fBudingArea,jdbcType=VARCHAR},
+        F_AIRCONDITIONER_AREA = #{fAirconditionerArea,jdbcType=VARCHAR},
+        F_HEATING_AREA = #{fHeatingArea,jdbcType=VARCHAR},
+        F_BUDING_YNRS = #{fBudingYnrs,jdbcType=VARCHAR},
+        F_HEATING_MODE = #{fHeatingMode,jdbcType=VARCHAR},
+        F_COOLING_MODE = #{fCoolingMode,jdbcType=VARCHAR},
+        F_AIRCONDITIONER_SYSTEM = #{fAirconditionerSystem,jdbcType=VARCHAR},
+        F_HEATING_SYSTEM = #{fHeatingSystem,jdbcType=VARCHAR},
+        F_BUDING_COEFFICIENT = #{fBudingCoefficient,jdbcType=VARCHAR},
+        F_ARCHITECTURAL_FORM = #{fArchitecturalForm,jdbcType=VARCHAR},
+        F_EXTERIORWALL_FORM = #{fExteriorwallForm,jdbcType=VARCHAR},
+        F_EXTERIORWALL_INSULATION_FORM = #{fExteriorwallInsulationForm,jdbcType=VARCHAR},
+        F_BUDING_EXTERIOR_TYPE = #{fBudingExteriorType,jdbcType=VARCHAR},
+        F_BUDING_GLASS_TYPE = #{fBudingGlassType,jdbcType=VARCHAR},
+        F_MATERIAL_TYPE = #{fMaterialType,jdbcType=VARCHAR},
+        F_SAVING_STANDARD = #{fSavingStandard,jdbcType=VARCHAR},
+        F_SAVING_TRANSFORMATION = #{fSavingTransformation,jdbcType=VARCHAR},
+        F_BUDING_GOVERNMENT = #{fBudingGovernment,jdbcType=VARCHAR},
+        F_BENCHMARKING = #{fBenchmarking,jdbcType=VARCHAR},
+        F_SCHEME_DESIGN = #{fSchemeDesign,jdbcType=VARCHAR},
+        F_ENGINEERING_CONSTRUCTION = #{fEngineeringConstruction,jdbcType=VARCHAR},
+        F_ENGINEERING_CONTACTS = #{fEngineeringContacts,jdbcType=VARCHAR},
+        F_ENGINEERING_CONTACTS_BGDH = #{fEngineeringContactsBgdh,jdbcType=VARCHAR},
+        F_BUDING_POPULATION = #{fBudingPopulation,jdbcType=VARCHAR},
+        F_MONITORING_AREA = #{fMonitoringArea,jdbcType=VARCHAR},
+        F_ENTRY_TIME = #{fEntryTime,jdbcType=VARCHAR},
+        F_DETECTION_TIME = #{fDetectionTime,jdbcType=TIMESTAMP},
+        <if test="fAcceptanceTime != null and fAcceptanceTime != ''">
+            F_ACCEPTANCE_TIME = #{fAcceptanceTime,jdbcType=TIMESTAMP},
+        </if>
+        F_DESIGN_ORGANIZATION = #{fDesignOrganization,jdbcType=VARCHAR},
+        F_DESCRIBE = #{fDescribe,jdbcType=VARCHAR}
+        where F_BUDING_ID = #{fBudingId,jdbcType=VARCHAR}
+    </update>
+    
+<!--     刷新报警信息条数 -->
+    <select id="getBjxxCount" parameterType="string" resultType="java.util.HashMap">
+		<![CDATA[
+			SELECT COUNT(*) AS BjxxCount  
+		]]>
+			from bes_buding_information
+		<where>
+		 1 = 1 
+		</where>
+	</select>
+</mapper>

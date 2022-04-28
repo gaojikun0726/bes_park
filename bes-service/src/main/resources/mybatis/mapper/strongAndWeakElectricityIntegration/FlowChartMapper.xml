@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.efounder.JEnterprise.mapper.strongAndWeakElectricityIntegration.FlowChartMapper">
+
+	<resultMap id="FlowChartMapper" type="com.efounder.JEnterprise.model.strongAndWeakElectricityIntegration.BESFlowType">
+		<result column="F_ID" property="f_id" />
+		<result column="F_NAME" property="f_name" />
+	</resultMap>
+
+	<insert id="addFlowType" parameterType="com.efounder.JEnterprise.model.strongAndWeakElectricityIntegration.BESFlowType" >
+    insert into bes_flow_type (F_ID, F_NAME) values (#{f_id}, #{f_name})
+  </insert>
+
+	<select id="getFlowTypeInfo"  resultMap="FlowChartMapper">
+		SELECT * FROM BES_FLOW_TYPE
+	</select>
+
+	<update id="editFlowType" parameterType="com.efounder.JEnterprise.model.strongAndWeakElectricityIntegration.BESFlowType" >
+		update bes_flow_type
+		<set >
+			F_NAME= #{f_name}
+		</set>
+		where F_ID = #{f_id}
+	</update>
+
+
+	<delete id="deleteFlowType" parameterType="com.efounder.JEnterprise.model.strongAndWeakElectricityIntegration.BESFlowType">
+		DELETE FROM bes_flow_type WHERE F_ID = #{f_id}
+	</delete>
+
+	<delete id="deleteFlowChart" >
+		DELETE FROM a_design_page_info WHERE area_id = #{f_id}
+	</delete>
+
+</mapper>
+
+

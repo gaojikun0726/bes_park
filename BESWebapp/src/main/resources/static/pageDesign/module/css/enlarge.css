@@ -1,0 +1,32 @@
+.reduce_win{
+    margin-left:60%;
+}
+.design_zoom_win{
+    display: none;
+    position:absolute;
+    top:5px;
+    margin-left:40%;
+    /*background-color: #195273;*/
+    /*width: 30vh;*/
+    border-radius: 1vh;
+    opacity: 0.8;
+    z-index: 10;
+    border: 1px #337ab7 solid;
+    background-color: rgb(249, 253, 255);
+}
+.design_zoom_win .zoom_slide{
+width:20vh;
+margin: 5vh 3vh 3vh;
+opacity: 1;
+}
+.design_zoom_win .layui-slider-tips:after{
+border: 0;
+}
+.design_zoom_win .layui-slider-tips{
+top:-26px;
+background: none;
+color:#333;
+    display: block!important;
+    padding: 0 10px 5px;
+    height: 18px;
+}

@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.efounder.JEnterprise.mapper.usercenter.UserPostRlglMapper">
+
+	<resultMap id="userRoleRlglMap" type="com.efounder.JEnterprise.model.usercenter.UserPostRlgl">
+		<result column="F_GWGUID" property="f_gwguid" />
+		<result column="F_YHBH" property="f_yhbh" />
+		<result column="F_CRDATE" property="f_crdate" />
+		<result column="F_CHDATE" property="f_chdate" />
+	</resultMap>
+
+	
+
+	<sql id="find_xxx">
+	    <![CDATA[
+			SELECT F_GWGUID , F_YHBH  ,date_format(F_CRDATE,'%Y-%m-%d %H:%i:%s' )F_CRDATE ,date_format(F_CHDATE,'%Y-%m-%d %H:%i:%s' )F_CHDATE
+	    ]]>
+	</sql>
+
+	<sql id="from_xxx">
+	    <![CDATA[
+	    	FROM ES_USER_POST_RLGL
+	    ]]>
+	</sql>
+
+	<sql id="where_xxx">
+	    <![CDATA[
+	    	WHERE 1=1
+	    ]]>
+	</sql>
+	<select id="loadAll" parameterType="string" resultMap="userRoleRlglMap">
+		<include refid="find_xxx" />
+		<include refid="from_xxx" />
+	</select>
+	<select id="findById" parameterType="string" resultMap="userRoleRlglMap">
+		<include refid="find_xxx" />
+		<include refid="from_xxx" />
+		<![CDATA[
+			WHERE F_GWGUID=#{f_gwguid}
+		]]>
+	</select>
+
+	<select id="findUserPostRlglByPage" parameterType="string" resultMap="userRoleRlglMap">
+		<include refid="find_xxx" />
+		<include refid="from_xxx" />
+		<where>
+		1=1 
+			<if test="keywords != null and keywords != ''"> 
+			 and CONCAT(`keywords`) LIKE CONCAT('%',#{keywords},'%')
+			 </if>
+		</where>
+	</select>
+
+<!-- 根据编号查找所有用户 -->
+	<select id="findChildByPostbh" parameterType="string" resultMap="userRoleRlglMap">
+		<include refid="find_xxx" />
+		<include refid="from_xxx" />
+		<where>
+			F_GWGUID = #{f_gwguid} 
+		</where>
+		order by F_GWGUID
+	</select>
+
+
+	<update id="update" parameterType="com.efounder.JEnterprise.model.usercenter.UserPostRlgl">
+		UPDATE ES_USER_POST_RLGL
+		<set>
+			<!--修改时间  -->
+			F_CHDATE = current_timestamp()
+		</set>
+		WHERE F_GWGUID=#{f_gwguid}
+	</update>
+	
+	<insert id="insert" parameterType="com.efounder.JEnterprise.model.usercenter.UserPostRlgl">
+		INSERT INTO ES_USER_POST_RLGL(F_GWGUID ,F_YHBH,F_CRDATE, F_CHDATE)
+		 VALUES(#{f_gwguid} , #{f_yhbh} , current_timestamp(),current_timestamp())
+	</insert>
+
+	
+	<delete id="delete" parameterType="string">
+		DELETE FROM ES_USER_POST_RLGL WHERE F_GWGUID=#{f_gwguid}
+	</delete>
+<!-- 删除本用户组下所有用户 -->
+	<delete id="leftMoveByPostbh" parameterType="string">
+		DELETE FROM ES_USER_POST_RLGL WHERE F_GWGUID = #{f_gwguid}
+	</delete>
+<!-- 移除用户组包含用户 -->
+	<delete id="deleteByYhbh" parameterType="string">
+		DELETE FROM ES_USER_POST_RLGL WHERE F_YHBH = #{f_yhbh}
+	</delete>
+
+</mapper>

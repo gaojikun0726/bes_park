@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.efounder.JEnterprise.mapper.basedatamanage.energydataRecord.BesMeterAmmeterMapper" >
+    <resultMap id="BaseResultMap" type="com.efounder.JEnterprise.model.basedatamanage.energydataRecord.BesMeterAmmeter" >
+    	<id column="F_GUID" property="fGuid" jdbcType="VARCHAR" />
+        <id column="F_SYS_NAME" property="fSysName" jdbcType="VARCHAR" />
+        <result column="F_NICK_NAME" property="fNickName" jdbcType="VARCHAR" />
+        <result column="F_ENABLED" property="fEnabled" jdbcType="VARCHAR" />
+        <result column="F_SSQY" property="fSsqy" jdbcType="VARCHAR" />
+        <result column="F_AZWZ" property="fAzwz" jdbcType="VARCHAR" />
+        <result column="F_WLDZ" property="fWldz" jdbcType="VARCHAR" />
+        <result column="F_DESCRIPTION" property="fDescription" jdbcType="VARCHAR" />
+        <result column="F_SBLXBH" property="fSblxbh" jdbcType="VARCHAR" />
+        <result column="F_TYPE" property="fType" jdbcType="VARCHAR" />
+        <result column="F_COMM_RATE" property="fCommRate" jdbcType="VARCHAR" />
+        <result column="F_COMM_RATE_MC" property="fCommRateMc" jdbcType="VARCHAR" />
+        <result column="F_PROTOCOL_TYPE" property="fProtocolType" jdbcType="VARCHAR" />
+        <result column="F_PROTOCOL_TYPE_MC" property="fProtocolTypeMc" jdbcType="VARCHAR" />
+        <result column="F_CJFABH" property="fCjfabh" jdbcType="VARCHAR" />
+        <result column="F_CJFAMC" property="fCjfamc" jdbcType="VARCHAR" />
+        <result column="F_BLXBH" property="fBlxbh" jdbcType="VARCHAR" />
+        <result column="F_BLXMC" property="fBlxmc" jdbcType="VARCHAR" />
+        <result column="F_COMMUNICATION_PORT" property="fCommunicationPort" jdbcType="VARCHAR" />
+        <result column="F_YQBH" property="fYqbh" jdbcType="VARCHAR" />
+        <result column="F_PERCENTAGE" property="fPercentage" jdbcType="VARCHAR" />
+        <result column="F_AMMETER_STATE" property="fAmmeterState" jdbcType="VARCHAR" />
+        <result column="F_ONLINE_STATE" property="fOnlineState" jdbcType="VARCHAR" />
+        <result column="F_ONLINESTATE" property="fOnlinestate" jdbcType="VARCHAR" />
+        <result column="F_CRDATE" property="fCrdate" jdbcType="TIMESTAMP" />
+        <result column="F_CHDATE" property="fChdate" jdbcType="TIMESTAMP" />
+    </resultMap>
+<!-- 	查询字段 -->
+    <sql id="Base_Column_List" >
+        F_GUID,F_SYS_NAME, F_NICK_NAME, F_ENABLED, F_SSQY, F_AZWZ, F_WLDZ, F_DESCRIPTION, F_SBLXBH, 
+        F_TYPE, F_COMM_RATE, F_COMM_RATE_MC, F_PROTOCOL_TYPE, F_PROTOCOL_TYPE_MC, F_CJFABH, 
+        F_CJFAMC, F_BLXBH, F_BLXMC, F_COMMUNICATION_PORT, F_YQBH, F_PERCENTAGE, F_AMMETER_STATE, 
+        F_ONLINE_STATE, F_ONLINESTATE, F_CRDATE, F_CHDATE
+    </sql>
+<!-- 树查询 -->
+    <select id="getMeterTypeList" resultMap="BaseResultMap" parameterType="java.lang.String" >
+        select 
+        <include refid="Base_Column_List" />
+        from bes_ammeter
+        where F_BLXBH = '5'
+    </select>
+
+<!-- 新增静态电表 -->
+    <insert id="add_MeterInformation" parameterType="com.efounder.JEnterprise.model.basedatamanage.energydataRecord.BesMeterAmmeter" >
+        insert into bes_ammeter (F_GUID,F_SYS_NAME_OLD,F_SYS_NAME, F_NICK_NAME, F_ENABLED,
+            F_SSQY, F_AZWZ, F_WLDZ, 
+            F_DESCRIPTION, F_SBLXBH, F_TYPE, 
+            F_COMM_RATE, F_COMM_RATE_MC, F_PROTOCOL_TYPE, 
+            F_PROTOCOL_TYPE_MC, F_CJFABH, F_CJFAMC, 
+            F_BLXBH, F_BLXMC, F_COMMUNICATION_PORT, 
+            F_YQBH, F_PERCENTAGE, F_AMMETER_STATE, 
+            F_ONLINE_STATE, F_ONLINESTATE, F_CRDATE, 
+            F_CHDATE)
+        values (#{fGuid,jdbcType=VARCHAR},#{fSysName,jdbcType=VARCHAR},#{fSysName,jdbcType=VARCHAR}, #{fNickName,jdbcType=VARCHAR}, #{fEnabled,jdbcType=VARCHAR},
+            #{fSsqy,jdbcType=VARCHAR}, #{fAzwz,jdbcType=VARCHAR}, #{fWldz,jdbcType=VARCHAR}, 
+            #{fDescription,jdbcType=VARCHAR}, #{fSblxbh,jdbcType=VARCHAR}, #{fType,jdbcType=VARCHAR}, 
+            #{fCommRate,jdbcType=VARCHAR}, #{fCommRateMc,jdbcType=VARCHAR}, #{fProtocolType,jdbcType=VARCHAR}, 
+            #{fProtocolTypeMc,jdbcType=VARCHAR}, #{fCjfabh,jdbcType=VARCHAR}, #{fCjfamc,jdbcType=VARCHAR}, 
+            #{fBlxbh,jdbcType=VARCHAR}, #{fBlxmc,jdbcType=VARCHAR}, #{fCommunicationPort,jdbcType=VARCHAR}, 
+            #{fYqbh,jdbcType=VARCHAR}, #{fPercentage,jdbcType=VARCHAR}, #{fAmmeterState,jdbcType=VARCHAR}, 
+            #{fOnlineState,jdbcType=VARCHAR}, #{fOnlinestate,jdbcType=VARCHAR}, current_timestamp(),current_timestamp())
+    </insert>
+    
+<!-- 新增静态电表数据 -->
+    <insert id="add_MeterInfo" parameterType="com.efounder.JEnterprise.model.basedatamanage.energydataRecord.BesMeterAmmeter" >
+        insert into bes_original_data (F_ID,F_DBSYS_NAME, F_DATA, F_CJSJ,
+            F_TYPE, F_CRDATE, F_CHDATE)
+        values (#{fJtguid,jdbcType=VARCHAR},#{fGuid,jdbcType=VARCHAR}, #{fData,jdbcType=VARCHAR}, #{fCrdate,jdbcType=VARCHAR}, 
+            #{fType,jdbcType=VARCHAR}, current_timestamp(),current_timestamp())
+    </insert>
+<!--     修改回显查询 -->
+    <select id="editSelect_MeterInformation" resultMap="BaseResultMap" parameterType="java.lang.String" >
+        select 
+        <include refid="Base_Column_List" />
+        from bes_ammeter
+        where F_BLXBH = '5' and F_GUID=#{fGuid}
+    </select>
+<!--     修改数据回显查询 -->
+    <select id="editSelect_MeterInfo" resultMap="BaseResultMap" parameterType="java.lang.String" >
+        select 
+        f_id fJtguid,f_data fData,date_format(F_CRDATE,'%Y-%m-%d %H:%i:%s' ) fCrdate
+        from bes_original_data
+        where 1=1 and f_id=#{fJtguid}
+    </select>
+<!--     删除静态电表 -->
+    <delete id="del_MeterInformation" parameterType="java.lang.String" >
+        delete from bes_ammeter
+        where F_GUID = #{fGuid,jdbcType=VARCHAR};
+    </delete>
+<!--     删除静态电表数据  单个-->
+	<delete id="del_MeterInfo" parameterType="java.lang.String" >
+		delete from bes_original_data
+        where f_dbsys_name=#{fGuid,jdbcType=VARCHAR};
+  	</delete>
+<!--     删除静态电表数据  单个-->
+	<delete id="del_MeterInfo_one" parameterType="java.lang.String" >
+		delete from bes_original_data
+        where f_id=#{fJtguid,jdbcType=VARCHAR};
+  	</delete>
+<!-- 修改保存 -->
+    <update id="edit_MeterInformation" parameterType="com.efounder.JEnterprise.model.basedatamanage.energydataRecord.BesMeterAmmeter" >
+        update bes_ammeter
+        set F_NICK_NAME = #{fNickName,jdbcType=VARCHAR},
+            F_ENABLED = #{fEnabled,jdbcType=VARCHAR},
+            F_SSQY = #{fSsqy,jdbcType=VARCHAR},
+            F_AZWZ = #{fAzwz,jdbcType=VARCHAR},
+            F_WLDZ = #{fWldz,jdbcType=VARCHAR},
+            F_DESCRIPTION = #{fDescription,jdbcType=VARCHAR},
+            F_SBLXBH = #{fSblxbh,jdbcType=VARCHAR},
+            F_TYPE = #{fType,jdbcType=VARCHAR},
+            F_COMM_RATE = #{fCommRate,jdbcType=VARCHAR},
+            F_COMM_RATE_MC = #{fCommRateMc,jdbcType=VARCHAR},
+            F_PROTOCOL_TYPE = #{fProtocolType,jdbcType=VARCHAR},
+            F_PROTOCOL_TYPE_MC = #{fProtocolTypeMc,jdbcType=VARCHAR},
+            F_CJFABH = #{fCjfabh,jdbcType=VARCHAR},
+            F_CJFAMC = #{fCjfamc,jdbcType=VARCHAR},
+            F_BLXBH = #{fBlxbh,jdbcType=VARCHAR},
+            F_BLXMC = #{fBlxmc,jdbcType=VARCHAR},
+            F_COMMUNICATION_PORT = #{fCommunicationPort,jdbcType=VARCHAR},
+            F_YQBH = #{fYqbh,jdbcType=VARCHAR},
+            F_PERCENTAGE = #{fPercentage,jdbcType=VARCHAR},
+            F_AMMETER_STATE = #{fAmmeterState,jdbcType=VARCHAR},
+            F_ONLINE_STATE = #{fOnlineState,jdbcType=VARCHAR},
+            F_ONLINESTATE = #{fOnlinestate,jdbcType=VARCHAR},
+            F_CRDATE = #{fCrdate,jdbcType=TIMESTAMP},
+            F_CHDATE = #{fChdate,jdbcType=TIMESTAMP}
+        where F_GUID = #{fGuid,jdbcType=VARCHAR}
+    </update>
+<!--     修改电表数据 -->
+    <update id="edit_MeterInfo" parameterType="com.efounder.JEnterprise.model.basedatamanage.energydataRecord.BesMeterAmmeter" >
+        update bes_original_data
+        set F_DATA = #{fData,jdbcType=VARCHAR},
+            F_CHDATE = #{fChdate,jdbcType=TIMESTAMP}
+        where F_ID = #{fJtguid,jdbcType=VARCHAR}
+    </update>
+
+<!--     左侧树查询table -->
+<select id="TreeTable" resultMap="BaseResultMap" parameterType="java.lang.String" >
+	select fJtguid,fGuid,fData,fCrdate,fChdate,fSysName,fNickName,fAzwz,fDescription,fBlxbh,fBlxmc from (
+		  select SJ.F_ID fJtguid,SJ.F_DBSYS_NAME fGuid,SJ.F_DATA fData,date_format(SJ.F_CRDATE,'%Y-%m-%d %H:%i:%s' ) fCrdate,date_format(SJ.F_CHDATE,'%Y-%m-%d %H:%i:%s' ) fChdate,M.F_SYS_NAME fSysName,M.F_NICK_NAME fNickName,M.F_AZWZ fAzwz
+		  ,M.F_DESCRIPTION fDescription,M.F_BLXBH fBlxbh,M.F_BLXMC fBlxmc
+		  from bes_original_data SJ LEFT JOIN bes_ammeter M ON M.F_GUID=SJ.F_DBSYS_NAME 
+	)A where 1=1 and A.fGuid=#{treeId}
+</select>
+
+<!-- 	  电表类型下拉查询 -->
+	  <select id="selectMeterType"  resultType="java.util.HashMap" >
+		    select 
+		    F_LXBH ID,F_LXMC NAME
+		    from bes_ammeter_type ORDER BY F_LXBH 
+ 	  </select>
+</mapper>

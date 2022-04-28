@@ -1,0 +1,240 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.efounder.JEnterprise.mapper.datacenter.ESGnzdMapper">
+
+	<resultMap id="gnzdMap" type="com.efounder.JEnterprise.model.datacenter.ESGnzd">
+		<result column="F_GUID" property="guid" />
+		<result column="F_GNBH" property="gnbh" />
+		<result column="F_GNMC" property="gnmc" />
+		<result column="F_CSS_CLASS" property="cssClass" />
+		<result column="F_URL" property="url" />
+		<result column="F_HIDE" property="hide" />
+		<result column="F_MKGUID" property="mkbh" />
+		<result column="F_SORT" property="sort" />
+		<result column="F_JS" property="js" />
+		<result column="F_MX" property="mx" />
+		<result column="F_PGNBH" property="pgnbh" />
+		<result column="F_FULLSCREEN_TYPE" property="fullScreenType" />
+		<result column="F_OPEN_TYPE" property="openType" />
+		<result column="F_TABCLOSEABLE" property="tabcloseable" />
+		<result column="F_PARAMS" property="params" />
+		
+		<result column="F_CRDATE" property="crdate" />
+		<result column="F_CHDATE" property="chdate" />
+	</resultMap>
+
+	<sql id="find_xxx">
+	    <![CDATA[
+			SELECT F_GUID, F_GNBH , F_GNMC , F_CSS_CLASS, F_URL , F_HIDE, F_MKGUID ,F_SORT, F_JS , F_MX , F_PGNBH, F_FULLSCREEN_TYPE, F_OPEN_TYPE,F_TABCLOSEABLE, F_PARAMS, date_format(F_CRDATE,'%Y-%m-%d %H:%i:%s' )F_CRDATE ,date_format(F_CHDATE,'%Y-%m-%d %H:%i:%s' )F_CHDATE
+	    ]]>
+	</sql>
+
+	<sql id="from_xxx">
+	    <![CDATA[
+	    	FROM es_gnzd
+	    ]]>
+	</sql>
+
+	<sql id="where_xxx">
+	    <![CDATA[
+	    	WHERE 1=1
+	    ]]>
+	</sql>
+	<!-- 根据功能字典list查询对应功能字典列表 -->
+	<select id="getGnzdListBygnzdlist" parameterType="string" resultMap="gnzdMap">
+		<include refid="find_xxx" />
+		<include refid="from_xxx" />
+		where F_GUID in 
+		<foreach collection="list" item="item" separator="," open="("  close=")">
+			 #{item}
+		</foreach>
+	</select>
+	<!-- 查询全部 -->
+	<select id="loadGnzdList" parameterType="string" resultMap="gnzdMap">
+		<include refid="find_xxx" />
+		<include refid="from_xxx" />
+		 order by F_SORT
+	</select>
+	<!-- 根据F_GNBH查询功能列表 -->
+	<select id="loadGnzdListByGnbh" parameterType="string" resultMap="gnzdMap">
+		<include refid="find_xxx" />
+		<include refid="from_xxx" />
+		<where>
+			F_GNBH = #{ghbh}
+		</where>
+		   order by F_SORT asc
+	 </select>
+	<!-- 根据F_PGNBH查询功能列表 -->
+	<select id="loadGnzdListByPgnbh" parameterType="string" resultMap="gnzdMap">
+		<include refid="find_xxx" />
+		<include refid="from_xxx" />
+		<where>
+			F_PGNBH = #{ghbh}
+		</where>
+		  order by F_SORT asc
+	</select>
+	<!-- 根据f_mkguid查询功能列表 -->
+	<select id="loadGnzdListByMkuuid" parameterType="string" resultMap="gnzdMap">
+		<include refid="find_xxx" />
+		<include refid="from_xxx" />
+		<where>
+			F_MKGUID = #{mkbh}
+		</where>
+		  order by F_SORT asc
+	</select>
+	<!--工用户功能权限===根据功能编号和审核查询功能列表 -->
+	<select id="loadGnzdListByMkuuidAndTableAndSh" parameterType="string" resultMap="gnzdMap">
+		SELECT B.F_GUID, B.F_GNBH , B.F_GNMC , B.F_CSS_CLASS, B.F_URL , B.F_HIDE, B.F_MKGUID ,B.F_SORT, B.F_JS , B.F_MX , B.F_PGNBH, B.F_FULLSCREEN_TYPE, B.F_OPEN_TYPE,B.F_TABCLOSEABLE, B.F_PARAMS
+		FROM ES_GNZD B
+		LEFT JOIN ${tablename} A ON A.F_GNZDID = B.F_GNBH
+		<where>
+			F_MKGUID = #{mkbh} AND A.F_SH = "0" AND A.F_YHBH = #{fYhbh}
+		</where>
+		  order by F_SORT asc
+	</select>
+	<!-- 角色功能权限===根据功能编号和审核查询功能列表 -->
+	<select id="loadGnzdListByMkuuidAndTableAndShAndRole" parameterType="string" resultMap="gnzdMap">
+		SELECT B.F_GUID, B.F_GNBH , B.F_GNMC , B.F_CSS_CLASS, B.F_URL , B.F_HIDE, B.F_MKGUID ,B.F_SORT, B.F_JS , B.F_MX , B.F_PGNBH, B.F_FULLSCREEN_TYPE, B.F_OPEN_TYPE,B.F_TABCLOSEABLE, B.F_PARAMS
+		FROM ES_GNZD B
+		LEFT JOIN ${tablename} A ON A.F_GNZDID = B.F_GNBH
+		<where>
+			F_MKGUID = #{mkbh} AND A.F_SH = "0" AND A.F_ROLEBH = #{fRolebh}
+		</where>
+		  order by F_SORT asc
+	</select>
+	<!-- 根据f_mkguid和父节点为空为条件查询功能列表 -->
+	<select id="getGnzdByMkbhAndNull" parameterType="string" resultMap="gnzdMap">
+		<include refid="find_xxx" />
+		<include refid="from_xxx" />
+		<where>
+			F_MKGUID = #{mkbh} and F_PGNBH =""
+		</where>
+		  order by F_SORT asc
+	</select>
+	<!-- 根据名称进行模糊查询 -->
+	<select id="findGnzdByMC" parameterType="string" resultMap="gnzdMap">
+		<include refid="find_xxx" />
+		<include refid="from_xxx" />
+		<where>
+			<if test="gnmc != null and gnmc != ''"> F_GNMC like '%${gnmc}%'</if>
+		</where>
+		 order by F_SORT asc
+	</select>
+	<!-- 根据编号以及模块编号查找所有子节点 -->
+	<select id="findChildrenByBH" parameterType="string" resultMap="gnzdMap">
+		<include refid="find_xxx" />
+		<include refid="from_xxx" />
+		<where>
+			F_PGNBH = #{pgnbh} and F_MKGUID = #{mkbh}
+		</where>
+		 order by F_SORT asc
+	</select>
+	<!-- 插入 新增 -->
+	<insert id="insertGnzd" parameterType="com.efounder.JEnterprise.model.datacenter.ESGnzd">
+		INSERT INTO ES_GNZD(F_GUID , F_GNBH , F_GNMC , F_CSS_CLASS, F_URL , F_HIDE, F_MKGUID ,F_SORT, F_JS , F_MX , F_PGNBH, F_FULLSCREEN_TYPE, F_OPEN_TYPE, F_PARAMS,F_TABCLOSEABLE, F_CRDATE, F_CHDATE) 
+		VALUES(#{guid} , #{gnbh} , #{gnmc} , #{cssClass} , #{url} , #{hide} , #{mkbh} , #{sort} ,#{js} , #{mx} , #{pgnbh} , #{fullScreenType} , #{openType},  #{params} ,#{tabcloseable} , current_timestamp(),current_timestamp())
+	</insert>
+	<!-- 更新全部 -->
+	<!-- 更新 -->
+	<update id="updateBygnbh" parameterType="com.efounder.JEnterprise.model.datacenter.ESGnzd">
+		UPDATE es_gnzd
+		<set>
+			<if test="gnmc != null and gnmc != ''">
+				F_GNMC = #{gnmc},
+			</if>
+				 F_URL = #{url},
+			<if test="cssClass !=null and cssClass != '' ">
+				F_CSS_CLASS = #{cssClass},
+			</if>
+			<if test="hide !=null and hide != '' ">
+				F_HIDE = #{hide},
+			</if>
+			<if test="sort !=null and sort != '' ">
+				F_SORT = #{sort},
+			</if>
+			<if test="js !=null and js != '' ">
+				F_JS = #{js},
+			</if>
+			<if test="mx !=null and mx != '' ">
+				F_MX = #{mx},
+			</if>
+			<if test="fullScreenType !=null and fullScreenType != '' ">
+				F_FULLSCREEN_TYPE = #{fullScreenType},
+			</if>
+			<if test="openType !=null and openType != '' ">
+				F_OPEN_TYPE = #{openType},
+			</if>
+			<if test="params !=null and params != '' ">
+				F_PARAMS = #{params},
+			</if>
+			<if test="tabcloseable !=null and tabcloseable != '' ">
+				F_TABCLOSEABLE = #{tabcloseable},
+			</if>
+			<!--修改时间  -->
+			F_CHDATE = current_timestamp()
+		</set>
+		WHERE F_GNBH=#{gnbh}
+	</update>
+	<!-- 更新 -->
+	<update id="update" parameterType="com.efounder.JEnterprise.model.datacenter.ESGnzd">
+		UPDATE es_gnzd
+		<set>
+			<if test="gnmc != null and gnmc != ''">
+				F_GNMC = #{gnmc},
+			</if>
+			<if test="url !=null and url != '' ">
+				F_URL = #{url},
+			</if>
+			<!--修改时间  -->
+			F_CHDATE = current_timestamp()
+		</set>
+		WHERE F_GUID=#{guid}
+	</update>
+	<!-- 更新明细列 -->
+	<update id="updateMx" parameterType="string">
+		UPDATE es_gnzd
+		<set>
+			F_MX = #{mx}
+		</set>
+		WHERE F_GNBH=#{gnbh} and F_MKGUID=#{mkbh}
+	</update>
+	<!-- 删除本节点 -->
+	<delete id="deleteByBH" parameterType="string">
+		DELETE FROM es_gnzd WHERE F_GNBH = #{gnbh} and  F_MKGUID=#{mkbh}
+	</delete>
+
+	<!--删除功能字典数据-->
+	<delete id="delGnzdList">
+		delete from es_gnzd where f_guid in
+		<foreach collection="list" item="item" separator="," open="(" close=")">
+			#{item}
+		</foreach>
+	</delete>
+	<!--删除时查询功能字典数据-->
+	<select id="selectGnzdId" resultType="java.lang.String">
+		select f_guid from es_gnzd WHERE F_GNBH = #{gnbh} and  F_MKGUID=#{mkbh}
+	</select>
+
+
+	<!-- 用户组功能权限===根据功能编号和审核查询功能列表 -->
+	<select id="loadGnzdListByMkuuidAndTableAndShAndGroup" parameterType="string" resultMap="gnzdMap">
+		SELECT B.F_GUID, B.F_GNBH , B.F_GNMC , B.F_CSS_CLASS, B.F_URL , B.F_HIDE, B.F_MKGUID ,B.F_SORT, B.F_JS , B.F_MX , B.F_PGNBH, B.F_FULLSCREEN_TYPE, B.F_OPEN_TYPE,B.F_TABCLOSEABLE, B.F_PARAMS
+		FROM ES_GNZD B
+		LEFT JOIN ${classifygnqxTb} A ON A.F_GNZDID = B.F_GNBH
+		<where>
+			B.F_MKGUID = #{guid} AND A.F_SH = "0" AND A.F_ZBH = #{f_zbh}
+		</where>
+		  order by B.F_SORT asc
+	</select>
+	<!-- 岗位功能权限===根据功能编号和审核查询功能列表 -->
+	<select id="loadGnzdListByMkuuidAndTableAndShAndPost" parameterType="string" resultMap="gnzdMap">
+		SELECT B.F_GUID, B.F_GNBH , B.F_GNMC , B.F_CSS_CLASS, B.F_URL , B.F_HIDE, B.F_MKGUID ,B.F_SORT, B.F_JS , B.F_MX , B.F_PGNBH, B.F_FULLSCREEN_TYPE, B.F_OPEN_TYPE,B.F_TABCLOSEABLE, B.F_PARAMS
+		FROM ES_GNZD B
+		LEFT JOIN ${classifygnqxTb} A ON A.F_GNZDID = B.F_GNBH
+		<where>
+			B.F_MKGUID = #{guid} AND A.F_SH = "0" AND A.F_GWGUID = #{f_gwguid}
+		</where>
+		  order by B.F_SORT asc
+	</select>
+</mapper>

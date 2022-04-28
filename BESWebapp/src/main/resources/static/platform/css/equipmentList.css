@@ -1,0 +1,18 @@
+/*.layui_content_div #equipment_list_table,.layui_content_div .layui-table-view{*/
+    /*width:3000px;*/
+/*}*/
+
+/*.layui_content_div .layui-table-box{overflow: auto;}*/
+
+/*.layui_content_div .layui-table-cell{*/
+    /*position:initial;*/
+/*}*/
+
+/*隐藏数据行的列下拉显示图标*/
+.layui_content_div .layui-table-body .layui-table-grid-down{
+    display: none !important;
+}
+
+.add_div_content .layui-form-label {
+    width: 105px;
+}

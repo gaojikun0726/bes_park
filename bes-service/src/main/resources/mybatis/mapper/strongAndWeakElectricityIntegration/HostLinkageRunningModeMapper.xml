@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.efounder.JEnterprise.mapper.strongAndWeakElectricityIntegration.HostLinkageRunningModeMapper" >
+
+
+    <sql id="col_name">
+      id              id,
+      machine_set_id  machineSetId,
+      join_point      joinPoint,
+      `type`          `type`
+	</sql>
+
+    <sql id="table_name">
+        strongandweakelectricityintegration_running_mode
+    </sql>
+
+    <insert id="insert" useGeneratedKeys="true" keyProperty="id">
+
+        insert into
+        <include refid="table_name"/>
+
+        (
+            machine_set_id,
+            join_point,
+            `type`
+        )
+        values
+        (
+
+            #{machineSetId},
+            #{joinPoint},
+            #{type}
+        )
+
+
+    </insert>
+
+    <select id="findList" resultType="com.efounder.JEnterprise.model.strongAndWeakElectricityIntegration.HostLinkageRunningModeModel">
+
+        select
+
+        <include refid="col_name"/>
+
+        from
+
+        <include refid="table_name"/>
+        <where>
+
+            <if test="id != null and id != ''" >
+                id                =   #{id}
+            </if>
+            <if test="machineSetId != null and machineSetId != ''" >
+                machine_set_id    =   #{machineSetId}
+            </if>
+            <if test="type != null and type!='' ">
+                and `type`        =   #{type}
+            </if>
+            <if test="joinPoint != null and joinPoint!='' ">
+                and `join_point`  =   #{joinPoint}
+            </if>
+
+        </where>
+
+    </select>
+
+
+    <update id="update">
+
+        update
+          <include refid="table_name"/>
+
+        <set>
+            <if test="machineSetId != null and machineSetId != ''" >
+                machine_set_id    =   #{machineSetId},
+            </if>
+            <if test="joinPoint != null and joinPoint!='' ">
+                join_point    =   #{joinPoint},
+            </if>
+            <if test="type != null and type!='' ">
+                `type`    =   #{type}
+            </if>
+        </set>
+
+        where
+
+            id  =  #{id}
+    </update>
+
+    <delete id="delete">
+
+        delete from
+          <include refid="table_name"/>
+        where
+             id = #{id}
+    </delete>
+    
+</mapper>

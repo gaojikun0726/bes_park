@@ -1,0 +1,385 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.efounder.JEnterprise.mapper.dataAnalysises.BESSubitemDataMapper" >
+
+  <resultMap id="BESSubitemDataMap" type="com.efounder.JEnterprise.model.dataAnalysises.BESSubitemData" >
+    <id column="F_ID" property="fId" />
+    <result column="F_FXBH" property="fFxbh" />
+    <result column="F_DNBH" property="fDnbh" />
+    <result column="F_CJSJ" property="fCjsj" />
+    <result column="F_DATA" property="fData" />
+    <result column="F_TYPE" property="fType" />
+    <result column="F_ALL_MONEY" property="fAllMoney" />
+    <result column="F_COAL_AMOUNT" property="fCoalAmount" />
+    <result column="F_CO2" property="fCo2" />
+    <result column="F_PERCAPITA_ENERGY" property="fPercapitaEnergy" />
+    <result column="F_PERCAPITA_MONEY" property="fPercapitaMoney" />
+    <result column="F_UNITAREA_DATA" property="fUnitareaData" />
+    <result column="F_UNITAREA_MONEY" property="fUnitareaMoney" />
+    <result column="F_CRDATE" property="fCrdate" />
+    <result column="F_CHDATE" property="fChdate" />
+    <result column="F_FXMC" property="fFxmc" />
+    <result column="F_YQBH" property="fYqbh" />
+    <result column="rows" property="rows" />
+  </resultMap>
+
+  <sql id="Base_Column_List" >
+    F_FXBH, F_DNBH,date_format(F_CJSJ,'%Y-%m-%d %H:%i:%s' ) F_CJSJ, F_DATA, F_TYPE, F_ALL_MONEY, F_COAL_AMOUNT, F_CO2,
+    F_PERCAPITA_ENERGY , F_PERCAPITA_MONEY ,F_UNITAREA_DATA ,F_UNITAREA_MONEY,F_YQBH,
+    date_format(F_CRDATE,'%Y-%m-%d %H:%i:%s' ) F_CRDATE ,date_format(F_CHDATE,'%Y-%m-%d %H:%i:%s' ) F_CHDATE
+  </sql>
+
+	<!-- 查询分项记录是否存在 -->
+	<select id="queryGradeExists" parameterType="string" resultMap="BESSubitemDataMap" >
+		select COUNT(*) as `rows` from bes_subitem_data
+		where
+				F_FXBH = #{fFxbh}
+			and F_CJSJ = #{fCjsj} 
+			and F_TYPE = #{fType}
+			and F_YQBH = #{fYqbh}
+	</select>
+	 
+  <select id="getSubitemDataTab" parameterType="string" resultMap="BESSubitemDataMap">
+	select 
+		<include refid="Base_Column_List" />
+	from bes_subitem_data 
+  </select>
+
+	<!-- 查询分项数据根据时间和类型 -->
+	<select id="getSubitemDataByCjsjAndType" parameterType="string" resultMap="BESSubitemDataMap">
+		select
+		<include refid="Base_Column_List" />
+		from bes_subitem_data
+		where
+			f_cjsj = #{time}
+		  and f_type = #{type}
+
+	</select>
+  
+  <!-- 获取分项用能趋势统计数据 -->
+  <select id="getQstjSubitemData" parameterType="string" resultMap="BESSubitemDataMap">
+	select
+	date_format(a.F_CJSJ,'%Y-%m-%d %H:%i:%s' ) F_CJSJ,  
+	a.F_FXBH, 
+	a.F_DNBH, 
+	a.F_DATA, 
+	a.F_TYPE, 
+	a.F_ALL_MONEY, 
+	a.F_COAL_AMOUNT,
+	a.F_PERCAPITA_ENERGY,
+	a.F_PERCAPITA_MONEY, 
+	a.F_UNITAREA_DATA,
+	a.F_UNITAREA_MONEY,
+	a.F_CO2,
+	b.F_FXMC,
+    date_format(a.F_CRDATE,'%Y-%m-%d %H:%i:%s' ) F_CRDATE ,
+    date_format(a.F_CHDATE,'%Y-%m-%d %H:%i:%s' ) F_CHDATE
+	from bes_subitem_data a left join bes_subitem_conf b on a.f_fxbh=b.f_fxbh
+	<where>
+	1=1
+    	<if test="fType !=null and fType != ''">
+    		    and F_TYPE = #{fType}   	    
+    	</if>
+    	<if test="fCjsj_start !=null and fCjsj_start != ''">
+        	<![CDATA[  and DATE_FORMAT(a.F_CJSJ, '%Y-%m-%d') >=  
+                        DATE_FORMAT(#{fCjsj_start}, '%Y-%m-%d')   ]]>
+        </if>
+        <if test="fCjsj_end !=null and fCjsj_end != ''">
+        	<![CDATA[  and DATE_FORMAT(a.F_CJSJ, '%Y-%m-%d') <= 
+                        DATE_FORMAT(#{fCjsj_end} , '%Y-%m-%d')    ]]>
+        </if>
+        <if test="fFxbhs != null and fFxbhs.size() > 0">
+             and b.F_FXBH in
+                  <foreach item="item" index="index" collection="fFxbhs" 
+                         open="(" separator="," close=")">
+                       #{item}
+                </foreach>
+        </if>
+           
+	</where>
+	ORDER BY a.F_CJSJ
+	
+  </select>
+  
+  <select id="getSubitemDataList" parameterType="string" resultMap="BESSubitemDataMap">
+	select 
+	a.F_FXBH, 
+	a.F_DNBH,
+	date_format(a.F_CJSJ,'%Y-%m-%d %H:%i:%s' ) F_CJSJ, 
+	a.F_DATA, 
+	a.F_TYPE, 
+	a.F_ALL_MONEY, 
+	a.F_COAL_AMOUNT, 
+	a.F_CO2,
+	b.F_FXMC,
+    date_format(a.F_CRDATE,'%Y-%m-%d %H:%i:%s' ) F_CRDATE ,
+    date_format(a.F_CHDATE,'%Y-%m-%d %H:%i:%s' ) F_CHDATE
+	from bes_subitem_data a left join bes_subitem_conf b on a.f_fxbh=b.f_fxbh
+	<where>
+		1=1
+    	<if test="fCjsj_start !=null and fCjsj_start != ''">
+        	<![CDATA[  and DATE_FORMAT(a.F_CJSJ, '%Y-%m-%d') >=  
+                        DATE_FORMAT(#{fCjsj_start}, '%Y-%m-%d')   ]]>
+        </if>
+        <if test="fCjsj_end !=null and fCjsj_end != ''">
+        	<![CDATA[  and DATE_FORMAT(a.F_CJSJ, '%Y-%m-%d') <= 
+                        DATE_FORMAT(#{fCjsj_end} , '%Y-%m-%d')    ]]>
+        </if>
+        
+    </where> 
+  </select>
+  
+  
+  <!-- 用于Echarts图表的数据 -->
+  <select id="getSubitemData" resultType="java.util.HashMap">
+	SELECT F_FXBH_SN,F_FXBH_SW,F_FXBH_ZLYJ,F_FXBH_BGSB,date_format(a.F_CJSJ,'%Y-%m-%d' ) F_CJSJ from 
+		(SELECT  
+			F_DATA F_FXBH_SN ,F_CJSJ
+			  FROM bes_subitem_data where F_FXBH = 0101  ) a
+	right JOIN
+		(SELECT  
+			F_DATA  F_FXBH_SW ,F_CJSJ
+			 FROM bes_subitem_data where F_FXBH = 0102   ) b on date_format(a.F_CJSJ, '%Y-%m-%d') = date_format(b.F_CJSJ, '%Y-%m-%d')
+	right JOIN
+		(SELECT  
+			F_DATA  F_FXBH_ZLYJ ,F_CJSJ
+			 FROM bes_subitem_data where F_FXBH = 0103   ) c on date_format(b.F_CJSJ, '%Y-%m-%d') = date_format(c.F_CJSJ, '%Y-%m-%d')
+	right JOIN
+		(SELECT  
+			F_DATA  F_FXBH_BGSB ,F_CJSJ
+			 FROM bes_subitem_data where F_FXBH = 0104   ) d on date_format(c.F_CJSJ, '%Y-%m-%d') = date_format(d.F_CJSJ, '%Y-%m-%d')
+	<where>
+		1=1
+    	<if test="fCjsj_start !=null and fCjsj_start != ''">
+        	<![CDATA[  and DATE_FORMAT(a.F_CJSJ, '%Y-%m-%d') >=  
+                        DATE_FORMAT(#{fCjsj_start}, '%Y-%m-%d')   ]]>
+        </if>
+        <if test="fCjsj_end !=null and fCjsj_end != ''">
+        	<![CDATA[  and DATE_FORMAT(a.F_CJSJ, '%Y-%m-%d') <= 
+                        DATE_FORMAT(#{fCjsj_end} , '%Y-%m-%d')    ]]>
+        </if>
+    </where>  
+       
+	ORDER BY a.F_CJSJ
+  </select>
+
+	<!-- 保存分项统计数据 -->
+	<insert id="saveGradeData" parameterType="com.efounder.JEnterprise.model.dataAnalysises.BESSubitemData">
+		insert into bes_subitem_data
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="fId != null">
+				F_ID,
+			</if>
+			<if test="fFxbh != null">
+				F_FXBH,
+			</if>
+			<if test="fDnbh != null">
+				F_DNBH,
+			</if>
+			<if test="fCjsj != null">
+				F_CJSJ,
+			</if>
+			<if test="fData != null">
+				F_DATA,
+			</if>
+			<if test="fType != null">
+				F_TYPE,
+			</if>
+			<if test="fAllMoney != null">
+				F_ALL_MONEY,
+			</if>
+			<if test="fCoalAmount != null">
+				F_COAL_AMOUNT,
+			</if>
+			<if test="fCo2 != null">
+				F_CO2,
+			</if>
+			<if test="fPercapitaEnergy != null">
+				F_PERCAPITA_ENERGY,
+			</if>
+			<if test="fPercapitaMoney != null">
+				F_PERCAPITA_MONEY,
+			</if>
+			<if test="fUnitareaData != null">
+				F_UNITAREA_DATA,
+			</if>
+			<if test="fUnitareaMoney != null">
+				F_UNITAREA_MONEY,
+			</if>
+			<if test="fYqbh != null">
+				F_YQBH,
+			</if>			
+			F_CRDATE,
+			F_CHDATE,
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="fId != null">
+				#{fId},
+			</if>
+			<if test="fFxbh != null">
+				#{fFxbh},
+			</if>
+			<if test="fDnbh != null">
+				#{fDnbh},
+			</if>
+			<if test="fCjsj != null">
+				#{fCjsj},
+			</if>
+			<if test="fData != null">
+				#{fData},
+			</if>
+			<if test="fType != null">
+				#{fType},
+			</if>
+			<if test="fAllMoney != null">
+				#{fAllMoney},
+			</if>
+			<if test="fCoalAmount != null">
+				#{fCoalAmount},
+			</if>
+			<if test="fCo2 != null">
+				#{fCo2},
+			</if>
+			<if test="fPercapitaEnergy != null">
+				#{fPercapitaEnergy},
+			</if>
+			<if test="fPercapitaMoney != null">
+				#{fPercapitaMoney},
+			</if>
+			<if test="fUnitareaData != null">
+				#{fUnitareaData},
+			</if>
+			<if test="fUnitareaMoney != null">
+				#{fUnitareaMoney},
+			</if>
+			<if test="fYqbh != null">
+				#{fYqbh},
+			</if>
+			current_timestamp(),
+
+			current_timestamp(),
+		</trim>
+	</insert>
+
+	<!-- 更新支路统计数据 -->
+    <update id="updateGrade" parameterType="com.efounder.JEnterprise.model.dataAnalysises.BESSubitemData" >
+        update bes_subitem_data
+        <set >
+            <if test="fDnbh != null" >
+                F_DNBH = #{fDnbh,jdbcType=VARCHAR},
+            </if>
+            <if test="fData != null" >
+                F_DATA = #{fData,jdbcType=VARCHAR},
+            </if>
+            <if test="fAllMoney != null" >
+                F_ALL_MONEY = #{fAllMoney,jdbcType=VARCHAR},
+            </if>
+            <if test="fCoalAmount != null" >
+                F_COAL_AMOUNT = #{fCoalAmount,jdbcType=VARCHAR},
+            </if>
+            <if test="fCo2 != null" >
+                F_CO2 = #{fCo2,jdbcType=VARCHAR},
+            </if>
+            <if test="fPercapitaEnergy != null" >
+                F_PERCAPITA_ENERGY = #{fPercapitaEnergy},
+            </if>
+            <if test="fPercapitaMoney != null" >
+                F_PERCAPITA_MONEY = #{fPercapitaMoney},
+            </if>
+            <if test="fUnitareaData != null" >
+                F_UNITAREA_DATA = #{fUnitareaData},
+            </if>
+            <if test="fUnitareaMoney != null" >
+                F_UNITAREA_MONEY = #{fUnitareaMoney},
+            </if>
+
+                F_CHDATE = current_timestamp(),
+        </set>
+        where F_FXBH = #{fFxbh}
+        and F_CJSJ = #{fCjsj}
+        and F_TYPE = #{fType}
+    </update>
+
+	<!-- 更新支路统计数据 -->
+    <update id="updateGradeData" parameterType="com.efounder.JEnterprise.model.dataAnalysises.BESSubitemData" >
+        update bes_subitem_data
+        <set >
+            <if test="fDnbh != null" >
+                F_DNBH = #{fDnbh,jdbcType=VARCHAR},
+            </if>
+            <if test="fData != null" >
+                F_DATA = F_DATA + #{fData},
+            </if>
+            <if test="fAllMoney != null" >
+                F_ALL_MONEY = #{fAllMoney,jdbcType=VARCHAR},
+            </if>
+            <if test="fCoalAmount != null" >
+                F_COAL_AMOUNT = #{fCoalAmount,jdbcType=VARCHAR},
+            </if>
+            <if test="fCo2 != null" >
+                F_CO2 = #{fCo2,jdbcType=VARCHAR},
+            </if>
+            <if test="fPercapitaEnergy != null" >
+                F_PERCAPITA_ENERGY = #{fPercapitaEnergy},
+            </if>
+            <if test="fPercapitaMoney != null" >
+                F_PERCAPITA_MONEY = #{fPercapitaMoney},
+            </if>
+            <if test="fUnitareaData != null" >
+                F_UNITAREA_DATA = #{fUnitareaData},
+            </if>
+            <if test="fUnitareaMoney != null" >
+                F_UNITAREA_MONEY = #{fUnitareaMoney},
+            </if>
+
+                F_CHDATE = current_timestamp(),
+        </set>
+        where F_FXBH = #{fFxbh}
+        and F_CJSJ = #{fCjsj}
+        and F_TYPE = #{fType}
+    </update>
+
+	<select id="getSubentryData" resultType="com.efounder.JEnterprise.model.dataAnalysises.BESSubitemData">
+		select
+		 F_ID                      fId,
+		 F_FXBH                    fFxbh,
+		 F_DNBH                    fDnbh,
+		 F_CJSJ                    fCjsj,
+		 F_DATA                    fData,
+		 F_TYPE                    fType,
+		 F_ALL_MONEY               fAllMoney,
+		 F_COAL_AMOUNT             fCoalAmount,
+		 F_CO2                     fCo2,
+		 F_PERCAPITA_ENERGY        fPercapitaEnergy,
+		 F_PERCAPITA_MONEY         fPercapitaMoney,
+		 F_UNITAREA_DATA           fUnitareaData,
+		 F_UNITAREA_MONEY          fUnitareaMoney,
+		 F_YQBH                    fYqbh,
+		 F_CRDATE                  fCrdate,
+		 F_CHDATE                  fChdate
+
+		from
+
+		 bes_subitem_data
+
+	 	<where>
+			<if test="fId != null and fId != ''">
+				F_ID = #{fId} and
+			</if>
+
+			<if test="fFxbh != null and fFxbh != ''">
+				F_FXBH = #{fFxbh} and
+			</if>
+
+			<if test="fType != null and fType != ''">
+				F_TYPE = #{fType} and
+			</if>
+
+			<if test="fCjsj != null and fCjsj != ''">
+				date_format(F_CJSJ, '%Y') = #{fCjsj}
+			</if>
+		</where>
+
+	</select>
+
+</mapper>

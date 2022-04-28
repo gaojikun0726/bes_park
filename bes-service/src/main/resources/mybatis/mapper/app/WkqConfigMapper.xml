@@ -1,0 +1,160 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.efounder.JEnterprise.mapper.app.WkqConfigMapper" >
+
+    <sql id="col_name">
+      id                             id,
+      name                           name,
+      wkq_address        wkqAddress,
+      wkq_mode           wkqMode,
+      wkq_windspeed      wkqWindspeed,
+      wkq_switch         wkqSwitch,
+      wkq_temperature    wkqTemperature,
+      wkq_displaytemperature    wkqxsTemperature,
+      wkq_mode_system           wkqModeSystem,
+      wkq_windspeed_system      wkqWindspeedSystem,
+      wkq_switch_system         wkqSwitchSystem,
+      wkq_temperature_system    wkqTemperatureSystem,
+      wkq_displaytemperature_system    wkqxsTemperatureSystem
+
+	</sql>
+
+    <sql id="table_name">
+        api_wkq_config
+    </sql>
+
+    <insert id="insert">
+
+        insert into
+        <include refid="table_name"/>
+
+        (
+            name,
+            wkq_address,
+            wkq_mode,
+            wkq_windspeed,
+            wkq_switch,
+            wkq_temperature,
+            wkq_displaytemperature,
+            wkq_mode_system,
+            wkq_windspeed_system,
+            wkq_switch_system,
+            wkq_temperature_system,
+            wkq_displaytemperature_system
+        )
+        values
+        (
+
+            #{name},
+            #{wkqAddress},
+            #{wkqMode},
+            #{wkqWindspeed},
+            #{wkqSwitch},
+            #{wkqTemperature},
+            #{wkqxsTemperature},
+            #{wkqModeSystem},
+            #{wkqWindspeedSystem},
+            #{wkqSwitchSystem},
+            #{wkqTemperatureSystem},
+            #{wkqxsTemperatureSystem}
+
+        )
+
+
+    </insert>
+
+    <select id="findList" resultType="com.efounder.JEnterprise.model.app.WkqConfigModel">
+
+        select
+
+        <include refid="col_name"/>
+
+        from
+
+        <include refid="table_name"/>
+        <where>
+
+            <if test="id != null and id != ''" >
+                id    =   #{id}
+            </if>
+
+            <if test="name != null and name != ''" >
+                and name  =   #{name}
+            </if>
+
+        </where>
+
+    </select>
+
+
+    <update id="update">
+
+        update
+          <include refid="table_name"/>
+
+		set
+         name                      =   #{name},
+         wkq_address               =   #{wkqAddress},
+         wkq_mode                  =   #{wkqMode},
+         wkq_windspeed             =   #{wkqWindspeed},
+         wkq_switch                =   #{wkqSwitch},
+         wkq_temperature           =   #{wkqTemperature},
+         wkq_displaytemperature           =   #{wkqxsTemperature},
+         wkq_mode_system                  =   #{wkqModeSystem},
+         wkq_windspeed_system             =   #{wkqWindspeedSystem},
+         wkq_switch_system                =   #{wkqSwitchSystem},
+         wkq_temperature_system           =   #{wkqTemperatureSystem},
+         wkq_displaytemperature_system           =   #{wkqxsTemperatureSystem}
+
+        where
+
+            id              =         #{id}
+    </update>
+
+    <delete id="delete">
+
+        delete from
+          <include refid="table_name"/>
+        where
+             id = #{id}
+    </delete>
+
+    <insert id="insertWkq">
+
+        insert into
+        <include refid="table_name"/>
+
+        (
+        name,
+        wkq_address,
+        wkq_mode,
+        wkq_windspeed,
+        wkq_switch,
+        wkq_temperature,
+        wkq_displaytemperature,
+        wkq_mode_system,
+        wkq_windspeed_system,
+        wkq_switch_system,
+        wkq_temperature_system,
+        wkq_displaytemperature_system
+        )
+        values
+        (
+        #{name},
+        #{wkqAddress},
+        #{wkqMode},
+        #{wkqWindspeed},
+        #{wkqSwitch},
+        #{wkqTemperature},
+        #{wkqDisplaytemperature},
+        #{wkqModeSystem},
+        #{wkqWindspeedSystem},
+        #{wkqSwitchSystem},
+        #{wkqTemperatureSystem},
+        #{wkqDisplaytemperatureSystem}
+        )
+
+
+    </insert>
+
+</mapper>

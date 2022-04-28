@@ -1,0 +1,174 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.efounder.JEnterprise.design.mapper.ButtonEventMapper" >
+
+  <!--查询关联点信息-->
+  <select id="queryRelativePointInfo" resultType="java.util.Map">
+          SELECT tb.*,bm.F_TYPE,bss.F_TYPE as B_TYPE,bss.F_NODE_ATTRIBUTION,bss.F_ID FROM ${tablename}  tb
+          left join bes_sbpz_struct bss on bss.f_sys_name = tb.f_sys_name
+          left join bes_module bm on bm.f_sys_name = bss.F_PSYS_NAME
+          where tb.F_SYS_NAME = #{sysname}
+  </select>
+
+    <!--查询温控器关联点信息-->
+    <select id="queryRelativeTempPointInfo" resultType="java.util.Map">
+          SELECT tb.*,cof.f_desc,bm.F_TYPE,bss.F_TYPE as B_TYPE,bss.F_NODE_ATTRIBUTION FROM ${tablename}  tb
+          left join bes_sbpz_struct bss on bss.f_sys_name = tb.f_sys_name
+          left join bes_module bm on bm.f_sys_name = bss.F_PSYS_NAME
+          left join bes_node_config_setting cof on bss.F_SYS_NAME_OLD = cof.F_SYS_NAME
+          where tb.F_SYS_NAME = #{sysname}  group by tb.f_sys_name
+  </select>
+
+    <!--查询模块的的子节点的信息，和模块名、在线状态-->
+    <select id="queryModuleAnalogChildren" resultType="java.util.Map">
+        SELECT s.F_TYPE,tb.F_SYS_NAME,
+        tb.F_INIT_VAL,
+        -- tb.F_INIT_VAL / pow(10,ifnull(tb.F_ACCURACY,0)) F_INIT_VAL,
+        s.F_PSYS_NAME,m.F_ONLINE_STATE,s.F_STATUS
+        FROM ${type_table}  tb
+        left join bes_sbpz_struct s on tb.f_sys_name = s.f_sys_name
+        left join bes_module m on m.f_sys_name = s.F_PSYS_NAME
+        where  1= 1
+        and tb.f_sys_name in
+        <foreach collection="typeList" index="index" item="item" close=")" open="(" separator=",">
+            #{item}
+        </foreach>
+    </select>
+
+    <!--查询模块的(DI/DO)子节点的信息，和模块名、在线状态-->
+    <select id="queryModuleDigitChildren" resultType="java.util.Map">
+        SELECT s.F_TYPE,tb.F_SYS_NAME,
+        tb.F_INIT_VAL,
+        s.F_PSYS_NAME,m.F_ONLINE_STATE,s.F_STATUS
+        FROM ${type_table}  tb
+        left join bes_sbpz_struct s on tb.f_sys_name = s.f_sys_name
+        left join bes_module m on m.f_sys_name = s.F_PSYS_NAME
+        where  1= 1
+        and tb.f_sys_name in
+        <foreach collection="typeList" index="index" item="item" close=")" open="(" separator=",">
+            #{item}
+        </foreach>
+    </select>
+    <!--查询各种类型的节点的信息-->
+    <select id="queryTypeNodeList" resultType="java.util.Map">
+          SELECT tb.* FROM ${type_table}  tb
+          where  1= 1
+          and tb.f_sys_name in
+        <foreach collection="typeList" index="index" item="item" close=")" open="(" separator=",">
+            #{item}
+        </foreach>
+  </select>
+
+    <!--查询关联点信息-->
+    <select id="getSettingsInfo" resultType="java.util.HashMap">
+          select f_sys_name, f_desc,f_value from bes_node_config_setting
+          <where>
+              <if test="f_sys_name != null and f_sys_name != ''">
+                  f_sys_name = #{f_sys_name}
+              </if>
+          </where>
+  </select>
+
+
+    <!--查询点位置、单通道、多场景关联点信息-->
+    <select id="getRelatedInfo" resultType="String">
+          select f_guid from bes_digit_ouput where f_sys_name = #{sysname}
+          union
+          SELECT f_guid FROM bes_vpoint where F_SYS_NAME = #{sysname}
+  </select>
+
+    <!--查询模块状态-->
+    <select id="getModuleState" resultType="String">
+          select F_ONLINE_STATE from bes_module where F_SYS_NAME = #{sysname}
+  </select>
+
+
+    <!--区分所有点的f_type节点类型-->
+    <!--group_concat()超长会截断字符串不再使用-->
+    <select id="getNodeListType" resultType="java.util.HashMap">
+        select f_type,f_sys_name sysname from bes_sbpz_struct
+        where 1 = 1
+        and f_sys_name in
+        <foreach collection="sysnameArray" index="index" item="item" close=")" open="(" separator=",">
+            #{item}
+        </foreach>
+
+    </select>
+
+    <!--&lt;!&ndash;查询模块列表所有子节点的类型&ndash;&gt;-->
+    <!--&lt;!&ndash;group_concat()超长会截断字符串不再使用&ndash;&gt;-->
+    <!--<select id="getModuleListChildrenType" resultType="java.util.HashMap">-->
+        <!--select f_type,group_concat(f_sys_name) sysname from bes_sbpz_struct-->
+        <!--where 1 = 1-->
+        <!--and f_psys_name in-->
+        <!--<foreach collection="sysnameArray" index="index" item="item" close=")" open="(" separator=",">-->
+              <!--#{item}-->
+        <!--</foreach>-->
+        <!--group by f_type-->
+    <!--</select>-->
+
+    <!--查询模块列表的所有子节点-->
+    <select id="getModuleChildrenList" resultType="java.util.HashMap">
+        select F_SYS_NAME sysname,f_type  from bes_sbpz_struct
+        where 1 = 1
+        and f_psys_name in
+        <foreach collection="sysnameArray" index="index" item="item" close=")" open="(" separator=",">
+            #{item}
+        </foreach>
+    </select>
+
+    <select id="getTempPointInfo" resultType="java.util.HashMap">
+        select * from bes_node_config_setting where f_sys_name = #{sysNameOld}
+    </select>
+
+
+    <select id="getPointSysNameOld" resultType="String">
+        select f_sys_name_old from bes_sbpz_struct where f_sys_name = #{sysname}
+    </select>
+
+    <!--区分所有流程图点的f_type节点类型-->
+    <select id="getFlowNodeListType" resultType="java.util.HashMap">
+        select f_type,group_concat(f_sys_name) sysname from bes_sbpz_struct
+        where 1 = 1
+        and f_sys_name in
+        <foreach collection="sysnameArray" index="index" item="item" close=")" open="(" separator=",">
+            #{item}
+        </foreach>
+        group by f_type
+    </select>
+
+    <!--查询流程图各种类型的节点的信息-->
+    <select id="queryFlowTypeNodeList" resultType="java.util.Map">
+        SELECT tb.* FROM ${type_table}  tb
+        where  1= 1
+        and tb.f_sys_name in
+        <foreach collection="typeList" index="index" item="item" close=")" open="(" separator=",">
+            #{item}
+        </foreach>
+    </select>
+
+
+    <!--&lt;!&ndash;查询多个点位的配置信息&ndash;&gt;-->
+    <!--<select id="queryConfigByList" resultType="java.util.Map">-->
+        <!--SELECT c.f_sys_name,group_concat(concat_ws(':',c.f_desc,c.f_value)) config,s.f_sys_name sysname-->
+        <!--FROM bes_node_config_setting c-->
+        <!--inner join bes_sbpz_struct s on c.f_sys_name = s.F_SYS_NAME_OLD-->
+        <!--where s.f_sys_name in-->
+        <!--<foreach collection="sysnameArray" index="index" item="item" close=")" open="(" separator=",">-->
+            <!--#{item}-->
+        <!--</foreach>-->
+        <!--group by c.F_SYS_NAME-->
+    <!--</select>-->
+
+    <!--查询模块类型-->
+    <select id="queryModuleType" resultType="String">
+		select f_type_code from bes_module_type where f_id = (
+			SELECT F_TYPE from bes_module where f_sys_name = #{sysname}
+		)
+		</select>
+
+    <!--查询虚点的具体类型-->
+    <select id="getVisualType" resultType="String">
+        SELECT F_NODE_TYPE FROM bes_vpoint where F_SYS_NAME = #{sysname}
+	</select>
+</mapper>

@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.efounder.JEnterprise.platform.mapper.AmmeterTypeDeleteMapper" >
+
+
+    <!--保存一条【电表类型】删除的记录-->
+    <!--删除的时候修改更新时间-->
+    <insert id="insertAmmeterTypeDelete">
+        insert into opm_ammeter_type_delete(F_LXBH, F_LXMC, F_CRDATE, F_CHDATE)
+        select F_LXBH, F_LXMC, F_CRDATE, sysdate()  from bes_ammeter_type
+        where F_LXBH = #{fLxbh}
+    </insert>
+
+</mapper>

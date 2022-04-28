@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.efounder.JEnterprise.zhdg.dao.RegionDao">
+
+    <!-- 可根据自己的需求，是否要使用 -->
+    <resultMap type="com.efounder.JEnterprise.zhdg.entity.RegionEntity" id="regionMap">
+                    <result property="fId" column="F_ID"/>
+                    <result property="fRegionName" column="F_REGION_NAME"/>
+                    <result property="fRemark" column="F_REMARK"/>
+                    <result property="fCreateTime" column="F_CREATE_TIME"/>
+            </resultMap>
+
+    <sql id="Base_Column_List">
+        select F_ID, F_REGION_NAME, F_REMARK, F_CREATE_TIME from seb_region
+    </sql>
+
+    <!-- 关键字查询，分页查询 -->
+    <select id="getSearch" resultMap="regionMap" parameterType="java.lang.String">
+        <include refid="Base_Column_List"/>
+        <where>
+            1=1
+            <if test="keywords != null and keywords != ''">
+                and F_REGION_NAME like CONCAT ('%', #{keywords},'%')
+                or F_ID like CONCAT ('%', #{keywords},'%')
+            </if>
+        </where>
+    </select>
+
+    <select id="getSearchById" resultMap="regionMap" parameterType="java.lang.String">
+        <include refid="Base_Column_List"/>
+        <where>
+            F_ID = #{fId}
+        </where>
+    </select>
+
+    <insert id="add" parameterType="com.efounder.JEnterprise.zhdg.entity.RegionEntity">
+        insert into seb_region
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+        <if test="fId != null ">F_ID,
+        </if>
+        <if test="fRegionName != null ">F_REGION_NAME,
+        </if>
+        <if test="fRemark != null ">F_REMARK,
+        </if>
+        <if test="fCreateTime != null ">F_CREATE_TIME,
+        </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+        <if test="fId != null ">#{fId},
+        </if>
+        <if test="fRegionName != null ">#{fRegionName},
+        </if>
+        <if test="fRemark != null ">#{fRemark},
+        </if>
+        <if test="fCreateTime != null ">#{fCreateTime},
+        </if>
+        </trim>
+    </insert>
+
+    <update id="update" parameterType="com.efounder.JEnterprise.zhdg.entity.RegionEntity">
+        update seb_region
+        <trim prefix="SET" suffixOverrides=",">
+         <if test="fId != null">F_ID = #{fId},</if>
+         <if test="fRegionName != null">F_REGION_NAME = #{fRegionName},</if>
+         <if test="fRemark != null">F_REMARK = #{fRemark},</if>
+         <if test="fCreateTime != null">F_CREATE_TIME = #{fCreateTime},</if>
+        </trim>
+        where F_ID = #{FId}
+    </update>
+
+    <delete id="delete" parameterType="java.lang.String" >
+        delete from seb_region where F_ID = #{FId}
+    </delete>
+
+</mapper>

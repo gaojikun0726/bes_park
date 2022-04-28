@@ -1,0 +1,381 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.efounder.JEnterprise.mapper.interfaceUtil.BESSbpzInterfaceMapper">
+
+	<!-- 查询照明系统第一级IP路由器 -->
+	<select id="getDdcInfo" resultType="java.util.HashMap" parameterType="java.lang.String">
+		select * from bes_sbpz_struct WHERE F_NODE_ATTRIBUTION ='2' AND F_TYPE='3'	AND (${checkDataLimit})
+	</select>
+	<!-- 查询空调相关信息 -->
+	<select id="getKtpzInfo" resultType="java.util.HashMap" parameterType="java.lang.String">
+		select id,
+		name,
+		airconditioning_address,
+		airconditioning_mode_system,
+		airconditioning_windspeed_system,
+		airconditioning_switch_system,
+		airconditioning_temperature_system,
+		airconditioning_displaytemperature_system from api_airconditioning_config WHERE  (${checkDataLimit})
+	</select>
+	<select id="getKtpzList" resultType="java.util.HashMap"	parameterType="java.lang.String">
+		select id,
+		name,
+		airconditioning_address,
+		airconditioning_mode_system,
+		airconditioning_windspeed_system,
+		airconditioning_switch_system,
+		airconditioning_temperature_system,
+		airconditioning_displaytemperature_system from api_airconditioning_config
+		where 1=1
+		<if test="ktName !=null and ktName != ''">
+			and name = #{ktName}
+		</if>
+		AND (${checkDataLimit})
+	</select>
+
+	<!-- 查询温控器相关信息 -->
+	<select id="getWkqpzInfo" resultType="java.util.HashMap" parameterType="java.lang.String">
+		select id,
+		name,
+		wkq_address,
+		wkq_mode_system,
+		wkq_windspeed_system,
+		wkq_switch_system,
+		wkq_temperature_system,
+		wkq_displaytemperature_system from api_wkq_config WHERE  (${checkDataLimit})
+	</select>
+	<select id="getWkqpzList" resultType="java.util.HashMap"	parameterType="java.lang.String">
+		select id,
+		name,
+		wkq_address,
+		wkq_mode_system,
+		wkq_windspeed_system,
+		wkq_switch_system,
+		wkq_temperature_system,
+		wkq_displaytemperature_system from api_wkq_config
+		where 1=1
+		<if test="wkqName !=null and wkqName != ''">
+			and name = #{wkqName}
+		</if>
+		AND (${checkDataLimit})
+	</select>
+	<!--根据父节点名称查询 -->
+	<select id="getSingleLevelList" resultType="java.util.HashMap"	parameterType="java.lang.String">
+		select * from bes_sbpz_struct
+		where 1=1
+		<if test="fSysName !=null and fSysName != ''">
+   		    and F_PSYS_NAME = #{fSysName}
+    	</if>
+    	AND (${checkDataLimit})
+	</select>
+	<!-- 查询子节点信息 -->
+	<select id="getNext" resultType="java.util.HashMap" parameterType="java.lang.String">
+		select * from bes_sbpz_struct where F_PSYS_NAME = #{fSysName}
+	</select>
+	<!-- 查询父节点列表 -->
+	<select id="getPLevel" resultType="java.util.HashMap" parameterType="java.lang.String">
+		select * from bes_sbpz_struct
+		where
+			F_PSYS_NAME = (SELECT F_PSYS_NAME FROM bes_sbpz_struct where F_SYS_NAME = #{f_PSYS_NAME} )
+	</select>
+
+	<select id="getMonitoring" resultType="java.util.HashMap">
+		 select * from bes_control_info where 1=1
+		 AND (${checkDataLimit})
+	</select>
+
+	<!-- 查询新风相关信息 -->
+	<select id="getFreshairconfigList" resultType="java.util.HashMap" parameterType="java.lang.String">
+		select
+		id,name,freshair_address,
+		 unit_start_and_stop,
+		unit_operating_status,
+		crew_manual_status,
+		unit_fault_status,
+		damper_opening_control,
+		damper_opening_feedback,
+		damper_open,
+		damper_off,
+		air_valve_opens_in_place,
+		air_valve_closed_in_place,
+		water_valve_opening_control,
+		water_valve_opening_feedback,
+		supply_air_temperature,
+		supply_air_humidity,
+		fresh_air_temperature,
+		fresh_air_humidity,
+		humidification_opening_control,
+		humidification_opening_feedback,
+		humidification_on,
+		humidification_off,
+		carbon_dioxide,
+		antifreeze_alarm,
+		filter_screen_pressure_difference_alarm,
+		fan_pressure_difference
+		 from api_freshair_config WHERE  (${checkDataLimit})
+	</select>
+	<select id="getFreshairconfig" resultType="java.util.HashMap"	parameterType="java.lang.String">
+		select
+		id,name,freshair_address,
+		unit_start_and_stop,
+		unit_operating_status,
+		crew_manual_status,
+		unit_fault_status,
+		damper_opening_control,
+		damper_opening_feedback,
+		damper_open,
+		damper_off,
+		air_valve_opens_in_place,
+		air_valve_closed_in_place,
+		water_valve_opening_control,
+		water_valve_opening_feedback,
+		supply_air_temperature,
+		supply_air_humidity,
+		fresh_air_temperature,
+		fresh_air_humidity,
+		humidification_opening_control,
+		humidification_opening_feedback,
+		humidification_on,
+		humidification_off,
+		carbon_dioxide,
+		antifreeze_alarm,
+		filter_screen_pressure_difference_alarm,
+		fan_pressure_difference
+		from api_freshair_config
+		where 1=1
+		<if test="windName !=null and windName != ''">
+			and name = #{windName}
+		</if>
+		AND (${checkDataLimit})
+	</select>
+
+	<select id="getAlloffList" resultType="java.util.HashMap"	parameterType="java.lang.String">
+		select ao.F_INIT_VAL,do.F_INIT_VAL,di.F_INIT_VAL,ai.F_INIT_VAL,po.F_INIT_VAL from (SELECT #{systemName} as F_SYS_NAME) t
+			left join bes_analog_ouput ao on t.F_SYS_NAME = ao.F_SYS_NAME
+			left join bes_digit_ouput do on t.F_SYS_NAME = do.F_SYS_NAME
+			left join bes_digit_input di on t.F_SYS_NAME = di.F_SYS_NAME
+			left join bes_analog_input ai on t.F_SYS_NAME = ai.F_SYS_NAME
+			left join bes_vpoint po on t.F_SYS_NAME = po.F_SYS_NAME
+	</select>
+
+    <select id="getAOoffList" resultType="java.util.HashMap"	parameterType="java.lang.String">
+		select F_INIT_VAL  from bes_analog_ouput where F_SYS_NAME =#{systemName}
+	</select>
+
+    <select id="getDOoffList" resultType="java.util.HashMap"	parameterType="java.lang.String">
+		select F_INIT_VAL  from bes_digit_ouput where F_SYS_NAME =#{systemName}
+	</select>
+
+    <select id="getAIoffList" resultType="java.util.HashMap"	parameterType="java.lang.String">
+		select F_INIT_VAL  from bes_analog_input where F_SYS_NAME =#{systemName}
+	</select>
+
+    <select id="getDIoffList" resultType="java.util.HashMap"	parameterType="java.lang.String">
+		select F_INIT_VAL  from bes_digit_input where F_SYS_NAME =#{systemName}
+	</select>
+
+    <select id="getPOoffList" resultType="java.util.HashMap"	parameterType="java.lang.String">
+		select F_INIT_VAL  from bes_vpoint where F_SYS_NAME =#{systemName}
+	</select>
+
+	<!--查询全部插座配置信息-->
+	<select id="getSocketList" resultType="java.util.HashMap" parameterType="java.lang.String">
+        select
+			id,
+			name,
+			socket_address,
+			socket_switch,
+			energy_consumption_value
+		from api_socket_config
+        where 1=1
+          AND (${checkDataLimit})
+    </select>
+	<!--根据插座名称查询插座配置信息-->
+	<select id="getSocket" resultType="java.util.HashMap" parameterType="java.lang.String">
+		select id,
+		name,
+		socket_address,
+		socket_switch,
+		energy_consumption_value from api_socket_config
+		where 1=1
+		<if test="socketName !=null and socketName != ''">
+			and name = #{socketName}
+		</if>
+		AND (${checkDataLimit})
+	</select>
+
+	<!--查询全部组合式空调机组配置信息-->
+	<select id="getAirconditioningUnitList" resultType="java.util.HashMap" parameterType="java.lang.String">
+        select
+			id,
+			name,
+			address,
+			new_fan_start_and_stop,
+			operation_status_of_blower,
+			manual_automatic_state_of_blower,
+			blower_failure_status,
+			fresh_air_valve_opening_control,
+			fresh_air_valve_opening_feedback,
+			fresh_air_valve_open,
+			fresh_air_valve_closed,
+			fresh_air_valve_open_in_place,
+			fresh_air_valve_closed_in_place,
+			return_fan_start_and_stop,
+			operation_status_of_return_fan,
+			manual_automatic_state_of_the_return_fan,
+			return_fan_failure_status,
+			exhaust_valve_opening_control,
+			exhaust_valve_opening_feedback,
+			exhaust_valve_open,
+			exhaust_valve_closed,
+			the_exhaust_valve_is_open_in_place,
+			the_exhaust_valve_is_closed_in_place,
+			supply_air_temperature,
+			supply_air_humidity,
+			fresh_air_temperature,
+			fresh_air_humidity,
+			return_air_temperature,
+			return_air_humidity,
+			carbon_dioxide,
+			humidification_opening_control,
+			humidification_opening_feedback,
+			humidification_on,
+			humidification_off,
+			humidification_valve_open_in_place,
+			humidification_valve_closed_in_place,
+			antifreeze_alarm,
+			initial_filter_screen_pressure_difference_alarm,
+			mediumefficiency_filter_pressure_difference_alarm,
+			return_air_filter_pressure_difference_alarm,
+			pressure_difference_of_blower,
+			return_fan_pressure_difference
+		from api_airconditioningunit_config
+        where 1=1
+          AND (${checkDataLimit})
+    </select>
+	<!--根据灯光名称查询灯光配置信息-->
+	<select id="getAirconditioningUnit" resultType="java.util.HashMap" parameterType="java.lang.String">
+		select id,
+		name,
+		address,
+		new_fan_start_and_stop,
+		operation_status_of_blower,
+		manual_automatic_state_of_blower,
+		blower_failure_status,
+		fresh_air_valve_opening_control,
+		fresh_air_valve_opening_feedback,
+		fresh_air_valve_open,
+		fresh_air_valve_closed,
+		fresh_air_valve_open_in_place,
+		fresh_air_valve_closed_in_place,
+		return_fan_start_and_stop,
+		operation_status_of_return_fan,
+		manual_automatic_state_of_the_return_fan,
+		return_fan_failure_status,
+		exhaust_valve_opening_control,
+		exhaust_valve_opening_feedback,
+		exhaust_valve_open,
+		exhaust_valve_closed,
+		the_exhaust_valve_is_open_in_place,
+		the_exhaust_valve_is_closed_in_place,
+		supply_air_temperature,
+		supply_air_humidity,
+		fresh_air_temperature,
+		fresh_air_humidity,
+		return_air_temperature,
+		return_air_humidity,
+		carbon_dioxide,
+		humidification_opening_control,
+		humidification_opening_feedback,
+		humidification_on,
+		humidification_off,
+		humidification_valve_open_in_place,
+		humidification_valve_closed_in_place,
+		antifreeze_alarm,
+		initial_filter_screen_pressure_difference_alarm,
+		mediumefficiency_filter_pressure_difference_alarm,
+		return_air_filter_pressure_difference_alarm,
+		pressure_difference_of_blower,
+		return_fan_pressure_difference from api_airconditioningunit_config
+		where 1=1
+		<if test="airconditioningUnitName !=null and airconditioningUnitName != ''">
+			and name = #{airconditioningUnitName}
+		</if>
+		AND (${checkDataLimit})
+	</select>
+
+
+
+    <!--查询全部灯光配置信息-->
+    <select id="getLightList" resultType="java.util.HashMap" parameterType="java.lang.String">
+        select
+			id,
+			name,
+			light_address,
+			light_switch_system,
+			light_status_system
+		from api_light_config
+        where 1=1
+          AND (${checkDataLimit})
+    </select>
+    <!--根据灯光名称查询灯光配置信息-->
+    <select id="getLight" resultType="java.util.HashMap" parameterType="java.lang.String">
+        select id,
+		name,
+		light_address,
+		light_switch_system,
+		light_status_system from api_light_config
+        where 1=1
+        <if test="lightName !=null and lightName != ''">
+            and name = #{lightName}
+        </if>
+        AND (${checkDataLimit})
+    </select>
+
+	<!--查询全部可调灯光配置信息-->
+	<select id="getTgLightList" resultType="java.util.HashMap" parameterType="java.lang.String">
+        select id,
+		name,
+		light_address,
+		light_tg_system,
+		light_status_system from api_tglight_config
+        where 1=1
+          AND (${checkDataLimit})
+    </select>
+	<!--根据可调灯光名称查询灯光配置信息-->
+	<select id="getTgLight" resultType="java.util.HashMap" parameterType="java.lang.String">
+		select id,
+		name,
+		light_address,
+		light_tg_system,
+		light_status_system from api_tglight_config
+		where 1=1
+		<if test="lightName !=null and lightName != ''">
+			and name = #{lightName}
+		</if>
+		AND (${checkDataLimit})
+	</select>
+	<select id="getDdclList" resultType="java.util.HashMap"	parameterType="java.lang.String">
+		select id,
+		name,
+		electriccurtain_address,
+		electriccurtain_switch_system,
+		electriccurtain_kdkz_system,
+		electriccurtain_stop_system
+		from api_electriccurtain_config
+		where 1=1
+		<if test="CLName !=null and CLName != ''">
+			and name = #{CLName}
+		</if>
+		AND (${checkDataLimit})
+	</select>
+
+	<select id="getDdclInfo" resultType="java.util.HashMap" parameterType="java.lang.String">
+		select id,
+		name,
+		electriccurtain_address,
+		electriccurtain_switch_system,
+		electriccurtain_kdkz_system,
+		electriccurtain_stop_system from api_electriccurtain_config WHERE  (${checkDataLimit})
+	</select>
+</mapper>

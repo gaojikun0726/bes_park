@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.efounder.JEnterprise.mapper.basedatamanage.enegrycollectionmanage.BESProtocolMapper" >
+
+  <resultMap id="ProtocolMap" type="com.efounder.JEnterprise.model.basedatamanage.enegrycollectionmanage.BESProtocol" >
+    <id column="F_TXXYBH" property="fTxxybh" />
+    <result column="F_TYPE" property="fType" />
+    <result column="F_CRDATE" property="fCrdate" />
+    <result column="F_CHDATE" property="fChdate" />
+  </resultMap>
+  
+  <sql id="Base_Column_List" >
+    F_TXXYBH, F_TYPE,date_format(F_CRDATE,'%Y-%m-%d %H:%i:%s' ) F_CRDATE ,date_format(F_CHDATE,'%Y-%m-%d %H:%i:%s' ) F_CHDATE
+  </sql>
+  <!-- 关键字查询，分页查询 -->
+  <select id="getProtocolList" resultMap="ProtocolMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from bes_protocol
+		<where>
+		1=1
+			<if test="keywords != null and keywords != ''"> 
+			and CONCAT(`F_TXXYBH`,'##',`F_TYPE` ) LIKE CONCAT('%',#{keywords},'%')
+			</if>
+		</where>
+		order by F_TXXYBH
+  </select>
+  
+   <select id="getProtocol" resultMap="ProtocolMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from bes_protocol
+		<where>
+			 F_TXXYBH = #{fTxxybh}
+		</where>   
+  </select>
+  
+  <delete id="delProtocol" parameterType="java.lang.String" >
+    delete from bes_protocol
+    where F_TXXYBH = #{fTxxybh,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insProtocol" parameterType="com.efounder.JEnterprise.model.basedatamanage.enegrycollectionmanage.BESProtocol" >
+    insert into bes_protocol
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="fTxxybh != null" >
+        F_TXXYBH,
+      </if>
+      <if test="fType != null" >
+        F_TYPE,
+      </if>
+      <if test="fCrdate != null" >
+        F_CRDATE,
+      </if>
+      <if test="fChdate != null" >
+        F_CHDATE,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="fTxxybh != null" >
+        #{fTxxybh,jdbcType=VARCHAR},
+      </if>
+      <if test="fType != null" >
+        #{fType,jdbcType=VARCHAR},
+      </if>
+      <if test="fCrdate != null" >
+        #{fCrdate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="fChdate != null" >
+        #{fChdate,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updProtocol" parameterType="com.efounder.JEnterprise.model.basedatamanage.enegrycollectionmanage.BESProtocol" >
+    update bes_protocol
+    <set >
+      <if test="fType != null" >
+        F_TYPE = #{fType,jdbcType=VARCHAR},
+      </if>
+      <if test="fCrdate != null" >
+        F_CRDATE = #{fCrdate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="fChdate != null" >
+        F_CHDATE = #{fChdate,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where F_TXXYBH = #{fTxxybh,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.efounder.JEnterprise.model.basedatamanage.enegrycollectionmanage.BESProtocol" >
+    update bes_protocol
+    set F_TYPE = #{fType,jdbcType=VARCHAR},
+      F_CRDATE = #{fCrdate,jdbcType=TIMESTAMP},
+      F_CHDATE = #{fChdate,jdbcType=TIMESTAMP}
+    where F_TXXYBH = #{fTxxybh,jdbcType=VARCHAR}
+  </update>
+</mapper>

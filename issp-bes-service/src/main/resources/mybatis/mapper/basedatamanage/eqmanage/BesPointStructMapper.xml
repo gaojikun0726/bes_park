@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.efounder.JEnterprise.mapper.basedatamanage.eqmanage.BesPointStructMapper" >
+    <!--wanghongjie 20200714 修改模块的同步状态-->
+    <update id="updateByPrimaryKeySelectModule" parameterType="com.efounder.JEnterprise.model.basedatamanage.eqmanage.BesModule">
+        update bes_module
+        <set>
+            <if test=" fModuleState != null and fModuleState != '' "><!--同步状态-->
+                F_MODULE_STATE = #{fModuleState},
+            </if>
+            F_CHDATE = current_timestamp()<!--修改时间-->
+        </set>
+        where F_STRUCT_ID = #{fStructId}
+    </update>
+    <!--C修改虚点的同步状态-->
+    <update id="updateByPrimaryKeySelectVpoint" parameterType="com.efounder.JEnterprise.model.basedatamanage.eqmanage.BesPointStruct">
+        update bes_vpoint
+        <set>
+            <if test=" fSyncState != null and fSyncState != '' "><!--同步状态-->
+                F_SYNC_STATE = #{fSyncState},
+            </if>
+            F_CHDATE = current_timestamp()<!--修改时间-->
+        </set>
+        where F_SBID = #{fSbid}
+    </update>
+
+    <!--wanghongjie 20200714 查询相应的点位表中是否存在这个点位-->
+    <select id="selectPointMap" resultType="java.util.Map">
+        select * from ${tabName} where F_SYS_NAME_OLD = #{f_sys_name_old}
+    </select>
+    <!--wanghongjie 20200714 修改不同的点位表的同步状态-->
+    <update id="updateByPrimaryKeySelectDOPoint" parameterType="com.efounder.JEnterprise.model.basedatamanage.eqmanage.BesPointStruct">
+        update BES_DIGIT_OUPUT
+        <set>
+            <if test=" fDoState != null and fDoState != '' "><!--同步状态-->
+                F_DO_STATE = #{fDoState},
+            </if>
+            F_CHDATE = current_timestamp()<!--修改时间-->
+        </set>
+        where F_STRUCT_ID = #{fStructId}
+    </update>
+    <update id="updateByPrimaryKeySelectAOPoint" parameterType="com.efounder.JEnterprise.model.basedatamanage.eqmanage.BesPointStruct">
+        update BES_ANALOG_OUPUT
+        <set>
+            <if test=" fAoState != null and fAoState != '' "><!--同步状态-->
+                F_AO_STATE = #{fAoState},
+            </if>
+            F_CHDATE = current_timestamp()<!--修改时间-->
+        </set>
+        where F_STRUCT_ID = #{fStructId}
+    </update>
+    <update id="updateByPrimaryKeySelectDIPoint" parameterType="com.efounder.JEnterprise.model.basedatamanage.eqmanage.BesPointStruct">
+        update BES_DIGIT_INPUT
+        <set>
+            <if test=" fDiState != null and fDiState != '' "><!--同步状态-->
+                F_DI_STATE = #{fDiState},
+            </if>
+            F_CHDATE = current_timestamp()<!--修改时间-->
+        </set>
+        where F_STRUCT_ID = #{fStructId}
+    </update>
+    <update id="updateByPrimaryKeySelectAIPoint" parameterType="com.efounder.JEnterprise.model.basedatamanage.eqmanage.BesPointStruct">
+        update BES_ANALOG_INPUT
+        <set>
+            <if test=" fAiState != null and fAiState != '' "><!--同步状态-->
+                F_AI_STATE = #{fAiState},
+            </if>
+            F_CHDATE = current_timestamp()<!--修改时间-->
+        </set>
+        where F_STRUCT_ID = #{fStructId}
+    </update>
+
+    <!--wanghongjie 20200714 修改相应的点位表的实时数据-->
+    <update id="updatePointValue" parameterType="string">
+        update ${tabName}
+        set
+        F_INIT_VAL = #{value}
+        where F_STRUCT_ID = #{id}
+    </update>
+
+    <!--wanghongjie 20200714 修改相应的虚点位表的实时数据-->
+    <update id="updateVPointValue">
+        update bes_vpoint
+        set
+        F_INIT_VAL = #{value}
+        where F_SBID = #{id}
+    </update>
+
+</mapper>

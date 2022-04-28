@@ -1,0 +1,9 @@
+pdu:
+  server:
+    port: 8066
+  url:
+    switch_status_url: http://111.14.222.51:9001/energy/api/public/pole/pdu/receiveSwitchStatus  #推送开关状态url
+server:
+  port: 8060
+  servlet:
+    context-path: /

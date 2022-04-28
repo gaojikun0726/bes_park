@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.efounder.JEnterprise.mapper.generate.EsSbbMapper">
+
+  <resultMap id="BaseResultMap" type="com.efounder.JEnterprise.model.generator.EsSbb">
+    <id column="id" jdbcType="VARCHAR" property="id" />
+    <result column="sbbh" jdbcType="VARCHAR" property="sbbh" />
+    <result column="sbmc" jdbcType="VARCHAR" property="sbmc" />
+    <result column="sblb" jdbcType="VARCHAR" property="sblb" />
+    <result column="gldw" jdbcType="VARCHAR" property="gldw" />
+    <result column="F_ZZJGBH" jdbcType="VARCHAR" property="fZzjgbh" />
+    <result column="F_YQBH" jdbcType="VARCHAR" property="fYqbh" />
+    <result column="F_CRDATE" jdbcType="TIMESTAMP" property="fCrdate" />
+    <result column="F_CHDATE" jdbcType="TIMESTAMP" property="fChdate" />
+  </resultMap>
+
+  <sql id="Base_Column_List">
+    id, sbbh, sbmc, sblb, gldw, F_ZZJGBH, F_YQBH, date_format(F_CRDATE,'%Y-%m-%d %H:%i:%s' )F_CRDATE, date_format(F_CHDATE,'%Y-%m-%d %H:%i:%s' )F_CHDATE
+  </sql>
+  <select id="findsbblId" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from es_sbb
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
+
+  <select id="selectByPrimarykeywords" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from es_sbb
+    where F_ZZJGBH = #{zzjgbh}
+  </select>
+
+
+  <delete id="deleteByPrimaryKey" parameterType="com.efounder.JEnterprise.model.generator.EsSbb">
+    delete from es_sbb
+    where id = #{id,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.efounder.JEnterprise.model.generator.EsSbb" useGeneratedKeys="true">
+    insert into es_sbb (sbbh, sbmc, sblb,
+      gldw, F_ZZJGBH, F_YQBH,
+      F_CRDATE, F_CHDATE)
+    values (#{sbbh,jdbcType=VARCHAR}, #{sbmc,jdbcType=VARCHAR}, #{sblb,jdbcType=VARCHAR},
+      #{gldw,jdbcType=VARCHAR}, #{fZzjgbh,jdbcType=VARCHAR}, #{fYqbh,jdbcType=VARCHAR},
+      #{fCrdate,jdbcType=TIMESTAMP}, #{fChdate,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective"  parameterType="com.efounder.JEnterprise.model.generator.EsSbb" >
+    insert into es_sbb (id,sbbh,sbmc,sblb,gldw,F_ZZJGBH,F_YQBH,F_CRDATE,F_CHDATE)
+    values (null,#{sbbh},#{sbmc},#{sblb},#{gldw},#{fZzjgbh},#{fYqbh},now(),now())
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.efounder.JEnterprise.model.generator.EsSbb">
+    update es_sbb
+    <set>
+      <if test="sbbh != null">
+        sbbh = #{sbbh,jdbcType=VARCHAR},
+      </if>
+      <if test="sbmc != null">
+        sbmc = #{sbmc,jdbcType=VARCHAR},
+      </if>
+      <if test="sblb != null">
+        sblb = #{sblb,jdbcType=VARCHAR},
+      </if>
+      <if test="gldw != null">
+        gldw = #{gldw,jdbcType=VARCHAR},
+      </if>
+      <if test="fZzjgbh != null">
+        F_ZZJGBH = #{fZzjgbh,jdbcType=VARCHAR},
+      </if>
+      <if test="fYqbh != null">
+        F_YQBH = #{fYqbh,jdbcType=VARCHAR},
+      </if>
+      <if test="fCrdate != null">
+        F_CRDATE = #{fCrdate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="fChdate != null">
+        F_CHDATE = #{fChdate,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+
+  <!--用户表维护——搜索  -->
+  <select id="selectbuyjiji" parameterType="string" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from es_sbb
+    <where>
+      <if test="sbbkeywords != null and sbbkeywords != ''">
+        and CONCAT(`id`,'##', `sbbh`,'##', `sbmc`,'##', `sblb`,'##', `gldw`) LIKE CONCAT('%',#{sbbkeywords},'%')
+      </if>
+    </where>
+    order by F_CRDATE
+  </select>
+
+
+  <update id="updateByPrimaryKey" parameterType="com.efounder.JEnterprise.model.generator.EsSbb">
+    update es_sbb
+    set sbbh = #{sbbh,jdbcType=VARCHAR},
+      sbmc = #{sbmc,jdbcType=VARCHAR},
+      sblb = #{sblb,jdbcType=VARCHAR},
+      gldw = #{gldw,jdbcType=VARCHAR},
+      F_CHDATE =now()
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+</mapper>

@@ -1,0 +1,177 @@
+0 ldc 4    
+1 ldv FreezeWaterPumpRunState    
+2 ldv FreezeWaterPumpRate    
+3 ldv freezeWaterPumptroubleState    
+4 ldv airconditioningRequest    
+5 ldc 203    
+6 call FreezeWaterPumpParamInit 6   
+7 ldv FreezeWatervalveState11    
+8 ldv FreezeWatervalveState12    
+9 ldv FreezeWatervalveState13    
+10 ldv FreezeWatervalveState14    
+11 call FreezeWaterValveInit 4   
+12 ldc 0    
+13 asn FreezeWaterRequest    
+14 ldv tempPumpRate1    
+15 ldv FreezeWaterPumpRate    
+16 ldc 4    
+17 call PcpMalloc 3   
+18 ldv tempTroubleState1    
+19 ldv freezeWaterPumptroubleState    
+20 ldc 4    
+21 call PcpMalloc 3   
+22 ldv tempvalveState11    
+23 ldv FreezeWatervalveState11    
+24 ldc 4    
+25 call PcpMalloc 3   
+26 ldv tempvalveState12    
+27 ldv FreezeWatervalveState12    
+28 ldc 4    
+29 call PcpMalloc 3   
+30 ldv tempvalveState13    
+31 ldv FreezeWatervalveState13    
+32 ldc 4    
+33 call PcpMalloc 3   
+34 ldv tempvalveState14    
+35 ldv FreezeWatervalveState14    
+36 ldc 4    
+37 call PcpMalloc 3   
+38 ldv FreezeWaterRunTime    
+39 ldv FreezeWaterPumpRunState    
+40 ldc 0    
+41 ldc 0    
+42 ldc 0    
+43 ldc 0    
+44 call TimerAcountInit 6   
+45 callv START_COUNT    
+46 rem beginWhile    
+47 ldc 1    
+48 jz 176    
+49 rem beginIf    
+50 ldv FreezeWaterRequest    
+51 ldc 2    
+52 eq     
+53 jz 145    
+54 rem beginIf    
+55 ldv FreezeWaterPumpRate    
+56 ldv tempPumpRate1    
+57 neq     
+58 jz 71    
+59 ldv FreezeWaterPumpRate    
+60 asn tempPumpRate1    
+61 rem beginIf    
+62 ldv FW1MODULE    
+63 ldc 0    
+64 eq     
+65 jz 69    
+66 ldc 1    
+67 asn airconditioningRequest    
+68 jmp 69    
+69 rem endIf    
+70 jmp 71    
+71 rem endIf    
+72 rem beginIf    
+73 ldv tempvalveState11    
+74 ldv FreezeWatervalveState11    
+75 neq     
+76 jz 89    
+77 ldv FreezeWatervalveState11    
+78 asn tempvalveState11    
+79 rem beginIf    
+80 ldv FW1MODULE    
+81 ldc 0    
+82 eq     
+83 jz 87    
+84 ldc 1    
+85 asn airconditioningRequest    
+86 jmp 87    
+87 rem endIf    
+88 jmp 89    
+89 rem endIf    
+90 rem beginIf    
+91 ldv tempvalveState12    
+92 ldv FreezeWatervalveState12    
+93 neq     
+94 jz 107    
+95 ldv FreezeWatervalveState12    
+96 asn tempvalveState12    
+97 rem beginIf    
+98 ldv FW1MODULE    
+99 ldc 0    
+100 eq     
+101 jz 105    
+102 ldc 1    
+103 asn airconditioningRequest    
+104 jmp 105    
+105 rem endIf    
+106 jmp 107    
+107 rem endIf    
+108 rem beginIf    
+109 ldv tempvalveState13    
+110 ldv FreezeWatervalveState13    
+111 neq     
+112 jz 125    
+113 ldv FreezeWatervalveState13    
+114 asn tempvalveState13    
+115 rem beginIf    
+116 ldv FW1MODULE    
+117 ldc 0    
+118 eq     
+119 jz 123    
+120 ldc 1    
+121 asn airconditioningRequest    
+122 jmp 123    
+123 rem endIf    
+124 jmp 125    
+125 rem endIf    
+126 rem beginIf    
+127 ldv tempvalveState14    
+128 ldv FreezeWatervalveState14    
+129 neq     
+130 jz 143    
+131 ldv FreezeWatervalveState14    
+132 asn tempvalveState14    
+133 rem beginIf    
+134 ldv FW1MODULE    
+135 ldc 0    
+136 eq     
+137 jz 141    
+138 ldc 1    
+139 asn airconditioningRequest    
+140 jmp 141    
+141 rem endIf    
+142 jmp 143    
+143 rem endIf    
+144 jmp 145    
+145 rem endIf    
+146 rem beginIf    
+147 ldv FreezeWaterRequest    
+148 ldc 1    
+149 eq     
+150 jz 163    
+151 ldc 0    
+152 asn FreezeWaterRequest    
+153 rem beginIf    
+154 ldv FW1MODULE    
+155 ldc 0    
+156 eq     
+157 jz 161    
+158 ldc 0    
+159 asn airconditioningRequest    
+160 jmp 161    
+161 rem endIf    
+162 jmp 163    
+163 rem endIf    
+164 rem beginIf    
+165 ldv FreezeWaterRequest    
+166 ldc 3    
+167 eq     
+168 jz 174    
+169 ldc 0    
+170 asn FreezeWaterRequest    
+171 ldv FreezeWaterRunTime    
+172 asn airconditioningRequest    
+173 jmp 174    
+174 rem endIf    
+175 jmp 47    
+176 rem endWhile    

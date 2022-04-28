@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.efounder.JEnterprise.mapper.strongAndWeakElectricityIntegration.deviceConfig.MachineSetMapper" >
+
+    <sql id="col_name">
+      id                                            id,
+      name                                          name,
+      DATE_FORMAT(create_time,'%Y-%m-%d %H:%i:%s')  createTime,
+      DATE_FORMAT(update_time,'%Y-%m-%d %H:%i:%s')  updateTime,
+      comments                                      comments
+	</sql>
+
+    <sql id="table_name">
+        strongandweakelectricityintegration_machine_set
+    </sql>
+
+    <insert id="insert" useGeneratedKeys="true" keyProperty="id">
+
+        insert into
+        <include refid="table_name"/>
+
+        (
+            name,
+            create_time,
+            update_time,
+            comments
+        )
+        values
+        (
+
+            #{name},
+             current_timestamp(),
+            #{updateTime},
+            #{comments}
+        )
+
+
+    </insert>
+
+    <select id="findList" resultType="com.efounder.JEnterprise.model.strongAndWeakElectricityIntegration.deviceConfig.MachineSetModel">
+
+        select
+
+        <include refid="col_name"/>
+
+        from
+
+        <include refid="table_name"/>
+        <where>
+
+            <if test="id != null and id != ''" >
+                id    =   #{id}
+            </if>
+
+            <if test="name != null and name != ''" >
+                and name  =   #{name}
+            </if>
+
+        </where>
+
+    </select>
+
+
+    <update id="update">
+
+        update
+          <include refid="table_name"/>
+
+        <set>
+            <if test="name != null and name!='' ">
+                name     =   #{name},
+            </if>
+            update_time     =     current_timestamp(),
+            comments        =   #{comments}
+        </set>
+
+        where
+
+            id  =  #{id}
+    </update>
+
+    <delete id="delete">
+
+        delete from
+          <include refid="table_name"/>
+        where
+             id = #{id}
+    </delete>
+
+    <select id="queryPage" parameterType="java.lang.String" resultType="com.efounder.JEnterprise.model.strongAndWeakElectricityIntegration.deviceConfig.MachineSetModel">
+        select
+        <include refid="col_name"/>
+        from <include refid="table_name"/>
+        <where>
+            <if test="keywords != null and keywords != ''">
+                `name` LIKE CONCAT('%',#{keywords},'%')
+            </if>
+        </where>
+        order by create_time
+    </select>
+
+</mapper>

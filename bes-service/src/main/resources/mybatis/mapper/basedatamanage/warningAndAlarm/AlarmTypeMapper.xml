@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.efounder.JEnterprise.mapper.basedatamanage.warningAndAlarm.AlarmTypeMapper" >
+    <resultMap id="BaseResultMap" type="com.efounder.JEnterprise.model.basedatamanage.warningAndAlarm.AlarmType" >
+        <id column="ALARM_TYPE_NUM" property="alarmNum" />
+        <result column="ALARM_TYPE_NAME" property="alarmTypeName" jdbcType="VARCHAR" />
+        <result column="F_CRDATE" property="fCrdate" jdbcType="TIMESTAMP" />
+        <result column="F_CHDATE" property="fChdate" jdbcType="TIMESTAMP" />
+    </resultMap>
+
+
+	<!-- 查询报警类型 -->
+    <select id="findAlarmType" resultMap="BaseResultMap" parameterType="java.lang.String" >
+        select
+        ALARM_TYPE_NUM,
+        ALARM_TYPE_NAME,
+        F_CRDATE,
+        F_CHDATE
+        from bes_alarm_type
+        <where>
+            1=1
+            <if test="alarmNum != null and  alarmNum !=''">
+               and ALARM_TYPE_NUM=#{alarmNum}
+            </if>
+        </where>
+    </select>
+
+    <!-- 根据搜索信息查询报警类型 -->
+    <select id="findAlarmTypeBySearch" resultMap="BaseResultMap" parameterType="java.lang.String" >
+        select
+        ALARM_TYPE_NUM,
+        ALARM_TYPE_NAME,
+        F_CRDATE,
+        F_CHDATE
+        from bes_alarm_type
+        <where>
+            1=1
+            <if test="alarmTypeName != null and  alarmTypeName !=''">
+                AND ALARM_TYPE_NAME like CONCAT('%',#{alarmTypeName},'%')
+            </if>
+        </where>
+    </select>
+
+    <!--插入一条报警类型数据-->
+    <insert id="insertAlarmType" parameterType="com.efounder.JEnterprise.model.basedatamanage.warningAndAlarm.AlarmType" >
+        insert into bes_alarm_type
+        <trim prefix="(" suffix=")" suffixOverrides="," >
+
+            <if test="alarmTypeName != null" >
+                ALARM_TYPE_NAME,
+            </if>
+            <if test="fCrdate != null" >
+                F_CRDATE,
+            </if>
+            <if test="fChdate != null" >
+                F_CHDATE,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides="," >
+
+            <if test="alarmTypeName != null" >
+                #{alarmTypeName,jdbcType=VARCHAR},
+            </if>
+            <if test="fCrdate != null" >
+                #{fCrdate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="fChdate != null" >
+                #{fChdate,jdbcType=TIMESTAMP},
+            </if>
+        </trim>
+    </insert>
+
+    <!--删除一条报警类型信息-->
+    <delete id="deleteAlarmType" parameterType="com.efounder.JEnterprise.model.basedatamanage.warningAndAlarm.AlarmType" >
+		delete from bes_alarm_type
+        where ALARM_TYPE_NUM=#{alarmNum};
+  	</delete>
+
+    <!--更新一条报警信息-->
+    <update id="updateAlarmType" parameterType="com.efounder.JEnterprise.model.basedatamanage.warningAndAlarm.AlarmType" >
+        update bes_alarm_type
+        <set >
+            <if test="alarmTypeName != null" >
+                ALARM_TYPE_NAME = #{alarmTypeName},
+            </if>
+            <if test="fChdate != null" >
+                F_CHDATE = #{fChdate},
+            </if>
+        </set>
+        where ALARM_TYPE_NUM = #{alarmNum}
+    </update>
+</mapper>

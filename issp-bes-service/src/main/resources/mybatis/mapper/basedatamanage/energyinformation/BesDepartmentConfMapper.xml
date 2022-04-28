@@ -1,0 +1,339 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.efounder.JEnterprise.mapper.basedatamanage.energyinformation.BesDepartmentConfMapper">
+
+    <resultMap id="BaseResultMap"
+               type="com.efounder.JEnterprise.model.basedatamanage.energyinformation.BesDepartmentConf">
+        <id column="F_DEP_ID" property="fDepId" jdbcType="VARCHAR"/>
+        <result column="F_ZLBH" property="fZlbh" jdbcType="VARCHAR"/>
+        <result column="F_ZL_ID" property="fZlId" jdbcType="VARCHAR"/>
+        <result column="F_ZLXS" property="fZlxs" jdbcType="DOUBLE"/>
+        <result column="F_DB_ID" property="fDbId" jdbcType="VARCHAR"/>
+        <result column="F_DBSYS_NAME" property="fDbSysName" jdbcType="VARCHAR"/>
+        <result column="F_DBXS" property="fDbxs" jdbcType="DOUBLE"/>
+        <result column="CREATE_TIME" property="createTime" jdbcType="TIMESTAMP"/>
+        <result column="UPDATE_TIME" property="updateTime" jdbcType="TIMESTAMP"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        F_DEP_ID,F_ZLBH,F_ZL_ID,F_ZLXS,F_DB_ID,F_DBSYS_NAME,F_DBXS,
+         date_format(CREATE_TIME,'%Y-%m-%d %H:%i:%s' ) CREATE_TIME ,date_format(UPDATE_TIME,'%Y-%m-%d %H:%i:%s' ) UPDATE_TIME
+    </sql>
+
+    <!-- 查询部门配置数据 -->
+    <select id="getDepartmentList" resultType="java.util.Map">
+        SELECT
+        a.F_ID,
+        a.F_DEP_ID,
+        a.F_ZLBH,
+        a.F_DBSYS_NAME,
+        CASE
+        WHEN ISNULL( a.F_ZLBH ) THEN
+        a.F_DBSYS_NAME ELSE ( SELECT F_ZLMC FROM bes_branch_conf WHERE F_ZLBH = a.F_ZLBH )
+        END F_MC,
+        CASE
+        WHEN ISNULL( a.F_ZLXS ) THEN
+        a.F_DBXS ELSE a.F_ZLXS
+        END F_XS,
+        CASE
+        WHEN ISNULL( a.F_ZLBH ) THEN
+        '电表' ELSE '支路'
+        END F_TYPE,
+        date_format( a.CREATE_TIME, '%Y-%m-%d %H:%i:%s' ) CREATE_TIME,
+        date_format( a.UPDATE_TIME, '%Y-%m-%d %H:%i:%s' ) UPDATE_TIME
+        FROM bes_department_data a
+        <where>
+            1=1
+            <if test="fDepId != null and fDepId != ''">
+                and a.F_DEP_ID LIKE CONCAT('%',#{fDepId},'%')
+            </if>
+        </where>
+        order by a.F_DEP_ID
+    </select>
+
+    <select id="getDepartmentAllList" resultType="java.util.Map">
+        SELECT
+        a.F_ID,
+        a.F_DEP_ID,
+        a.F_ZLBH,
+        a.F_DBSYS_NAME,
+        CASE
+        WHEN ISNULL( a.F_ZLBH ) THEN
+        a.F_DBSYS_NAME ELSE b.F_ZLMC
+        END F_MC,
+        CASE
+        WHEN ISNULL( a.F_ZLXS ) THEN
+        a.F_DBXS ELSE a.F_ZLXS
+        END F_XS,
+        CASE
+        WHEN ISNULL( a.F_ZLBH ) THEN
+        '电表' ELSE '支路'
+        END F_TYPE,
+        date_format( a.CREATE_TIME, '%Y-%m-%d %H:%i:%s' ) CREATE_TIME,
+        date_format( a.UPDATE_TIME, '%Y-%m-%d %H:%i:%s' ) UPDATE_TIME
+        FROM bes_department_data a LEFT JOIN bes_branch_conf b ON a.F_ZLBH = b.F_ZLBH
+        LEFT JOIN bes_ammeter c ON a.F_DBSYS_NAME = c.F_SYS_NAME
+        <where>
+            1=1
+            <if test="zzjginfo != null and zzjginfo != ''">
+                and (a.F_ZLBH LIKE CONCAT('%',#{zzjginfo},'%') OR a.F_DBSYS_NAME LIKE CONCAT('%',#{zzjginfo},'%') OR b.F_ZLMC LIKE CONCAT('%',#{zzjginfo},'%') OR c.F_NICK_NAME LIKE CONCAT('%',#{zzjginfo},'%'))
+            </if>
+            AND a.F_DEP_ID = #{fDepId}
+        </where>
+        order by a.F_DEP_ID
+    </select>
+
+    <!-- 查询部门配置数据 -->
+    <select id="findAllDepartment" resultMap="BaseResultMap" parameterType="java.lang.String">
+        select
+        <include refid="Base_Column_List"/>
+        from bes_department_data
+    </select>
+
+    <!-- 新增部门 -->
+    <!--<insert id="add_Department"
+            parameterType="com.efounder.JEnterprise.model.basedatamanage.energyinformation.BesDepartmentConf">
+    insert into bes_department_data (F_DEP_ID,F_ZLBH,F_ZL_ID,F_ZLXS,F_DB_ID,F_DBSYS_NAME,F_DBXS,CREATE_TIME,UPDATE_TIME)
+    values (#{fDepId}, #{fZlbh}, #{fZlId}, #{fZlxs},#{fDbId},#{fDbSysName}, #{fDbxs},current_timestamp(),current_timestamp())
+  </insert>-->
+    <insert id="add_Department">
+        <foreach collection="list" item="item" index="index" separator=";">
+            insert into bes_department_data
+            <trim prefix="(" suffix=")" suffixOverrides="," >
+                <if test="item.F_DEP_ID != null" >
+                    F_DEP_ID,
+                </if>
+                <if test="item.F_ZLBH != null" >
+                    F_ZLBH,
+                </if>
+                <if test="item.F_ZLXS != null" >
+                    F_ZLXS,
+                </if>
+                <if test="item.F_SYS_NAME != null" >
+                    F_DBSYS_NAME,
+                </if>
+                <if test="item.F_DBXS != null" >
+                    F_DBXS,
+                </if>
+                CREATE_TIME,
+                UPDATE_TIME
+            </trim>
+            <trim prefix="values (" suffix=")" suffixOverrides="," >
+                <if test="item.F_DEP_ID != null" >
+                    #{item.F_DEP_ID},
+                </if>
+                <if test="item.F_ZLBH != null" >
+                    #{item.F_ZLBH},
+                </if>
+                <if test="item.F_ZLXS != null" >
+                    #{item.F_ZLXS},
+                </if>
+                <if test="item.F_SYS_NAME != null" >
+                    #{item.F_SYS_NAME},
+                </if>
+                <if test="item.F_DBXS != null" >
+                    #{item.F_DBXS},
+                </if>
+                current_timestamp(),
+                current_timestamp()
+            </trim>
+        </foreach>
+
+    </insert>
+
+    <!-- 删除部门 -->
+    <delete id="del_Department" parameterType="java.lang.String">
+    delete from bes_department_data where F_ID = #{id}
+  </delete>
+
+    <select id="queryDepartmentCount" resultType="java.util.Map" parameterType="java.lang.String">
+        SELECT F_ID,CASE WHEN ISNULL(F_ZLBH) THEN 'db' ELSE 'zl' END F_TYPE FROM bes_department_data  WHERE
+	        (F_ZLBH = ( SELECT F_ZLBH FROM bes_department_data WHERE F_ID = #{id} )
+	        OR F_DBSYS_NAME = ( SELECT F_DBSYS_NAME FROM bes_department_data WHERE F_ID = #{id} )) AND F_ID != #{id}
+    </select>
+
+    <update id="updaeDepartmentCount">
+        update bes_department_data set F_ZLXS = #{dou}
+        where F_ID IN
+        <foreach collection="list" item="item" separator="," open="(" close=")">
+            #{item.F_ID}
+        </foreach>
+    </update>
+
+    <update id="updaeDepartmentCount1">
+        update bes_department_data set F_DBXS = #{dou}
+        where F_ID IN
+        <foreach collection="list" item="item" separator="," open="(" close=")">
+            #{item.F_ID}
+        </foreach>
+    </update>
+
+    <delete id="deleteDepartment" parameterType="java.lang.String">
+    delete from bes_department_data where F_DEP_ID = #{F_DEP_ID}
+  </delete>
+
+    <!-- 编辑部门 -->
+    <update id="edit_Department"
+            parameterType="com.efounder.JEnterprise.model.basedatamanage.energyinformation.BesDepartmentConf">
+        update bes_department_data
+        <set>
+            <if test="fDepId != null">
+                F_DEP_ID = #{fDepId},
+            </if>
+            <if test="fZlbh != null">
+                F_ZLBH = #{fZlbh},
+            </if>
+            <if test="fZlId != null">
+                F_ZL_ID = #{fZlId},
+            </if>
+            <if test="fZlxs != null">
+                F_ZLXS = #{fZlxs},
+            </if>
+            <if test="fDbId != null">
+                F_DB_ID = #{fDbId},
+            </if>
+            <if test="fDbSysName != null">
+                F_DBSYS_NAME = #{fDbSysName},
+            </if>
+            <if test="fDbxs != null">
+                F_DBXS = #{fDbxs},
+            </if>
+            UPDATE_TIME = current_timestamp()
+        </set>
+        where F_DEP_ID = #{fDepId}
+    </update>
+
+    <!-- 查询分户 -->
+    <select id="queryDepartment" resultMap="BaseResultMap" parameterType="java.lang.String">
+        select
+        <include refid="Base_Column_List"/>
+        from bes_department_data
+        <where>
+            F_DEP_ID = #{fDepId}
+        </where>
+    </select>
+
+    <select id="getSelectBranchInfoList" resultType="java.util.Map">
+        SELECT * FROM bes_branch_conf
+        <where>
+            1=1
+            <if test="keywords != null and keywords != ''">
+                AND CONCAT(`F_ZLBH`,'##',`F_ZLMC` ) LIKE CONCAT('%',#{keywords},'%')
+            </if>
+            <if test="bmbh != null and bmbh != ''">
+                AND F_ZLBH not in (SELECT F_ZLBH from bes_department_data WHERE F_DEP_ID = #{bmbh} AND F_ZLBH is not null)
+            </if>
+            AND F_NYBH = '01000'
+        </where>
+    </select>
+
+    <select id="getSelectBranchInfoChoose" resultType="java.util.Map">
+        SELECT a.*,b.F_ZLXS FROM bes_branch_conf a LEFT JOIN bes_department_data b ON a.F_ZLBH = b.F_ZLBH
+        <where>
+            a.F_NYBH = '01000' AND b.F_DEP_ID = #{bmbh}
+            <if test="bmbh != null and bmbh != ''">
+                AND a.F_ZLBH in (SELECT F_ZLBH from bes_department_data WHERE F_DEP_ID = #{bmbh} AND F_ZLBH is not null)
+            </if>
+
+        </where>
+    </select>
+
+    <select id="getSelectBranchInfoById" resultType="java.util.Map">
+        SELECT * FROM bes_branch_conf
+        <where>
+            F_ZLBH = #{fZlbh}
+        </where>
+    </select>
+
+    <select id="getSelectBranchCount" resultType="java.util.Map">
+        SELECT 1/(count(1)+1) F_ZLXS FROM bes_department_data WHERE F_ZLBH = #{fZlbh} AND F_DEP_ID != #{F_DEP_ID}
+    </select>
+
+    <select id="getSelectElectricityMeterInfoList" resultType="java.util.Map">
+        SELECT * FROM bes_ammeter
+        <where>
+            1=1
+            <if test="keywords != null and keywords != ''">
+                AND CONCAT(`F_SYS_NAME`,'##',`F_NICK_NAME` ) LIKE CONCAT('%',#{keywords},'%')
+            </if>
+            <if test="bmbh != null and bmbh != ''">
+                AND F_SYS_NAME not in (SELECT F_DBSYS_NAME from bes_department_data WHERE F_DEP_ID = #{bmbh} AND F_DBSYS_NAME is not null)
+            </if>
+        </where>
+    </select>
+
+    <select id="getSelectElectricityMeterInfoChoose" resultType="java.util.Map">
+        SELECT a.*,b.F_DBXS FROM bes_ammeter a LEFT JOIN bes_department_data b ON a.F_SYS_NAME = b.F_DBSYS_NAME
+        <where>
+            b.F_DEP_ID = #{bmbh}
+            <if test="bmbh != null and bmbh != ''">
+                AND a.F_SYS_NAME in (SELECT F_DBSYS_NAME from bes_department_data WHERE F_DEP_ID = #{bmbh} AND F_DBSYS_NAME is not null)
+            </if>
+        </where>
+    </select>
+
+    <select id="getSelectElectricityMeterInfoById" resultType="java.util.Map">
+        SELECT * FROM bes_ammeter
+        <where>
+            F_SYS_NAME = #{fZlbh}
+        </where>
+    </select>
+
+    <select id="getSelectElectricityMeterCount" resultType="java.util.Map">
+        SELECT 1/(count(1)+1) F_DBXS FROM bes_department_data WHERE F_DBSYS_NAME = #{fZlbh} AND F_DEP_ID != #{F_DEP_ID}
+    </select>
+
+    <update id="updateBranchCoefficient">
+        update bes_department_data
+        <set >
+            <if test="F_ZLXS != null" >
+                F_ZLXS = #{F_ZLXS},
+            </if>
+        </set>
+        where F_ZLBH = #{F_ZLBH}
+    </update>
+
+    <update id="updateAmmeterCoefficient">
+        update bes_department_data
+        <set >
+            <if test="F_DBXS != null" >
+                F_DBXS = #{F_DBXS},
+            </if>
+        </set>
+        where F_DBSYS_NAME = #{F_DBSYS_NAME}
+    </update>
+
+    <select id="getDepPeopleNumber" resultType="java.util.Map">
+        select F_NUMBER from bes_department_number where F_DEP_ID = #{F_DEP_ID}
+    </select>
+
+    <insert id="setDepPeopleNumber">
+        insert into bes_department_number
+        <trim prefix="(" suffix=")" suffixOverrides="," >
+            <if test="F_DEP_ID != null" >
+                F_DEP_ID,
+            </if>
+            <if test="number != null" >
+                F_NUMBER,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides="," >
+            <if test="F_DEP_ID != null" >
+                #{F_DEP_ID},
+            </if>
+            <if test="number != null" >
+                #{number},
+            </if>
+        </trim>
+    </insert>
+
+    <update id="setDepPeopleNumberUpdate">
+        update bes_department_number
+        <set >
+            <if test="number != null" >
+                F_NUMBER = #{number},
+            </if>
+        </set>
+        where F_DEP_ID = #{F_DEP_ID}
+    </update>
+</mapper>

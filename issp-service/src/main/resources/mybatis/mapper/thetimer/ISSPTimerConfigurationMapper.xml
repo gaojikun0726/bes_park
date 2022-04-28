@@ -1,0 +1,280 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.efounder.JEnterprise.mapper.thetimer.ISSPTimerConfigurationMapper">
+
+	<resultMap id="TimerManageMap" type="com.efounder.JEnterprise.model.thetimer.ISSPTimerManage">
+		<result column="F_TIMER_BH" property="fTimerBh" />
+		<result column="F_TIMER_NAME" property="fTimerName" />
+		<result column="F_START_TIME" property="fStartTime" />
+		<result column="F_STOP_TIME" property="fStopTime" />
+		<result column="F_TIMER_STATE" property="fTimerState" />
+		<result column="F_TIMER_PARAMS" property="fTimerParams" />
+		<result column="F_CRDATE" property="fCrdate" />
+		<result column="F_CHDATE" property="fChdate" />
+	</resultMap>
+	
+	<resultMap id="TimerListMap" type="com.efounder.JEnterprise.model.thetimer.ISSPTimerList">
+		<result column="F_TIMER_BH" property="fTimerBh" />
+		<result column="F_TIMER_NAME" property="fTimerName" />
+		<result column="F_TIMER_CLASSBH" property="fTimerClassbh" />
+		<result column="F_TIMER_TYPEBH" property="fTimerTypebh" />
+		<result column="F_LOOP_TIME" property="fLoopTime" />
+		<result column="F_FIXED_TIME" property="fFixedTime" />
+		<result column="F_VAR_TIME" property="fVarTime" />
+		<result column="F_CRDATE" property="fCrdate" />
+		<result column="F_CHDATE" property="fChdate" />
+	</resultMap>
+
+	<resultMap id="TimerClassMap" type="com.efounder.JEnterprise.model.thetimer.ISSPTimerClass">
+		<result column="F_CLASS_BH" property="fClassBh" />
+		<result column="F_CLASS_NAME" property="fClassName" />
+		<result column="F_CLASS_PATH" property="fClassPath" />
+		<result column="F_CRDATE" property="fCrdate" />
+		<result column="F_CHDATE" property="fChdate" />
+	</resultMap>
+	
+	<resultMap id="TimerTypeMap" type="com.efounder.JEnterprise.model.thetimer.ISSPTimerType">
+		<result column="F_TYPE" property="fType" />
+		<result column="F_NAME" property="fName" />
+		<result column="F_REMARK" property="fRemark" />
+		<result column="F_CRDATE" property="fCrdate" />
+		<result column="F_CHDATE" property="fChdate" />
+	</resultMap>
+
+	<!-- 查询定时器列表 -->
+	<select id="getTimerConfigurationList" resultType="java.util.HashMap">
+		select 
+			a.F_TIMER_BH,a.F_TIMER_NAME,a.F_TIMER_TYPEBH,e.F_NAME,a.F_FIXED_TIME,a.F_LOOP_TIME,a.F_VAR_TIME,
+			c.F_ADAPTERMC,c.F_GUID as F_ADAPTERMC_ID,c.F_SBMC,c.F_IP,
+			d.F_SERVICE_MC,d.F_GUID as F_SERVICE_ID
+		from
+				  issp_timer_list a
+		LEFT JOIN issp_eq_join_task b ON a.F_TIMER_BH = b.F_TIMER_BH
+		LEFT JOIN issp_equipmentadapter c ON b.F_EQADAPTER_GUID = c.F_GUID
+		LEFT JOIN issp_intefaceadapter d ON b.F_INTERFACE_GUID = d.F_GUID
+		LEFT JOIN issp_timer_type e on a.F_TIMER_TYPEBH = e.F_TYPE
+		where 1=1
+			<if test="keywords != null and keywords != ''"> 
+			and a.F_TIMER_NAME LIKE CONCAT('%',#{keywords},'%')
+			</if>
+			<if test="F_TIMER_BH != null and F_TIMER_BH != ''"> 
+			and a.F_TIMER_BH = #{F_TIMER_BH}
+			</if>			
+	</select>
+	
+	<!-- 查询所有设备适配器 -->
+	<select id="getEquipmentadapter" resultType="java.util.HashMap" >
+		select * from issp_equipmentadapter
+	</select>
+	
+	<!-- 按设备适配器 查询服务接口 -->
+	<select id="getIntefaceadapter" resultType="java.util.HashMap" >
+		select * from issp_intefaceadapter 
+		where 1=1
+		    <if test="F_ADAPTERGUID != null and F_ADAPTERGUID != '' " >
+				and F_ADAPTERGUID = #{F_ADAPTERGUID}
+            </if>
+	</select>
+	
+	<!-- 查询任务类型-->
+	<select id="getTimertype" resultType="java.util.HashMap" >
+		select * from issp_timer_type
+	</select>
+
+	<!-- 添加定时任务 -->
+	<insert id="addTimerList" parameterType="string">
+        insert into issp_timer_list
+        <trim prefix="(" suffix=")" suffixOverrides="," >
+            <if test="F_TIMER_BH != null" >
+                F_TIMER_BH,
+            </if>
+            <if test="F_TIMER_NAME != null" >
+                F_TIMER_NAME,
+            </if>
+            <if test="F_TIMER_TYPEBH != null" >
+                F_TIMER_TYPEBH,
+            </if>
+            <if test="F_LOOP_TIME != null" >
+                F_LOOP_TIME,
+            </if>
+            <if test="F_FIXED_TIME != null" >
+                F_FIXED_TIME,
+            </if>
+            <if test="F_VAR_TIME != null" >
+                F_VAR_TIME,
+            </if>
+                F_CRDATE,
+                F_CHDATE,
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides="," >
+            <if test="F_TIMER_BH != null" >
+                #{F_TIMER_BH},
+            </if>
+            <if test="F_TIMER_NAME != null" >
+                #{F_TIMER_NAME},
+            </if>
+            <if test="F_TIMER_TYPEBH != null" >
+                #{F_TIMER_TYPEBH},
+            </if>
+            <if test="F_LOOP_TIME != null" >
+                #{F_LOOP_TIME},
+            </if>
+            <if test="F_FIXED_TIME != null" >
+                #{F_FIXED_TIME},
+            </if>
+            <if test="F_VAR_TIME != null" >
+                #{F_VAR_TIME},
+            </if>
+                current_timestamp(),
+
+                current_timestamp(),
+        </trim>
+    </insert>
+	<!-- 添加定时器管理 -->
+	<insert id="addTimerManage" parameterType="string">
+        insert into issp_timer_manage
+        <trim prefix="(" suffix=")" suffixOverrides="," >
+            <if test="F_TIMER_BH != null" >
+                F_TIMER_BH,
+            </if>
+            <if test="F_TIMER_NAME != null" >
+                F_TIMER_NAME,
+            </if>
+            <if test="F_TIMER_STATE != null" >
+                F_TIMER_STATE,
+            </if>
+                F_CRDATE,
+                F_CHDATE,
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides="," >
+            <if test="F_TIMER_BH != null" >
+                #{F_TIMER_BH},
+            </if>
+            <if test="F_TIMER_NAME != null" >
+                #{F_TIMER_NAME},
+            </if>
+            <if test="F_TIMER_STATE != null" >
+                #{F_TIMER_STATE},
+            </if>
+                current_timestamp(),
+
+                current_timestamp(),
+        </trim>
+	</insert>
+	
+	<!-- 添加定时任务管理 -->
+	<insert id="addEqJoinTask" parameterType="string">
+        insert into issp_eq_join_task
+        <trim prefix="(" suffix=")" suffixOverrides="," >
+            <if test="F_TASK_BH != null" >
+                F_TASK_BH,
+            </if>
+            <if test="F_TIMER_BH != null" >
+                F_TIMER_BH,
+            </if>
+            <if test="F_TIMER_NAME != null" >
+                F_TIMER_NAME,
+            </if>
+            <if test="F_EQADAPTER_GUID != null" >
+                F_EQADAPTER_GUID,
+            </if>
+            <if test="F_INTERFACE_GUID != null" >
+                F_INTERFACE_GUID,
+            </if>
+                F_CRDATE,
+                F_CHDATE,
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides="," >
+            <if test="F_TASK_BH != null" >
+                #{F_TASK_BH},
+            </if>
+            <if test="F_TIMER_BH != null" >
+                #{F_TIMER_BH},
+            </if>
+            <if test="F_TIMER_NAME != null" >
+                #{F_TIMER_NAME},
+            </if>
+            <if test="F_EQADAPTER_GUID != null" >
+                #{F_EQADAPTER_GUID},
+            </if>
+            <if test="F_INTERFACE_GUID != null" >
+                #{F_INTERFACE_GUID},
+            </if>
+                current_timestamp(),
+
+                current_timestamp(),
+        </trim>
+	</insert>
+	
+  <!-- 删除定时器列表 -->
+  <delete id="delTimerList" parameterType="java.lang.String" >
+    delete from issp_timer_list
+    where F_TIMER_BH = #{F_TIMER_BH}
+  </delete>
+  <!-- 删除定时器管理表 -->
+  <delete id="delTimerManage" parameterType="java.lang.String" >
+    delete from issp_timer_manage
+    where F_TIMER_BH = #{F_TIMER_BH}
+  </delete>
+  <!-- 删除设备接入定时任务管理表 -->
+  <delete id="delEqJoinTask" parameterType="java.lang.String" >
+    delete from issp_eq_join_task
+    where F_TIMER_BH = #{F_TIMER_BH}
+  </delete>
+  
+	<!-- 更新支路统计数据 -->
+    <update id="updateTimerList" parameterType="java.lang.String" >
+        update issp_timer_list
+        <set >
+            <if test="f_TIMER_NAME != null" >
+                F_TIMER_NAME = #{f_TIMER_NAME},
+            </if>
+            <if test="f_TIMER_TYPEBH != null" >
+                F_TIMER_TYPEBH = #{f_TIMER_TYPEBH },
+            </if>
+            <if test="f_LOOP_TIME != null" >
+                F_LOOP_TIME = #{f_LOOP_TIME },
+            </if>
+            <if test="f_FIXED_TIME != null" >
+                F_FIXED_TIME = #{f_FIXED_TIME },
+            </if>
+            <if test="f_VAR_TIME != null" >
+                F_VAR_TIME = #{f_VAR_TIME },
+            </if>
+                F_CHDATE = current_timestamp(),
+        </set>
+        where F_TIMER_BH = #{f_TIMER_BH}
+    </update>
+    
+	<!-- 更新支路统计数据 -->
+    <update id="updateTimerManage" parameterType="java.lang.String" >
+        update issp_timer_manage
+        <set >
+            <if test="f_TIMER_NAME != null" >
+                F_TIMER_NAME = #{f_TIMER_NAME },
+            </if>
+                F_CHDATE = current_timestamp(),
+        </set>
+        where F_TIMER_BH = #{f_TIMER_BH}
+    </update>
+    
+	<!-- 更新支路统计数据 -->
+    <update id="updateEqJoinTask" parameterType="java.lang.String" >
+        update issp_eq_join_task
+        <set >
+            <if test="f_TIMER_NAME != null" >
+                F_TIMER_NAME = #{f_TIMER_NAME },
+            </if>
+            <if test="f_EQADAPTER_GUID != null" >
+                F_EQADAPTER_GUID = #{f_EQADAPTER_GUID },
+            </if>
+            <if test="f_INTERFACE_GUID != null" >
+                F_INTERFACE_GUID = #{f_INTERFACE_GUID },
+            </if>
+  
+                F_CHDATE = current_timestamp(),
+        </set>
+        where F_TIMER_BH = #{f_TIMER_BH}
+    </update>
+</mapper>

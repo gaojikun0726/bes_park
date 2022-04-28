@@ -1,0 +1,306 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.efounder.JEnterprise.mapper.dataAnalysises.BesHouseholdSubitemDataMapper" >
+
+    <resultMap id="BesHouseholdSubitemDataMap" type="com.efounder.JEnterprise.model.dataAnalysises.BesHouseholdSubitemData" >
+        <id column="F_ID" property="fId" jdbcType="VARCHAR" />
+        <result column="F_FHBH" property="fFhbh" jdbcType="VARCHAR" />
+        <result column="F_FXBH" property="fFxbh" jdbcType="VARCHAR" />
+        <result column="F_DATA" property="fData" jdbcType="VARCHAR" />
+        <result column="F_CJSJ" property="fCjsj" jdbcType="TIMESTAMP" />
+        <result column="F_TYPE" property="fType" jdbcType="VARCHAR" />
+        <result column="F_ALL_MONEY" property="fAllMoney" jdbcType="VARCHAR" />
+        <result column="F_COAL_AMOUNT" property="fCoalAmount" jdbcType="VARCHAR" />
+        <result column="F_CO2" property="fCo2" jdbcType="VARCHAR" />
+        <result column="F_PERMAN_DATA" property="fPermanData" jdbcType="VARCHAR" />
+        <result column="F_PERMAN_MONEY" property="fPermanMoney" jdbcType="VARCHAR" />
+        <result column="F_UNITAREA_DATA" property="fUnitareaData" jdbcType="VARCHAR" />
+        <result column="F_UNITAREA_MONEY" property="fUnitareaMoney" jdbcType="VARCHAR" />
+        <result column="F_CRDATE" property="fCrdate" jdbcType="TIMESTAMP" />
+        <result column="F_CHDATE" property="fChdate" jdbcType="TIMESTAMP" />
+        <result column="F_FHMC" property="fFhmc" />
+        <result column="F_FXMC" property="fFxmc" />        
+        <result column="rows" property="rows" />
+    </resultMap>
+
+    <sql id="Base_Column_List" >
+        F_ID, F_FHBH, F_FXBH, F_DATA, F_CJSJ, F_TYPE, F_ALL_MONEY, F_COAL_AMOUNT, F_CO2, 
+        F_PERMAN_DATA, F_PERMAN_MONEY, F_UNITAREA_DATA, F_UNITAREA_MONEY, F_CRDATE, F_CHDATE
+    </sql>
+    
+    <!-- 获取分户分项同比环比统计数据 -->
+  <select id="searchHouseholdSubitemData" parameterType="string" resultMap="BesHouseholdSubitemDataMap">
+	select
+	date_format(a.F_CJSJ,'%Y-%m-%d %H:%i:%s' ) F_CJSJ,  
+	a.F_FHBH, 
+	a.F_FXBH, 
+	a.F_DATA, 
+	a.F_TYPE, 
+	a.F_ALL_MONEY, 
+	a.F_COAL_AMOUNT,
+	a.F_PERMAN_DATA,
+	a.F_PERMAN_MONEY, 
+	a.F_UNITAREA_DATA,
+	a.F_UNITAREA_MONEY,
+	a.F_CO2,
+	b.F_FHMC,
+	c.F_FXMC,
+    date_format(a.F_CRDATE,'%Y-%m-%d %H:%i:%s' ) F_CRDATE ,
+    date_format(a.F_CHDATE,'%Y-%m-%d %H:%i:%s' ) F_CHDATE
+	from bes_household_subitem_data a 
+	left join bes_household_conf b on a.F_FHBH=b.F_FHBH
+	left join bes_subitem_conf c on a.F_FXBH=c.F_FXBH
+	<where>
+	1=1
+    	<if test="fType !=null and fType != ''">
+    		    and a.F_TYPE = #{fType}   	    
+    	</if>
+    	<if test="fCjsj_start !=null and fCjsj_start != ''">
+        	<![CDATA[  and DATE_FORMAT(a.F_CJSJ, '%Y-%m-%d') >=  
+                        DATE_FORMAT(#{fCjsj_start}, '%Y-%m-%d')   ]]>
+        </if>
+        <if test="fCjsj_end !=null and fCjsj_end != ''">
+        	<![CDATA[  and DATE_FORMAT(a.F_CJSJ, '%Y-%m-%d') <= 
+                        DATE_FORMAT(#{fCjsj_end} , '%Y-%m-%d')    ]]>
+        </if>
+        <if test="fFhbhs != null and fFhbhs.size() > 0">
+             and b.F_FHBH in
+	             <foreach item="item" index="index" collection="fFhbhs" 
+	                    open="(" separator="," close=")">
+	                  #{item}
+	             </foreach>
+        </if>
+           
+	</where>
+	ORDER BY a.F_CJSJ
+	
+  </select>
+
+    <!-- 查询分户分项数据 -->
+  <select id="selectHouseholdSubitemData" parameterType="string" resultMap="BesHouseholdSubitemDataMap">
+	select
+      <include refid="Base_Column_List" />
+	from bes_household_subitem_data
+
+	<where>
+    	<if test="fType !=null and fType != ''">
+    		    F_TYPE = #{fType}
+    	</if>
+    	<if test="fCjsj !=null and fCjsj != ''">
+    		    and F_CJSJ = #{fCjsj}
+    	</if>
+
+	</where>
+
+  </select>
+
+    <select id="selectByPrimaryKey" resultMap="BesHouseholdSubitemDataMap" parameterType="java.lang.String" >
+        select 
+        <include refid="Base_Column_List" />
+        from bes_household_subitem_data
+        where F_ID = #{fId,jdbcType=VARCHAR}
+    </select>
+
+	<!-- 查询分户按能源记录是否存在resultMap="BesHouseholdSubitemDataMap"  -->
+	<select id="queryHouseholdGradeExists" parameterType="string" resultType="java.util.HashMap">
+		select *
+		from bes_household_subitem_data 
+		where 
+				F_FHBH=#{fFhbh}
+			and F_CJSJ=#{fCjsj} 
+			and F_TYPE=#{fType} 
+			and F_FXBH=#{fFxbh}
+	</select>
+	
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+        delete from bes_household_subitem_data
+        where F_ID = #{fId,jdbcType=VARCHAR}
+    </delete>
+
+	<!-- 保存分户按能源分项统计数据 -->
+    <insert id="saveHouseholdGradeData" parameterType="com.efounder.JEnterprise.model.dataAnalysises.BesHouseholdSubitemData" >
+        insert into bes_household_subitem_data
+        <trim prefix="(" suffix=")" suffixOverrides="," >
+            <if test="fId != null" >
+                F_ID,
+            </if>
+            <if test="fFhbh != null" >
+                F_FHBH,
+            </if>
+            <if test="fFxbh != null" >
+                F_FXBH,
+            </if>
+            <if test="fData != null" >
+                F_DATA,
+            </if>
+            <if test="fCjsj != null" >
+                F_CJSJ,
+            </if>
+            <if test="fType != null" >
+                F_TYPE,
+            </if>
+            <if test="fAllMoney != null" >
+                F_ALL_MONEY,
+            </if>
+            <if test="fCoalAmount != null" >
+                F_COAL_AMOUNT,
+            </if>
+            <if test="fCo2 != null" >
+                F_CO2,
+            </if>
+            <if test="fPermanData != null" >
+                F_PERMAN_DATA,
+            </if>
+            <if test="fPermanMoney != null" >
+                F_PERMAN_MONEY,
+            </if>
+            <if test="fUnitareaData != null" >
+                F_UNITAREA_DATA,
+            </if>
+            <if test="fUnitareaMoney != null" >
+                F_UNITAREA_MONEY,
+            </if>
+                F_CRDATE,
+                F_CHDATE,
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides="," >
+            <if test="fId != null" >
+                #{fId,jdbcType=VARCHAR},
+            </if>
+            <if test="fFhbh != null" >
+                #{fFhbh,jdbcType=VARCHAR},
+            </if>
+            <if test="fFxbh != null" >
+                #{fFxbh,jdbcType=VARCHAR},
+            </if>
+            <if test="fData != null" >
+                #{fData},
+            </if>
+            <if test="fCjsj != null" >
+                #{fCjsj},
+            </if>
+            <if test="fType != null" >
+                #{fType,jdbcType=VARCHAR},
+            </if>
+            <if test="fAllMoney != null" >
+                #{fAllMoney,jdbcType=VARCHAR},
+            </if>
+            <if test="fCoalAmount != null" >
+                #{fCoalAmount,jdbcType=VARCHAR},
+            </if>
+            <if test="fCo2 != null" >
+                #{fCo2,jdbcType=VARCHAR},
+            </if>
+            <if test="fPermanData != null" >
+                #{fPermanData,jdbcType=VARCHAR},
+            </if>
+            <if test="fPermanMoney != null" >
+                #{fPermanMoney,jdbcType=VARCHAR},
+            </if>
+            <if test="fUnitareaData != null" >
+                #{fUnitareaData,jdbcType=VARCHAR},
+            </if>
+            <if test="fUnitareaMoney != null" >
+                #{fUnitareaMoney,jdbcType=VARCHAR},
+            </if>
+                current_timestamp(),
+
+                current_timestamp(),
+        </trim>
+    </insert>
+
+    <update id="updateHouseholdGrade" parameterType="com.efounder.JEnterprise.model.dataAnalysises.BesHouseholdSubitemData" >
+        update bes_household_subitem_data
+        <set >
+            <if test="fData != null" >
+                F_DATA = #{fData,jdbcType=VARCHAR},
+            </if>
+            <if test="fCjsj != null" >
+                F_CJSJ = #{fCjsj},
+            </if>
+            <if test="fType != null" >
+                F_TYPE = #{fType,jdbcType=VARCHAR},
+            </if>
+            <if test="fAllMoney != null" >
+                F_ALL_MONEY = #{fAllMoney,jdbcType=VARCHAR},
+            </if>
+            <if test="fCoalAmount != null" >
+                F_COAL_AMOUNT = #{fCoalAmount,jdbcType=VARCHAR},
+            </if>
+            <if test="fCo2 != null" >
+                F_CO2 = #{fCo2,jdbcType=VARCHAR},
+            </if>
+            <if test="fPermanData != null" >
+                F_PERMAN_DATA = #{fPermanData,jdbcType=VARCHAR},
+            </if>
+            <if test="fPermanMoney != null" >
+                F_PERMAN_MONEY = #{fPermanMoney,jdbcType=VARCHAR},
+            </if>
+            <if test="fUnitareaData != null" >
+                F_UNITAREA_DATA = #{fUnitareaData,jdbcType=VARCHAR},
+            </if>
+            <if test="fUnitareaMoney != null" >
+                F_UNITAREA_MONEY = #{fUnitareaMoney,jdbcType=VARCHAR},
+            </if>
+            <if test="fCrdate != null" >
+                F_CRDATE = #{fCrdate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="fChdate != null" >
+                F_CHDATE = #{fChdate,jdbcType=TIMESTAMP},
+            </if>
+        </set>
+        where 
+        		F_FHBH = #{fFhbh}
+        	and F_CJSJ=#{fCjsj} 
+			and F_TYPE=#{fType} 
+			and F_FXBH=#{fFxbh}
+    </update>
+
+    <update id="updateHouseholdGradeData" parameterType="com.efounder.JEnterprise.model.dataAnalysises.BesHouseholdSubitemData" >
+        update bes_household_subitem_data
+        <set >
+            <if test="fData != null" >
+                F_DATA = F_DATA + #{fData},
+            </if>
+            <if test="fCjsj != null" >
+                F_CJSJ = #{fCjsj},
+            </if>
+            <if test="fType != null" >
+                F_TYPE = #{fType,jdbcType=VARCHAR},
+            </if>
+            <if test="fAllMoney != null" >
+                F_ALL_MONEY = #{fAllMoney,jdbcType=VARCHAR},
+            </if>
+            <if test="fCoalAmount != null" >
+                F_COAL_AMOUNT = #{fCoalAmount,jdbcType=VARCHAR},
+            </if>
+            <if test="fCo2 != null" >
+                F_CO2 = #{fCo2,jdbcType=VARCHAR},
+            </if>
+            <if test="fPermanData != null" >
+                F_PERMAN_DATA = #{fPermanData,jdbcType=VARCHAR},
+            </if>
+            <if test="fPermanMoney != null" >
+                F_PERMAN_MONEY = #{fPermanMoney,jdbcType=VARCHAR},
+            </if>
+            <if test="fUnitareaData != null" >
+                F_UNITAREA_DATA = #{fUnitareaData,jdbcType=VARCHAR},
+            </if>
+            <if test="fUnitareaMoney != null" >
+                F_UNITAREA_MONEY = #{fUnitareaMoney,jdbcType=VARCHAR},
+            </if>
+            <if test="fCrdate != null" >
+                F_CRDATE = #{fCrdate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="fChdate != null" >
+                F_CHDATE = #{fChdate,jdbcType=TIMESTAMP},
+            </if>
+        </set>
+        where
+        		F_FHBH = #{fFhbh}
+        	and F_CJSJ=#{fCjsj}
+			and F_TYPE=#{fType}
+			and F_FXBH=#{fFxbh}
+    </update>
+
+</mapper>

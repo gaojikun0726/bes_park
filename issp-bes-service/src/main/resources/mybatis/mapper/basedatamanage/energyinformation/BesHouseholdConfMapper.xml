@@ -1,0 +1,407 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.efounder.JEnterprise.mapper.basedatamanage.energyinformation.BesHouseholdConfMapper" >
+
+    <resultMap id="BaseResultMap" type="com.efounder.JEnterprise.model.basedatamanage.energyinformation.BesHouseholdConf" >
+        <id column="F_FHBH" property="fFhbh" jdbcType="VARCHAR" />
+        <result column="F_FHMC" property="fFhmc" jdbcType="VARCHAR" />
+        <result column="F_PFHBH" property="fPfhbh" jdbcType="VARCHAR" />
+        <result column="F_PERSON_NUMS" property="fPersonNums" jdbcType="VARCHAR" />
+        <result column="F_AREA" property="fArea" jdbcType="VARCHAR" />
+        <result column="F_JS" property="fJs" jdbcType="VARCHAR" />
+        <result column="F_MX" property="fMx" jdbcType="VARCHAR" />
+        <result column="F_LOCATION" property="fLocation" jdbcType="VARCHAR" />
+        <result column="F_NYBH" property="fNybh" jdbcType="VARCHAR" />
+        <result column="F_YQBH" property="fYqbh" jdbcType="VARCHAR" />
+        <result column="F_FHLX" property="fFhlx" jdbcType="VARCHAR" />
+        <result column="F_JL" property="fJl" jdbcType="VARCHAR" />
+        <result column="F_USER_NAME" property="fUserName" jdbcType="VARCHAR" />
+        <result column="F_ZZJG_ID" property="fZzjgId" jdbcType="VARCHAR" />
+        <result column="F_CRDATE" property="fCrdate" jdbcType="TIMESTAMP" />
+        <result column="F_CHDATE" property="fChdate" jdbcType="TIMESTAMP" />
+    </resultMap>
+
+    <sql id="Base_Column_List" >
+        F_FHBH, F_FHMC, F_PFHBH, F_PERSON_NUMS, F_AREA, F_JS, F_MX, F_LOCATION, F_NYBH, F_YQBH, F_FHLX,
+        F_JL,F_USER_NAME,F_ZZJG_ID,
+         date_format(F_CRDATE,'%Y-%m-%d %H:%i:%s' ) F_CRDATE ,date_format(F_CHDATE,'%Y-%m-%d %H:%i:%s' ) F_CHDATE
+    </sql>
+    
+     <!-- 查询分项配置数据 -->
+   <select id="getHouseholdList" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from bes_household_conf
+    <where>
+		1=1 
+		<if test="fFhmc != null and fFhmc != ''"> 
+			 and CONCAT(`F_FHBH`,'##',`F_FHMC` ) LIKE CONCAT('%',#{fFhmc},'%')
+		 </if>
+	</where>
+    order by F_FHBH 
+  </select>
+
+     <!-- 查询分户配置数据 -->
+   <select id="findAll" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select
+    <include refid="Base_Column_List" />
+    from bes_household_conf
+  </select>
+
+    <!-- 根据园区编号查询分项配置树 -->
+  <select id="loadAll" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from bes_household_conf
+    <where>
+        <if test="fNybh != null and fNybh != ''">
+            F_NYBH = #{fNybh}
+        </if>
+        <if test="fYqbh != null and fYqbh != ''">
+            and F_YQBH = #{fYqbh}
+        </if>
+
+        <if test="groupbh != null and groupbh.size() > 0">
+            AND F_ZZJG_ID in
+            <foreach item="item" index="index" collection="groupbh"
+                     open="(" separator="," close=")">
+                #{item}
+            </foreach>
+        </if>
+        <if test='userId!= null and userId!= ""'>
+            and F_USER_NAME = #{userId}
+        </if>
+
+	</where>
+    order by F_FHBH 
+  </select>
+
+<!--    <if test="fYqbh != null and fYqbh != ''">-->
+<!--        F_YQBH = #{fYqbh}-->
+<!--    </if>-->
+
+<!--    <if test="fNybh != null and fNybh != ''">-->
+<!--        and F_NYBH = #{fNybh}-->
+<!--    </if>-->
+
+    <!-- 根据园区编号查询分项配置树 -->
+    <select id="loadAll1" resultMap="BaseResultMap" parameterType="java.lang.String" >
+        select
+        <include refid="Base_Column_List" />
+        from bes_household_conf
+        <where>
+            <if test="fNybh1 != null and fNybh1 != ''">
+                F_NYBH = #{fNybh1}
+            </if>
+            <if test="fYqbh1 != null and fYqbh1 != ''">
+            and F_YQBH = #{fYqbh1}
+            </if>
+        </where>
+        order by F_FHBH
+    </select>
+
+
+	<!-- 查找子类 -->
+  <select id="household_chlildtreegrid" resultMap="BaseResultMap" parameterType="java.lang.String" >
+      (select
+      <include refid="Base_Column_List" />
+      from bes_household_conf
+      <where>
+          1 = 1
+          <if test="groupbh != null and groupbh.size() > 0">
+              AND F_ZZJG_ID in
+              <foreach item="item" index="index" collection="groupbh"
+                       open="(" separator="," close=")">
+                  #{item}
+              </foreach>
+          </if>
+          <if test='userId!= null and userId!= ""'>
+              and F_USER_NAME = #{userId}
+          </if>
+          and  F_FHBH = #{fhbh}
+      </where>
+      ) union (
+      select
+      <include refid="Base_Column_List" />
+      from bes_household_conf
+      <where>
+          1 = 1
+          <if test="groupbh != null and groupbh.size() > 0">
+              AND F_ZZJG_ID in
+              <foreach item="item" index="index" collection="groupbh"
+                       open="(" separator="," close=")">
+                  #{item}
+              </foreach>
+          </if>
+          <if test='userId!= null and userId!= ""'>
+              and F_USER_NAME = #{userId}
+          </if>
+          and F_PFHBH = #{fhbh}
+      </where>
+      )
+      order by F_FHBH
+  </select>
+  
+  <!-- 新增分户 -->
+  <insert id="add_household" parameterType="com.efounder.JEnterprise.model.basedatamanage.energyinformation.BesHouseholdConf" >
+    insert into bes_household_conf (F_FHBH, F_FHMC, F_PFHBH, F_PERSON_NUMS, F_AREA,
+      F_JS, F_MX, F_LOCATION, F_NYBH, F_YQBH, F_FHLX,F_JL,F_USER_NAME,F_ZZJG_ID,
+      F_CRDATE, F_CHDATE)
+    values (#{fFhbh}, #{fFhmc}, #{fPfhbh}, #{fPersonNums},#{fArea},
+      #{fJs}, #{fMx},#{fLocation},#{fNybh}, #{fYqbh}, #{fFhlx},#{fJl},
+#{fUserName},#{fZzjgId},
+      current_timestamp(),current_timestamp())
+  </insert>
+  
+   <!-- 删除分户 -->
+  <delete id="del_household" parameterType="java.lang.String" >
+    delete from bes_household_conf
+    where F_FHBH = #{fFhbh}
+  </delete>
+  
+  <!-- 编辑分户 -->
+  <update id="edit_household" parameterType="com.efounder.JEnterprise.model.basedatamanage.energyinformation.BesHouseholdConf" >
+    update bes_household_conf
+    <set >
+      <if test="fFhmc != null" >
+        F_FHMC = #{fFhmc},
+      </if>
+      <if test="fPfhbh != null" >
+        F_PFHBH = #{fPfhbh},
+      </if>
+      <if test="fPersonNums != null" >
+        F_PERSON_NUMS = #{fPersonNums},
+      </if>
+      <if test="fArea != null" >
+        F_AREA = #{fArea},
+      </if>
+      <if test="fJs != null" >
+        F_JS = #{fJs},
+      </if>
+      <if test="fLocation != null" >
+        F_LOCATION = #{fLocation},
+      </if>
+      <if test="fNybh != null" >
+        F_NYBH = #{fNybh},
+      </if>
+      <if test="fYqbh != null" >
+        F_YQBH = #{fYqbh},
+      </if>
+    <if test="fFhlx != null" >
+        F_FHLX = #{fFhlx},
+    </if>
+    <if test="fUserName != null" >
+        F_USER_NAME = #{fUserName},
+    </if>
+    <if test="fZzjgId != null" >
+        F_ZZJG_ID = #{fZzjgId},
+    </if>
+        F_CHDATE = current_timestamp()
+    </set>
+    where F_FHBH = #{fFhbh}
+  </update>
+  
+   <!-- 查询分户 -->
+  <select id="queryhousehold" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    	from bes_household_conf 
+    <where>
+		F_FHBH = #{newBh} 
+	</where>
+  </select>
+
+    <select id="getenergylist" parameterType="string" resultType="java.util.HashMap">
+		select a.F_NYBH,a.F_NYMC,a.F_PRICE,a.F_COAL_AMOUNT,a.F_CO2,b.F_NYBH as F_PARK_ENENGGY_RLGL from bes_energy_type a RIGHT JOIN
+	   (select * from bes_park_energytype_rlgl where F_YQBH = #{f_yqbh}) b on a.F_NYBH=b.F_NYBH order by CAST(b.f_nybh as SIGNED)
+	</select>
+
+
+    <select id="removeYqbhCf"  resultType="java.util.HashMap" >
+        select
+            F_YQBH
+        from
+            bes_park
+        group by F_YQBH
+    </select>
+
+<!--    查询出该园区所有的能源编号-->
+    <select id="removeNybhCf"  parameterType="string" resultType="java.util.HashMap" >
+        select
+            F_NYBH
+        from
+            bes_park_energytype_rlgl
+        where
+            F_YQBH = #{fYqbh1}
+    </select>
+
+<!--    查询所有能源编号-->
+    <select id="selectAlleneryType" resultType="java.util.HashMap">
+        select
+            F_NYMC,F_NYBH
+         from
+            bes_energy_type
+    </select>
+
+    <!-- 根据能源编号查询园区编号-->
+    <select id="selectAllPark"  parameterType="string" resultType="java.util.HashMap" >
+        select
+            F_YQBH
+         from
+			bes_park_energytype_rlgl
+		where
+			F_NYBH = #{nybh}
+    </select>
+
+    <!-- 三表联查查出的数据-->
+    <select id="selectAll"  resultType="java.util.HashMap" >
+            SELECT
+                a.F_NYBH,
+                a.F_NYMC,
+                b.F_YQBH,
+                b.F_NYBH,
+                c.F_YQMC,
+                c.F_YQMC
+            FROM
+                bes_energy_type a,
+                bes_park_energytype_rlgl b,
+                bes_park c
+            WHERE
+                c.F_YQBH = B.F_YQBH
+            AND
+                a.F_NYBH = b.F_NYBH
+    </select>
+
+    <select id="getHomePageTreeData"  resultType="java.util.HashMap" >
+        SELECT
+        hc.F_FHBH,
+        hc.F_FHMC,
+        hc.F_PFHBH,
+        hc.F_PERSON_NUMS,
+        hc.F_AREA,
+        hc.F_LOCATION,
+        hc.F_YQBH,
+        et.F_NYBH,
+        et.F_NYMC,
+        et.F_PRICE,
+        et.F_COAL_AMOUNT,
+        et.F_CO2,
+        et.F_UNIT,
+        p.F_YQBH,
+        p.F_YQMC,
+        p.F_NODE_CODE,
+        p.F_ALL_AREA,
+        p.F_MONITOR_AREA,
+        p.F_HEAT_AREA,
+        p.F_PERSON_NUMS,
+        p.F_BUILD_TIME,
+        p.F_EQUIPMENT_RUNTIME,
+        p.F_CONTACT_NAME,
+        p.F_CONTACT_EMAIL
+        FROM
+        bes_household_conf hc,
+        bes_park p,
+        bes_energy_type et
+        <where>
+            hc.F_YQBH = p.F_YQBH and hc.F_NYBH = et.F_NYBH
+            <if test="fNybh != null" >
+                and hc.F_NYBH = #{fNybh}
+            </if>
+            <if test="fYqbh != null" >
+                and hc.F_YQBH = #{fYqbh}
+            </if>
+            <if test="groupbh != null and groupbh.size() > 0">
+                AND hc.F_ZZJG_ID in
+                <foreach item="item" index="index" collection="groupbh"
+                         open="(" separator="," close=")">
+                    #{item}
+                </foreach>
+            </if>
+            <if test='userId!= null and userId!= ""'>
+                and hc.F_USER_NAME = #{userId}
+            </if>
+        </where>
+    </select>
+
+
+    <select id="selectYqmc" parameterType="string" resultType="string">
+        select
+            F_YQMC
+         from
+			bes_park
+		where
+			F_YQBH = #{yqbh}
+    </select>
+
+<!--    获取所有分项数据-->
+    <select id="getSubitemTreeData" resultType="java.util.HashMap" >
+        select
+            *
+        from
+            bes_subitem_conf
+    </select>
+    <!--查询当前分户编号的信息-->
+    <select id="selectf_pfhbh" resultType="java.util.Map" parameterType="com.efounder.JEnterprise.model.basedatamanage.energyinformation.BesHouseholdConf">
+        select * FROM bes_household_conf WHERE F_FHBH = #{fFhbh}
+    </select>
+    <!--查询父节点的信息-->
+    <select id="selectf_pfhbhs" resultType="java.util.Map">
+        select * from bes_household_conf where F_FHBH = #{pfhbh}
+    </select>
+    <!--分户中移除支路 往下 级联删除,查询父分户编号为当前分户编号的所有信息-->
+    <select id="selectf_pfhbh_down" resultType="java.util.Map" parameterType="com.efounder.JEnterprise.model.basedatamanage.energyinformation.BesHouseholdConf">
+        select * from bes_household_conf where F_PFHBH = #{fFhbh}
+    </select>
+
+    <!--删除分户的时候,先判断分户中是否关联的支路,如果关联,则将分户支路配置表中的相应的数据一起删除-->
+    <select id="selectBes_household_branch_rlglList" resultType="java.util.Map">
+        select * from bes_household_branch_rlgl where F_FHBH = #{fFhbh}
+    </select>
+
+    <!--删除分户的时候,先判断分户中是否关联的支路,如果关联,则将分户支路配置表中的相应的数据一起删除-->
+    <delete id="deleteHousehold_branch_rlgl">
+        delete from bes_household_branch_rlgl where F_FHBH = #{fFhbh}
+    </delete>
+
+    <!--判断支路名称是否重复-->
+    <select id="selectffhmc" resultMap="BaseResultMap" parameterType="java.lang.String">
+        select
+        <include refid="Base_Column_List" />
+        from bes_household_conf where F_FHMC = #{getfFhmc}
+    </select>
+
+    <!--获取用户列表-->
+    <select id="getuserNameList" resultType="com.efounder.JEnterprise.model.usercenter.ESUser">
+        SELECT * FROM es_user
+        <where>
+            1 = 1
+            <if test="groupbh != null and groupbh.size() > 0">
+                AND  F_ZZJGBH in
+                <foreach item="item" index="index" collection="groupbh"
+                         open="(" separator="," close=")">
+                    #{item}
+                </foreach>
+            </if>
+        </where>
+    </select>
+
+    <!--获取组织机构列表-->
+    <select id="getZZJGList" resultType="java.util.Map">
+        select * from es_zzjg
+        <where>
+            1 = 1
+            <if test="groupbh != null and groupbh.size() > 0">
+                AND F_ZZJGBH in
+                <foreach item="item" index="index" collection="groupbh"
+                         open="(" separator="," close=")">
+                    #{item}
+                </foreach>
+            </if>
+        </where>
+    </select>
+    <!--获取建筑信息-->
+    <select id="getBuilding" resultType="java.util.Map">
+        select f_buding_id,f_buding_name from bes_buding_information
+    </select>
+
+</mapper>

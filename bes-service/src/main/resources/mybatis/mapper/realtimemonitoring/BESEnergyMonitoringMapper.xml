@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.efounder.JEnterprise.mapper.realtimemonitoring.BESEnergyMonitoringMapper" >
+
+	<!-- 根据支路获取电脑报表数据 -->
+	<select id="queryAmmeterData" resultType="java.util.HashMap">
+		SELECT
+			d.F_ZLBH,
+			d.F_ZLMC,
+			b.F_SYS_NAME,
+			b.F_NICK_NAME,
+			a.F_DNBH,
+			e.F_DNMC,
+			a.F_DATA,
+			CONCAT(a.F_DATA,e.F_UNIT) F_DN_DATA,
+			DATE_FORMAT(a.F_CJSJ,'%Y-%m-%d %H:%i:%s') F_CJSJ			 
+		FROM
+			bes_monitoring_data a
+			LEFT JOIN bes_ammeter b ON a.F_DBSYS_NAME = b.F_SYS_NAME
+			LEFT JOIN bes_branch_ammeter_rlgl c ON c.F_DBSYS_NAME = b.F_SYS_NAME
+			LEFT JOIN bes_branch_conf d ON d.F_ZLBH = c.F_ZLBH
+			LEFT JOIN bes_electric_params e ON a.F_DNBH = e.F_DNBH 
+		WHERE
+			d.F_ZLBH = #{f_zlbh}
+		<if test="dateString !=null and dateString !='' ">
+			<![CDATA[ and DATE_FORMAT(a.F_CJSJ, '%Y-%m-%d %H:%i:%S')  >=  #{dateString}  ]]>
+		</if>
+		and a.F_DNBH ='0001001'
+		ORDER BY
+			a.F_CJSJ DESC
+	</select>
+	<!-- 查询支路下所有电表 -->
+	<select id="queryAmmeterList" resultType="java.util.HashMap">
+		SELECT
+			a.F_SYS_NAME,
+			a.F_NICK_NAME 
+		FROM
+			bes_ammeter a
+			LEFT JOIN bes_branch_ammeter_rlgl b ON a.F_SYS_NAME = b.F_DBSYS_NAME 
+		WHERE
+			b.F_ZLBH = #{f_zlbh}
+	</select>
+	<!-- 查询电表今日数据 -->
+	<select id="queryAmmeterDataList" resultType="java.util.HashMap">
+		SELECT
+			b.F_NICK_NAME as F_NICK_NAME, a.F_DBSYS_NAME AS F_DBSYS_NAME ,a.F_DATA AS F_DATA ,DATE_FORMAT(a.F_CJSJ, '%Y-%m-%d %H:%i:%S') as F_CJSJ
+		FROM
+			bes_monitoring_data a
+		LEFT JOIN bes_ammeter b ON a.F_DBSYS_NAME = b.F_SYS_NAME
+		WHERE 1=1
+		<if test="dateString !=null and dateString !='' ">
+	        	 <![CDATA[ and DATE_FORMAT(F_CJSJ, '%Y-%m-%d %H:%i:%S')  >=  #{dateString}  ]]>
+	    </if>
+		<if test="ammeters != null and ammeters.size() > 0">
+			AND a.F_DBSYS_NAME in
+			<foreach item="item" index="index" collection="ammeters"
+					 open="(" separator="," close=")">
+				#{item}
+			</foreach>
+
+		</if>
+		and a.F_DNBH =#{dnbh}
+		ORDER BY
+		a.F_CJSJ ,a.F_DBSYS_NAME
+	</select>
+</mapper>

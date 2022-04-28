@@ -1,0 +1,262 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.efounder.JEnterprise.mapper.basedatamanage.eqmanage.BesZoneinfoMapper" >
+    <resultMap id="BaseResultMap" type="com.efounder.JEnterprise.model.basedatamanage.eqmanage.BesZoneinfo" >
+        <id column="F_ID" property="fId" jdbcType="VARCHAR" />
+        <result column="F_NAME" property="fName" jdbcType="VARCHAR" />
+        <result column="F_TYPE" property="fType" jdbcType="VARCHAR" />
+        <result column="F_PARENTID" property="fParentid" jdbcType="VARCHAR" />
+        <result column="F_ZONEID" property="fZoneid" jdbcType="VARCHAR" />
+    </resultMap>
+    
+	<!--场景 -->
+    <resultMap id="BaseSenceMap" type="com.efounder.JEnterprise.model.basedatamanage.eqmanage.BesZone" >
+        <result column="F_ID" property="fId" jdbcType="VARCHAR" />
+        <result column="F_TYPE" property="fType" jdbcType="VARCHAR" />
+        <result column="F_SYS_NAME" property="fSysName" jdbcType="VARCHAR" />
+        <result column="F_NICK_NAME" property="fNickName" jdbcType="VARCHAR" />
+        <result column="F_DESCRIPTION" property="fDescription" jdbcType="VARCHAR" />
+        <result column="F_ZONEMODE_ID" property="fZonemodeId" jdbcType="VARCHAR" />
+        <result column="F_ENABLED" property="fEnabled" jdbcType="VARCHAR" />
+        <result column="F_ParentID" property="parentid" jdbcType="VARCHAR" />
+    </resultMap>
+    
+	<!-- 模式 -->
+     <resultMap id="BaseModeMap" type="com.efounder.JEnterprise.model.basedatamanage.eqmanage.BesZonemode" >
+        <result column="F_ID" property="fId" jdbcType="VARCHAR" />
+        <result column="F_NAME" property="fName" jdbcType="VARCHAR" />
+        <result column="F_TYPE" property="fType" jdbcType="VARCHAR" />
+        <result column="F_SIZE" property="fSize" jdbcType="VARCHAR" />
+        <result column="F_DESCRIPTION" property="fDescription" jdbcType="VARCHAR" />
+        <result column="F_PARAM" property="fParam" jdbcType="VARCHAR" />
+        <result column="F_ZONEID" property="fZoneid" jdbcType="VARCHAR" />
+        <result column="F_USED_NUM" property="fUsedNum" jdbcType="VARCHAR" />
+    </resultMap>
+	
+	<!--模式内容 -->
+	<resultMap id="BaseReMap" type="com.efounder.JEnterprise.model.basedatamanage.eqmanage.BesRepertory" >
+        <result column="F_ID" property="fId" jdbcType="VARCHAR" />
+        <result column="F_NODE_NAME" property="fNodeName" jdbcType="VARCHAR" />
+        <result column="F_UNIT" property="fUnit" jdbcType="VARCHAR" />
+        <result column="F_NODE_ID" property="fNodeId" jdbcType="VARCHAR" />
+        <result column="F_SIZE" property="fSize" jdbcType="VARCHAR" />
+        <result column="F_PARAM" property="fParam" jdbcType="VARCHAR" />
+        <result column="F_ZONEID" property="fZoneid" jdbcType="VARCHAR" />
+    </resultMap>
+    <sql id="Base_Column_List" >
+        F_ID, F_NAME, F_TYPE, F_PARENTID, F_ZONEID
+    </sql> 
+    
+	<!--场景 -->
+    <sql id="Base_Sence_Column_List" >
+        F_ID, F_TYPE, F_SYS_NAME, F_NICK_NAME, F_DESCRIPTION,F_ZONEMODE_ID,F_ENABLED
+    </sql>
+    
+    
+<!--场景配置树查询 -->
+	<select id="cjpz_tree" resultMap="BaseResultMap" parameterType="java.lang.String">
+		select 
+		<include refid="Base_Column_List" />
+		from bes_zoneinfo
+	</select>
+
+<!-- 新增文件夹 -->
+	<insert id="addFolder" parameterType="com.efounder.JEnterprise.model.basedatamanage.eqmanage.BesZoneinfo" >
+        insert into bes_zoneinfo (F_ID, F_NAME, F_TYPE, 
+            F_PARENTID, F_ZONEID)
+        values (#{fId,jdbcType=VARCHAR}, #{fName,jdbcType=VARCHAR}, #{fType,jdbcType=VARCHAR}, 
+            #{fParentid,jdbcType=VARCHAR}, #{fZoneid,jdbcType=VARCHAR})
+   	</insert>
+   	
+   	<update id="updateFolder" parameterType="com.efounder.JEnterprise.model.basedatamanage.eqmanage.BesZoneinfo" >
+        update bes_zoneinfo set f_name=#{fName}
+        where f_id = #{fId}
+    </update>
+   	
+<!-- 获取做大id -->
+	<select id="queryMaxId" parameterType="String" resultType="String">
+		 SELECT  max(CAST(F_ID as SIGNED)) as maxId  FROM  bes_zoneinfo
+	</select>
+	
+<!-- 获取子节点 -->
+	<select id="getnodeId"  resultType="HashMap" parameterType="java.lang.String">
+		 SELECT
+		 <include refid="Base_Column_List" />
+			 FROM bes_zoneinfo A WHERE A.F_PARENTID=#{nodeId}
+	</select>
+	
+<!-- 单独删除子节点 -->
+	<delete id="delAlone" parameterType="java.lang.String" >
+        delete from bes_zoneinfo
+        where F_ID = #{nodeId,jdbcType=VARCHAR}
+    </delete>
+    
+<!-- 删除节点下所有节点 批量操作-->
+	<delete id="batchDelete" parameterType="java.lang.String" >
+         delete from bes_zoneinfo where F_ID in 
+        <foreach collection="nodeIds" item="nodeId" separator="," open="(" close=")">
+            #{nodeId}
+        </foreach>
+    </delete>
+    
+<!-- 获取所有场景模式id -->
+	<select id="getcjidxx" resultType="HashMap" parameterType="java.lang.String" >
+        select F_ID id from bes_zoneinfo where 1=1 and f_id = #{cjid} and f_type in ('2','3')
+    </select>
+    
+<!--  场景模式下拉框    -->
+    <select id="select_cjms" resultType="HashMap" parameterType="java.lang.String" >
+        select 
+        F_ID ID,F_NAME NAME,F_TYPE F_TYPE,F_SIZE F_SIZE
+        from bes_zonemode
+    </select>
+    
+<!--场景模式根据id查询详情 -->
+	<select id="select_cjmsxq" resultType="HashMap" parameterType="java.lang.String" >
+        select 
+        F_ID ID,F_NAME NAME,F_TYPE F_TYPE,F_SIZE F_SIZE,F_PARAM,F_ZONEID
+        from bes_zonemode where F_ID=#{id}
+    </select>
+    
+    
+<!-- 场景sql -->
+    <insert id="addScene" parameterType="com.efounder.JEnterprise.model.basedatamanage.eqmanage.BesZone" >
+        insert into bes_zone (F_ID, F_TYPE, F_SYS_NAME, 
+            F_NICK_NAME, F_DESCRIPTION, F_ZONEMODE_ID, 
+            F_ENABLED,F_ParentID)
+        values (#{fId,jdbcType=VARCHAR}, #{fType,jdbcType=VARCHAR}, #{fSysName,jdbcType=VARCHAR}, 
+            #{fNickName,jdbcType=VARCHAR}, #{fDescription,jdbcType=VARCHAR}, #{fZonemodeId,jdbcType=VARCHAR}, 
+            #{fEnabled,jdbcType=VARCHAR},#{parentid,jdbcType=VARCHAR})
+    </insert>
+    
+<!--     修改场景 -->
+    <insert id="updateScene" parameterType="com.efounder.JEnterprise.model.basedatamanage.eqmanage.BesZone" >
+        update bes_zone set F_SYS_NAME=#{fSysName},F_NICK_NAME=#{fNickName},F_DESCRIPTION=#{fDescription},
+        F_ENABLED=#{fEnabled} where F_ID = #{fParentid}
+    </insert>
+    
+<!-- 删除场景sql -->
+    <delete id="delZone" parameterType="java.lang.String" >
+        delete from bes_zone
+        where F_ID = #{nodeId,jdbcType=VARCHAR}
+    </delete>
+<!--根据id查询详情 -->
+    <select id="select_zonexq" resultType="HashMap" parameterType="java.lang.String" >
+        select z.f_type F_DYPE,
+        z.F_ID ID,z.F_SYS_NAME NAME,z.F_NICK_NAME NICKNAME,z.F_DESCRIPTION DESCRIPTION,z.F_ZONEMODE_ID,z.F_ENABLED ENABLED,d.f_name MODENAME
+        from bes_zone z left join bes_zonemode d on z.F_ZONEMODE_ID=d.f_id where z.F_ID = #{id}
+    </select>
+    
+<!--根据nodeID查询ddc信息 -->
+	<select id="getddcxx" resultType="HashMap" parameterType="java.lang.String" >
+        select 
+        f_IP_Addr IPAddr,f_Port Port
+        from bes_ddc where f_guid in (select f_parentid from bes_zone where f_id=#{id})
+    </select>
+    
+<!-- 获取bes_zonemode最大id -->
+	<select id="queryMoMaxId" parameterType="String" resultType="String">
+		 SELECT  max(CAST(F_ID as SIGNED)) as maxId  FROM  bes_zonemode
+	</select>
+	
+	
+<!--保存场景模式信息 -->
+ 	<insert id="addZoneMode" parameterType="com.efounder.JEnterprise.model.basedatamanage.eqmanage.BesZonemode" >
+        insert into bes_zonemode (F_ID, F_NAME, F_TYPE, 
+            F_SIZE, F_DESCRIPTION, F_PARAM, 
+            F_ZONEID, F_USED_NUM)
+        values (#{fId,jdbcType=VARCHAR}, #{fName,jdbcType=VARCHAR}, #{fType,jdbcType=VARCHAR}, 
+            #{fSize,jdbcType=VARCHAR}, #{fDescription,jdbcType=VARCHAR}, #{fParam,jdbcType=VARCHAR}, 
+            #{fZoneid,jdbcType=VARCHAR}, #{fUsedNum,jdbcType=VARCHAR})
+    </insert>
+    
+<!--     修改场景模式信息 -->
+    <update id="updateZoneMode" parameterType="com.efounder.JEnterprise.model.basedatamanage.eqmanage.BesZonemode" >
+        update bes_zonemode set F_NAME=#{fName},F_PARAM=#{fParam} 
+        WHERE F_ID = #{fId}
+    </update>
+    
+<!--获取bes_repertory -->
+	<select id="queryReMaxId" parameterType="String" resultType="String">
+		 SELECT  max(CAST(F_ID as SIGNED)) as maxId  FROM  bes_repertory
+	</select>
+	
+<!--模式内容保存 -->
+	 <insert id="addRepertory" parameterType="com.efounder.JEnterprise.model.basedatamanage.eqmanage.BesRepertory" >
+        insert into bes_repertory (F_ID, F_NODE_NAME, F_UNIT, 
+            F_NODE_ID, F_SIZE, F_PARAM, 
+            F_ZONEID)
+        values (#{fId,jdbcType=VARCHAR}, #{fNodeName,jdbcType=VARCHAR}, #{fUnit,jdbcType=VARCHAR},
+            #{fNodeId,jdbcType=VARCHAR}, #{fSize,jdbcType=VARCHAR}, #{fParam,jdbcType=VARCHAR},
+            #{fZoneid,jdbcType=VARCHAR})
+    </insert>
+    
+<!--     模式内容修改 -->
+    <update id="updateRepertory" parameterType="com.efounder.JEnterprise.model.basedatamanage.eqmanage.BesRepertory" >
+        insert into bes_repertory (F_ID, F_NODE_NAME, F_UNIT, 
+            F_NODE_ID, F_SIZE, F_PARAM, 
+            F_ZONEID)
+        values (#{fId,jdbcType=VARCHAR}, #{fNodeName,jdbcType=VARCHAR}, #{fUnit,jdbcType=VARCHAR},
+            #{fNodeId,jdbcType=VARCHAR}, #{fSize,jdbcType=VARCHAR}, #{fParam,jdbcType=VARCHAR},
+            #{fZoneid,jdbcType=VARCHAR})
+    </update>
+    
+<!-- 删除bes_zonemode -->
+	<delete id="delzonemode" parameterType="java.lang.String" >
+        delete from bes_zonemode
+        where F_ZONEID = #{nodeId,jdbcType=VARCHAR}
+    </delete>
+    
+<!-- 删除bes_repertory -->
+	<delete id="delrepertory" parameterType="java.lang.String" >
+        delete from bes_repertory
+        where F_ZONEID = #{nodeId,jdbcType=VARCHAR}
+    </delete>
+<!--根据zoneid查询详细内容 -->
+    <select id="select_cjnrxq" resultType="HashMap" parameterType="java.lang.String" >
+        select 
+        F_ID ID,F_NODE_NAME NAME,F_PARAM NR,F_ZONEID 
+        from bes_repertory where F_ZONEID=#{zondid}
+    </select>
+    
+<!--根据场景id查询bes_zone信息 -->
+	<select id="interface_zoneMap" resultType="HashMap" parameterType="java.lang.String" >
+        select F_ID ID,F_TYPE,F_SYS_NAME,F_NICK_NAME,F_DESCRIPTION,F_ZONEMODE_ID,F_ENABLED,F_ParentID
+        from bes_zone where f_id=#{cjid}
+    </select>
+<!--根据场景id查询bes_zonemode信息 -->
+    <select id="interface_modeMap" resultType="HashMap" parameterType="java.lang.String" >
+        select  F_ID ID,F_NAME,F_TYPE,F_SIZE,F_DESCRIPTION,F_PARAM,F_ZONEID,F_USED_NUM 
+        from bes_zonemode where F_ZONEID=#{cjid}
+    </select>
+    
+<!--根据场景id查询bes_repertory信息 -->
+	<select id="interface_reMap" resultType="HashMap" parameterType="java.lang.String" >
+	    select F_ID ID,F_NODE_NAME,F_UNIT,F_NODE_ID,F_SIZE,F_PARAM,F_ZONEID
+	    from bes_repertory where F_ZONEID=#{cjid}
+	</select>
+	
+<!--根据场景id查询bes_repertory信息 -->
+	<select id="interface_ddcMap" resultType="HashMap" parameterType="java.lang.String" >
+	    select F_GUID,F_IP_ADDR,F_PORT FROM BES_DDC WHERE F_GUID = #{ddc_id}
+	</select>
+    <!--根据点位f_sys_name对表中shid进行查询-->
+    <select id="getSbid" resultType="java.lang.String">
+        select f_sbid from bes_analog_input where F_SYS_NAME = #{nodeId}
+        union
+        select f_sbid from bes_analog_ouput where F_SYS_NAME = #{nodeId}
+        union
+        select f_sbid from bes_digit_input where F_SYS_NAME = #{nodeId}
+        union
+        select f_sbid from bes_digit_ouput where F_SYS_NAME = #{nodeId}
+    </select>
+
+    <delete id="delbes_repertory" parameterType="com.efounder.JEnterprise.model.basedatamanage.eqmanage.BesRepertory" >  
+<!-- 	删除bes_repertory -->
+	    delete from bes_repertory where f_zoneid = #{fzonid}
+	</delete>
+
+    <delete id="Delcj">
+        delete from ${Table} where ${col} = #{nodeId}
+    </delete>
+</mapper>

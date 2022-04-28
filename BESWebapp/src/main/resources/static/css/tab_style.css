@@ -1,0 +1,50 @@
+.tab-wrapper {
+  width: 100%;
+  max-width:100%;
+}
+
+.tab-menu li {
+  position:relative;
+  background-color: #0b3051;
+  color:#bcbcbc;
+  display: inline;
+  padding: 8px 20px;
+  opacity: 0.6;
+  cursor:pointer;
+  z-index:0;
+  margin:0;
+  border:0;
+}
+
+.tab-menu li:hover {
+  color:#464646;
+}
+
+.tab-menu li.active {
+  color:#464646;
+  opacity: 1;
+}
+
+.tab-menu li.active:hover {
+  color:#464646;
+}
+
+.tab-content-new>div {
+  box-sizing:border-box;
+  width: 100%;
+  padding: 0px;   
+  min-height:200px;
+}
+
+.line {
+  position:absolute;
+  width: 0;
+  height: 5px;
+  background-color: aqua;
+  top: 0;
+  left: 0;
+}
+
+
+
+

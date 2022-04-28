@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.efounder.JEnterprise.mapper.basedatamanage.energyinformation.BESSubitem_Branch_RlglMapper" >
+
+  <resultMap id="SBRMap" type="com.efounder.JEnterprise.model.basedatamanage.energyinformation.BESSubitem_Branch_Rlgl" >
+    <id column="F_FXBH" property="fFxbh" />
+    <id column="F_ZLBH" property="fZlbh" />
+    <result column="F_CRDATE" property="fCrdate" />
+    <result column="F_CHDATE" property="fChdate" />
+  </resultMap>
+  
+  <sql id="Base_Column_List" >
+    F_FXBH, F_ZLBH, F_CRDATE, F_CHDATE
+  </sql>
+  <!-- 根据分项编号查询 -->
+  <select id="querySBRList" resultMap="SBRMap" parameterType="com.efounder.JEnterprise.model.basedatamanage.energyinformation.BESSubitem_Branch_Rlgl" >
+    select 
+    <include refid="Base_Column_List" />
+    from bes_subitem_branch_rlgl
+    where F_FXBH = #{fFxbh}
+  </select>
+  <select id="queryAll" resultMap="SBRMap" parameterType="com.efounder.JEnterprise.model.basedatamanage.energyinformation.BESSubitem_Branch_Rlgl" >
+    select
+    <include refid="Base_Column_List" />
+    from bes_subitem_branch_rlgl
+  </select>
+
+    <!-- 根据支路编号删除分项中的一条支路 -->
+  <delete id="subitemconf_deleteBranch" parameterType="com.efounder.JEnterprise.model.basedatamanage.energyinformation.BESSubitem_Branch_Rlgl" >
+    delete from bes_subitem_branch_rlgl
+    where F_ZLBH = #{fZlbh} and  F_FXBH = #{fFxbh}
+  </delete>
+  <!-- 移除分项中的全部支路 -->
+  <delete id="subitemconf_leftmoveAll" parameterType="com.efounder.JEnterprise.model.basedatamanage.energyinformation.BESSubitem_Branch_Rlgl" >
+    delete from bes_subitem_branch_rlgl
+    where F_FXBH = #{fFxbh}
+    <if test="keywords != null and keywords != ''">
+      and F_ZLBH  LIKE CONCAT('%',#{keywords},'%')
+    </if>
+  </delete>
+  <!-- 插入 -->
+  <insert id="subitemconf_insertBranch" parameterType="com.efounder.JEnterprise.model.basedatamanage.energyinformation.BESSubitem_Branch_Rlgl" >
+    insert into bes_subitem_branch_rlgl (F_FXBH, F_ZLBH, F_CRDATE, 
+      F_CHDATE)
+    values (#{fFxbh}, #{fZlbh}, current_timestamp(),current_timestamp())
+  </insert>
+  
+  <insert id="insertSelective" parameterType="com.efounder.JEnterprise.model.basedatamanage.energyinformation.BESSubitem_Branch_Rlgl" >
+    insert into bes_subitem_branch_rlgl
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="fFxbh != null" >
+        F_FXBH,
+      </if>
+      <if test="fZlbh != null" >
+        F_ZLBH,
+      </if>
+      <if test="fCrdate != null" >
+        F_CRDATE,
+      </if>
+      <if test="fChdate != null" >
+        F_CHDATE,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="fFxbh != null" >
+        #{fFxbh,jdbcType=VARCHAR},
+      </if>
+      <if test="fZlbh != null" >
+        #{fZlbh,jdbcType=VARCHAR},
+      </if>
+      <if test="fCrdate != null" >
+        #{fCrdate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="fChdate != null" >
+        #{fChdate,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.efounder.JEnterprise.model.basedatamanage.energyinformation.BESSubitem_Branch_Rlgl" >
+    update bes_subitem_branch_rlgl
+    <set >
+      <if test="fCrdate != null" >
+        F_CRDATE = #{fCrdate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="fChdate != null" >
+        F_CHDATE = #{fChdate,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where F_FXBH = #{fFxbh,jdbcType=VARCHAR}
+      and F_ZLBH = #{fZlbh,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.efounder.JEnterprise.model.basedatamanage.energyinformation.BESSubitem_Branch_Rlgl" >
+    update bes_subitem_branch_rlgl
+    set F_CRDATE = #{fCrdate,jdbcType=TIMESTAMP},
+      F_CHDATE = #{fChdate,jdbcType=TIMESTAMP}
+    where F_FXBH = #{fFxbh,jdbcType=VARCHAR}
+      and F_ZLBH = #{fZlbh,jdbcType=VARCHAR}
+  </update>
+
+  <!--根据分项编号查询关联的支路-->
+  <select id="selectZlbh" resultType="java.util.Map" parameterType="com.efounder.JEnterprise.model.basedatamanage.energyinformation.BESSubitem_Branch_Rlgl">
+        select * from bes_subitem_branch_rlgl where F_FXBH = #{fFxbh} and F_ZLBH = #{fZlbh}
+  </select>
+
+  <!--分项 往上 级联删除-->
+  <delete id="besSubitem_delBranch_jl_up" parameterType="com.efounder.JEnterprise.model.basedatamanage.energyinformation.BESSubitem_Branch_Rlgl">
+     delete from bes_subitem_branch_rlgl where F_FXBH = #{fFxbh} and F_ZLBH = #{fZlbh}
+  </delete>
+
+
+  <!--查询分项支路关系表中是否存在当前分项关联的支路-->
+  <select id="selectsubitemconfBranchRlglZlbh" resultType="java.util.Map">
+    select * from bes_subitem_branch_rlgl where F_FXBH = #{f_fxbh} and F_ZLBH = #{fZlbh}
+  </select>
+  <!--查询当前分项所属的全部支路信息-->
+
+  <!--删除当前分项支路的点位信息-->
+  <delete id="delFxAndZl">
+     delete from bes_subitem_branch_rlgl where F_FXBH = #{f_fxbh} and F_ZLBH = #{fZlbh}
+  </delete>
+
+  <select id="selectBranchList" resultMap="SBRMap">
+    select
+    <include refid="Base_Column_List"></include>
+    from bes_subitem_branch_rlgl
+    where F_FXBH = #{fFxbh}
+    <if test="keywords != null and keywords != ''">
+      and F_ZLBH  LIKE CONCAT('%',#{keywords},'%')
+    </if>
+  </select>
+</mapper>

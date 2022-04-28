@@ -1,0 +1,210 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.efounder.JEnterprise.mapper.strongAndWeakElectricityIntegration.deviceConfig.CoolingHeatingUnitMapper" >
+
+    <sql id="col_name">
+      id                                       id,
+      name                                     name,
+      current_state                            currentState,
+      freeze_supply_water_temperature          freezeSupplyWaterTemperature,
+      freeze_return_water_temperature          freezeReturnWaterTemperature,
+      cooling_supply_water_temperature         coolingSupplyWaterTemperature,
+      cooling_return_water_temperature         coolingReturnWaterTemperature,
+      current_flow                             currentFlow,
+      current_state_alias                      currentStateAlias,
+      freeze_supply_water_temperature_alias    freezeSupplyWaterTemperatureAlias,
+      freeze_return_water_temperature_alias    freezeReturnWaterTemperatureAlias,
+      cooling_supply_water_temperature_alias   coolingSupplyWaterTemperatureAlias,
+      cooling_return_water_temperature_alias   coolingReturnWaterTemperatureAlias,
+      current_flow_alias                       currentFlowAlias,
+      electric_meter_number                    electric_meter_number
+	</sql>
+
+
+    <sql id="col_name_electric_meter_number">
+      c.id                                       id,
+      c.name                                     name,
+      c.current_state                            currentState,
+      c.freeze_supply_water_temperature          freezeSupplyWaterTemperature,
+      c.freeze_return_water_temperature          freezeReturnWaterTemperature,
+      c.cooling_supply_water_temperature         coolingSupplyWaterTemperature,
+      c.cooling_return_water_temperature         coolingReturnWaterTemperature,
+      c.current_flow                             currentFlow,
+      c.current_state_alias                      currentStateAlias,
+      c.freeze_supply_water_temperature_alias    freezeSupplyWaterTemperatureAlias,
+      c.freeze_return_water_temperature_alias    freezeReturnWaterTemperatureAlias,
+      c.cooling_supply_water_temperature_alias   coolingSupplyWaterTemperatureAlias,
+      c.cooling_return_water_temperature_alias   coolingReturnWaterTemperatureAlias,
+      c.current_flow_alias                       currentFlowAlias,
+      c.electric_meter_number                    electric_meter_number,
+      s.id                                       ids,
+      s.name                                     names,
+      s.cabinet_name                             cabinet_name,
+      s.instant_energy                           instant_energy,
+      s.total_energy                             total_energy,
+      s.a_phase_voltage                          a_phase_voltage,
+      s.b_phase_voltage                          b_phase_voltage,
+      s.c_phase_voltage                          c_phase_voltage,
+      s.a_phase_current                          a_phase_current,
+      s.b_phase_current                          b_phase_current,
+      s.c_phase_current                          c_phase_current,
+      s.instant_energy_display                   instant_energy_display,
+      s.total_energy_display                     total_energy_display,
+      s.a_phase_voltage_display                  a_phase_voltage_display,
+      s.b_phase_voltage_display                  b_phase_voltage_display,
+      s.c_phase_voltage_display                  c_phase_voltage_display,
+      s.a_phase_current_display                  a_phase_current_display,
+      s.b_phase_current_display                  b_phase_current_display,
+      s.c_phase_current_display                  c_phase_current_display
+
+	</sql>
+
+    <sql id="table_name">
+        cooling_heating_unit
+    </sql>
+
+    <sql id="table_name_biao">
+    `cooling_heating_unit` u
+	LEFT JOIN bes_sbpz_struct s ON u.freeze_supply_water_temperature = s.F_SYS_NAME
+	LEFT JOIN bes_sbtree_nodetype n ON n.F_NODE_TYPE = s.f_type
+    </sql>
+
+
+    <insert id="insert">
+
+        insert into
+        <include refid="table_name"/>
+
+        (
+          name,
+          current_state,
+          freeze_supply_water_temperature,
+          freeze_return_water_temperature,
+          cooling_supply_water_temperature,
+          cooling_return_water_temperature,
+          current_flow,
+          current_state_alias,
+          freeze_supply_water_temperature_alias,
+          freeze_return_water_temperature_alias,
+          cooling_supply_water_temperature_alias,
+          cooling_return_water_temperature_alias,
+          current_flow_alias,
+          electric_meter_number
+        )
+        values
+        (
+
+           #{name},
+           #{currentState},
+           #{freezeSupplyWaterTemperature},
+           #{freezeReturnWaterTemperature},
+           #{coolingSupplyWaterTemperature},
+           #{coolingReturnWaterTemperature},
+           #{currentFlow},
+           #{currentStateAlias},
+           #{freezeSupplyWaterTemperatureAlias},
+           #{freezeReturnWaterTemperatureAlias},
+           #{coolingSupplyWaterTemperatureAlias},
+           #{coolingReturnWaterTemperatureAlias},
+           #{currentFlowAlias},
+           #{electric_meter_number}
+
+        )
+
+
+    </insert>
+
+    <select id="findList" resultType="com.efounder.JEnterprise.model.strongAndWeakElectricityIntegration.deviceConfig.CoolingHeatingUnitModel">
+
+        select
+
+        <include refid="col_name"/>
+
+        from
+
+        <include refid="table_name"/>
+        <where>
+
+            <if test="id != null and id != ''" >
+                id    =   #{id}
+            </if>
+
+            <if test="name != null and name != ''" >
+                and name  =   #{name}
+            </if>
+
+        </where>
+
+    </select>
+
+
+    <update id="update">
+
+        update
+          <include refid="table_name"/>
+
+		set
+            name                                   =   #{name},
+            current_state                          =   #{currentState},
+            freeze_supply_water_temperature        =   #{freezeSupplyWaterTemperature},
+            freeze_return_water_temperature        =   #{freezeReturnWaterTemperature},
+            cooling_supply_water_temperature       =   #{coolingSupplyWaterTemperature},
+            cooling_return_water_temperature       =   #{coolingReturnWaterTemperature},
+            current_flow                           =   #{currentFlow},
+            current_state_alias                    =   #{currentStateAlias},
+            freeze_supply_water_temperature_alias  =   #{freezeSupplyWaterTemperatureAlias},
+            freeze_return_water_temperature_alias  =   #{freezeReturnWaterTemperatureAlias},
+            cooling_supply_water_temperature_alias =   #{coolingSupplyWaterTemperatureAlias},
+            cooling_return_water_temperature_alias =   #{coolingReturnWaterTemperatureAlias},
+            current_flow_alias                     =   #{currentFlowAlias},
+            electric_meter_number                  =   #{electric_meter_number}
+
+        where
+
+            id              =         #{id}
+    </update>
+
+    <delete id="delete">
+
+        delete from
+          <include refid="table_name"/>
+        where
+             id = #{id}
+    </delete>
+
+    <select id="coolingHeatingUnit" resultType="com.efounder.JEnterprise.model.strongAndWeakElectricityIntegration.deviceConfig.CoolingHeatingUnitModel">
+        select
+
+        <include refid="col_name_electric_meter_number"/>
+
+        from
+
+        cooling_heating_unit c,strongandweakelectricityintegration_ammeterconfig s
+        <where>
+            c.electric_meter_number  =   s.id
+            <if test="id != null and id != ''" >
+                and c.id    =   #{id}
+            </if>
+
+            <if test="name != null and name != ''" >
+                and c.name  =   #{name}
+            </if>
+
+        </where>
+    </select>
+    <!--查询强弱电页面展示通用配置表strongandweakelectricityintegration_commonconfig是否有配置的信息-->
+    <select id="findlistcommonconfig" resultType="java.util.Map">
+        select * from strongandweakelectricityintegration_commonconfig where F_EQUIPMENT_ID = #{id}
+    </select>
+    <!--强弱电页面展示通用配置表  左侧的topstrongandweakelectricityintegration_commonconfig_top是否有配置的信息-->
+    <select id="findlistcommonconfig_top" resultType="java.util.Map">
+        select * from strongandweakelectricityintegration_commonconfig_top where F_EQUIPMENT_ID = #{id}
+    </select>
+
+    <delete id="deletecommonconfigById">
+        delete from strongandweakelectricityintegration_commonconfig where F_EQUIPMENT_ID = #{id}
+    </delete>
+    <delete id="deletecommonconfig_topById">
+        delete from strongandweakelectricityintegration_commonconfig_top where F_EQUIPMENT_ID = #{id}
+    </delete>
+</mapper>

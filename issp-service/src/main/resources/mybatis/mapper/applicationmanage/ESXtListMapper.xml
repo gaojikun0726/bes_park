@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.efounder.JEnterprise.mapper.applicationmanage.ESXtListMapper">
+
+	<resultMap id="xtMap" type="com.efounder.JEnterprise.model.applicationmanage.ESXtList">
+		<result column="F_XTBH" property="f_xtbh" />
+		<result column="F_XTMC" property="f_xtmc" />
+		<result column="F_REMARK" property="f_remark" />
+		<result column="F_CRDATE" property="f_crdate" />
+		<result column="F_CHDATE" property="f_chdate" />
+		
+	</resultMap>
+	
+
+
+	<sql id="find_xxx">
+	    <![CDATA[
+			SELECT F_XTBH , F_XTMC , F_REMARK,
+			date_format(F_CRDATE,'%Y-%m-%d %H:%i:%s' )F_CRDATE ,date_format(F_CHDATE,'%Y-%m-%d %H:%i:%s' )F_CHDATE
+	    ]]>
+	</sql>
+
+	<sql id="from_xxx">
+	    <![CDATA[
+	    	FROM ES_XT_LIST
+	    ]]>
+	</sql>
+
+	<sql id="where_xxx">
+	    <![CDATA[
+	    	WHERE 1=1
+	    ]]>
+	</sql>
+	
+	<!-- 查询当前系统信息 -->
+	<select id="findCurrentXt" parameterType="string" resultMap="xtMap">
+		<include refid="find_xxx" />
+		<include refid="from_xxx" />
+		<![CDATA[
+			WHERE F_XTBH=#{f_xtbh}
+		]]>
+	</select>
+	<!-- 查询所有数据权限信息 -->
+	<select id="findXts" parameterType="string" resultMap="xtMap">
+		<include refid="find_xxx" />
+		<include refid="from_xxx" />
+		<![CDATA[
+			ORDER BY F_XTBH
+		]]>
+	</select>
+	
+	<!-- 根据关键字高级搜索数据权限 -->
+	<select id="findXtBykeywords" parameterType="string" resultMap="xtMap">
+		<include refid="find_xxx" />
+		<include refid="from_xxx" />
+		<where>
+		1=1 
+			<if test="keywords != null and keywords != ''"> 
+			 and CONCAT(`f_xtbh`,'##',`f_xtmc` ) LIKE CONCAT('%',#{keywords},'%')
+			 </if>
+		</where>
+	</select>
+	
+	<!-- 根据数据权限编号查询信息 -->
+	<select id="findXtById" parameterType="string" resultMap="xtMap">
+		<include refid="find_xxx" />
+		<include refid="from_xxx" />
+		<![CDATA[
+			WHERE F_XTBH = #{id}
+		]]>
+	</select>
+	
+	<!--分页  -->
+	<select id="findXtByPage" parameterType="string" resultMap="xtMap">
+		<include refid="find_xxx" />
+		<include refid="from_xxx" />
+		<![CDATA[
+			ORDER BY F_XTBH
+		]]>
+	</select>
+	
+	<!--添加数据权限  -->
+	<insert id="addXt" parameterType="com.efounder.JEnterprise.model.applicationmanage.ESXtList"> 
+        INSERT INTO ES_XT_LIST(F_XTBH,F_XTMC,F_REMARK,f_crdate,f_chdate)
+        VALUES(#{f_xtbh},#{f_xtmc},#{f_remark},NOW(),NOW())
+    </insert>
+    
+    <!--根据数据权限编码删除信息  -->
+   	<delete id="delXt" parameterType="com.efounder.JEnterprise.model.applicationmanage.ESXtList">
+		DELETE FROM ES_XT_LIST WHERE F_XTBH = #{f_xtbh}
+	</delete>
+	
+	<!--更新数据权限  -->
+	<update id="upXt" parameterType="com.efounder.JEnterprise.model.applicationmanage.ESXtList">
+		UPDATE ES_XT_LIST
+		<set>
+			<if test="f_xtmc != null and f_xtmc != ''">
+				F_XTMC = #{f_xtmc},
+			</if>
+			<if test="f_xtbh != null and f_xtbh != ''">
+				F_XTBH = #{f_xtbh},
+			</if>
+			<if test="f_remark != null and f_remark != ''">
+				F_REMARK = #{f_remark},
+			</if>
+			F_CHDATE=NOW() 
+		</set>
+		WHERE F_XTBH = #{f_xtbh}
+	</update>
+
+</mapper>

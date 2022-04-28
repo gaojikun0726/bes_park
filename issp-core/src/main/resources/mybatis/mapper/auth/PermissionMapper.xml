@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.efounder.JEnterprise.mapper.auth.PermissionMapper">
+	<resultMap id="permissionMap" type="com.efounder.JEnterprise.model.auth.PermissionMenu">
+		<result property="id" column="F_GUID" />
+		<result property="gnbh" column="F_GNBH" />
+		<result property="name" column="F_GNMC" />
+		<result property="cssClass" column="F_CSS_CLASS" />
+		<result property="key" column="F_GNBH" />
+		<result property="hide" column="F_HIDE" />
+		<result property="url" column="F_URL" />
+		<result property="lev" column="F_JS" />
+		<result property="sort" column="F_SORT" />
+		<result property="parentKey" column="F_PGNBH" />
+		<result property="fullScreen" column="F_FULLSCREEN_TYPE" />
+		<result property="openType" column="F_OPEN_TYPE" />
+		<result property="tabCloseable" column="F_TABCLOSEABLE" />
+		<result property="formParam" column="F_PARAMS" />
+	</resultMap>
+
+	<resultMap id="permissionModuleMap" type="com.efounder.JEnterprise.model.auth.PermissionModule">
+		<result property="guid" column="F_GUID" />
+		<result property="mkbh" column="F_MKBH" />
+		<result property="mkmc" column="F_MKMC" />
+		<result property="cssClass" column="F_CSS_CLASS" />
+		<result property="xtbh" column="F_XTBH" />
+		<result property="xtbh" column="F_XTBH" />
+		<result property="showLeftMenus" column="F_SHOWLEFTMENUS" />
+	</resultMap>
+
+	<select id="findPermissionModuleByUserId" parameterType="Map" resultMap="permissionModuleMap">
+		SELECT
+		F_GUID,F_MKBH,F_MKMC,F_CSS_CLASS,F_XTBH,F_SHOWLEFTMENUS FROM
+		ES_HOME_MODULE where F_XTBH=#{xtbh} ORDER BY CAST(F_SORT as SIGNED) ASC
+	</select>
+	
+	<select id="findPermissionModuleByXtbh" parameterType="Map" resultMap="permissionModuleMap">
+		SELECT
+		F_GUID,F_MKBH,F_MKMC,F_CSS_CLASS,F_XTBH,F_SHOWLEFTMENUS FROM
+		ES_HOME_MODULE where F_XTBH=#{xtbh} ORDER BY CAST(F_SORT as SIGNED) ASC
+	</select>
+
+	<select id="findPermissionMenuByUserId" parameterType="Map" resultMap="permissionMap">
+		<include refid="find_AS_R" />
+		FROM ES_GNZD P where P.F_MKGUID=#{guid}
+		<if test="limitSQL != null and limitSQL != ''">
+			AND (${limitSQL})  
+		</if>
+		AND F_HIDE = "0" 
+		ORDER BY P.F_SORT ASC
+	</select>
+
+	<!--查询用户所能访问的所有菜单-->
+	<select id="findModuleMenuByUserId" parameterType="Map" resultMap="permissionMap">
+		SELECT P.F_GUID,P.F_GNBH,P.F_GNMC,P.F_CSS_CLASS,P.F_URL,P.F_MX,F_MKGUID,case when P.F_PGNBH is null  or P.F_PGNBH = '' then F_MKGUID else F_PGNBH end F_PGNBH ,P.F_HIDE,P.F_JS,P.F_SORT,P.F_FULLSCREEN_TYPE,P.F_OPEN_TYPE,P.F_PARAMS,F_TABCLOSEABLE
+		FROM ES_GNZD P
+		where 1 = 1
+		<!-- P.F_MKGUID=#{guid} -->
+		<if test="limitSQL != null and limitSQL != ''">
+			AND (${limitSQL})
+		</if>
+		AND F_HIDE = "0"
+		ORDER BY P.F_SORT ASC
+	</select>
+
+	<!--查询用户所能访问的所有模块-->
+	<select id="findModuleByUserId"  parameterType="Map" resultMap="permissionMap">
+		SELECT
+		F_GUID,F_GUID as F_GNBH,F_MKMC as F_GNMC,F_CSS_CLASS,'' as F_URL,0 as F_MX,F_GUID F_MKGUID,'' as F_PGNBH,F_SHOWLEFTMENUS as F_HIDE,0 as F_JS,F_SORT,'' as F_FULLSCREEN_TYPE,
+		'' as F_OPEN_TYPE,'' as F_PARAMS,'' as F_TABCLOSEABLE
+		FROM
+		ES_HOME_MODULE
+		where F_XTBH=#{xtbh}
+		and F_SHOWLEFTMENUS = '1'
+		ORDER BY CAST(F_SORT as SIGNED) ASC
+	</select>
+
+	<!--单独查询首页菜单信息-->
+	<select id="findFirstPageInfo" parameterType="Map" resultMap="permissionMap">
+		SELECT P.F_GUID,P.F_GNBH,P.F_GNMC,P.F_CSS_CLASS,P.F_URL,P.F_MX,F_MKGUID,case when P.F_PGNBH is null  or P.F_PGNBH = '' then F_MKGUID else F_PGNBH end F_PGNBH ,P.F_HIDE,P.F_JS,P.F_SORT,P.F_FULLSCREEN_TYPE,P.F_OPEN_TYPE,P.F_PARAMS,F_TABCLOSEABLE
+		FROM ES_GNZD P
+		where 1 = 1
+		<!-- P.F_MKGUID=#{guid} -->
+		<if test="limitSQL != null and limitSQL != ''">
+			AND (${limitSQL})
+		</if>
+		and F_MKGUID = (SELECT f_guid FROM es_home_module where F_MKBH = '1default')
+		AND F_HIDE = "0"
+		ORDER BY P.F_SORT ASC
+	</select>
+
+	<select id="findModuleObjByMkbh" parameterType="string" resultMap="permissionModuleMap">
+		 <![CDATA[
+		 SELECT * FROM ES_HOME_MODULE
+			 WHERE F_GUID  = #{mkbh}
+		 ]]>
+	</select>
+
+	<select id="getPermissionMenusByMkbh" parameterType="string" resultMap="permissionMap">
+		<include refid="find_xxx" />
+		<include refid="from_xxx" />
+		<![CDATA[
+			WHERE F_ZZJGBH = #{id}
+		]]>
+	</select>
+	<sql id="find_xxx">
+	    <![CDATA[
+	    	SELECT F_GUID,F_GNBH,F_GNMC,F_CSS_CLASS,F_URL,F_MX,F_PGNBH,F_HIDE,F_JS,F_SORT,F_FULLSCREEN_TYPE,F_OPEN_TYPE,F_PARAMS
+	    ]]>
+	</sql>
+
+	<sql id="find_AS_R">
+	    <![CDATA[
+	    	SELECT P.F_GUID,P.F_GNBH,P.F_GNMC,P.F_CSS_CLASS,P.F_URL,P.F_MX,P.F_PGNBH,P.F_HIDE,P.F_JS,P.F_SORT,P.F_FULLSCREEN_TYPE,P.F_OPEN_TYPE,P.F_PARAMS,F_TABCLOSEABLE
+	    ]]>
+	</sql>
+
+	<sql id="from_xxx">
+	    <![CDATA[
+	    	FROM ES_GNZD
+	    ]]>
+	</sql>
+
+	<sql id="where_xxx">
+	    <![CDATA[
+	    	WHERE 1=1
+	    ]]>
+	</sql>
+
+</mapper>

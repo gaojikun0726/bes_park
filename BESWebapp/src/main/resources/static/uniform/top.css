@@ -1,0 +1,473 @@
+/*顶部导航栏修改*/
+#top{
+    height:60px;
+    background:url(../../static/uniform/image/headBg.jpg) #3e7deb !important;
+}
+.logo{
+    padding-top: 0!important;
+    height:60px!important;
+    float:left;
+    /*height: 100%!important;*/
+    position: initial!important;
+    width: auto!important;
+}
+.logo a{
+    margin:0!important;
+}
+.top_image{
+    width:55px !important;
+    height:42px !important;
+    margin: 9px 16px 9px 33px !important;
+}
+.top_name{
+    font-size: 24px; font-weight: bold; color: white;
+    text-align: start;
+    height: 60px;
+    line-height: 60px;
+    margin: 0;
+}
+/*#issp_top_top,*/
+.jt_left,.jt_right{
+    display: none;
+}
+
+.top_control_menu{
+    float:left;
+    /*display: inline-block;*/
+    height: 60px;
+    width: 60px;
+    display: flex;
+    justify-content: center;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    align-items: center;
+    cursor:pointer;
+}
+.top_control_menu i{
+    color: #fff;
+    background: transparent;
+    font-size: 16px;
+}
+
+#foldIcon{
+    display: none;
+}
+
+.top_right_menu{
+    height: 100%;
+    float: right;
+    display: flex;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    align-items: center;
+}
+.top_right_menu .right_menu_item{
+    padding: 14px 12px;
+    cursor:pointer;
+}
+.top_right_menu .fa-arrows-alt{
+    color:#fff;
+    font-size: 16px;
+}
+.earlyWarning_red{
+    width:24px!important;
+    height:24px!important;
+    float: left;
+}
+.earlyWarning_num{
+    /*margin: 10px 25px 10px;*/
+    color: #fff;font-size: 14px;display: flex;align-items: center;justify-content: center;
+}
+
+.top_right_menu .right_user_div{
+    font-size: 14px;
+    color:#ffffff;
+    font-weight: initial;
+}
+
+/*取消全屏图片样式*/
+.top_right_menu .cancelFullScreen{
+    display: none;
+    width: 45px;
+    padding: 10px;
+    cursor:pointer;
+}
+
+
+/*左侧菜单栏*/
+.issp_top_top{
+    width: 60%;
+    /*width:240px;*/
+    position: absolute!important;
+    top: 10px;
+}
+#topMenu{
+    width: 100%; height: 100%; white-space: nowrap;
+    /*margin-left: 36px;*/
+    margin-right: auto;
+}
+
+#leftMenu{
+    width:240px;
+    transition: width .3s;
+}
+.issp-tab-content{
+    margin: 20px 20px 20px 20px;
+    /*padding: 20px 20px 0 20px;*/
+    background: #f7f6fb;
+    width: calc(100% - 40px) !important;
+    height: calc(100% - 80px)!important;
+}
+.information_left{
+    height: calc(100% - 40px)!important;
+}
+.information_right{
+    height: calc(100% - 30px)!important;
+}
+/*.information_size{*/
+    /*height:calc(50% - 15px)!important;*/
+/*}*/
+.information-model{
+    height:25px!important;
+}
+.information_size .fixed-thead{
+    height:calc(100% - 50px)!important;
+}
+/*.information_size .fixed-thead-body{*/
+    /*height: calc(85% - 40px)!important;*/
+/*}*/
+/*.fixed-thead > thead > tr:nth-child(1) > th.czjz{*/
+    /*width:196px!important;*/
+/*}*/
+/*.fixed-thead-body::-webkit-scrollbar{*/
+    /*width:8px!important;*/
+/*}*/
+
+.nth-tabs{
+    background: #f7f6fb;
+}
+.nth-tabs .page-tabs{
+    height:40px!important;
+}
+
+/*左侧菜单栏样式*/
+.navissp a{
+    line-height: 56px!important;
+    height: 56px!important;
+}
+
+ul#side-menu>li:first-child.selected a{
+    background: #d0e1ff !important;
+}
+
+/*ul#side-menu > li.navissp-item.selected{*/
+    /*background: #3e7deb;*/
+/*}*/
+
+ul#side-menu li.navissp-item.selected > a{
+    /*border-right: 5px solid #3e7deb !important;*/
+    background: #d0e1ff !important;
+}
+
+ul#side-menu li.selected.border > a{
+    border-right: 5px solid #3e7deb !important;
+}
+
+/*使左侧菜单栏图标和文字对齐*/
+#side-menu i.fa{
+    /*width:16px;*/
+    width: 18px;
+    font-size: 18px;
+}
+ul#side-menu {
+    width: 100%;
+    overflow: auto;
+    height: calc(100% - 20px);
+}
+
+/*tab页签列表样式【导航栏下方】*/
+.nav-tabs>li:first-child.active>a{
+    color:#3e7deb;
+    background:#ffffff;
+}
+
+.nav-tabs>li {
+    min-width: 70px;
+}
+
+.nth-tabs .content-tabs-container{
+    margin-left:0!important;
+}
+.nav-tabs a{
+    color:#000;
+}
+
+/*tab页签操作下拉列表样式*/
+.nth-tabs .right-nav-list a:hover{
+    color:#3e7deb;
+    background:initial!important;
+}
+.nav-tabs>li>a {
+    border-left: 1px solid #cfd7e5;
+    border-radius:0!important;
+}
+#tabs-Cont.nav>li>a:hover{
+    background: initial!important;
+    border-left: 1px solid #cfd7e5;
+}
+#tabs-Cont.nav>li.active>a:hover{
+    background: #fff!important;
+    border-left: 1px solid #cfd7e5;
+}
+#tabs-Cont.nav>li.active>a{
+    border-left: 1px solid #cfd7e5!important;
+}
+#tabs-Cont>li:nth-last-child(1) > a,#tabs-Cont>li:nth-last-child(1) > a:hover,#tabs-Cont>li.active:nth-last-child(1) > a{
+    border-right: 1px solid #cfd7e5!important;
+}
+
+/*隐藏tab页签关闭图标*/
+#tabs-Cont > li:not(.active) > a > i{
+    display: none;
+}
+#tabs-Cont > li.active > a > i{
+    display: inline-block;
+}
+#tabs-Cont > li:hover > a >i{
+    display: inline-block;
+}
+
+/*内容区域样式*/
+/*.issp-tab-content > .active{*/
+    /*height: calc(100% - 30px)!important;*/
+/*}*/
+
+/*首页内容区域样式调整*/
+.left_content_div{
+    background: #f7f6fb;
+    padding-right:0!important;
+}
+.left_top_div{
+    background: #f7f6fb;
+}
+.left_top_div_inner{
+    background: #fff;
+}
+.left_bottom_div{
+    background: #fff;
+    width: calc(100% - 20px)!important;
+    height: 30%!important;
+}
+.left_bottom_div .div-border{
+    background: #fff;
+    /*margin-bottom: 0!important;*/
+    /*margin-left: 0!important;*/
+    /*margin-right: 20px;*/
+    /*padding-right: 30px!important;*/
+    margin: 0!important;
+    padding: 10px 20px!important;
+    width : 20%!important;
+}
+
+.right_content_div{
+    float: left;
+    height:100%!important;
+    width: 20%!important;
+    /*margin-right: 10px;*/
+    background:#fff;
+}
+.right_content_div .div-border{
+    height: 25%!important;
+    padding: 10px 10px 20px 10px !important;
+    margin: 0!important;
+}
+
+#gzt_fxpz .left_div{
+    margin-left: -10px;
+    /*width: 53%!important;*/
+    padding:0!important;
+}
+#gzt_fxpz .center_divyeardata,#gzt_fxpz .right_divdataUnit{
+    padding:0!important;
+}
+
+#gzt_ndznh .right_div .left_div_span{
+    color:#3e7deb!important;
+}
+
+#gzt_fxpz_image{
+    /*height: 36%;margin-left: 1%;*/
+    /*margin-top: -21%; width: 13%;*/
+    margin-top: -35px;
+    width: 22px;
+    float: right;
+    cursor: pointer;
+}
+
+/*表格样式调整*/
+/*.tabulator .tabulator-tableHolder .tabulator-table{*/
+    /*width: calc(100% - 10px)!important;*/
+/*}*/
+/*.tabulator .tabulator-header{*/
+    /*width: calc(100% - 10px)!important;*/
+/*}*/
+
+/*.fixed-thead-rowfix{*/
+    /*padding:4px!important;*/
+/*}*/
+
+/*实时监控页面样式*/
+.design_area_tree_div{
+    float: left;
+    border-right: 1px #eee solid!important;
+    width: 15%;
+    height: calc(100% - 10px);
+}
+.design_area_right_div{
+    float: right;
+    position: relative;
+    width: 85%;
+    height: calc(100% - 8px);
+    margin-top: 8px;
+}
+
+/*.information_right{*/
+    /*width:80%!important;*/
+/*}*/
+/*用户管理--数据权限管理页面样式*/
+.information_right.twoSub{
+    width: calc(60% - 6px)!important;
+}
+
+/*计划编排页面样式*/
+.information_right.partLittle{
+    width:77.5%!important;
+}
+.contentTop{
+    height:35%!important;
+}
+.layui-btn{
+    background-color: #3e7deb;
+}
+.layui-btn-primary{
+    background-color: #ffffff;
+}
+.layui-btn-danger{
+    background-color:#FF5722;
+}
+
+
+/*设备配置样式*/
+.attrInfo{
+    border: 2px solid #d0e1ff;
+}
+
+/*表格过宽，显示滚动条*/
+/*报警管理等页面*/
+#branchTable,#besWainingRealTable,#besWainingInfoTable,#householdTable,#branchalertTable{
+    overflow-x: auto;
+}
+
+/*layui相关样式调整--仪表配置*/
+.layui_content_div .layui-btn {
+    background-color: #3e7deb;
+}
+.layui-laypage .layui-laypage-curr .layui-laypage-em{
+    background-color: #3e7deb;
+}
+.layui-laypage a:hover{
+    color:#3e7deb;
+}
+
+/*功能权限管理页面样式调整*/
+#esusergnzd_tree,#esgroupgnzd_tree,#esrolegnzd_tree,#espostgnzd_tree{
+    margin-top: 22px;
+}
+
+/*菜单定义页面样式调整*/
+#tree_gnzd_sys{
+    margin-top:15px;
+}
+
+/*报警管理*/
+.information_size{
+    padding-left: 11px!important;
+    padding-top: 11px!important;
+    margin-left:0!important;
+    margin-top:0!important;
+}
+
+/*灯杆管理样式*/
+#warn_history,#point_warn_type{
+    border:none!important;
+}
+
+/** div.zc_search{*/
+    /*border:none!important;*/
+/*}*/
+
+/*列表页面表格样式*/
+.tabulator .tabulator-header{
+    background: #f8f8f9!important;
+}
+.tabulator .tabulator-row.tabulator-row-even {
+    background-color: #f8f8f9!important;
+}
+/*!*表格行鼠标悬浮*!*/
+/*.tabulator .tabulator-row:hover{*/
+    /*background-color: #ecf5ff!important;*/
+/*}*/
+
+
+/*日志管理样式*/
+.log_input{
+    /*width: 60%; height: 24px;*/
+    border: 1px solid rgb(54, 108, 144)!important;
+    /*border: 1px solid #aba6a6!important;*/
+    border-radius: 4px;
+    /*background-color: #acdafd;*/
+    width: 9vw;
+    height: 2.9vh;
+    text-align: left;
+    padding-left: 12px;
+}
+
+/*导入弹窗样式调整*/
+.input-group-addon {
+    /*background-color: #66b1ff;*/
+    /*border: 1px solid #66b1ff;*/
+    /*border-radius: 4px;*/
+    background-color: #fff;
+    border: none;
+    border-radius:0;
+}
+
+.input-group-addon a{
+    color:#66b1ff;
+}
+
+/*岗位定义--包含用户*/
+div.zc_search{
+    background:#fff!important;
+}
+
+
+/*基础数据--手动录入--静态电表--编辑页面--样式调整*/
+#editMeterInfoform > div.form-group.m-t-sm > div > button.btn.btn-md.btn-primary{
+    float:left;
+}
+
+
+/*下拉框的下拉列表样式修改*/
+.dropdown-menu>li>a:focus, .dropdown-menu>li>a:hover {
+    color: #262626;
+    text-decoration: none;
+    /*background-color: #4d9fd0;*/
+    background-color: initial !important;
+}
+
+
+/*用户定义、岗位定义、组织机构页面的左侧树横向数据展示不全，展示横向滚动条*/
+#tree_euser.treeview .list-group-item,#tree_epost.treeview .list-group-item,#tree_zzjg.treeview .list-group-item{
+    overflow: initial!important;
+}

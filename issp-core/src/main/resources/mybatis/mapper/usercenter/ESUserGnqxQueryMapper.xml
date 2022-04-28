@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.efounder.JEnterprise.mapper.usercenter.ESUserGnqxQueryMapper">
+
+	<resultMap id="esGnzdManageMap" type="com.efounder.JEnterprise.model.usercenter.ESGnzdManage">
+		<result column="F_GUID" property="f_guid" />
+		<result column="F_GNBH" property="f_gnbh" />
+		<result column="F_GNMC" property="f_gnmc" />
+		<result column="F_SH" property="f_sh" />
+		<result column="F_SORT" property="f_sort" />
+		<result column="F_JS" property="f_js" />
+		<result column="F_PGNBH" property="f_pgnbh" />
+		<result column="F_PGNMC" property="f_pgnmc" />
+		<result column="F_GNZDID" property="f_gnzdid" />
+		<result column="F_SQ" property="f_sq" />
+		<result column="F_MKMC" property="f_mkmc" />
+		<result column="F_MKGUID" property="f_mkguid" />
+		<result column="F_PARENTID" property="f_parentid" />
+	</resultMap>
+	
+	<select id="loadGnzdData" parameterType="string" resultMap="esGnzdManageMap">
+		<!-- SELECT A.F_GNBH, A.F_PGNBH, A.F_GNMC, B.F_SH,B.F_GNZDID 
+		FROM ES_GNZD A
+        LEFT JOIN ES_USER_GNQX B ON B.F_GNZDID = A.F_GUID WHERE
+		<![CDATA[
+			 B.F_YHBH = #{f_yhbh} ORDER BY A.F_MKGUID ASC 
+		]]> -->
+		
+		SELECT A.F_GNBH, A.F_PGNBH, A.F_GNMC,A.F_MKGUID,A.F_JS, B.F_SH,B.F_GNZDID ,C.F_MKMC
+		FROM ES_GNZD A
+        LEFT JOIN ES_USER_GNQX B ON B.F_GNZDID = A.F_GUID 
+		LEFT JOIN es_home_module C ON A.F_MKGUID = C.F_GUID
+		WHERE
+		<![CDATA[
+			 B.F_YHBH = #{f_yhbh} ORDER BY A.F_MKGUID ASC 
+		]]>
+	</select>
+	
+	<select id="loadAllGnzdData" parameterType="string" resultMap="esGnzdManageMap">
+		<!-- SELECT T.*,U.F_GNMC  AS F_PGNMC FROM (
+		SELECT F_GNBH, F_PGNBH, F_GNMC,F_GUID
+		FROM ES_GNZD 
+		<![CDATA[
+			 ORDER BY F_MKGUID ASC ) AS T, ES_GNZD AS U WHERE T.F_PGNBH = U.F_GNBH
+		]]> -->
+		SELECT T.*,U.F_GNMC AS F_PGNMC,G.F_MKMC  FROM (
+		SELECT F_GNBH, F_PGNBH, F_GNMC,F_GUID,F_MKGUID,F_JS
+		FROM ES_GNZD 
+		ORDER BY F_MKGUID ASC ) AS T 
+		LEFT JOIN  ES_GNZD AS U ON T.F_PGNBH = U.F_GNBH 
+		LEFT JOIN es_home_module G ON T.F_MKGUID = G.F_GUID 
+	</select>
+	
+	<select id="loadAllGnzdDatasc" parameterType="string" resultMap="esGnzdManageMap">
+		<!-- SELECT F_GNBH,F_PGNBH,F_GNMC,F_GUID,F_PGNBH AS F_PGNMC FROM ES_GNZD WHERE 
+		<![CDATA[
+			 F_PGNBH = ''
+		]]> -->
+		SELECT A.F_GNBH,A.F_PGNBH,A.F_GNMC,A.F_GUID,A.F_MKGUID,A.F_PGNBH AS F_PGNMC,B.F_MKMC  FROM ES_GNZD A 
+		LEFT JOIN es_home_module B ON A.F_MKGUID = B.F_GUID
+		WHERE 
+		<![CDATA[
+			 A.F_PGNBH = ''
+		]]> 
+	</select>  
+	
+	<select id="loadAllModuleData" parameterType="string" resultMap="esGnzdManageMap">
+		SELECT F_GUID,F_MKMC FROM ES_HOME_MODULE 
+	</select>
+       
+</mapper>

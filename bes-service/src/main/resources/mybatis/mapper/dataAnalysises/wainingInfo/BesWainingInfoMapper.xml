@@ -1,0 +1,400 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.efounder.JEnterprise.mapper.dataAnalysises.BesWainingInfoMapper" >
+
+    <resultMap id="BesWainingInfoMap" type="com.efounder.JEnterprise.model.dataAnalysises.BesWainingInfo" >
+        <id column="F_GUID" property="fGuid" jdbcType="VARCHAR" />
+        <result column="F_LOCATION" property="fLoction" jdbcType="VARCHAR" />
+        <result column="F_ALARMNAME" property="fAlarmName" jdbcType="VARCHAR" />
+        <result column="F_ACTUALVALUE" property="fActualValue" jdbcType="VARCHAR" />
+        <result column="F_PLANEVALUE" property="fPlanValue" jdbcType="VARCHAR" />
+        <result column="F_TIPINFO" property="fTipInfo" jdbcType="VARCHAR" />
+        <result column="F_ATIME" property="fATime" jdbcType="TIMESTAMP" />
+        <result column="F_OPERATION" property="fOpearation" jdbcType="VARCHAR" />
+        <result column="F_TYPE" property="fType" jdbcType="VARCHAR" />
+        <result column="F_LEVEL" property="fLevel" jdbcType="VARCHAR" />
+        <result column="F_YQBH" property="fYqbh" jdbcType="VARCHAR" />
+        <result column="ALARM_LEVEL_NAME" property="levelName" jdbcType="VARCHAR" />
+        <result column="ALARM_TYPE_NAME" property="typeName" jdbcType="VARCHAR" />
+    </resultMap>
+
+    <sql id="Base_Column_List" >
+        a.F_GUID,a.F_LOCATION, a.F_ALARMNAME,a.F_ACTUALVALUE, a.F_PLANEVALUE,a. F_TIPINFO,a.F_ATIME,
+        a.F_OPERATION,a.F_TYPE,a.F_LEVEL,a.F_YQBH,
+    </sql>
+
+
+    <!-- 获取报警信息数据 -->
+    <select id="searchWainingInfo" parameterType="string" resultMap="BesWainingInfoMap">
+        select
+        a.F_GUID,a.F_LOCATION, a.F_ALARMNAME,a.F_ACTUALVALUE, a.F_PLANEVALUE,a. F_TIPINFO,a.F_ATIME,
+        a.F_OPERATION,a.F_TYPE,a.F_LEVEL,
+        b.ALARM_LEVEL_NAME,
+        c.ALARM_TYPE_NAME,
+        d.F_YQMC F_YQBH
+        from bes_waring_info a left join bes_alarm_level b on  a.F_LEVEL =b.ALARM_LEVEL_NUM
+        left join bes_alarm_type c on a.F_TYPE=c.ALARM_TYPE_NUM
+        left join bes_park d on a.F_YQBH = d.F_YQBH
+        <where>
+            1=1
+            <if test="fType !=null and fType != '' and fType != '1'">
+                and a.F_TYPE = #{fType}
+            </if>
+            <if test="fYqbh !=null and fYqbh != '' and fYqbh != 'selected'">
+                and a.F_YQBH = #{fYqbh}
+            </if>
+            <if test="fLevel !=null and fLevel != '' and fLevel !='qb' ">
+                and a.F_LEVEL = #{fLevel}
+            </if>
+            <if test="fOpearation !=null and fOpearation != '' ">
+                and a.F_OPERATION = #{fOpearation}
+            </if>
+            <if test="startTime !=null and startTime != ''">
+                <![CDATA[  and DATE_FORMAT(a.F_ATIME, '%Y-%m-%d') >=
+                        DATE_FORMAT(#{startTime}, '%Y-%m-%d')   ]]>
+            </if>
+            <if test="endTime !=null and endTime != ''">
+                <![CDATA[  and DATE_FORMAT(a.F_ATIME, '%Y-%m-%d') <=
+                        DATE_FORMAT(#{endTime} , '%Y-%m-%d')    ]]>
+            </if>
+        </where>
+        union all
+        select
+        a.F_GUID,a.F_LOCATION, a.F_ALARMNAME,a.F_ACTUALVALUE, a.F_PLANEVALUE,a. F_TIPINFO,a.F_ATIME,
+        '' as F_OPERATION,a.F_TYPE,a.F_LEVEL,
+        b.ALARM_LEVEL_NAME,
+        c.ALARM_TYPE_NAME,
+        d.F_YQMC F_YQBH
+        from bes_waring_real a left join bes_alarm_level b on  a.F_LEVEL =b.ALARM_LEVEL_NUM
+        left join bes_alarm_type c on a.F_TYPE=c.ALARM_TYPE_NUM
+        left join bes_park d on a.F_YQBH = d.F_YQBH
+        <where>
+            1=1
+            <if test="fType !=null and fType != '' and fType != '1'">
+                and a.F_TYPE = #{fType}
+            </if>
+            <if test="fYqbh !=null and fYqbh != '' and fYqbh != 'selected'">
+                and a.F_YQBH = #{fYqbh}
+            </if>
+            <if test="fLevel !=null and fLevel != '' and fLevel !='qb' ">
+                and a.F_LEVEL = #{fLevel}
+            </if>
+            <if test="fOpearation !=null and fOpearation != ''  ">
+                and a.F_OPERATION = #{fOpearation}
+            </if>
+            <if test="startTime !=null and startTime != ''">
+                <![CDATA[  and DATE_FORMAT(a.F_ATIME, '%Y-%m-%d') >=
+                        DATE_FORMAT(#{startTime}, '%Y-%m-%d')   ]]>
+            </if>
+            <if test="endTime !=null and endTime != ''">
+                <![CDATA[  and DATE_FORMAT(a.F_ATIME, '%Y-%m-%d') <=
+                        DATE_FORMAT(#{endTime} , '%Y-%m-%d')    ]]>
+            </if>
+        </where>
+        
+        ORDER BY F_LEVEL ASC,F_ATIME desc
+
+    </select>
+
+    <select id="searchWainingInfoAll" parameterType="string" resultMap="BesWainingInfoMap">
+        select
+        a.F_GUID,a.F_LOCATION, a.F_ALARMNAME,a.F_ACTUALVALUE, a.F_PLANEVALUE,a. F_TIPINFO,a.F_ATIME,
+        a.F_OPERATION,a.F_TYPE,a.F_LEVEL,
+        b.ALARM_LEVEL_NAME,
+        c.ALARM_TYPE_NAME,
+        d.F_YQMC F_YQBH
+        from bes_waring_info a left join bes_alarm_level b on  a.F_LEVEL =b.ALARM_LEVEL_NUM
+        left join bes_alarm_type c on a.F_TYPE=c.ALARM_TYPE_NUM
+        left join bes_park d on a.F_YQBH = d.F_YQBH
+        <where>
+            1=1
+            <if test="fYqbh !=null and fYqbh != '' and fYqbh != 'selected' ">
+                and a.F_YQBH = #{fYqbh}
+            </if>
+            <if test="fLevel !=null and fLevel != '' and fLevel !='qb' ">
+                and a.F_LEVEL = #{fLevel}
+            </if>
+            <if test="fOpearation !=null and fOpearation != '' ">
+                and a.F_OPERATION = #{fOpearation}
+            </if>
+            <if test="startTime !=null and startTime != ''">
+                <![CDATA[  and DATE_FORMAT(a.F_ATIME, '%Y-%m-%d') >=
+                        DATE_FORMAT(#{startTime}, '%Y-%m-%d')   ]]>
+            </if>
+            <if test="endTime !=null and endTime != ''">
+                <![CDATA[  and DATE_FORMAT(a.F_ATIME, '%Y-%m-%d') <=
+                        DATE_FORMAT(#{endTime} , '%Y-%m-%d')    ]]>
+            </if>
+        </where>
+        union all
+        select
+        a.F_GUID,a.F_LOCATION, a.F_ALARMNAME,a.F_ACTUALVALUE, a.F_PLANEVALUE,a. F_TIPINFO,a.F_ATIME,
+        '' as F_OPERATION,a.F_TYPE,a.F_LEVEL,
+        b.ALARM_LEVEL_NAME,
+        c.ALARM_TYPE_NAME,
+        d.F_YQMC F_YQBH
+        from bes_waring_real a left join bes_alarm_level b on  a.F_LEVEL =b.ALARM_LEVEL_NUM
+        left join bes_alarm_type c on a.F_TYPE=c.ALARM_TYPE_NUM
+        left join bes_park d on a.F_YQBH = d.F_YQBH
+        <where>
+            1=1
+            <if test="fYqbh !=null and fYqbh != '' and fYqbh != 'selected' ">
+                and a.F_YQBH = #{fYqbh}
+            </if>
+            <if test="fLevel !=null and fLevel != '' and fLevel !='qb' ">
+                and a.F_LEVEL = #{fLevel}
+            </if>
+            <if test="fOpearation !=null and fOpearation != ''  ">
+                and a.F_OPERATION = #{fOpearation}
+            </if>
+            <if test="startTime !=null and startTime != ''">
+                <![CDATA[  and DATE_FORMAT(a.F_ATIME, '%Y-%m-%d') >=
+                        DATE_FORMAT(#{startTime}, '%Y-%m-%d')   ]]>
+            </if>
+            <if test="endTime !=null and endTime != ''">
+                <![CDATA[  and DATE_FORMAT(a.F_ATIME, '%Y-%m-%d') <=
+                        DATE_FORMAT(#{endTime} , '%Y-%m-%d')    ]]>
+            </if>
+        </where>
+
+        ORDER BY F_LEVEL ASC,F_ATIME desc
+
+    </select>
+
+
+    <!-- 获取报警信息数据 -->
+    <select id="searchWainingInfoCount" parameterType="string" resultType="com.efounder.JEnterprise.model.dataAnalysises.BesWainingInfo">
+        select
+        COUNT(a.F_GUID) AS 'typeCount',
+        c.ALARM_TYPE_NAME as 'typeName',
+        a.F_TYPE as 'fType',
+        date_format(
+        a.F_ATIME,
+        '%Y-%m-%d'
+        ) AS fATime
+        from bes_waring_info a
+        left join bes_alarm_type c on a.F_TYPE=c.ALARM_TYPE_NUM
+        <where>
+            1=1
+
+            <if test="fYqbh !=null and fYqbh != ''">
+                and a.F_YQBH = #{fYqbh}
+            </if>
+
+            <if test="startTime !=null and startTime != ''">
+                <![CDATA[  and DATE_FORMAT(a.F_ATIME, '%Y-%m-%d') >=
+                        DATE_FORMAT(#{startTime}, '%Y-%m-%d')   ]]>
+            </if>
+            <if test="endTime !=null and endTime != ''">
+                <![CDATA[  and DATE_FORMAT(a.F_ATIME, '%Y-%m-%d') <=
+                        DATE_FORMAT(#{endTime} , '%Y-%m-%d')    ]]>
+            </if>
+
+
+        </where>
+        GROUP BY a.F_TYPE
+        ORDER BY a.F_ATIME
+
+    </select>
+
+
+    <!-- 获取报警信息数据 -->
+    <select id="searchWainingRealCount" parameterType="string" resultType="com.efounder.JEnterprise.model.dataAnalysises.BesWainingInfo">
+        select
+        COUNT(a.F_GUID) AS 'typeCount',
+        c.ALARM_TYPE_NAME as 'typeName',
+        a.F_TYPE as 'fType',
+        date_format(
+        a.F_ATIME,
+        '%Y-%m-%d'
+        ) AS fATime
+        from bes_waring_real a
+        left join bes_alarm_type c on a.F_TYPE=c.ALARM_TYPE_NUM
+        <where>
+            1=1
+
+            <if test="fYqbh !=null and fYqbh != ''">
+                and a.F_YQBH = #{fYqbh}
+            </if>
+
+            <if test="startTime !=null and startTime != ''">
+                <![CDATA[  and DATE_FORMAT(a.F_ATIME, '%Y-%m-%d') >=
+                        DATE_FORMAT(#{startTime}, '%Y-%m-%d')   ]]>
+            </if>
+            <if test="endTime !=null and endTime != ''">
+                <![CDATA[  and DATE_FORMAT(a.F_ATIME, '%Y-%m-%d') <=
+                        DATE_FORMAT(#{endTime} , '%Y-%m-%d')    ]]>
+            </if>
+
+
+        </where>
+        GROUP BY a.F_TYPE
+        ORDER BY a.F_ATIME
+
+    </select>
+
+
+    <!-- 获取报警信息折线图数据 -->
+    <select id="searchWainingData" parameterType="string" resultType="java.util.HashMap">
+        select DISTINCT
+        COUNT(a.F_GUID) AS count,
+        date_format(
+        a.F_ATIME,
+        '%Y-%m-%d'
+        ) AS F_ALERT_TIME
+        from bes_waring_info a
+        <where>
+            1=1
+
+            <if test="fYqbh !=null and fYqbh != ''">
+                and a.F_YQBH = #{fYqbh}
+            </if>
+            <if test="fType !=null and fType != ''">
+                and a.F_TYPE = #{fType}
+            </if>
+
+            <if test="startTime !=null and startTime != ''">
+                <![CDATA[  and DATE_FORMAT(a.F_ATIME, '%Y-%m-%d') >=
+                        DATE_FORMAT(#{startTime}, '%Y-%m-%d')   ]]>
+            </if>
+            <if test="endTime !=null and endTime != ''">
+                <![CDATA[  and DATE_FORMAT(a.F_ATIME, '%Y-%m-%d') <=
+                        DATE_FORMAT(#{endTime} , '%Y-%m-%d')    ]]>
+            </if>
+
+
+        </where>
+        GROUP BY date_format(
+        a.F_ATIME,
+        '%Y-%m-%d'
+        )
+        ORDER BY date_format(
+        a.F_ATIME,
+        '%Y-%m-%d'
+        )
+
+    </select>
+
+
+    <!-- 获取未处理报警信息折线图数据 -->
+    <select id="searchWainingReal" parameterType="string" resultType="java.util.HashMap">
+        select DISTINCT
+        COUNT(a.F_GUID) AS count,
+        date_format(
+        a.F_ATIME,
+        '%Y-%m-%d'
+        ) AS F_ALERT_TIME
+        from bes_waring_real a
+        <where>
+            1=1
+
+            <if test="fYqbh !=null and fYqbh != ''">
+                and a.F_YQBH = #{fYqbh}
+            </if>
+            <if test="fType !=null and fType != ''">
+                and a.F_TYPE = #{fType}
+            </if>
+
+            <if test="startTime !=null and startTime != ''">
+                <![CDATA[  and DATE_FORMAT(a.F_ATIME, '%Y-%m-%d') >=
+                        DATE_FORMAT(#{startTime}, '%Y-%m-%d')   ]]>
+            </if>
+            <if test="endTime !=null and endTime != ''">
+                <![CDATA[  and DATE_FORMAT(a.F_ATIME, '%Y-%m-%d') <=
+                        DATE_FORMAT(#{endTime} , '%Y-%m-%d')    ]]>
+            </if>
+
+
+        </where>
+        GROUP BY date_format(
+        a.F_ATIME,
+        '%Y-%m-%d'
+        )
+        ORDER BY date_format(
+        a.F_ATIME,
+        '%Y-%m-%d'
+        )
+
+    </select>
+
+
+    <!-- 获取报警信息数据 -->
+    <select id="searchWainingBarData" parameterType="string" resultType="com.efounder.JEnterprise.model.dataAnalysises.BesWainingInfo">
+        select
+        COUNT(a.F_GUID) AS 'typeCount',
+        c.ALARM_TYPE_NAME as 'typeName',
+        a.F_TYPE as 'fType',
+        date_format(
+        a.F_ATIME,
+        '%Y-%m-%d'
+        ) AS fATime
+        from bes_waring_info a
+        left join bes_alarm_type c on a.F_TYPE=c.ALARM_TYPE_NUM
+        <where>
+            1=1
+
+            <if test="fYqbh !=null and fYqbh != ''">
+                and a.F_YQBH = #{fYqbh}
+            </if>
+
+
+            <if test="startTime !=null and startTime != ''">
+                <![CDATA[  and DATE_FORMAT(a.F_ATIME, '%Y-%m-%d') >=
+                        DATE_FORMAT(#{startTime}, '%Y-%m-%d')   ]]>
+            </if>
+            <if test="endTime !=null and endTime != ''">
+                <![CDATA[  and DATE_FORMAT(a.F_ATIME, '%Y-%m-%d') <=
+                        DATE_FORMAT(#{endTime} , '%Y-%m-%d')    ]]>
+            </if>
+
+
+        </where>
+        GROUP BY a.F_TYPE,date_format(
+        a.F_ATIME,
+        '%Y-%m-%d'
+        )
+        ORDER BY a.F_ATIME
+
+    </select>
+
+
+    <!-- 获取报警信息数据 -->
+    <select id="searchWainingRealBarData" parameterType="string" resultType="com.efounder.JEnterprise.model.dataAnalysises.BesWainingInfo">
+        select
+        COUNT(a.F_GUID) AS 'typeCount',
+        c.ALARM_TYPE_NAME as 'typeName',
+        a.F_TYPE as 'fType',
+        date_format(
+        a.F_ATIME,
+        '%Y-%m-%d'
+        ) AS fATime
+        from bes_waring_real a
+        left join bes_alarm_type c on a.F_TYPE=c.ALARM_TYPE_NUM
+        <where>
+            1=1
+
+            <if test="fYqbh !=null and fYqbh != ''">
+                and a.F_YQBH = #{fYqbh}
+            </if>
+
+            <if test="startTime !=null and startTime != ''">
+                <![CDATA[  and DATE_FORMAT(a.F_ATIME, '%Y-%m-%d') >=
+                        DATE_FORMAT(#{startTime}, '%Y-%m-%d')   ]]>
+            </if>
+            <if test="endTime !=null and endTime != ''">
+                <![CDATA[  and DATE_FORMAT(a.F_ATIME, '%Y-%m-%d') <=
+                        DATE_FORMAT(#{endTime} , '%Y-%m-%d')    ]]>
+            </if>
+
+
+        </where>
+        GROUP BY a.F_TYPE,date_format(
+        a.F_ATIME,
+        '%Y-%m-%d'
+        )
+        ORDER BY a.F_ATIME
+
+    </select>
+
+
+</mapper>

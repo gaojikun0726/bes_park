@@ -1,0 +1,530 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.efounder.JEnterprise.platform.mapper.OpmPositionInfoMapper">
+
+    <resultMap type="com.efounder.JEnterprise.platform.model.OpmPositionInfo" id="OpmPositionInfoResult">
+        <result property="id"    column="id"    />
+        <result property="code"    column="code"    />
+        <result property="name"    column="name"    />
+        <result property="pid"    column="pid"    />
+        <result property="addressDesc"    column="address_desc"    />
+        <result property="maxFloor"    column="max_floor"    />
+        <result property="floorNum"    column="floor_num"    />
+        <result property="type"    column="type"    />
+        <result property="areaUses"    column="area_uses"    />
+        <result property="usableArea"    column="usable_area"    />
+        <result property="builtArea"    column="built_area"    />
+        <result property="poolArea"    column="pool_area"    />
+        <result property="sort"    column="sort"    />
+        <result property="hasDelete"    column="has_delete"    />
+        <result property="creator"    column="creator"    />
+        <result property="createDate"    column="create_date"    />
+        <result property="updater"    column="updater"    />
+        <result property="updateDate"    column="update_date"    />
+    </resultMap>
+
+    <sql id="selectOpmPositionInfoVo">
+        select id, code, name, pid, address_desc, max_floor, floor_num, type, area_uses, usable_area, built_area, pool_area, sort, has_delete, creator, create_date, updater, update_date from opm_position_info
+    </sql>
+
+    <select id="selectOpmPositionInfoList" parameterType="com.efounder.JEnterprise.platform.model.OpmPositionInfo" resultMap="OpmPositionInfoResult">
+        <include refid="selectOpmPositionInfoVo"/>
+        <where>
+            <if test="code != null  and code != ''"> and code = #{code}</if>
+            <if test="name != null  and name != ''"> and name like concat('%', #{name}, '%')</if>
+            <if test="pid != null  and pid != ''"> and pid = #{pid}</if>
+            <if test="addressDesc != null  and addressDesc != ''"> and address_desc = #{addressDesc}</if>
+            <if test="maxFloor != null "> and max_floor = #{maxFloor}</if>
+            <if test="floorNum != null "> and floor_num = #{floorNum}</if>
+            <if test="type != null  and type != ''"> and type = #{type}</if>
+            <if test="areaUses != null  and areaUses != ''"> and area_uses = #{areaUses}</if>
+            <if test="usableArea != null  and usableArea != ''"> and usable_area = #{usableArea}</if>
+            <if test="builtArea != null  and builtArea != ''"> and built_area = #{builtArea}</if>
+            <if test="poolArea != null  and poolArea != ''"> and pool_area = #{poolArea}</if>
+            <if test="sort != null  and sort != ''"> and sort = #{sort}</if>
+            <if test="hasDelete != null "> and has_delete = #{hasDelete}</if>
+            <if test="creator != null  and creator != ''"> and creator = #{creator}</if>
+            <if test="createDate != null "> and create_date = #{createDate}</if>
+            <if test="updater != null  and updater != ''"> and updater = #{updater}</if>
+            <if test="updateDate != null "> and update_date = #{updateDate}</if>
+        </where>
+    </select>
+
+    <select id="selectOpmPositionInfoById" parameterType="String" resultMap="OpmPositionInfoResult">
+        <include refid="selectOpmPositionInfoVo"/>
+        where id = #{id}
+    </select>
+
+    <insert id="insertOpmPositionInfo" parameterType="com.efounder.JEnterprise.platform.model.OpmPositionInfo">
+        insert into opm_position_info
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">id,</if>
+            <if test="code != null and code != ''">code,</if>
+            <if test="name != null and name != ''">name,</if>
+            <if test="pid != null">pid,</if>
+            <if test="addressDesc != null">address_desc,</if>
+            <if test="maxFloor != null">max_floor,</if>
+            <if test="floorNum != null">floor_num,</if>
+            <if test="type != null">type,</if>
+            <if test="areaUses != null">area_uses,</if>
+            <if test="usableArea != null">usable_area,</if>
+            <if test="builtArea != null">built_area,</if>
+            <if test="poolArea != null">pool_area,</if>
+            <if test="sort != null">sort,</if>
+            <if test="hasDelete != null">has_delete,</if>
+            <if test="creator != null">creator,</if>
+            <if test="createDate != null">create_date,</if>
+            <if test="updater != null">updater,</if>
+            <if test="updateDate != null">update_date,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">#{id},</if>
+            <if test="code != null and code != ''">#{code},</if>
+            <if test="name != null and name != ''">#{name},</if>
+            <if test="pid != null">#{pid},</if>
+            <if test="addressDesc != null">#{addressDesc},</if>
+            <if test="maxFloor != null">#{maxFloor},</if>
+            <if test="floorNum != null">#{floorNum},</if>
+            <if test="type != null">#{type},</if>
+            <if test="areaUses != null">#{areaUses},</if>
+            <if test="usableArea != null">#{usableArea},</if>
+            <if test="builtArea != null">#{builtArea},</if>
+            <if test="poolArea != null">#{poolArea},</if>
+            <if test="sort != null">#{sort},</if>
+            <if test="hasDelete != null">#{hasDelete},</if>
+            <if test="creator != null">#{creator},</if>
+            <if test="createDate != null">#{createDate},</if>
+            <if test="updater != null">#{updater},</if>
+            <if test="updateDate != null">#{updateDate},</if>
+         </trim>
+    </insert>
+
+    <update id="updateOpmPositionInfo" parameterType="com.efounder.JEnterprise.platform.model.OpmPositionInfo">
+        update opm_position_info
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="code != null and code != ''">code = #{code},</if>
+            <if test="name != null and name != ''">name = #{name},</if>
+            <if test="pid != null">pid = #{pid},</if>
+            <if test="addressDesc != null">address_desc = #{addressDesc},</if>
+            <if test="maxFloor != null">max_floor = #{maxFloor},</if>
+            <if test="floorNum != null">floor_num = #{floorNum},</if>
+            <if test="type != null">type = #{type},</if>
+            <if test="areaUses != null">area_uses = #{areaUses},</if>
+            <if test="usableArea != null">usable_area = #{usableArea},</if>
+            <if test="builtArea != null">built_area = #{builtArea},</if>
+            <if test="poolArea != null">pool_area = #{poolArea},</if>
+            <if test="sort != null">sort = #{sort},</if>
+            <if test="hasDelete != null">has_delete = #{hasDelete},</if>
+            <if test="creator != null">creator = #{creator},</if>
+            <if test="createDate != null">create_date = #{createDate},</if>
+            <if test="updater != null">updater = #{updater},</if>
+            <if test="updateDate != null">update_date = #{updateDate},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteOpmPositionInfoById" parameterType="String">
+        delete from opm_position_info where id = #{id}
+    </delete>
+
+    <delete id="deleteOpmPositionInfoByIds" parameterType="String">
+        delete from opm_position_info where id in
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+
+    <!--获取全部或新增的房间仪表抄表数据-->
+    <select id="getRoomAmmeterData" resultType="java.util.Map">
+        select d.F_ID guid,a.F_GUID meter_guid,d.F_DATA read_num,date_format(d.F_CJSJ,'%Y-%m-%d %H:%i:%s' ) read_time
+        from bes_calculate_data d
+        inner join bes_ammeter a on a.F_SYS_NAME = d.F_DBSYS_NAME
+        <!--大于上次请求时间-->
+        <where>
+            <if test="lastTime != null and lastTime != ''">
+                and d.F_CJSJ > str_to_date(FROM_UNIXTIME(#{lastTime}), '%Y-%m-%d %H:%i:%s')
+            </if>
+        </where>
+    </select>
+
+    <!--查询所有的房间与仪表的关联关系数据-->
+    <select id="getRoomAmmeterConfigData" resultType="java.util.Map">
+        select r.id,r.room_id,r.ammeter_id,r.creator,r.create_date from opm_room_ammeter r
+        left join opm_position_info p on r.room_id = p.id
+        where p.has_delete = 0
+        and r.ammeter_id in
+        (select F_GUID from bes_ammeter)
+    </select>
+
+    <!--查询区域位置树-->
+    <select id="queryPositionTree" resultType="java.util.Map">
+          select id,name as text,
+          case when pid = '0' then '#' else pid end as parent,
+          code,type as position_type,sort,'floor' as type
+				from opm_position_info
+				where has_delete = 0
+				order by create_date,sort + 0
+    </select>
+
+    <!--查询区域位置类型数据-->
+    <select id="queryPositionType" resultType="java.util.Map">
+        select name,value from s_dict_info where pid =
+        (SELECT id FROM s_dict_info where value = 'position_type')
+        order by value
+    </select>
+
+    <!--查询列表-->
+    <select id="queryList" resultType="java.util.Map">
+         select id, code, name, pid, address_desc, max_floor, floor_num, type,
+         area_uses, usable_area, built_area, pool_area, sort, has_delete,
+          creator, create_date, updater, update_date,'' operation
+          from opm_position_info
+          where has_delete = 0
+        <if test="parentId != null and parentId !=''">
+            and (pid = #{parentId} or id = #{parentId})
+        </if>
+        <if test="positionCode != null and positionCode !=''">
+            and code like concat('%',#{positionCode},'%')
+        </if>
+        <if test="positionName != null and positionName !=''">
+            and name like concat('%',#{positionName},'%')
+        </if>
+        <if test="positionType != null and positionType !=''">
+            and type = #{positionType}
+        </if>
+        <choose>
+            <when test="field != null and field != '' and order != null and order != ''">
+                order by ${field}  ${order}
+            </when>
+            <otherwise>
+                order by sort
+            </otherwise>
+        </choose>
+    </select>
+
+    <!--查询未关联电表数据-->
+    <!--过滤掉DDC电表，F_WLDZ 正常电表物理地址不为空，DDC电表物理地址为空，不传给物业（中台）DDC电表数据-->
+    <select id="queryRemainAmmeter" resultType="java.util.Map">
+        select F_GUID,F_SYS_NAME,F_NICK_NAME,F_GUID ammeterId
+        from bes_ammeter
+        where F_WLDZ is not null
+        and (share_meter is null or share_meter = '0')
+        and f_guid not in (
+          select ammeter_id
+          from opm_room_ammeter
+          where room_id = #{positionId}
+          and ammeter_id is not null
+        )
+        <if test="keywords != null and keywords !=''">
+            and ( f_sys_name like concat('%',#{keywords},'%') or f_nick_name like concat('%',#{keywords},'%') )
+        </if>
+        order by F_CHDATE
+    </select>
+
+    <!--        where f_guid in (
+        select ammeter_id
+        from opm_room_ammeter
+        where room_id = #{positionId}
+        )-->
+   <!--查询已关联电表数据-->
+    <!--过滤掉DDC电表，F_WLDZ 正常电表物理地址不为空，DDC电表物理地址为空，不传给物业（中台）DDC电表数据-->
+    <select id="queryContainAmmeter" resultType="java.util.Map">
+        select a.F_GUID,a.F_SYS_NAME,a.F_NICK_NAME,r.ID RELATIVE_ID,a.F_GUID ammeterId
+        from bes_ammeter  a
+        inner join opm_room_ammeter r
+        on a.F_GUID = r.ammeter_id
+        where a.F_WLDZ is not null
+        and r.room_id = #{positionId}
+        <if test="keywords != null and keywords !=''">
+            and ( f_sys_name like concat('%',#{keywords},'%') or f_nick_name like concat('%',#{keywords},'%') )
+        </if>
+        order by r.create_date desc
+    </select>
+
+    <!--添加电表房间关联数据-->
+    <insert id="addPositionAmmeterConfig">
+       insert into opm_room_ammeter(id,room_id,ammeter_id,create_date)
+        values
+        <foreach collection="list" item="item" separator=",">
+            (uuid(),#{positionId},#{item.ammeterId},sysdate())
+        </foreach>
+    </insert>
+
+    <!--删除电表房间关联数据-->
+    <delete id="deletePositionAmmeterConfig">
+        delete from opm_room_ammeter
+        where room_id = #{positionId}
+        and ammeter_id in
+        <foreach collection="list" item="item" open="(" close=")" separator=",">
+           #{item.ammeterId}
+        </foreach>
+    </delete>
+
+    <!-- 求【采集时间从上次请求时间往后的】每个电表每天的最后一条记录-->
+    <!--有时间，增量数据，需要计算用量；没有时间，全部数据，直接将当前读数作为用量-->
+    <select id="getDayDataFromTime" resultType="java.util.Map">
+        select a.F_ID guid ,t.F_GUID meterGuid,date_format(a.f_cjsj,'%Y-%m-%d %H:%i:%s') readTime,a.F_DATA readNum,
+        1 status,a.F_DATA consumption,ifnull(t.share_meter,'0') shareMeter,
+        '' creator,'' updater, date_format(a.f_cjsj,'%Y-%m-%d %H:%i:%s') createTime,'' updateTime,'0' hasDelete
+        from
+            (select a.F_ID,a.F_DBSYS_NAME,a.f_cjsj,a.F_DATA
+            from bes_calculate_data a
+            group by a.F_DBSYS_NAME,a.f_cjsj,a.F_DATA
+            ) a
+        inner join
+            (select d.F_DBSYS_NAME,max(d.F_CJSJ) max_cjsj
+            from bes_calculate_data d
+            <where>
+                <if test="lastTime != null and lastTime != ''">
+                     d.F_CJSJ > str_to_date(FROM_UNIXTIME(#{lastTime}), '%Y-%m-%d %H:%i:%s')
+                </if>
+            </where>
+            group by d.F_DBSYS_NAME,date_format(d.F_CJSJ,'%Y-%m-%d')
+            ) b
+        on a.F_DBSYS_NAME = b.F_DBSYS_NAME and a.F_CJSJ = b.max_cjsj
+        inner join bes_ammeter t on t.F_SYS_NAME = a.F_DBSYS_NAME
+    </select>
+
+    <!--查询上次请求的数据中每个电表读取时间最大的那条记录，作为用量的减数（用量的计算基准）-->
+    <!--如果没有时间，不需要计算用量（走这个方法）-->
+    <select id="getReadDataTillTime" resultType="java.util.Map">
+        select distinct t.F_GUID meterGuid,date_format(a.f_cjsj,'%Y-%m-%d %H:%i:%s') readTime,a.F_DATA readNum
+        from bes_calculate_data  a
+        inner join
+        (select F_DBSYS_NAME,max(F_CJSJ) max_cjsj
+        from bes_calculate_data
+        where F_CJSJ &lt;= str_to_date(FROM_UNIXTIME(#{lastTime}), '%Y-%m-%d %H:%i:%s')
+        group by F_DBSYS_NAME) b
+        on a.F_DBSYS_NAME = b.F_DBSYS_NAME and a.F_CJSJ = b.max_cjsj
+         inner join bes_ammeter t on t.F_SYS_NAME = a.F_DBSYS_NAME
+    </select>
+
+    <!--查询每个电表每天最后的记录，并计算用量（用量= 每天的读数 - 最近的上一天的读数（不一定是上一天））
+    （去重，每个电表同一个时间可能存在多条记录）-->
+    <!--过滤掉DDC电表，F_WLDZ 正常电表物理地址不为空，DDC电表物理地址为空，不传给物业（中台）DDC电表数据-->
+    <!--查询出逻辑删除的电表的抄表数据-->
+    <select id="getReadDataList" resultType="java.util.Map">
+        select a.F_ID guid ,t.F_GUID meterGuid,date_format(a.f_cjsj,'%Y-%m-%d %H:%i:%s') readTime,a.F_DATA readNum,
+        1 status,a.F_DATA - ifnull(m.f_data,0) consumption,ifnull(t.share_meter,'0') shareMeter,
+        '' creator,'' updater, date_format(a.f_cjsj,'%Y-%m-%d %H:%i:%s') createTime,'' updateTime,'0' hasDelete
+        from
+            (select a.F_ID,a.F_DBSYS_NAME,a.f_cjsj,a.F_DATA
+            from bes_calculate_data a
+            <where>
+                <if test="lastTime != null and lastTime != ''">
+                    a.F_CJSJ > str_to_date(FROM_UNIXTIME(#{lastTime}), '%Y-%m-%d %H:%i:%s')
+                </if>
+            </where>
+            group by a.F_DBSYS_NAME,a.f_cjsj,a.F_DATA
+            ) a
+            inner join
+            (select d.F_DBSYS_NAME,max(d.F_CJSJ) max_cjsj
+            from bes_calculate_data d
+            <where>
+                <if test="lastTime != null and lastTime != ''">
+                    d.F_CJSJ > str_to_date(FROM_UNIXTIME(#{lastTime}), '%Y-%m-%d %H:%i:%s')
+                </if>
+            </where>
+            group by d.F_DBSYS_NAME,date_format(d.F_CJSJ,'%Y-%m-%d')
+            ) b
+        on a.F_DBSYS_NAME = b.F_DBSYS_NAME and a.F_CJSJ = b.max_cjsj
+        inner join (
+            select F_GUID, F_SYS_NAME, SHARE_METER,F_WLDZ from bes_ammeter
+            union
+            select F_GUID, F_SYS_NAME, SHARE_METER,F_WLDZ from opm_ammeter_delete
+          )
+        t on t.F_SYS_NAME = a.F_DBSYS_NAME
+        left join (
+        select 	a.f_id,a.F_DBSYS_NAME,	a.F_DATA,a.F_CJSJ,b.a_cjsj
+        from
+        bes_calculate_data a inner join
+            (
+            select a.F_DBSYS_NAME, a.F_CJSJ a_cjsj,max(b.f_cjsj) b_cjsj
+            from
+                (
+                    select d.F_DBSYS_NAME,max(d.F_CJSJ) F_CJSJ
+                    from bes_calculate_data d
+                    <where>
+                        <if test="lastTime != null and lastTime != ''">
+                            d.F_CJSJ > str_to_date(FROM_UNIXTIME(#{lastTime}), '%Y-%m-%d %H:%i:%s')
+                        </if>
+                    </where>
+                    group by d.F_DBSYS_NAME,date_format(d.F_CJSJ,'%Y-%m-%d')
+                ) a
+            left join (
+                select d.F_DBSYS_NAME,max(d.F_CJSJ) F_CJSJ
+                from bes_calculate_data d
+                --                  where    d.F_CJSJ > str_to_date('2020-10-13 11:36:30' ,'%Y-%m-%d %H:%i:%s')
+                group by d.F_DBSYS_NAME,date_format(d.F_CJSJ,'%Y-%m-%d')
+              ) b
+            on a.F_DBSYS_NAME = b.F_DBSYS_NAME
+            where a.f_cjsj > b.F_CJSJ
+            group by a.F_DBSYS_NAME,a_cjsj
+            ) b
+        on a.F_DBSYS_NAME = b.F_DBSYS_NAME and a.f_cjsj = b.b_cjsj
+        group by a.F_DBSYS_NAME,	a.F_DATA,a.F_CJSJ,b.a_cjsj
+
+        ) m on a.F_DBSYS_NAME = m.F_DBSYS_NAME and a.F_CJSJ = m.a_cjsj
+        where t.F_WLDZ is not null
+    </select>
+
+    <!--查询全部仪表或单个仪表某天的抄表数据-->
+    <select id="queryMeterDayData" resultType="java.util.Map">
+         select c.F_ID guid,t.F_GUID meterGuid,
+             date_format(c.F_CJSJ,'%Y-%m-%d %H:%i:%s') readTime,
+             ifnull(t.SHARE_METER,'0') shareMeter,
+              1 status,c.F_DATA readNum,
+             '' creator,'' updater,
+             date_format(c.F_CJSJ,'%Y-%m-%d %H:%i:%s') createTime,
+             '' updateTime,'0' hasDelete,
+            f.code assetsCode
+         from bes_calculate_data c
+         inner join
+            (  -- 分组去重
+                 select F_ID,F_DBSYS_NAME,f_cjsj,F_DATA
+                 from bes_calculate_data
+                <where>
+                    <if test="syncTimeStamp != null and syncTimeStamp != ''">
+                        date_format(f_cjsj,'%Y-%m-%d') = date_format(FROM_UNIXTIME(#{syncTimeStamp}),'%Y-%m-%d')
+                    </if>
+                </where>
+                 group by F_DBSYS_NAME,f_cjsj,F_DATA
+            ) a on c.F_ID = a.F_ID
+        inner join
+            (select F_DBSYS_NAME,date_format(f_cjsj,'%Y-%m-%d'),max(f_cjsj) f_cjsj
+             from bes_calculate_data
+            <where>
+                <if test="syncTimeStamp != null and syncTimeStamp != ''">
+                    date_format(f_cjsj,'%Y-%m-%d') = date_format(FROM_UNIXTIME(#{syncTimeStamp}),'%Y-%m-%d')
+                </if>
+            </where>
+             group by F_DBSYS_NAME,date_format(f_cjsj,'%Y-%m-%d')
+             ) d
+         on c.F_DBSYS_NAME = d.F_DBSYS_NAME and  c.f_cjsj = d.f_cjsj
+         inner join (
+                 select F_GUID, F_SYS_NAME, SHARE_METER,F_WLDZ from bes_ammeter
+                 where F_WLDZ is not null
+                  union
+                 select F_GUID, F_SYS_NAME, SHARE_METER,F_WLDZ from opm_ammeter_delete
+                 where F_WLDZ is not null
+         ) t on c.F_DBSYS_NAME = t.F_SYS_NAME
+        left join opm_assets_info f on t.f_guid = f.serialNo
+        <where>
+            <if test="meterGuid != null and meterGuid.size() > 0">
+                t.F_GUID in
+                <foreach collection="meterGuid" item="item" open="(" close=")" separator=",">
+                    #{item}
+                </foreach>
+            </if>
+        </where>
+    </select>
+
+    <!--新增房间列表数据-保存接口获取的数据-->
+    <insert id="insertPositionList">
+        insert into opm_position_info
+        (id, code, name, pid, address_desc, max_floor,
+        floor_num, type, area_uses, usable_area, built_area,
+        pool_area, sort, has_delete, creator, create_date,
+        updater, update_date)
+        values
+        <foreach collection="list" item="item" separator=",">
+            (#{item.id},#{item.code},#{item.name},#{item.pid},#{item.addressDesc},#{item.maxFloor},
+            #{item.floorNum},#{item.type},#{item.areaUses},#{item.usableArea},#{item.builtArea},
+            #{item.poolArea},#{item.sort},#{item.hasDelete},#{item.creator},
+            #{item.createDate},#{item.updater},#{item.updateDate}
+            )
+        </foreach>
+    </insert>
+
+    <!--保存接口数据前，删除所有的原有数据-->
+    <delete id="deleteAllPosition">
+        delete from opm_position_info
+    </delete>
+
+
+    <!-- （按照bes_calculate_data_daily表只存储每个电表每天的最后一条记录计算）-->
+    <!--查询每个电表每天最后的记录，并计算用量（用量= 每天的读数 - 最近的上一天的读数（不一定是上一天））-->
+    <!--过滤掉DDC电表，F_WLDZ 正常电表物理地址不为空，DDC电表物理地址为空，不传给物业（中台）DDC电表数据-->
+    <!--查询出逻辑删除的电表的抄表数据-->
+    <!--新的方法与原先的getReadDataList方法相比，在Navicat中单纯执行sql的时间，接近原先的百分之一（此数据没有普遍意义，依赖于当时的数据和数据量）-->
+    <!--同样的数据下，原先的getReadDataList方法花费了约51s，新的getReadDataListNew花费了约0.52s-->
+    <!--测试条件：【bes_calculate_data的数据量约240万，bes_calculate_data_daily的数据量约2000条】-->
+    <select id="getReadDataListNew" resultType="java.util.Map">
+
+        select k.f_id guid,t.F_GUID meterGuid, date_format(m.f_cjsj,'%Y-%m-%d %H:%i:%s') readTime,m.F_DATA readNum,
+         1 status,m.F_DATA - ifnull(n.f_data,0) consumption,ifnull(t.share_meter,'0') shareMeter,
+                '' creator,'' updater, date_format(m.f_cjsj,'%Y-%m-%d %H:%i:%s') createTime,'' updateTime,'0' hasDelete
+        from
+              (select F_GUID, F_SYS_NAME, SHARE_METER,F_WLDZ
+                    from
+                    (   select F_GUID, F_SYS_NAME, SHARE_METER,F_WLDZ from bes_ammeter
+                        union
+                        select F_GUID, F_SYS_NAME, SHARE_METER,F_WLDZ from opm_ammeter_delete
+                    ) d
+                    where f_wldz is not null
+              ) t
+        inner join
+        (
+            -- 求每个电表的每个采集时间对应的最近的上一天的采集时间
+            select a.F_DBSYS_NAME,a.f_data,a.f_cjsj,max(b.f_cjsj) last_cjsj
+            from
+                (select F_DBSYS_NAME,F_DATA,F_CJSJ
+                from bes_calculate_data_daily a
+                <where>
+                    <if test="lastTime != null and lastTime != ''">
+                        a.F_CJSJ > str_to_date(FROM_UNIXTIME(#{lastTime}), '%Y-%m-%d %H:%i:%s')
+                    </if>
+                </where>
+                ) a
+            left join
+                (
+                select F_DBSYS_NAME,F_DATA,F_CJSJ
+                from bes_calculate_data_daily a
+                -- where a.f_cjsj > str_to_date(FROM_UNIXTIME('1604160000'), '%Y-%m-%d %H:%i:%s')
+                ) b
+            on a.F_DBSYS_NAME = b.F_DBSYS_NAME and a.f_cjsj > b.f_cjsj
+            group by a.F_DBSYS_NAME,a.f_data,a.f_cjsj
+        ) m on t.F_SYS_NAME = m.F_DBSYS_NAME
+        left join bes_calculate_data_daily k on m.F_DBSYS_NAME = k.F_DBSYS_NAME and m.f_cjsj = k.f_cjsj
+        left join bes_calculate_data_daily  n on m.F_DBSYS_NAME = n.F_DBSYS_NAME and  m.last_cjsj = n.f_cjsj
+
+    </select>
+
+
+    <!--查询全部仪表或单个仪表某天的抄表数据-->
+    <!--按照bes_calculate_data_daily表只存储每个电表每天的最后一条记录计算-->
+    <select id="queryMeterDayDataNew" resultType="java.util.Map">
+        select a.F_ID guid,b.F_GUID meterGuid,date_format(a.F_CJSJ,'%Y-%m-%d %H:%i:%s') readTime,
+             ifnull(b.SHARE_METER,'0') shareMeter,1 status,a.F_DATA readNum,'' creator,'' updater,
+             date_format(a.F_CJSJ,'%Y-%m-%d %H:%i:%s') createTime, '' updateTime,'0' hasDelete,
+             f.code assetsCode
+		from
+            (select F_ID,F_CJSJ,F_DATA,F_DBSYS_NAME
+			  from bes_calculate_data_daily
+            <where>
+                <if test="syncTimeStamp != null and syncTimeStamp != ''">
+                    date_format(f_cjsj,'%Y-%m-%d') = date_format(FROM_UNIXTIME(#{syncTimeStamp}),'%Y-%m-%d')
+                </if>
+            </where>
+			  ) a
+		inner join (
+				  select F_GUID, F_SYS_NAME, SHARE_METER,F_WLDZ from bes_ammeter
+                 where F_WLDZ is not null
+                  union
+                 select F_GUID, F_SYS_NAME, SHARE_METER,F_WLDZ from opm_ammeter_delete
+                 where F_WLDZ is not null
+			  ) b  on a.F_DBSYS_NAME = b.F_SYS_NAME
+        left join opm_assets_info f on b.f_guid = f.serialNo
+        <where>
+            <if test="meterGuid != null and meterGuid.size() > 0">
+                b.F_GUID in
+                <foreach collection="meterGuid" item="item" open="(" close=")" separator=",">
+                    #{item}
+                </foreach>
+            </if>
+        </where>
+    </select>
+
+</mapper>

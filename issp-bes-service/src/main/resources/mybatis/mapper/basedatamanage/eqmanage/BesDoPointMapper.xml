@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.efounder.JEnterprise.mapper.basedatamanage.eqmanage.BesDoPointMapper" >
+  <resultMap id="BESDoPointMap" type="com.efounder.JEnterprise.model.basedatamanage.eqmanage.BesDoPoint" >
+    <id column="F_GUID" property="fGuid" />
+    <result column="F_GUID" property="fGuid" />
+    <result column="F_SBID" property="fSbid" />
+    <result column="F_STRUCT_ID" property="fStructId" />
+    <result column="F_SYS_NAME_OLD" property="fSysNameOld" />
+    <result column="F_SYS_NAME" property="fSysName" />
+    <result column="F_NICK_NAME" property="fNickName" />
+    <result column="F_ENABLED" property="fEnabled" />
+    <result column="F_CHANNEL_INDEX" property="fChannelIndex" />
+    <result column="F_NODE_TYPE" property="fNodeType" />
+    <result column="F_REVERSED" property="fReversed" />
+    <result column="F_SOURCED" property="fSourced" />
+    <result column="F_WORK_MODE" property="fWorkMode" />
+    <result column="F_ALARM_ENABLE" property="fAlarmEnable" />
+    <result column="F_ALARM_TYPE" property="fAlarmType" />
+    <result column="F_CLOSE_STATE" property="fCloseState" />
+    <result column="F_ALARM_PRIORITY" property="fAlarmPriority" />
+    <result column="F_INIT_VAL" property="fInitVal" />
+    <result column="F_DESCRIPTION" property="fDescription" />
+    <result column="F_YQBH" property="fYqbh" />
+    <result column="F_CRDATE" property="fCrdate" />
+    <result column="F_CHDATE" property="fChdate" />
+    <result column="F_DO_STATE" property="fDoState" />
+    <result column="F_FAULT_STATE" property="fFaultState" />
+
+  </resultMap>
+  <sql id="Base_Column_List" >
+      F_GUID,
+      F_SBID,
+      F_STRUCT_ID,
+      F_SYS_NAME_OLD,
+      F_SYS_NAME,
+      F_NICK_NAME,
+      F_ENABLED,
+      F_CHANNEL_INDEX,
+      F_NODE_TYPE,
+      F_REVERSED,
+      F_SOURCED,
+      F_WORK_MODE,
+      F_ALARM_ENABLE,
+      F_ALARM_TYPE,
+      F_CLOSE_STATE,
+      F_ALARM_PRIORITY,
+      F_INIT_VAL,
+      F_DESCRIPTION,
+      F_YQBH,
+      F_CRDATE,
+      F_CHDATE,
+      F_DO_STATE,
+      F_FAULT_STATE
+
+  </sql>
+
+  <!-- 查询ai根据 -->
+  <select id="queryDoPoint" resultMap="BESDoPointMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from bes_digit_ouput
+    	<![CDATA[
+			WHERE F_SYS_NAME = #{f_sys_name}
+		]]>
+  </select>
+
+  <!--获取所有ai数据-->
+  <select id="loadAll" resultMap="BESDoPointMap">
+    select
+    <include refid="Base_Column_List" />
+    from bes_digit_ouput
+  </select>
+
+</mapper>

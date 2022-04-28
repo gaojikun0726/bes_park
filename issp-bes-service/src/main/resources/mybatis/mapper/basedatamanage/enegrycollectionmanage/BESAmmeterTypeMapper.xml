@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.efounder.JEnterprise.mapper.basedatamanage.enegrycollectionmanage.BESAmmeterTypeMapper" >
+
+  <resultMap id="AmmeterTypeMap" type="com.efounder.JEnterprise.model.basedatamanage.enegrycollectionmanage.BESAmmeterType" >
+    <id column="F_LXBH" property="fLxbh" jdbcType="VARCHAR" />
+    <result column="F_LXMC" property="fLxmc" jdbcType="VARCHAR" />
+    <result column="F_CRDATE" property="fCrdate" jdbcType="TIMESTAMP" />
+    <result column="F_CHDATE" property="fChdate" jdbcType="TIMESTAMP" />
+  </resultMap>
+  
+  <sql id="Base_Column_List" >
+    F_LXBH, F_LXMC, date_format(F_CRDATE,'%Y-%m-%d %H:%i:%s' ) F_CRDATE ,date_format(F_CHDATE,'%Y-%m-%d %H:%i:%s' ) F_CHDATE
+  </sql>
+  <!-- 关键字查询，分页查询 -->
+  <select id="getAmmeterTypeList" resultMap="AmmeterTypeMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from bes_ammeter_type
+		<where>
+		1=1
+			<if test="keywords != null and keywords != ''"> 
+			and CONCAT(`F_LXBH`,'##',`F_LXMC` ) LIKE CONCAT('%',#{keywords},'%')
+			</if>
+		</where>    
+  </select>
+  
+  <select id="getAmmeterType" resultMap="AmmeterTypeMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from bes_ammeter_type
+		<where>
+			 F_LXBH = #{fLxbh}
+		</where>   
+  </select>
+  
+  <delete id="del_AmmeterType" parameterType="java.lang.String" >
+    delete from bes_ammeter_type
+    where F_LXBH = #{fLxbh}
+  </delete>
+  
+  <insert id="add_AmmeterType" parameterType="com.efounder.JEnterprise.model.basedatamanage.enegrycollectionmanage.BESAmmeterType" >
+    insert into bes_ammeter_type (F_LXBH, F_LXMC, F_CRDATE, 
+      F_CHDATE)
+    values (#{fLxbh}, #{fLxmc}, current_timestamp(),current_timestamp())
+  </insert>
+
+  <update id="edit_AmmeterType" parameterType="com.efounder.JEnterprise.model.basedatamanage.enegrycollectionmanage.BESAmmeterType" >
+    update bes_ammeter_type
+    <set >
+      <if test="fLxmc != null" >
+        F_LXMC = #{fLxmc},
+      </if>
+      <if test="fChdate != null" >
+        F_CHDATE = #{fChdate},
+      </if>
+    </set>
+    where F_LXBH = #{fLxbh}
+  </update>
+  
+  <insert id="insertSelective" parameterType="com.efounder.JEnterprise.model.basedatamanage.enegrycollectionmanage.BESAmmeterType" >
+    insert into bes_ammeter_type
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="fLxbh != null" >
+        F_LXBH,
+      </if>
+      <if test="fLxmc != null" >
+        F_LXMC,
+      </if>
+      <if test="fCrdate != null" >
+        F_CRDATE,
+      </if>
+      <if test="fChdate != null" >
+        F_CHDATE,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="fLxbh != null" >
+        #{fLxbh,jdbcType=VARCHAR},
+      </if>
+      <if test="fLxmc != null" >
+        #{fLxmc,jdbcType=VARCHAR},
+      </if>
+      <if test="fCrdate != null" >
+        #{fCrdate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="fChdate != null" >
+        #{fChdate,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKey" parameterType="com.efounder.JEnterprise.model.basedatamanage.enegrycollectionmanage.BESAmmeterType" >
+    update bes_ammeter_type
+    set F_LXMC = #{fLxmc,jdbcType=VARCHAR},
+      F_CRDATE = #{fCrdate,jdbcType=TIMESTAMP},
+      F_CHDATE = #{fChdate,jdbcType=TIMESTAMP}
+    where F_LXBH = #{fLxbh,jdbcType=VARCHAR}
+  </update>
+
+<!--查询全部或新增的仪表类型数据列表-->
+  <!--查询出逻辑删除的数据-->
+  <!--电表类型增删改的时候都修改更新时间，用更新时间作为比较字段-->
+  <select id="queryAmmeterTypeList" resultType="java.util.Map">
+     select
+     F_LXBH guid,
+     F_LXBH meterTypeNum, F_LXMC meterTypeName,
+     '' creator,'' updater,
+     date_format(F_CRDATE,'%Y-%m-%d %H:%i:%s' ) createTime
+    ,date_format(F_CHDATE,'%Y-%m-%d %H:%i:%s' ) updateTime,
+     hasDelete
+     from
+    ( select F_LXBH, F_LXMC, F_CRDATE, F_CHDATE,'0' hasDelete  from  bes_ammeter_type
+      union
+      select F_LXBH, F_LXMC, F_CRDATE, F_CHDATE,'1' hasDelete from opm_ammeter_type_delete
+    ) t
+    <!--大于上次请求时间-->
+     <where>
+       <if test="lastTime != null and lastTime != ''">
+         and F_CHDATE > str_to_date(FROM_UNIXTIME(#{lastTime}), '%Y-%m-%d %H:%i:%s')
+       </if>
+     </where>
+  </select>
+</mapper>

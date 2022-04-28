@@ -1,0 +1,172 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.efounder.JEnterprise.mapper.usercenter.ESUserSjqxManageMapper">
+
+	<resultMap id="userSjqxMap" type="com.efounder.JEnterprise.model.usercenter.ESUserSjqxManage">
+		<result column="F_YHBH" property="f_yhbh" />
+		<result column="F_QXBH" property="f_qxbh" />
+		<result column="F_SJBH" property="f_sjbh" />
+		<result column="F_QXBZ" property="f_qxbz" />
+		<result column="F_G0" property="f_g0" />
+		<result column="F_G1" property="f_g1" />
+		<result column="F_G2" property="f_g2" />
+		<result column="F_G3" property="f_g3" />
+		<result column="F_G4" property="f_g4" />
+		<result column="F_G5" property="f_g5" />
+		<result column="F_G6" property="f_g6" />
+		<result column="F_G7" property="f_g7" />
+		<result column="F_G8" property="f_g8" />
+		<result column="F_CRDATE" property="f_crdate" />
+		<result column="F_CHDATE" property="f_chdate" />
+		
+	</resultMap>
+	
+
+	<sql id="find_xxx">
+	    <![CDATA[
+			SELECT F_YHBH , F_QXBH , F_SJBH, F_QXBZ , F_G0 , F_G1, F_G2, F_G3, F_G4 ,F_G5 ,F_G6 ,F_G7, F_G8,date_format(F_CRDATE,'%Y-%m-%d %H:%i:%s' )F_CRDATE ,date_format(F_CHDATE,'%Y-%m-%d %H:%i:%s' )F_CHDATE
+	    ]]>
+	</sql>
+
+	<sql id="from_xxx">
+	    <![CDATA[
+	    	FROM ES_USER_SJQX
+	    ]]>
+	</sql>
+
+	<sql id="where_xxx">
+	    <![CDATA[
+	    	WHERE 1=1
+	    ]]>
+	</sql>
+
+	<select id="findUserSjqx" parameterType="string" resultMap="userSjqxMap">
+		<include refid="find_xxx" />
+		<include refid="from_xxx" />
+		<![CDATA[
+			ORDER BY F_CHDATE
+		]]>
+	</select>
+	
+	<select id="findUserSjqxByThreeId" parameterType="string" resultMap="userSjqxMap">
+		<include refid="find_xxx" />
+		<include refid="from_xxx" />
+		<![CDATA[
+			WHERE F_YHBH = #{f_yhbh} and F_QXBH = #{f_qxbh} and F_SJBH = #{f_bhzd}
+		]]>
+	</select>
+	<select id="findUserSjqxList" parameterType="string" resultMap="userSjqxMap">
+		<include refid="find_xxx" />
+		 FROM ${usersjqxTb}
+		<![CDATA[
+			WHERE F_YHBH = #{f_yhbh} and F_QXBH = #{f_qxbh} and F_SJBH in (select ${columns} from ${tableName});
+		]]>
+	</select>
+ 	<select id="findUserSjqxById" parameterType="string" resultMap="userSjqxMap">
+		<include refid="find_xxx" />
+		<include refid="from_xxx" />
+		<![CDATA[
+			WHERE F_YHBH = #{f_yhbh} and F_QXBH = #{f_qxbh} and F_SJBH = #{f_bhzd}
+		]]>
+	</select>
+
+	<select id="getcolumnsBytableName" resultType="java.util.Map" statementType="STATEMENT">
+	    select 
+	        ${columns}
+	    	from ${tableName}
+	       <!--  where COMPANY_REMARK = ${company} -->
+	  </select>
+
+	<select id="findUserSjqxByKey" parameterType="string" resultMap="userSjqxMap">
+		<include refid="find_xxx" />
+		<include refid="from_xxx" />
+		<where>
+		1=1 
+			<if test="keywords != null and keywords != ''"> 
+			 and CONCAT(`f_yhbh`,'##',`f_qxbh` ) LIKE CONCAT('%',#{keywords},'%')
+			 </if>
+		</where>
+	</select>
+	
+	
+	
+	
+	<!-- <insert id="addUserSjqx" parameterType="com.efounder.JEnterprise.model.usercenter.ESUserSjqxManage"> 
+        INSERT INTO ES_USER_SJQX(
+        F_YHBH,F_QXBH,F_SJBH, F_QXBZ,
+        F_G0,F_G1, F_G2,F_G3,F_G4,F_G5,F_G6,F_G7, F_G8,F_CRDATE, F_CHDATE) values(
+        #{f_yhbh},#{f_qxbh},#{f_sjbh},#{f_qxbz}, #{f_g0},#{f_g1},#{f_g2},#{f_g3},#{f_g4},#{f_g5},#{f_g6},#{f_g7},#{f_g8},NOW(),NOW()) 
+    </insert> -->
+    <!-- 批量删除 -->
+    <delete id="delPartUserSjqx">
+        delete from ${usersjqxTb} where F_YHBH = #{f_yhbh} and  F_QXBH = #{f_qxbh} and F_SJBH in
+        <foreach collection="list" item="item" separator="," open="(" close=")">
+          #{item}
+        </foreach>
+	</delete>
+   	<delete id="delUserSjqx" >
+		DELETE FROM ${usersjqxTb} WHERE F_YHBH = #{f_yhbh} and  F_QXBH = #{f_qxbh}
+	</delete>
+	<!--批量添加信息 -->
+	<insert id="addUserSjqx"   parameterType="java.util.ArrayList">
+		INSERT INTO ${usersjqxTb}
+		(F_YHBH,F_QXBH,F_SJBH, F_QXBZ,F_G0,F_G1, F_G2,F_G3,F_G4,F_G5,F_G6,F_G7, F_G8,F_CRDATE, F_CHDATE)
+		VALUES
+		<foreach collection="list" item="item" index="index" separator=","> 
+        	(#{item.f_yhbh},#{item.f_qxbh},#{item.f_sjbh},#{item.f_qxbz},#{item.f_g0}, #{item.f_g1},
+        	#{item.f_g2}, #{item.f_g3}, #{item.f_g4}, #{item.f_g5}, #{item.f_g6}, #{item.f_g7}, #{item.f_g8},
+        	 current_timestamp(), current_timestamp()) 
+    	</foreach> 
+	</insert>
+	
+	
+	<!--  #{f_yhbh},#{f_qxbh},#{f_sjbh},#{f_qxbz}, -->
+	<update id="upUserSjqx" parameterType="com.efounder.JEnterprise.model.usercenter.ESUserSjqxManage">
+		UPDATE ES_USER_SJQX
+		<set>
+			<if test="f_yhbh != null and f_yhbh!='' ">
+				F_YHBH = #{f_yhbh},
+			</if>
+			<if test="f_qxbh != null and f_qxbh!='' ">
+				F_QXBH = #{f_qxbh},
+			</if>
+			<if test="f_sjbh != null and f_sjbh!='' ">
+				F_SJBH = #{f_sjbh},
+			</if>
+			<if test="f_qxbz != null and f_qxbz!='' ">
+				F_QXBZ = #{f_qxbz},
+			</if>
+			<if test="f_g0 != null and f_g0!='' ">
+				F_G0 = #{f_g0},
+			</if>
+			<if test="f_g1 != null and f_g1!='' ">
+				F_G1 = #{f_g1},
+			</if>
+			<if test="f_g2 != null and f_g2!='' ">
+				F_G2 = #{f_g2},
+			</if>
+			<if test="f_g3 != null and f_g3!='' ">
+				F_G3 = #{f_g3},
+			</if>
+			<if test="f_g4 != null and f_g4!='' ">
+				F_G4 = #{f_g4},
+			</if>
+			<if test="f_g5 != null and f_g5!='' ">
+				F_G5 = #{f_g5},
+			</if>
+			<if test="f_g6 != null and f_g6!='' ">
+				F_G6 = #{f_g6},
+			</if>
+			<if test="f_g7 != null and f_g7!='' ">
+				F_G7 = #{f_g7},
+			</if>
+			<if test="f_g8 != null and f_g8!='' ">
+				F_G8 = #{f_g8},
+			</if>
+			F_CHDATE=NOW() 
+		</set>
+		WHERE  F_YHBH = #{f_yhbh} and  F_QXBH = #{f_qxbh} and  F_SJBH = #{f_sjbh}
+	</update>
+
+</mapper>

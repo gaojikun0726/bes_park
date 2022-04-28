@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.efounder.JEnterprise.platform.mapper.BESCalculateDataDailyMapper">
+
+    <!--批量插入电表数据-->
+    <insert id="insertBulkAmmeterData" parameterType="java.util.ArrayList">
+        INSERT INTO bes_calculate_data_daily
+        (
+            F_ID,
+            F_DBSYS_NAME,
+            F_DATA,
+            F_CJSJ,
+            F_YQBH
+        )
+        VALUES
+        <foreach collection="list" item="item" index="index" separator=",">
+        (
+             #{item.id},
+             #{item.dbsysName},
+             #{item.data},
+             #{item.cjsj},
+             #{item.yqbh}
+         )
+        </foreach>
+    </insert>
+</mapper>

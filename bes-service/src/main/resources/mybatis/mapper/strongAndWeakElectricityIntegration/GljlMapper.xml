@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.efounder.JEnterprise.mapper.strongAndWeakElectricityIntegration.GljlMapper">
+    <resultMap id="GljlMap"
+               type="com.efounder.JEnterprise.model.strongAndWeakElectricityIntegration.GljlModel">
+        <result column="F_ID" property="f_id" />
+        <result column="F_USERNAME" property="f_username" />
+        <result column="F_REMARK" property="f_remark" />
+        <result column="F_TYPE" property="f_type" />
+        <result column="F_TYPE_NAME" property="f_type_name" />
+        <result column="F_GLTIME" property="f_gltime" />
+        <result column="F_CRDATE" property="f_crdate" />
+        <result column="F_CHDATE" property="f_chdate" />
+
+    </resultMap>
+
+    <sql id="find_xxx">
+        <![CDATA[
+	  SELECT
+	    a.F_ID,
+	    a.F_USERNAME,
+	    a.F_REMARK,
+        a.F_TYPE,
+        CASE F_TYPE WHEN '2' THEN '浏览器异常关闭' WHEN '1' THEN '通信' WHEN '0' THEN '维护' END AS F_TYPE_NAME,
+        date_format(a.F_GLTIME,'%Y-%m-%d %H:%i:%s' )F_GLTIME,
+        date_format(a.F_CRDATE,'%Y-%m-%d %H:%i:%s' )F_CRDATE ,date_format(a.F_CHDATE,'%Y-%m-%d %H:%i:%s' )F_CHDATE
+	  ]]>
+    </sql>
+    <sql id="from_xxx">
+        <![CDATA[
+	      FROM strongandweakelectricityintegration_gljl_log a
+	    ]]>
+    </sql>
+
+    <!--分页显示系统登录日志信息 -->
+    <select id="loadGljlxx" parameterType="String" resultMap="GljlMap">
+        <include refid="find_xxx" />
+        <include refid="from_xxx" />
+        <where>
+            1=1
+            <if test="keywords != null and keywords != ''">
+                and CONCAT(a.`f_username`) LIKE CONCAT('%',#{keywords},'%')
+            </if>
+        </where>
+        order by F_CHDATE desc
+    </select>
+
+
+    <!-- 用户操作时插入操作信息 -->
+    <insert id="addGljlxx"
+            parameterType="com.efounder.JEnterprise.model.strongAndWeakElectricityIntegration.GljlModel">
+        INSERT INTO
+        strongandweakelectricityintegration_gljl_log(F_ID,F_USERNAME,F_REMARK,F_TYPE,F_GLTIME,F_CRDATE,F_CHDATE)
+        values(#{f_id},#{f_username},#{f_remark},#{f_type},#{f_gltime},NOW(),NOW())
+    </insert>
+
+</mapper>

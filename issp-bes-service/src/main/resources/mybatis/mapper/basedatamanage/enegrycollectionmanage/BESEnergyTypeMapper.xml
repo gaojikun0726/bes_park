@@ -1,0 +1,180 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.efounder.JEnterprise.mapper.basedatamanage.enegrycollectionmanage.BESEnergyTypeMapper" >
+
+  <resultMap id="EnergyTypeMap" type="com.efounder.JEnterprise.model.basedatamanage.enegrycollectionmanage.BESEnergyType" >
+    <id column="F_GUID" property="fGuid" />
+    <result column="F_NYBH" property="fNybh" />
+    <result column="F_NYMC" property="fNymc" />
+    <result column="F_PRICE" property="fPrice" />
+    <result column="F_COAL_AMOUNT" property="fCoalAmount" />
+    <result column="F_CO2" property="fCo2" />
+    <result column="F_UNIT" property="fUnit" />
+    <result column="F_CRDATE" property="fCrdate" />
+    <result column="F_CHDATE" property="fChdate" />
+  </resultMap>
+  
+  <sql id="Base_Column_List" >
+    F_GUID,F_NYBH, F_NYMC, F_PRICE, F_COAL_AMOUNT, F_CO2, F_UNIT,
+    date_format(F_CRDATE,'%Y-%m-%d %H:%i:%s' ) F_CRDATE ,date_format(F_CHDATE,'%Y-%m-%d %H:%i:%s' ) F_CHDATE
+  </sql>
+  <!-- 关键字查询，分页查询 -->
+  <select id="getEnergyTypeList" resultMap="EnergyTypeMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from bes_energy_type
+		<where>
+		1=1
+			<if test="keywords != null and keywords != ''"> 
+			and CONCAT(`F_NYBH`,'##',`F_NYMC` ) LIKE CONCAT('%',#{keywords},'%')
+			</if>
+		</where>
+		order by F_NYBH
+  </select>
+  
+  <!-- 查询全部类型  -->
+  <select id="getAllEnergyType" resultMap="EnergyTypeMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from bes_energy_type
+  </select>
+  
+  <select id="getEnergyType" resultMap="EnergyTypeMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from bes_energy_type
+		<where>
+          F_GUID = #{fGuid}
+		</where>
+  </select>
+  
+  <!-- 删除能源信息 -->
+  <delete id="energyType_del" parameterType="java.lang.String" >
+    delete from bes_energy_type
+    where F_GUID = #{fGuid}
+  </delete>
+  <!-- 添加能源类型 -->
+  <insert id="add_EnergyType" parameterType="com.efounder.JEnterprise.model.basedatamanage.enegrycollectionmanage.BESEnergyType" >
+    insert into bes_energy_type (F_GUID,F_NYBH, F_NYMC, F_PRICE, 
+      F_COAL_AMOUNT, F_CO2,F_UNIT, F_CRDATE,
+      F_CHDATE)
+    values (#{fGuid},#{fNybh}, #{fNymc}, #{fPrice}, 
+      #{fCoalAmount}, #{fCo2},#{fUnit},  current_timestamp(),current_timestamp())
+  </insert>
+  
+  <update id="edit_EnergyType" parameterType="com.efounder.JEnterprise.model.basedatamanage.enegrycollectionmanage.BESEnergyType" >
+    update bes_energy_type
+    <set >
+      <if test="fNymc != null" >
+        F_NYMC = #{fNymc},
+      </if>
+      <if test="fPrice != null" >
+        F_PRICE = #{fPrice},
+      </if>
+      <if test="fCoalAmount != null" >
+        F_COAL_AMOUNT = #{fCoalAmount},
+      </if>
+      <if test="fCo2 != null" >
+        F_CO2 = #{fCo2},
+      </if>
+      <if test="fUnit != null" >
+        F_UNIT = #{fUnit},
+      </if>
+        F_CHDATE = current_timestamp()
+    </set>
+    where F_GUID = #{fGuid}
+  </update>
+  
+  <insert id="insertSelective" parameterType="com.efounder.JEnterprise.model.basedatamanage.enegrycollectionmanage.BESEnergyType" >
+    insert into bes_energy_type
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="fNybh != null" >
+        F_NYBH,
+      </if>
+      <if test="fNymc != null" >
+        F_NYMC,
+      </if>
+      <if test="fPrice != null" >
+        F_PRICE,
+      </if>
+      <if test="fCoalAmount != null" >
+        F_COAL_AMOUNT,
+      </if>
+      <if test="fCo2 != null" >
+        F_CO2,
+      </if>
+      <if test="fCrdate != null" >
+        F_CRDATE,
+      </if>
+      <if test="fChdate != null" >
+        F_CHDATE,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="fNybh != null" >
+        #{fNybh,jdbcType=VARCHAR},
+      </if>
+      <if test="fNymc != null" >
+        #{fNymc,jdbcType=VARCHAR},
+      </if>
+      <if test="fPrice != null" >
+        #{fPrice,jdbcType=VARCHAR},
+      </if>
+      <if test="fCoalAmount != null" >
+        #{fCoalAmount,jdbcType=VARCHAR},
+      </if>
+      <if test="fCo2 != null" >
+        #{fCo2,jdbcType=VARCHAR},
+      </if>
+      <if test="fCrdate != null" >
+        #{fCrdate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="fChdate != null" >
+        #{fChdate,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  
+  <update id="updateByPrimaryKey" parameterType="com.efounder.JEnterprise.model.basedatamanage.enegrycollectionmanage.BESEnergyType" >
+    update bes_energy_type
+    set F_NYMC = #{fNymc,jdbcType=VARCHAR},
+      F_PRICE = #{fPrice,jdbcType=VARCHAR},
+      F_COAL_AMOUNT = #{fCoalAmount,jdbcType=VARCHAR},
+      F_CO2 = #{fCo2,jdbcType=VARCHAR},
+      F_CRDATE = #{fCrdate,jdbcType=TIMESTAMP},
+      F_CHDATE = #{fChdate,jdbcType=TIMESTAMP}
+    where F_NYBH = #{fNybh,jdbcType=VARCHAR}
+  </update>
+
+
+  <select id="checkRepeatFNybh" parameterType="String" resultType="int">
+    SELECT
+        count( * ) AS count
+    FROM
+        bes_energy_type
+    WHERE
+    F_NYBH = #{fNybh,jdbcType=VARCHAR}
+  </select>
+
+  <select id="checkRepeatFNymc" parameterType="String" resultType="int">
+    SELECT
+        count( * ) AS count
+    FROM
+        bes_energy_type
+    WHERE
+    F_NYMC = #{fNymc,jdbcType=VARCHAR}
+  </select>
+
+  <select id="checkEditRepeatFNymc" parameterType="String" resultType="int">
+    SELECT
+    count( * ) AS count
+    FROM
+    bes_energy_type
+    WHERE
+    F_NYMC = #{fNymc,jdbcType=VARCHAR}
+    <if test=" fGuid !=null and fGuid!='' ">
+      and F_GUID!=#{fGuid}
+    </if>
+  </select>
+
+</mapper>

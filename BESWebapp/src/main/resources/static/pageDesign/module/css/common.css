@@ -1,0 +1,23 @@
+/*-------layui弹窗样式--------------*/
+.designWin{
+    padding: 10px 20px 10px 10px;
+}
+.design_win_btn_div{
+    text-align: center;
+    margin-top:1vh;
+}
+.design_win_btn_div button{
+    text-align: center;
+    display: inline !important;
+    width: 4.5vw;
+    font-size: 2.1vh;
+}
+/*-------layui弹窗样式--------------*/
+
+svg#design_svg {
+    position: absolute;
+    top:0;left:0;
+    /*防止覆盖掉滚动条，使其不可滚动*/
+    width:calc(100% - 10px)!important;
+    height: calc(100% - 10px)!important;
+}

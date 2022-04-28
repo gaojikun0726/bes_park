@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.efounder.JEnterprise.mapper.usercenter.ESUserGroupMapper">
+
+	<resultMap id="userGroupMap" type="com.efounder.JEnterprise.model.usercenter.ESUserGroup">
+		<result column="F_ZBH" property="f_zbh" />
+		<result column="F_ZMC" property="f_zmc" />
+		<result column="F_PZBH" property="f_pzbh" />
+		<result column="F_JS" property="f_js" />
+		<result column="F_MX" property="f_mx" />
+		<result column="F_REMARK" property="f_remark" />
+		<result column="F_CRDATE" property="f_crdate" />
+		<result column="F_CHDATE" property="f_chdate" />
+	</resultMap>
+
+	
+
+	<sql id="find_xxx">
+	    <![CDATA[
+			SELECT F_ZBH , F_ZMC , F_PZBH , F_REMARK,F_JS , F_MX ,date_format(F_CRDATE,'%Y-%m-%d %H:%i:%s' )F_CRDATE ,date_format(F_CHDATE,'%Y-%m-%d %H:%i:%s' )F_CHDATE
+	    ]]>
+	</sql>
+
+	<sql id="from_xxx">
+	    <![CDATA[
+	    	FROM ES_USER_GROUP
+	    ]]>
+	</sql>
+
+	<sql id="where_xxx">
+	    <![CDATA[
+	    	WHERE 1=1
+	    ]]>
+	</sql>
+	<select id="loadAll" parameterType="string" resultMap="userGroupMap">
+		<include refid="find_xxx" />
+		<include refid="from_xxx" />
+	</select>
+	<select id="findById" parameterType="string" resultMap="userGroupMap">
+		<include refid="find_xxx" />
+		<include refid="from_xxx" />
+		<![CDATA[
+			WHERE F_ZBH=#{f_zbh}
+		]]>
+	</select>
+
+	<select id="findUserGroupByPage" parameterType="string" resultMap="userGroupMap">
+		<include refid="find_xxx" />
+		<include refid="from_xxx" />
+		<where>
+		1=1 
+			<if test="f_zmc != null and f_zmc != ''"> 
+			 and CONCAT(`f_zbh`,'##',`f_zmc` ) LIKE CONCAT('%',#{f_zmc},'%')
+			 </if>
+		</where>
+	</select>
+
+<!-- 根据编号查找所有子节点 -->
+	<select id="findChildByZbh" parameterType="string" resultMap="userGroupMap">
+		<include refid="find_xxx" />
+		<include refid="from_xxx" />
+		<where>
+			F_PZBH = #{f_zbh} 
+		</where>
+		order by F_ZBH
+	</select>
+
+   <select id="findChildByZbh_all" parameterType="string" resultMap="userGroupMap">
+		<include refid="find_xxx" />
+		<include refid="from_xxx" />
+		<where>
+			F_ZBH in (${f_zbh}) 
+		</where>
+		order by F_ZBH
+	</select>
+
+	<update id="update" parameterType="com.efounder.JEnterprise.model.usercenter.ESUserGroup">
+		UPDATE ES_USER_GROUP
+		<set>
+			<if test="f_zmc != null and f_zmc!=''">
+				F_ZMC = #{f_zmc},
+			</if>
+			<if test="f_remark!= null and f_remark!='' ">
+				F_REMARK = #{f_remark},
+			</if>
+			<!--修改时间  -->
+			F_CHDATE = current_timestamp()
+		</set>
+		WHERE F_ZBH=#{f_zbh}
+	</update>
+<!-- 根据编号更新明细 -->
+	<update id="updateMxByZbh" parameterType="string">
+		UPDATE es_user_group
+		<set>
+			F_MX = #{f_mx}
+		</set>
+		WHERE F_ZBH=#{f_zbh}
+	</update>
+	<insert id="insert" parameterType="com.efounder.JEnterprise.model.usercenter.ESUserGroup">
+		INSERT INTO ES_USER_GROUP(F_ZBH ,F_ZMC, F_PZBH,F_REMARK,F_JS,F_MX,  F_CRDATE, F_CHDATE)
+		 VALUES(#{f_zbh} , #{f_zmc} , #{f_pzbh} , #{f_remark} , #{f_js} ,#{f_mx},  current_timestamp(),current_timestamp())
+	</insert>
+
+	
+	<delete id="delete" parameterType="string">
+		DELETE FROM ES_USER_GROUP WHERE F_ZBH=#{f_zbh}
+	</delete>
+<!-- 删除本节点 -->
+	<delete id="deleteByZBH" parameterType="string">
+		DELETE FROM es_user_group WHERE F_ZBH = #{f_zbh}
+	</delete>
+	
+	<select id="findGroupByGroupBh" parameterType="string" resultMap="userGroupMap">
+		<include refid="find_xxx" />
+		<include refid="from_xxx" />
+		<![CDATA[
+			WHERE F_ZBH=#{f_zbh}
+		]]>
+	</select>
+
+</mapper>

@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.efounder.JEnterprise.mapper.usercenter.ESUserRoleGnqxManageMapper">
+
+	<resultMap id="userGroupGnqxMap" type="com.efounder.JEnterprise.model.usercenter.ESUserRoleGnqxManage">
+		<result column="F_ROLEBH" property="f_rolebh" />
+		<result column="F_GNZDID" property="f_gnzdid" />
+		<result column="F_SH" property="f_sh" />
+		<result column="F_CRDATE" property="f_crdate" />
+		<result column="F_CHDATE" property="f_chdate" />
+	</resultMap>
+	
+
+	<sql id="find_xxx">
+	    <![CDATA[
+			SELECT F_ROLEBH ,F_GNZDID, F_SH ,date_format(F_CRDATE,'%Y-%m-%d %H:%i:%s' )F_CRDATE ,date_format(F_CHDATE,'%Y-%m-%d %H:%i:%s' )F_CHDATE
+	    ]]>
+	</sql>
+
+	<sql id="from_xxx">
+	    <![CDATA[
+	    	FROM ES_ROLE_GNQX
+	    ]]>
+	</sql>
+
+	<sql id="where_xxx">
+	    <![CDATA[
+	    	WHERE 1=1
+	    ]]>
+	</sql>
+
+	<select id="findUserRoleGnqx" parameterType="string" resultMap="userGroupGnqxMap">
+		<include refid="find_xxx" />
+		<include refid="from_xxx" />
+		<![CDATA[
+			ORDER BY F_CHDATE
+		]]>
+	</select>
+	
+	<select id="findUserRoleGnqxByRoleId" parameterType="string" resultMap="userGroupGnqxMap">
+		<include refid="find_xxx" />
+		 FROM  ${classifygnqxTb}
+		<![CDATA[
+			WHERE F_ROLEBH = #{f_rolebh}
+		]]>
+	</select>
+    
+    
+  <!--  	<delete id="delUserRoleGnqx" parameterType="string">
+		delete a from ES_ROLE_GNQX a INNER JOIN es_gnzd b on b.F_GNBH = a.F_GNZDID WHERE a.F_ROLEBH=#{f_rolebh} and b.F_MKGUID =#{mkguid}
+	</delete> -->
+	<!-- 批量删除 -->
+    <delete id="delUserRoleGnqx">
+        delete from ${tablename} where   F_ROLEBH=#{f_rolebh} and F_GNZDID in
+        <foreach collection="list" item="item" separator="," open="(" close=")">
+          #{item.f_gnzdid}
+        </foreach>
+	</delete>
+    
+     <insert id="addUserRoleGnqx"  parameterType="java.util.ArrayList">
+		INSERT INTO ${tablename}
+		(F_ROLEBH, F_GNZDID, F_SH, F_CRDATE, F_CHDATE)
+		VALUES
+		<foreach collection="list" item="item" index="index" separator=","> 
+        	(#{item.f_rolebh},#{item.f_gnzdid},#{item.f_sh},current_timestamp(), current_timestamp()) 
+    	</foreach> 
+	</insert>
+	
+    <update id="upUserRoleGnqx">
+			update ${tablename} 
+			<set>
+			 F_SH= '1'
+			</set>
+			WHERE F_ROLEBH = #{f_rolebh} and F_GNZDID in 
+		 <foreach collection="list" item="item" separator="," open="("  close=")">
+			 #{item.f_gnzdid}
+		</foreach>
+	</update>
+	
+	<!-- <update id="upUserRoleGnqx" parameterType="com.efounder.JEnterprise.mapper.usercenter.ESUserRoleGnqxManageMapper">
+		UPDATE ES_ROLE_GNQX
+		<set>
+			<if test="f_rolebh != null and f_rolebh!='' ">
+				F_ROLEBH = #{f_rolebh},
+			</if>
+			<if test="f_sh != null and f_sh!='' ">
+				F_SH = #{f_sh},
+			</if>
+			F_CHDATE=NOW() 
+		</set>
+		WHERE  F_ROLEBH = #{f_rolebh}
+	</update> -->
+
+
+</mapper>

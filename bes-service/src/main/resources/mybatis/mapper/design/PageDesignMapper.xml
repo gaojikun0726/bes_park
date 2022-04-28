@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.efounder.JEnterprise.design.mapper.PageDesignMapper" >
+
+  <!--查询区域树-->
+  <select id="queryAreaTree" resultType="java.util.Map">
+    select id,name as text,parent,sort_order,'floor' as type
+				from a_design_area
+				where hide_state is null or hide_state != '00'
+				order by create_time,sort_order
+  </select>
+
+  <!--新增区域信息（实体类）-->
+  <insert id="addDesignArea">
+    insert into a_design_area (id,name,parent,create_time,hide_state)
+    values(uuid(),#{designArea.name},#{designArea.parent},sysdate(),#{designArea.hideState})
+  </insert>
+
+  <!--新增区域信息（map）-->
+  <insert id="addArea">
+    insert into a_design_area (id,name,parent,create_time,hide_state)
+    values(#{areaId},#{name},#{parent},sysdate(),#{hideState})
+  </insert>
+
+  <!--修改区域信息-->
+  <update id="editArea">
+    update a_design_area set
+    name = #{name},
+    update_time = sysdate()
+    where id = #{id}
+  </update>
+
+  <!--修改隐藏标志位-->
+  <update id="hideArea">
+    update a_design_area set
+    hide_state = #{hideState}
+    where id = #{id}
+  </update>
+
+  <update id="hideAreaList">
+     update a_design_area set
+    hide_state = #{hideState}
+    where id in
+    <foreach collection="idList" separator="," open="(" close=")" item="id">
+      #{id}
+    </foreach>
+  </update>
+
+  <!--查询当前节点及其所有子节点id-->
+  <select id="queryAreaChildren" resultType="java.lang.String">
+     select id from a_design_area
+     where (hide_state != #{hideState} or hide_state is null)
+     and find_in_set(id, getChildrenArea(#{id}))
+  </select>
+
+
+  <!--隐藏当前节点及其所有的子节点-->
+  <update id="hideChildrenArea">
+   update s_design_area set
+   hide_state = #{hideState}
+   where id in (
+          select  id from a_design_area where (hide_state != #{hideState} or hide_state is null)
+            and
+          find_in_set(id, getChildrenArea(#{id}));
+        )
+
+  </update>
+
+  <!--保存设计页面-->
+  <insert id="insert">
+    insert into a_design_page_info (id,html,create_time)values (uuid(),#{content},sysdate())
+  </insert>
+
+  <!--新增设计页面-->
+  <insert id="addPage">
+    insert into a_design_page_info (id,html,create_time,hide_state,area_id)values (#{pageId},#{html},sysdate(),#{hideState},#{areaId})
+  </insert>
+
+  <!--修改设计页面-->
+  <update id="editPage">
+    update a_design_page_info set
+    html = #{html},
+    update_time = sysdate()
+    where area_id = #{areaId}
+  </update>
+
+  <!--隐藏设计页面-->
+  <update id="hidePage">
+    update a_design_page_info set
+    hide_state = #{hideState}
+    where area_id = #{id}
+  </update>
+
+  <!--隐藏设计页面-->
+  <update id="hidePageByAreaList">
+    update a_design_page_info set
+    hide_state = #{hideState}
+    where area_id in
+     <foreach collection="idList" separator="," open="(" close=")" item="id">
+       #{id}
+     </foreach>
+
+  </update>
+
+  <!--查询设计页面-->
+  <select id="queryPageInfo" resultType="java.util.Map">
+    select id,html,area_id from a_design_page_info
+    where  area_id = #{areaId}
+  </select>
+
+  <!--查询-->
+  <select id="queryOne" resultType="java.util.Map">
+    select id,html from a_design_page_info
+    where 1 = 1
+    <if test="id != null and id != ''">
+      and id = #{id}
+    </if>
+      order by create_time desc
+      limit 1
+  </select>
+
+  <update id="copyHtmlByAreaId">
+    update a_design_page_info set html = (
+      select html from (select html from a_design_page_info where area_id = #{copyId}) t
+    )
+    where area_id = #{targetId}
+  </update>
+</mapper>

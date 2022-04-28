@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.efounder.JEnterprise.platform.mapper.AssetsInfoMapper" >
+
+    <sql id="all_column">
+        id, name, code, identifyFlag, status, purpose, serialNo, positionId, positionType, positionDesc, deviceOwner, responsibleCompany, responsibleDept, responsiblePerson, user, categoryId, categoryCode, applicationNo, recordDate, storageDate, price, band, modal, specification, material, weight, weightUnit, hasDelete, remark, creator, createDate, updater, updateDate
+    </sql>
+
+    <!--根据资产类型编码查询所有的资产编码-->
+    <!--排除已经关联电表的资产编码-->
+    <select id="getCodeList" resultType="java.lang.String">
+        SELECT code
+        FROM opm_assets_info
+        WHERE hasDelete = '0'
+        AND categoryCode = #{typeCode}
+        and code not in (
+            select ifnull(assets_code,'') from
+					(select assets_code from bes_ammeter
+						union
+						select assets_code from opm_ammeter_delete
+					) a
+            )
+        order by code
+    </select>
+
+
+    <!--查询该资产编码是否存在于资产表（未删除的数据）中-->
+    <select id="assetsCodeExist" resultType="java.lang.Integer">
+        SELECT count(*)
+        FROM opm_assets_info
+        WHERE hasDelete = '0'
+        AND code = #{assetsCode}
+        AND categoryCode in
+        <foreach collection="categoryCode" item="item" open="(" close=")" separator=",">
+            #{item}
+        </foreach>
+    </select>
+
+    <!--查询电表表中是否有重复的
+    电表新增，不传fGuid,电表修改，传修改的电表fGuid-->
+    <select id="querySameCode" resultType="java.lang.Integer">
+        select count(*)
+        from
+        ( select f_guid,assets_code from bes_ammeter
+          union
+          select f_guid,assets_code from opm_ammeter_delete
+        ) t
+        where assets_code = #{assetsCode}
+        <if test="fGuid != null and fGuid != ''">
+            and f_guid != #{fGuid}
+        </if>
+    </select>
+
+
+    <!--查询某种类型设备列表-->
+    <select id="getDeviceTypeList" resultType="java.util.Map">
+        select id, name, code,serialNo, positionId, positionType, positionDesc, categoryId, categoryCode
+        from opm_assets_info
+        WHERE hasDelete = '0'
+        AND categoryCode = #{typeCode}
+    </select>
+
+    <!--根据设备类型编码查询设备唯一序列号列表-->
+    <select id="getDeviceSerialList" resultType="java.lang.String">
+        select serialNo
+        from opm_assets_info
+        WHERE hasDelete = '0'
+        AND categoryCode = #{typeCode}
+    </select>
+
+    <!--查询灯杆的设备序列号是否重复-->
+    <select id="querySameSerial" resultType="java.lang.Integer">
+        select count(*) from seb_point
+        <where>
+            and F_SCREEN_CODE = #{screenCode}
+            <if test="fGuid != null and fGuid != ''">
+                and F_GUID != #{fGuid}
+            </if>
+        </where>
+    </select>
+</mapper>

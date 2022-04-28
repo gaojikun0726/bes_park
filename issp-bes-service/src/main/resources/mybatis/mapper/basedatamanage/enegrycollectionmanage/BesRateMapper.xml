@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.efounder.JEnterprise.mapper.basedatamanage.enegrycollectionmanage.BesRateMapper" >
+
+    <resultMap id="BaseResultMap" type="com.efounder.JEnterprise.model.basedatamanage.enegrycollectionmanage.BesRate" >
+        <id column="F_RATE_BH" property="fRateBh" jdbcType="VARCHAR" />
+        <result column="F_COMM_RATE" property="fCommRate" jdbcType="VARCHAR" />
+        <result column="F_CRDATE" property="fCrdate" jdbcType="TIMESTAMP" />
+        <result column="F_CHDATE" property="fChdate" jdbcType="TIMESTAMP" />
+    </resultMap>
+
+    <sql id="Base_Column_List" >
+        F_RATE_BH, F_COMM_RATE, date_format(F_CRDATE,'%Y-%m-%d %H:%i:%s' ) F_CRDATE ,date_format(F_CHDATE,'%Y-%m-%d %H:%i:%s' ) F_CHDATE
+    </sql>
+    
+    <!-- 分页 -->
+    <select id="besRatePage" resultMap="BaseResultMap" parameterType="java.lang.String">
+    select 
+    <include refid="Base_Column_List"></include>
+    from bes_rate
+    <where>
+     1= 1
+    <if test="keywords != null and keywords != ''"> 
+    and CONCAT(`F_RATE_BH`,'##',`F_COMM_RATE` ) LIKE CONCAT('%',#{keywords},'%')
+    </if>
+    </where>
+    order by F_RATE_BH
+    </select>
+	
+	<!-- 单行查询 -->
+    <select id="selBesRate" resultMap="BaseResultMap" parameterType="java.lang.String" >
+        select 
+        <include refid="Base_Column_List" />
+        from bes_rate
+        where F_RATE_BH = #{fRateBh,jdbcType=VARCHAR}
+    </select>
+	<!-- 删除 -->
+    <delete id="delBesRate" parameterType="java.lang.String" >
+        delete from bes_rate
+        where F_RATE_BH = #{fRateBh,jdbcType=VARCHAR}
+    </delete>
+	<!-- 添加 -->
+    <insert id="insBesRate" parameterType="com.efounder.JEnterprise.model.basedatamanage.enegrycollectionmanage.BesRate" >
+        insert into bes_rate
+        <trim prefix="(" suffix=")" suffixOverrides="," >
+            <if test="fRateBh != null" >
+                F_RATE_BH,
+            </if>
+            <if test="fCommRate != null" >
+                F_COMM_RATE,
+            </if>
+            <if test="fCrdate != null" >
+                F_CRDATE,
+            </if>
+            <if test="fChdate != null" >
+                F_CHDATE,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides="," >
+            <if test="fRateBh != null" >
+                #{fRateBh,jdbcType=VARCHAR},
+            </if>
+            <if test="fCommRate != null" >
+                #{fCommRate,jdbcType=VARCHAR},
+            </if>
+            <if test="fCrdate != null" >
+                #{fCrdate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="fChdate != null" >
+                #{fChdate,jdbcType=TIMESTAMP},
+            </if>
+        </trim>
+    </insert>
+	<!-- 更新 -->
+    <update id="updBesRate" parameterType="com.efounder.JEnterprise.model.basedatamanage.enegrycollectionmanage.BesRate" >
+        update bes_rate
+        <set >
+            <if test="fCommRate != null" >
+                F_COMM_RATE = #{fCommRate,jdbcType=VARCHAR},
+            </if>
+            <if test="fCrdate != null" >
+                F_CRDATE = #{fCrdate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="fChdate != null" >
+                F_CHDATE = #{fChdate,jdbcType=TIMESTAMP},
+            </if>
+        </set>
+        where F_RATE_BH = #{fRateBh,jdbcType=VARCHAR}
+    </update>
+
+  <select id="checkRepeatFRateBh" parameterType="string" resultType="int">
+    SELECT
+        count( * ) AS count
+    FROM
+        bes_rate
+    WHERE
+    F_RATE_BH = #{fRateBh,jdbcType=VARCHAR}
+  </select>
+
+   <select id="checkRepeatFCommRate" parameterType="string" resultType="int">
+    SELECT
+        count( * ) AS count
+    FROM
+        bes_rate
+    WHERE
+    F_COMM_RATE = #{fCommRate,jdbcType=VARCHAR}
+  </select>
+
+</mapper>

@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.efounder.JEnterprise.mapper.quartz.SysJobPlanMapper">
+
+    <select id="selectPointInfomationByModeId" parameterType="string" resultType="map">
+        select
+            f_pointId,
+            f_pointname
+        from
+            bes_scenepoint
+        where
+            f_scenemodeId = #{modeId,jdbcType=VARCHAR}
+    </select>
+
+    <select id="selectPlanInfomation" parameterType="string" resultType="map">
+        select * from bes_plan where f_id = #{planId,jdbcType=VARCHAR}
+    </select>
+
+    <select id="selectTaskInfomation" parameterType="string" resultType="map">
+        select * from bes_timetask where  f_pId = #{planId,jdbcType=VARCHAR}
+    </select>
+
+    <select id="queryPointTypeByPointId" parameterType="string" resultType="map">
+        select
+            F_TYPE
+        from
+            bes_sbpz_struct
+        where
+            F_ID = #{pointId,jdbcType=VARCHAR}
+    </select>
+
+    <!--    DI点查询-->
+    <select id="queryDiPointDateList" parameterType="string" resultType="map">
+        select F_GUID,F_SBID,F_STRUCT_ID,F_SYS_NAME,F_SYS_NAME_OLD,F_NODE_TYPE,F_INIT_VAL,F_CRDATE,F_CHDATE from bes_digit_input where F_STRUCT_ID = #{pointId,jdbcType=VARCHAR}
+    </select>
+
+    <!--    Do点查询-->
+    <select id="queryDoPointDateList" parameterType="string" resultType="map">
+        select F_GUID,F_SBID,F_STRUCT_ID,F_SYS_NAME,F_SYS_NAME_OLD,F_NODE_TYPE,F_INIT_VAL,F_CRDATE,F_CHDATE from bes_digit_ouput where F_STRUCT_ID = #{pointId,jdbcType=VARCHAR}
+    </select>
+
+    <!--    AI点查询-->
+    <select id="queryAiPointDateList" parameterType="string" resultType="map">
+        select F_GUID,F_SBID,F_STRUCT_ID,F_SYS_NAME,F_SYS_NAME_OLD,F_NODE_TYPE,F_INIT_VAL,F_ENGINEER_UNIT,F_CRDATE,F_CHDATE from bes_analog_input where F_STRUCT_ID = #{pointId,jdbcType=VARCHAR}
+    </select>
+
+    <!--    Ao点查询-->
+    <select id="queryAoPointDateList" parameterType="string" resultType="map">
+        select F_GUID,F_SBID,F_STRUCT_ID,F_SYS_NAME,F_SYS_NAME_OLD,F_NODE_TYPE,F_INIT_VAL,F_ENGINEER_UNIT,F_CRDATE,F_CHDATE from bes_analog_ouput where F_STRUCT_ID = #{pointId,jdbcType=VARCHAR}
+    </select>
+
+    <select id="queryVpointDateList" parameterType="string" resultType="map">
+        select F_GUID,F_SBID,F_SYS_NAME_OLD,F_SYS_NAME,F_NODE_TYPE,F_INIT_VAL,F_ENGINEER_UNIT,F_CRDATE,F_CHDATE from bes_vpoint where F_SBID = #{pointId,jdbcType=VARCHAR}
+    </select>
+
+    <insert id="insertSysJobTaskInfo" parameterType="com.efounder.JEnterprise.domain.SysJob" useGeneratedKeys="true" keyProperty="jobId">
+         insert into sys_job(
+             job_id,job_name,job_group,invoke_target,cron_expression,misfire_policy,concurrent,status,create_by
+             ,update_by,remark,planId
+             )
+         values (
+             #{jobId,jdbcType=VARCHAR},#{jobName,jdbcType=VARCHAR},#{jobGroup,jdbcType=VARCHAR},#{invokeTarget,jdbcType=VARCHAR},
+             #{cronExpression,jdbcType=VARCHAR},#{misfirePolicy,jdbcType=VARCHAR},#{concurrent},
+             #{status},#{createBy,jdbcType=VARCHAR},#{updateBy},#{remark},#{planId,jdbcType=VARCHAR}
+         )
+    </insert>
+
+    <insert id="insertSysJobSyncInfo" parameterType="com.efounder.JEnterprise.domain.SysJob" useGeneratedKeys="true" keyProperty="jobId">
+         insert into sys_job(
+             job_id,job_name,job_group,invoke_target,cron_expression,misfire_policy,concurrent,status,create_by
+             ,update_by,remark,sync_id
+             )
+         values (
+             #{jobId,jdbcType=VARCHAR},#{jobName,jdbcType=VARCHAR},#{jobGroup,jdbcType=VARCHAR},#{invokeTarget,jdbcType=VARCHAR},
+             #{cronExpression,jdbcType=VARCHAR},#{misfirePolicy,jdbcType=VARCHAR},#{concurrent},
+             #{status},#{createBy,jdbcType=VARCHAR},#{updateBy},#{remark},#{syncId,jdbcType=VARCHAR}
+         )
+    </insert>
+
+<!--     -->
+
+    <select id="queryTimeTaskList"  parameterType="string" resultType="map">
+        select * from bes_timetask where f_tasktype = '1' and f_pId = #{planId}
+    </select>
+
+    <select id="queryVariatTaskList" resultType="map">
+        select * from bes_timetask where f_tasktype = '0'
+    </select>
+
+    <select id="queryPlanModeIdAndSceneId" parameterType="string" resultType="map">
+        select * from bes_plan where f_id = #{planId,jdbcType=VARCHAR}
+    </select>
+
+    <insert id="InsertPointHistoryInfo" parameterType="map">
+        insert into bes_point_history_data(
+            F_ID,F_PLANID,F_TIMENAME,F_TASKID,F_GUID,F_STRUCT_ID,F_SYS_NAME_OLD,F_SYS_NAME,F_INIT_VAL,F_CRDATE
+            )
+        values (
+           #{F_ID,jdbcType=VARCHAR},#{F_PLANID,jdbcType=VARCHAR},#{F_TIMENAME,jdbcType=VARCHAR},#{F_TASKID,jdbcType=VARCHAR},#{F_GUID},
+           #{F_STRUCT_ID,jdbcType=VARCHAR},#{F_SYS_NAME_OLD,jdbcType=VARCHAR},
+           #{F_SYS_NAME,jdbcType=VARCHAR},#{F_INIT_VAL,jdbcType=VARCHAR},#{F_CRDATE}
+        )
+    </insert>
+
+    <!-- 获取最大id -->
+    <select id="selectPointHistoryDataMaxId" parameterType="String" resultType="String">
+		 SELECT  max(CAST(F_ID as SIGNED)) as maxId  FROM  bes_point_history_data
+    </select>
+
+    <select id="getSysJobInfoById" parameterType="string" resultType="map">
+        select * from sys_job where job_id = #{f_jobId,jdbcType=VARCHAR}
+    </select>
+
+    <update id="updateJob" parameterType="string">
+        update sys_job
+        SET status = #{status}
+        where job_id = #{jobId}
+    </update>
+
+    <update id="updateStopPlanStatus" parameterType="string">
+        update bes_plan
+        <set>
+            <if test="f_invoke != null" >
+                f_invoke = #{f_invoke,jdbcType=VARCHAR},
+            </if>
+        </set>
+        where  f_id = #{planId,jdbcType=VARCHAR}
+    </update>
+
+    <select id="selectTimeTaskSyncInfomation" parameterType="string" resultType="map">
+        select * from bes_time_task_sync where  f_id = #{syncId,jdbcType=VARCHAR}
+    </select>
+
+    <select id="queryTimeTaskSyncSbList" parameterType="string" resultType="map">
+        select * from bes_time_task_sync_sb where  f_sync_id = #{syncId,jdbcType=VARCHAR}
+    </select>
+
+    <update id="updateTimeTaskSyncStatus" parameterType="string">
+        update bes_time_task_sync
+        <set>
+            <if test="f_status != null" >
+                f_status = #{f_status,jdbcType=VARCHAR},
+            </if>
+        </set>
+        where  f_id = #{syncId,jdbcType=VARCHAR}
+    </update>
+</mapper>

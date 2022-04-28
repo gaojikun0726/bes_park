@@ -1,0 +1,533 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.efounder.JEnterprise.mapper.dataAnalysises.BesHouseholdDataMapper" >
+
+    <resultMap id="BesHouseholdDataMap" type="com.efounder.JEnterprise.model.dataAnalysises.BesHouseholdData" >
+        <id column="F_ID" property="fId" jdbcType="VARCHAR" />
+        <result column="F_FHBH" property="fFhbh" jdbcType="VARCHAR" />
+        <result column="F_DNBH" property="fDnbh" jdbcType="VARCHAR" />
+        <result column="F_CJSJ" property="fCjsj" jdbcType="TIMESTAMP" />
+        <result column="F_DATA" property="fData" jdbcType="VARCHAR" />
+        <result column="F_TYPE" property="fType" jdbcType="VARCHAR" />
+        <result column="F_ALL_MONEY" property="fAllMoney" jdbcType="VARCHAR" />
+        <result column="F_COAL_AMOUNT" property="fCoalAmount" jdbcType="VARCHAR" />
+        <result column="F_CO2" property="fCo2" jdbcType="VARCHAR" />
+        <result column="F_PERMAN_DATA" property="fPermanData" jdbcType="VARCHAR" />
+        <result column="F_PERMAN_MONEY" property="fPermanMoney" jdbcType="VARCHAR" />
+        <result column="F_UNITAREA_DATA" property="fUnitareaData" jdbcType="VARCHAR" />
+        <result column="F_UNITAREA_MONEY" property="fUnitareaMoney" jdbcType="VARCHAR" />
+        <result column="F_CRDATE" property="fCrdate" jdbcType="TIMESTAMP" />
+        <result column="F_CHDATE" property="fChdate" jdbcType="TIMESTAMP" />
+        <result column="F_YQBH" property="fYqbh" />
+        <result column="F_FHMC" property="fFhmc" />
+        <result column="F_FHLX" property="fFhlx" />
+        <result column="F_PERSON_NUMS" property="fPersonNums" jdbcType="VARCHAR" />
+    	<result column="rows" property="rows" />
+    </resultMap>
+
+    <resultMap id="BesHouseholdConfMap" type="com.efounder.JEnterprise.model.basedatamanage.energyinformation.BesHouseholdConf" >
+        <id column="F_FHBH" property="fFhbh" jdbcType="VARCHAR" />
+        <result column="F_FHMC" property="fFhmc" jdbcType="VARCHAR" />
+        <result column="F_PFHBH" property="fPfhbh" jdbcType="VARCHAR" />
+        <result column="F_PERSON_NUMS" property="fPersonNums" jdbcType="VARCHAR" />
+        <result column="F_AREA" property="fArea" jdbcType="VARCHAR" />
+        <result column="F_JS" property="fJs" jdbcType="VARCHAR" />
+        <result column="F_MX" property="fMx" jdbcType="VARCHAR" />
+        <result column="F_LOCATION" property="fLocation" jdbcType="VARCHAR" />
+        <result column="F_NYBH" property="fNybh" jdbcType="VARCHAR" />
+        <result column="F_YQBH" property="fYqbh" jdbcType="VARCHAR" />
+        <result column="F_FHLX" property="fFhlx" jdbcType="VARCHAR" />
+        <result column="F_TYPE" property="fType" jdbcType="VARCHAR" />
+        <result column="F_CRDATE" property="fCrdate" jdbcType="TIMESTAMP" />
+        <result column="F_CHDATE" property="fChdate" jdbcType="TIMESTAMP" />
+        <result column="F_USER_NAME" property="fUserName" jdbcType="VARCHAR" />
+        <result column="F_ZZJG_ID" property="fZzjgId" jdbcType="VARCHAR" />
+        <result column="F_NYMC" property="fNymc" jdbcType="VARCHAR" />
+    </resultMap>
+
+
+  <!-- 获取分户用能趋势统计数据 -->
+  <select id="searchHouseholdData" parameterType="string" resultMap="BesHouseholdDataMap">
+	select
+	date_format(a.F_CJSJ,'%Y-%m-%d %H:%i:%s' ) F_CJSJ,  
+	a.F_FHBH, 
+	a.F_DNBH, 
+	a.F_DATA, 
+	a.F_TYPE, 
+	a.F_ALL_MONEY, 
+	a.F_COAL_AMOUNT,
+	a.F_PERMAN_DATA,
+	a.F_PERMAN_MONEY, 
+	a.F_UNITAREA_DATA,
+	a.F_UNITAREA_MONEY,
+	a.F_CO2,
+	b.F_FHMC,
+    b.F_FHLX,
+    b.F_PERSON_NUMS,
+    date_format(a.F_CRDATE,'%Y-%m-%d %H:%i:%s' ) F_CRDATE ,
+    date_format(a.F_CHDATE,'%Y-%m-%d %H:%i:%s' ) F_CHDATE
+	from bes_household_data a left join bes_household_conf b on a.f_fHbh=b.f_fHbh
+	<where>
+	1=1
+    	<if test="fType !=null and fType != ''">
+    		    and a.F_TYPE = #{fType}   	    
+    	</if>
+    	<if test="fCjsj_start !=null and fCjsj_start != ''">
+        	<![CDATA[  and DATE_FORMAT(a.F_CJSJ, '%Y-%m-%d') >=  
+                        DATE_FORMAT(#{fCjsj_start}, '%Y-%m-%d')   ]]>
+        </if>
+        <if test="fCjsj_end !=null and fCjsj_end != ''">
+        	<![CDATA[  and DATE_FORMAT(a.F_CJSJ, '%Y-%m-%d') <= 
+                        DATE_FORMAT(#{fCjsj_end} , '%Y-%m-%d')    ]]>
+        </if>
+        <if test="fFhbhs != null and fFhbhs.size() > 0">
+             and b.F_FHBH in
+	             <foreach item="item" index="index" collection="fFhbhs" 
+	                    open="(" separator="," close=")">
+	                  #{item}
+	             </foreach>
+        </if>
+           
+	</where>
+	ORDER BY a.F_CJSJ
+  </select>
+
+    <sql id="Base_Column_List" >
+        F_ID, F_FHBH, F_DNBH, F_CJSJ, F_DATA, F_TYPE, F_ALL_MONEY, F_COAL_AMOUNT, F_CO2, 
+        F_PERMAN_DATA, F_PERMAN_MONEY, F_UNITAREA_DATA, F_UNITAREA_MONEY, F_CRDATE, F_CHDATE
+    </sql>
+
+    <select id="selectByPrimaryKey" resultMap="BesHouseholdDataMap" parameterType="java.lang.String" >
+        select 
+        <include refid="Base_Column_List" />
+        from bes_household_data
+        where F_ID = #{fId,jdbcType=VARCHAR}
+    </select>
+
+	<!-- 查询分户记录是否存在 -->
+	<select id="queryHouseholdExists" parameterType="string" resultMap="BesHouseholdDataMap" >
+		select COUNT(*) as `rows` from bes_household_data
+		where 
+				F_FHBH = #{fFhbh}
+			and F_CJSJ = #{fCjsj}
+			and F_TYPE = #{fType}
+	</select>
+	
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+        delete from bes_household_data
+        where F_ID = #{fId,jdbcType=VARCHAR}
+    </delete>
+
+    <insert id="saveHouseholdData" parameterType="com.efounder.JEnterprise.model.dataAnalysises.BesHouseholdData" >
+        insert into bes_household_data
+        <trim prefix="(" suffix=")" suffixOverrides="," >
+            <if test="fId != null" >
+                F_ID,
+            </if>
+            <if test="fFhbh != null" >
+                F_FHBH,
+            </if>
+            <if test="fDnbh != null" >
+                F_DNBH,
+            </if>
+            <if test="fCjsj != null" >
+                F_CJSJ,
+            </if>
+            <if test="fCjsj != null" >
+                f_cjdate,
+            </if>
+            <if test="fData != null" >
+                F_DATA,
+            </if>
+            <if test="fType != null" >
+                F_TYPE,
+            </if>
+            <if test="fAllMoney != null" >
+                F_ALL_MONEY,
+            </if>
+            <if test="fCoalAmount != null" >
+                F_COAL_AMOUNT,
+            </if>
+            <if test="fCo2 != null" >
+                F_CO2,
+            </if>
+            <if test="fPermanData != null" >
+                F_PERMAN_DATA,
+            </if>
+            <if test="fPermanMoney != null" >
+                F_PERMAN_MONEY,
+            </if>
+            <if test="fUnitareaData != null" >
+                F_UNITAREA_DATA,
+            </if>
+            <if test="fUnitareaMoney != null" >
+                F_UNITAREA_MONEY,
+            </if>
+            <if test="fYqbh != null">
+				F_YQBH,
+			</if>           
+                F_CRDATE,
+                F_CHDATE,
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides="," >
+            <if test="fId != null" >
+                #{fId,jdbcType=VARCHAR},
+            </if>
+            <if test="fFhbh != null" >
+                #{fFhbh,jdbcType=VARCHAR},
+            </if>
+            <if test="fDnbh != null" >
+                #{fDnbh,jdbcType=VARCHAR},
+            </if>
+            <if test="fCjsj != null" >
+                #{fCjsj},
+            </if>
+            <if test="fCjsj != null" >
+                #{fCjsj},
+            </if>
+            <if test="fData != null" >
+                #{fData},
+            </if>
+            <if test="fType != null" >
+                #{fType,jdbcType=VARCHAR},
+            </if>
+            <if test="fAllMoney != null" >
+                #{fAllMoney},
+            </if>
+            <if test="fCoalAmount != null" >
+                #{fCoalAmount},
+            </if>
+            <if test="fCo2 != null" >
+                #{fCo2},
+            </if>
+            <if test="fPermanData != null" >
+                #{fPermanData},
+            </if>
+            <if test="fPermanMoney != null" >
+                #{fPermanMoney},
+            </if>
+            <if test="fUnitareaData != null" >
+                #{fUnitareaData},
+            </if>
+            <if test="fUnitareaMoney != null" >
+                #{fUnitareaMoney},
+            </if>
+			<if test="fYqbh != null">
+				#{fYqbh},
+			</if>             
+			current_timestamp(),
+
+			current_timestamp(),
+        </trim>
+    </insert>
+
+    <update id="updateHousehold" parameterType="com.efounder.JEnterprise.model.dataAnalysises.BesHouseholdData" >
+        update bes_household_data
+        <set >
+
+            <if test="fDnbh != null" >
+                F_DNBH = #{fDnbh,jdbcType=VARCHAR},
+            </if>
+            <if test="fCjsj != null" >
+                F_CJSJ = #{fCjsj},
+            </if>
+            <if test="fData != null" >
+                F_DATA = #{fData,jdbcType=VARCHAR},
+            </if>
+            <if test="fType != null" >
+                F_TYPE = #{fType,jdbcType=VARCHAR},
+            </if>
+            <if test="fAllMoney != null" >
+                F_ALL_MONEY = #{fAllMoney,jdbcType=VARCHAR},
+            </if>
+            <if test="fCoalAmount != null" >
+                F_COAL_AMOUNT = #{fCoalAmount,jdbcType=VARCHAR},
+            </if>
+            <if test="fCo2 != null" >
+                F_CO2 = #{fCo2,jdbcType=VARCHAR},
+            </if>
+            <if test="fPermanData != null" >
+                F_PERMAN_DATA = F_PERMAN_DATA + #{fPermanData},
+            </if>
+            <if test="fPermanMoney != null" >
+                F_PERMAN_MONEY = F_PERMAN_MONEY + #{fPermanMoney},
+            </if>
+            <if test="fUnitareaData != null" >
+                F_UNITAREA_DATA = F_UNITAREA_DATA + #{fUnitareaData},
+            </if>
+            <if test="fUnitareaMoney != null" >
+                F_UNITAREA_MONEY = F_UNITAREA_MONEY + #{fUnitareaMoney},
+            </if>
+				F_CHDATE = current_timestamp(),
+        </set>
+        where 
+        	F_FHBH = #{fFhbh}
+        and F_CJSJ = #{fCjsj}
+        and F_TYPE = #{fType}
+    </update>
+
+    <update id="updateHouseholdData" parameterType="com.efounder.JEnterprise.model.dataAnalysises.BesHouseholdData" >
+        update bes_household_data
+        <set >
+
+            <if test="fDnbh != null" >
+                F_DNBH = #{fDnbh,jdbcType=VARCHAR},
+            </if>
+            <if test="fCjsj != null" >
+                F_CJSJ = #{fCjsj},
+            </if>
+            <if test="fData != null" >
+                F_DATA = F_DATA + #{fData},
+            </if>
+            <if test="fType != null" >
+                F_TYPE = #{fType,jdbcType=VARCHAR},
+            </if>
+            <if test="fAllMoney != null" >
+                F_ALL_MONEY = F_ALL_MONEY + #{fAllMoney},
+            </if>
+            <if test="fCoalAmount != null" >
+                F_COAL_AMOUNT = F_COAL_AMOUNT + #{fCoalAmount},
+            </if>
+            <if test="fCo2 != null" >
+                F_CO2 = F_CO2 + #{fCo2},
+            </if>
+            <if test="fPermanData != null" >
+                F_PERMAN_DATA = F_PERMAN_DATA + #{fPermanData},
+            </if>
+            <if test="fPermanMoney != null" >
+                F_PERMAN_MONEY = F_PERMAN_MONEY + #{fPermanMoney},
+            </if>
+            <if test="fUnitareaData != null" >
+                F_UNITAREA_DATA = F_UNITAREA_DATA + #{fUnitareaData},
+            </if>
+            <if test="fUnitareaMoney != null" >
+                F_UNITAREA_MONEY = F_UNITAREA_MONEY + #{fUnitareaMoney},
+            </if>
+				F_CHDATE = current_timestamp(),
+        </set>
+        where
+        	F_FHBH = #{fFhbh}
+        and F_CJSJ = #{fCjsj}
+        and F_TYPE = #{fType}
+    </update>
+
+    <!--wanghongjie start 20200718 查询水,电,气下园区的数据-->
+    <select id="searchHouseholdDataByPark" resultType="java.util.Map">
+        select f_cjsj,f_data,f_nybh from bes_energy_data where F_NYBH= #{fNybh} and F_TYPE = '0'
+        <if test='yqbh != null and yqbh != "" and yqbh != "0"'>
+            and F_YQBH = #{yqbh}
+        </if>
+        <if test="fCjsj_start !=null and fCjsj_start != ''">
+            <![CDATA[  and DATE_FORMAT(F_CJSJ, '%Y-%m-%d') = #{fCjsj_start}   ]]>
+        </if>
+    </select>
+
+    <!--根据分户编号查询该能源类型下日数据 -->
+    <!--    <select id="GetHouseMouthData" resultType="java.util.Map">-->
+    <!--        SELECT-->
+    <!--            f_data,-->
+    <!--            f_nybh,-->
+    <!--            f_yqbh,-->
+    <!--            f_cjsj,-->
+    <!--			DATE_FORMAT(F_CJSJ, '%e') f_cjsj1-->
+    <!--        FROM-->
+    <!--            bes_energy_data-->
+    <!--        WHERE-->
+    <!--            F_NYBH = #{fNybh}-->
+    <!--            AND F_TYPE = '1'-->
+    <!--            AND f_cjsj BETWEEN #{cjsj_start}-->
+    <!--            AND #{cjsj_end}-->
+    <!--        ORDER BY f_cjsj-->
+    <!--    </select>-->
+    <!--根据分户编号查询该能源类型下日数据 -->
+    <select id="GetHouseMouthData" resultType="java.util.Map">
+        SELECT
+        SUM(f_data) fdata1,
+        f_nybh,
+        f_yqbh,
+        f_cjsj,
+        DATE_FORMAT(F_CJSJ, '%e') f_cjsj1
+        FROM
+        bes_energy_data
+        WHERE
+        F_NYBH = #{fNybh}
+        AND F_TYPE = '1'
+        AND f_cjsj BETWEEN #{cjsj_start}
+        AND #{cjsj_end}
+        GROUP BY f_cjsj
+    </select>
+    <!--wanghongjie start 20200720 查询今日同比本期数据-->
+    <select id="searchHouseholdDataByParkBQ" resultType="java.util.Map">
+        select f_cjsj,f_data,f_nybh from bes_energy_data where F_NYBH= #{fNybh} and F_TYPE = #{fType}
+        <if test='yqbh != null and yqbh !="" and yqbh != "0"'>
+            and F_YQBH = #{yqbh}
+        </if>
+        <if test="fCjsj_start !=null and fCjsj_start != ''">
+            <![CDATA[  and DATE_FORMAT(F_CJSJ, '%Y-%m-%d') = #{fCjsj_start}     ]]>
+        </if>
+    </select>
+
+    <!--wanghongjie start 20200720 查询今日同比同期数据-->
+    <select id="searchHouseholdDataByParkTQ" resultType="java.util.Map">
+        select f_cjsj,f_data,f_nybh from bes_energy_data where F_NYBH= #{fNybh} and F_TYPE = #{fType}
+        <if test='yqbh != null and yqbh !="" and yqbh != "0"'>
+            and F_YQBH = #{yqbh}
+        </if>
+        <if test="ftbhb_sametime_start !=null and ftbhb_sametime_start != ''">
+            <![CDATA[  and DATE_FORMAT(F_CJSJ, '%Y-%m-%d') = #{ftbhb_sametime_start}   ]]>
+        </if>
+    </select>
+
+    <!--wanghongjie start 20200721 根据能源编号查询能源名称-->
+    <select id="selectEnergyInformationByNybh" resultType="java.util.Map">
+        select * from bes_energy_type where F_NYBH = #{fNybh}
+    </select>
+
+    <!--wanghongjie start 20200721 查询本月同比本期数据-->
+    <select id="searchHouseholdDataByParkMonthBQ" resultType="java.util.Map">
+        select f_cjsj,f_data,f_nybh from bes_energy_data where F_NYBH= #{fNybh} and F_TYPE = #{fType}
+        <if test='yqbh != null and yqbh !="" and yqbh != "0"'>
+            and F_YQBH = #{yqbh}
+        </if>
+        <if test="fCjsj_start !=null and fCjsj_start != ''">
+            <![CDATA[  and DATE_FORMAT(F_CJSJ, '%Y-%m') = #{fCjsj_start}    ]]>
+        </if>
+    </select>
+
+    <!--wanghongjie start 20200721 查询本月同比同期数据-->
+    <select id="searchHouseholdDataByParkMonthTQ" resultType="java.util.Map">
+        select f_cjsj,f_data,f_nybh from bes_energy_data where F_NYBH= #{fNybh} and F_TYPE = #{fType}
+        <if test='yqbh != null and yqbh !="" and yqbh != "0"'>
+           and F_YQBH = #{yqbh}
+        </if>
+        <if test="ftbhb_sametime_start !=null and ftbhb_sametime_start != ''">
+            <![CDATA[  and DATE_FORMAT(F_CJSJ, '%Y-%m') = #{ftbhb_sametime_start}   ]]>
+        </if>
+    </select>
+
+    <!--    点击分户获取分户的年数据-->
+    <select id="selectHouseHoldDataByYear" parameterType="string" resultType="string">
+        select
+            F_DATA
+        from
+            bes_household_data
+        where
+            f_type = '3'
+        AND
+            F_FHBH = #{fhbh}
+        and
+            F_YQBH = #{yqbh}
+        AND
+			F_CJSJ = #{firstDay}
+		limit 1
+    </select>
+
+    <!--    点击分户获取分户的月峰值数据-->
+    <select id="selectHouseHoldByHighMonth" parameterType="string" resultType="string">
+        select
+            max(F_DATA)
+            as hdata
+        from
+            bes_household_data
+        where
+            f_type = '3'
+        AND
+            F_FHBH = #{fhbh}
+        and
+            F_YQBH = #{yqbh}
+		and F_CJSJ
+		BETWEEN #{firstDay}
+        AND #{endData}
+    </select>
+
+    <!--查询所选节点是否有子节点,如果有,则查出来-->
+    <select id="selectFFhbhList" resultType="java.util.Map">
+        select * from bes_household_conf where F_PFHBH = #{fhbh} and F_TYPE = #{fConfType}
+    </select>
+
+    <!-- 查询电水气等下的所有的一级节点(月排行)-->
+    <select id="selectHouseholdData_month" resultMap="BesHouseholdConfMap">
+        select a.*,b.F_NYMC from bes_household_conf a,bes_energy_type b where a.F_NYBH = #{fDnbh} and a.F_PFHBH = '' and a.F_NYBH = b.F_NYBH
+    </select>
+
+    <!--获取每个节点的当月能耗值-->
+    <select id="selectHouseholdDataList" resultType="java.util.Map">
+        SELECT a.f_data,b.f_fhmc,c.f_nymc,c.f_unit, a.F_DATA/b.F_PERSON_NUMS averageValue
+        from bes_household_data a,bes_household_conf b, bes_energy_type c
+        where
+         a.F_CJSJ = #{month_start} and a.F_FHBH = #{householdNumber} and a.F_TYPE = #{fType} and a.F_FHBH = b.F_FHBH and b.F_NYBH = c.F_NYBH
+    </select>
+
+    <!--首先根据分户编号,查询当天的时间和值-->
+    <select id="selectRankEnergyList" resultType="java.util.Map">
+        select f_cjsj, SUM(F_DATA) f_data
+        from bes_household_data
+        where
+         F_FHBH in
+        <foreach item="item" index="index" collection="fFhbhs"
+                 open="(" separator="," close=")">
+            #{item}
+        </foreach>
+        and
+        F_TYPE = #{f_type}
+        and
+        F_CJSJ >= #{fCjsj_start}
+        GROUP BY F_CJSJ ORDER BY F_CJSJ asc
+    </select>
+
+    <!--本期-->
+    <select id="selectThisPeriod" resultType="java.lang.String">
+        SELECT SUM(f_data) f_data
+        from
+        bes_household_data
+        where
+         F_FHBH in
+        <foreach item="item" index="index" collection="fFhbhs"
+                 open="(" separator="," close=")">
+            #{item}
+        </foreach>
+        and F_CJSJ = #{firstTime} and F_TYPE = #{type}
+    </select>
+
+    <!--同期-->
+    <select id="selectCorrTimePeriod" resultType="java.lang.String">
+        SELECT SUM(f_data) f_data
+        from
+        bes_household_data
+        where
+        F_FHBH in
+        <foreach item="item" index="index" collection="fFhbhs"
+                 open="(" separator="," close=")">
+            #{item}
+        </foreach>
+        and F_CJSJ = #{secondTime} and F_TYPE = #{type}
+    </select>
+
+    <!--本年能耗-->
+    <select id="selectEnergyConsumptionThisYear" resultType="java.lang.String">
+        SELECT SUM(f_data) f_data
+        from bes_household_data
+        where F_FHBH in
+        <foreach item="item" index="index" collection="fhbhs"
+                 open="(" separator="," close=")">
+            #{item}
+        </foreach>
+        and F_CJSJ = #{firstDay} and F_TYPE = #{type}
+    </select>
+
+    <!--本年峰值能耗-->
+    <select id="peakEnergyConsumptionThisYear" resultType="java.lang.String">
+        SELECT MAX(F_DATA) from
+        (SELECT SUM(F_DATA) F_DATA
+        from bes_household_data
+        where F_FHBH in
+        <foreach item="item" index="index" collection="fhbhs"
+                 open="(" separator="," close=")">
+            #{item}
+        </foreach>
+        and F_TYPE = #{type} and F_CJSJ
+        BETWEEN #{firstDay} AND #{endData} GROUP BY F_CJSJ) w
+    </select>
+
+
+</mapper>

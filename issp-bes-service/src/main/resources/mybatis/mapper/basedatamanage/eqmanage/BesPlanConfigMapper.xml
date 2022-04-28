@@ -1,0 +1,582 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.efounder.JEnterprise.mapper.basedatamanage.eqmanage.BesplanConfigMapper" >
+
+    <!-- 获取树数据 -->
+    <select id="getPlanTree" resultType="com.efounder.JEnterprise.model.basedatamanage.eqmanage.BesPlanInfo">
+        select
+		f_id,
+        f_name,
+        f_type,
+        f_pId
+        FROM
+        bes_planinfo
+        ORDER BY f_id + 0
+    </select>
+
+    <!-- 获取最大id -->
+    <select id="queryMaxId" parameterType="String" resultType="String">
+		 SELECT  max(CAST(F_ID as SIGNED)) as maxId  FROM  bes_PLANinfo
+	</select>
+
+    <insert id="insertConplan" parameterType="com.efounder.JEnterprise.model.basedatamanage.eqmanage.BesPlanInfo">
+        insert into bes_planinfo(
+            f_id,f_name,f_type,f_pId
+        )
+        values (
+            #{f_id,jdbcType=VARCHAR}, #{f_name,jdbcType=VARCHAR}, #{f_type,jdbcType=VARCHAR},#{f_pId,jdbcType=VARCHAR}
+        )
+    </insert>
+
+    <insert id="insertCollectPlan" parameterType="com.efounder.JEnterprise.model.basedatamanage.eqmanage.BesPlanInfo">
+        insert into bes_planinfo(
+            f_id,f_name,f_type,f_pId
+        )
+        values (
+            #{f_id,jdbcType=VARCHAR}, #{f_name,jdbcType=VARCHAR}, #{f_type,jdbcType=VARCHAR},#{f_pId,jdbcType=VARCHAR}
+        )
+    </insert>
+
+    <update id="editPlanInfo" parameterType="com.efounder.JEnterprise.model.basedatamanage.eqmanage.BesPlanInfo">
+        update bes_planinfo
+        <set >
+            <if test="f_name != null" >
+                f_name = #{f_name,jdbcType=VARCHAR},
+            </if>
+            <if test="f_type != null" >
+                f_type = #{f_type},
+            </if>
+            <if test="f_pId != null" >
+                f_pId = #{f_pId,jdbcType=VARCHAR},
+            </if>
+        </set>
+        where f_id = #{f_id,jdbcType=VARCHAR}
+    </update>
+
+    <delete id="deletePlanInfo" parameterType="String">
+        delete from bes_planinfo
+        where f_id = #{id,jdbcType=VARCHAR}
+    </delete>
+
+    <select id="getSceneTreeFromPlan"  resultType="com.efounder.JEnterprise.model.basedatamanage.eqmanage.BeSceneInfo">
+        select
+		f_id,
+        f_name,
+        f_type,
+        f_scenename,
+        f_scenenickname,
+        f_discription,
+        f_pId,
+        f_active,
+        f_usenum
+        FROM
+        bes_sceneinfo
+    </select>
+
+    <select id="selectPlanMaxId" resultType="string">
+        SELECT  max(CAST(F_ID as SIGNED)) as maxId  FROM  bes_plan
+    </select>
+
+    <select id="selectTimeTaskMaxId" resultType="string">
+        SELECT  max(CAST(F_ID as SIGNED)) as maxId  FROM  bes_timetask
+    </select>
+
+    <insert id="insertPlanInfo" parameterType="com.efounder.JEnterprise.model.basedatamanage.eqmanage.BesPlan">
+       insert into bes_plan(
+            f_id,f_sysname,f_nickname,f_startday,f_startime,f_enday,f_endtime,f_planType,f_weekmask,f_sceneInfoId,
+            f_scenetype,f_modeInfoId,f_active,f_execut,f_planId
+            )
+        values (
+            #{f_id,jdbcType=VARCHAR}, #{f_sysname,jdbcType=VARCHAR},#{f_nickname,jdbcType=VARCHAR},#{f_startday,jdbcType=VARCHAR},
+            #{f_startime,jdbcType=VARCHAR}, #{f_enday,jdbcType=VARCHAR},#{f_endtime,jdbcType=VARCHAR},
+            #{f_planType,jdbcType=VARCHAR}, #{f_weekmask,jdbcType=VARCHAR}, #{f_sceneInfoId,jdbcType=VARCHAR},#{f_scenetype,jdbcType=VARCHAR},
+            #{f_modeInfoId,jdbcType=VARCHAR}, #{f_active,jdbcType=VARCHAR}, #{f_execut,jdbcType=VARCHAR},#{f_planId,jdbcType=VARCHAR}
+        )
+    </insert>
+
+
+    <update id="updatePlanInfo" parameterType="com.efounder.JEnterprise.model.basedatamanage.eqmanage.BesPlan">
+        update bes_plan
+        <set >
+            <if test="f_sysname != null" >
+                f_sysname = #{f_sysname,jdbcType=VARCHAR},
+            </if>
+            <if test="f_nickname != null" >
+                f_nickname = #{f_nickname,jdbcType=VARCHAR},
+            </if>
+            <if test="f_startday != null" >
+                f_startday = #{f_startday,jdbcType=VARCHAR},
+            </if>
+            <if test="f_startime != null" >
+                f_startime = #{f_startime,jdbcType=VARCHAR},
+            </if>
+            <if test="f_enday != null" >
+                f_enday = #{f_enday,jdbcType=VARCHAR},
+            </if>
+            <if test="f_endtime != null" >
+                f_endtime = #{f_endtime,jdbcType=VARCHAR},
+            </if>
+            <if test="f_planType != null" >
+                f_planType = #{f_planType,jdbcType=VARCHAR},
+            </if>
+            <if test="f_weekmask != null" >
+                f_weekmask = #{f_weekmask,jdbcType=VARCHAR},
+            </if>
+            <if test="f_sceneInfoId != null" >
+                f_sceneInfoId = #{f_sceneInfoId,jdbcType=VARCHAR},
+            </if>
+            <if test="f_scenetype != null" >
+                f_scenetype = #{f_scenetype,jdbcType=VARCHAR},
+            </if>
+            <if test="f_modeInfoId != null" >
+                f_modeInfoId = #{f_modeInfoId,jdbcType=VARCHAR},
+            </if>
+            <if test="f_active != null" >
+                f_active = #{f_active,jdbcType=VARCHAR},
+            </if>
+            <if test="f_execut != null" >
+                f_execut = #{f_execut,jdbcType=VARCHAR},
+            </if>
+            <if test="f_planId != null" >
+                f_planId = #{f_planId,jdbcType=VARCHAR},
+            </if>
+        </set>
+        where f_id = #{f_id,jdbcType=VARCHAR}
+    </update>
+
+    <select id="selectAllPlan" resultType="com.efounder.JEnterprise.model.basedatamanage.eqmanage.BesPlan">
+        select
+            f_id,f_type,f_sysname,f_nickname,f_startime,f_ishholidays,f_weekmask,f_sceneInfoId,f_scenetype,f_scenemode,
+            f_active,f_crossday,f_parentId
+        from
+            bes_plan
+    </select>
+
+<!--查询所有控制场景-->
+    <select id="selectAllSceneInfo" resultType="map">
+        select
+            f_id,
+            f_name,
+            f_scenename,
+            f_scenenickname,
+            f_discription
+        from
+	        bes_sceneinfo
+        where
+	        f_type = #{type,jdbcType=VARCHAR}
+	    and
+			f_scenename!=''
+        ORDER BY f_id + 0
+    </select>
+
+<!--根据Id查询所有模式-->
+    <select id="selectOptionByMode" resultType="map">
+        select
+            f_id,
+            f_modename,
+            f_enable
+        from
+            bes_scenemode
+        where
+            f_sceneInfoId = #{f_sceneInfoId,jdbcType=VARCHAR}  ORDER BY f_id + 0  ASC
+    </select>
+
+    <select id="selectPlanInfomation" parameterType="string" resultType="map">
+        select * from bes_plan where f_planId = #{nodeId,jdbcType=VARCHAR} ORDER BY f_id + 0  ASC
+    </select>
+
+<!--    f_invoke-->
+
+    <select id="selectPlanCollectInfo" parameterType="string" resultType="map">
+        select
+         f_id,
+         f_sysname,
+         f_nickname,
+         f_sceneInfoId,
+         f_modeInfoId,
+         f_invoke
+        from
+            bes_plan
+        WHERE
+        f_planId = #{nodeId,jdbcType=VARCHAR} ORDER BY f_id + 0
+    </select>
+
+    <select id="selectTimeTaskInfo" parameterType="string" resultType="map">
+        select * from bes_timetask where f_pId = #{planId,jdbcType=VARCHAR}
+    </select>
+
+    <select id="selectSceneInfomation" parameterType="string" resultType="com.efounder.JEnterprise.model.basedatamanage.eqmanage.BeSceneInfo">
+        select * from bes_sceneinfo where f_id = #{sceneInfoId,jdbcType=VARCHAR}
+    </select>
+
+    <select id="selectModeInfomation" parameterType="string" resultType="com.efounder.JEnterprise.model.basedatamanage.eqmanage.BeSceneMode">
+        select * from bes_scenemode where f_id = #{modeInfoId,jdbcType=VARCHAR}
+    </select>
+
+    <select id="selectPointInfomation" parameterType="string" resultType="string">
+        select f_pointnameDetailed from bes_scenepoint where f_scenemodeId = #{f_pointId,jdbcType=VARCHAR}
+    </select>
+
+    <select id="selectSceneTypeBySceneId" parameterType="string" resultType="string">
+        select f_type from bes_sceneinfo where f_id = #{f_sceneInfoId,jdbcType=VARCHAR}
+    </select>
+
+    <delete id="deletePlanInfomation" parameterType="java.util.Iterator">
+        delete from bes_plan where f_id = #{fId}
+    </delete>
+
+    <delete id="deleteTaskInfomation" parameterType="string">
+        delete from bes_timetask where f_id = #{f_taskId,jdbcType=VARCHAR}
+    </delete>
+
+    <select id="selectTimeTaskJobId" parameterType="string" resultType="string">
+        select f_jobId from bes_timetask where f_id = #{f_taskId,jdbcType=VARCHAR}
+    </select>
+
+    <delete id="deleteQuartzSysJobInfo" parameterType="string">
+        delete from sys_job where job_id = #{JobId,jdbcType=VARCHAR}
+    </delete>
+
+    <select id="selectPointValueInfo" parameterType="string" resultType="map">
+        select f_pointId from bes_scenepoint where f_scenemodeId = #{modeId,jdbcType=VARCHAR}
+    </select>
+
+    <select id="queryChannelByIdLDC" parameterType="string" resultType="map">
+		select * from bes_ddc where
+		F_SYS_NAME_OLD in (
+		select f_psys_name from bes_sbpz_struct where F_SYS_NAME_OLD in (
+		select f_psys_name from bes_sbpz_struct where F_ID = #{f_id} ||
+		F_SYS_NAME_OLD in
+		(select f_psys_name from bes_sbpz_struct where F_ID = #{f_id} ||
+		F_SYS_NAME_OLD =
+		(select f_psys_name from bes_sbpz_struct where F_ID = #{f_id}
+		))))
+    </select>
+
+    <select id="queryChannelByIdDDC" parameterType="string" resultType="map">
+		select * from bes_ddc where F_SYS_NAME_OLD = (
+		select f_psys_name FROM bes_sbpz_struct where F_SYS_NAME_OLD = (
+		select f_psys_name FROM bes_sbpz_struct where F_SYS_NAME_OLD = (
+		select f_psys_name FROM bes_sbpz_struct where F_SYS_NAME_OLD = (
+		select f_psys_name FROM bes_sbpz_struct where F_ID = #{f_id}
+		))))
+    </select>
+
+    <select id="selectPlanInfomationBySceneId" parameterType="string" resultType="string">
+        select
+            f_name
+        from
+            bes_sceneinfo
+        where
+            f_id = #{sceneId,jdbcType=VARCHAR}
+    </select>
+
+    <select id="selectPlanInfomationByModeId" parameterType="string" resultType="string">
+        select
+            f_modename
+        from
+            bes_scenemode
+        where
+            f_id = #{modeID,jdbcType=VARCHAR}
+    </select>
+
+    <select id="selectBesPlanByPlanId" parameterType="string" resultType="string">
+        select
+            f_modeInfoId
+        from
+            bes_plan
+        where f_id = #{fId,jdbcType=VARCHAR}
+    </select>
+
+    <select id="selectTimeTaskById" parameterType="string" resultType="com.efounder.JEnterprise.model.basedatamanage.eqmanage.BesTimeTask">
+        select
+            f_id,
+            f_timename,
+            f_tasktype,
+            f_timetype,
+            f_specifictime,
+            f_specificvalue,
+            f_pId,
+            f_cronstartexpre,
+            f_cronendexpre,
+            f_convertmin
+        from
+            bes_timetask
+        where
+            f_id = #{taskId,jdbcType=VARCHAR}
+    </select>
+
+    <select id="selectPointInfomationByModeId" parameterType="string" resultType="map">
+        select
+            f_pointId,
+            f_pointname
+        from
+            bes_scenepoint
+        where
+            f_scenemodeId = #{modeId,jdbcType=VARCHAR}
+    </select>
+
+    <select id="queryPointTypeByPointId" parameterType="string" resultType="map">
+        select
+            F_TYPE
+        from
+            bes_sbpz_struct
+        where
+            F_ID = #{pointId,jdbcType=VARCHAR}
+    </select>
+
+    <!--    DI点查询-->
+    <select id="queryDiPointDateList" parameterType="string" resultType="map">
+       select F_GUID,F_SBID,F_STRUCT_ID,F_SYS_NAME,F_SYS_NAME_OLD,F_NODE_TYPE,F_INIT_VAL,F_CRDATE,F_CHDATE from bes_digit_input where F_STRUCT_ID = #{pointId,jdbcType=VARCHAR}
+    </select>
+
+    <!--    Do点查询-->
+    <select id="queryDoPointDateList" parameterType="string" resultType="map">
+       select F_GUID,F_SBID,F_STRUCT_ID,F_SYS_NAME,F_SYS_NAME_OLD,F_NODE_TYPE,F_INIT_VAL,F_CRDATE,F_CHDATE from bes_digit_ouput where F_STRUCT_ID = #{pointId,jdbcType=VARCHAR}
+    </select>
+
+    <!--    AI点查询-->
+    <select id="queryAiPointDateList" parameterType="string" resultType="map">
+        select F_GUID,F_SBID,F_STRUCT_ID,F_SYS_NAME,F_SYS_NAME_OLD,F_NODE_TYPE,F_INIT_VAL,F_ENGINEER_UNIT,F_CRDATE,F_CHDATE from bes_analog_input where F_STRUCT_ID = #{pointId,jdbcType=VARCHAR}
+    </select>
+
+    <!--    Ao点查询-->
+    <select id="queryAoPointDateList" parameterType="string" resultType="map">
+        select F_GUID,F_SBID,F_STRUCT_ID,F_SYS_NAME,F_SYS_NAME_OLD,F_NODE_TYPE,F_INIT_VAL,F_ENGINEER_UNIT,F_CRDATE,F_CHDATE from bes_analog_ouput where F_STRUCT_ID = #{pointId,jdbcType=VARCHAR}
+    </select>
+
+    <select id="queryVpointDateList" parameterType="string" resultType="map">
+       select F_GUID,F_SBID,F_SYS_NAME_OLD,F_SYS_NAME,F_NODE_TYPE,F_INIT_VAL,F_ENGINEER_UNIT,F_CRDATE,F_CHDATE from bes_vpoint where F_SBID = #{pointId,jdbcType=VARCHAR}
+    </select>
+
+    <update id="updateTimeTaskInfomation" parameterType="com.efounder.JEnterprise.model.basedatamanage.eqmanage.BesTimeTask">
+        update bes_timetask
+        <set >
+            <if test="f_cronstartexpre != null" >
+                f_cronstartexpre = #{f_cronstartexpre},
+            </if>
+            <if test="f_cronendexpre != null" >
+                f_cronendexpre = #{f_cronendexpre},
+            </if>
+        </set>
+        where f_id = #{f_id,jdbcType=VARCHAR}
+    </update>
+
+    <insert id="insertCollectPlanInfo" parameterType="com.efounder.JEnterprise.model.basedatamanage.eqmanage.BesPlan">
+       insert into bes_plan(
+            f_id,f_sysname,f_nickname,f_sceneInfoId,f_modeInfoId,f_scenetype,f_planId,f_active,f_invoke
+            )
+        values (
+            #{f_id,jdbcType=VARCHAR}, #{f_sysname,jdbcType=VARCHAR},#{f_nickname,jdbcType=VARCHAR},
+            #{f_sceneInfoId,jdbcType=VARCHAR},#{f_modeInfoId,jdbcType=VARCHAR},
+            #{f_scenetype,jdbcType=VARCHAR},#{f_planId,jdbcType=VARCHAR},#{f_active,jdbcType=VARCHAR},#{f_invoke,jdbcType=VARCHAR}
+        )
+    </insert>
+
+<!--     -->
+
+    <insert id="insertBesTimeTaskInfo" parameterType="com.efounder.JEnterprise.model.basedatamanage.eqmanage.BesTimeTask">
+        insert into bes_timetask(
+            f_id,f_timename,f_tasktype,f_specificvalue,f_pId,f_cronstartexpre
+        )
+        values (
+            #{f_id,jdbcType=VARCHAR},#{f_timename,jdbcType=VARCHAR},#{f_tasktype,jdbcType=VARCHAR},
+            #{f_specificvalue,jdbcType=VARCHAR},#{f_pId,jdbcType=VARCHAR},#{f_cronstartexpre,jdbcType=VARCHAR}
+        )
+    </insert>
+
+    <select id="queryVariatTaskList" resultType="map">
+        select * from bes_timetask where f_tasktype = '0'
+    </select>
+
+    <select id="selectModeIdAndSceneId" resultType="map">
+        select f_sceneInfoId,f_modeInfoId from bes_plan where f_id = #{planId,jdbcType=VARCHAR}
+    </select>
+
+    <select id="queryTotalPointList" resultType="map">
+        select distinct f_pointId from bes_scenepoint
+    </select>
+
+    <insert id="InsertPointVariatHistoryInfo" parameterType="map">
+        insert into bes_point_history_variatdata(
+            F_ID,F_PLANID,F_TIMENAME,F_TASKID,F_GUID,F_SBID,F_STRUCT_ID,F_SYS_NAME_OLD,F_SYS_NAME,F_INIT_VAL,F_CRDATE
+            )
+        values (
+           #{F_ID,jdbcType=VARCHAR},#{F_PLANID,jdbcType=VARCHAR},#{F_TIMENAME,jdbcType=VARCHAR},
+           #{F_TASKID,jdbcType=VARCHAR},#{F_GUID},#{F_SBID,jdbcType=VARCHAR},
+           #{F_STRUCT_ID,jdbcType=VARCHAR},#{F_SYS_NAME_OLD,jdbcType=VARCHAR},
+           #{F_SYS_NAME,jdbcType=VARCHAR},#{F_INIT_VAL1,jdbcType=VARCHAR},#{F_CRDATE}
+        )
+    </insert>
+
+    <select id="queryToatalCollectPlan" resultType="map">
+        select * from bes_plan where f_startday IS NULL and f_active = '1'
+    </select>
+
+    <update id="insertTimeTaskJobId" parameterType="string">
+        update bes_timetask
+        <set >
+            <if test="jobId != null" >
+                f_jobId = #{jobId},
+            </if>
+        </set>
+        where  f_id = #{taskId,jdbcType=VARCHAR}
+    </update>
+
+    <update id="executePlanInfoByPlanId" parameterType="string">
+        update bes_plan
+        <set >
+            <if test="f_invoke != null" >
+                f_invoke = #{f_invoke},
+            </if>
+        </set>
+        where  f_id = #{planId,jdbcType=VARCHAR}
+    </update>
+
+    <update id="stopPlanInfoByPlanId" parameterType="string">
+        update bes_plan
+        <set>
+            <if test="f_invoke != null" >
+                f_invoke = #{f_invoke},
+            </if>
+        </set>
+        where  f_id = #{planId,jdbcType=VARCHAR}
+    </update>
+
+    <select id="selectTimeTaskInfoByPlanId" parameterType="string" resultType="java.util.Map">
+        select * from bes_timetask where f_pId = #{planId,jdbcType=VARCHAR}
+    </select>
+
+    <update id="insertPlanSynchroState" parameterType="string">
+        UPDATE bes_plan set f_synchro = #{synchro,jdbcType=VARCHAR} WHERE f_id = #{maxId,jdbcType=VARCHAR}
+    </update>
+
+    <select id="selectSchroStateById" parameterType="string" resultType="map">
+        select f_synchro from bes_plan where f_id = #{fId,jdbcType=VARCHAR}
+    </select>
+
+    <!--修改bes_plan表-->
+    <update id="updatePlan" parameterType="com.alibaba.fastjson.JSONObject">
+        update bes_plan
+        <set>
+            f_sysname = #{object.planTaskName},
+            f_nickname = #{object.planTaskNickname},
+            <if test="object.f_startday != null">
+                f_startday = #{object.f_startday},
+            </if>
+            <if test="object.f_startime != null">
+                f_startime = #{object.f_startime},
+            </if>
+            <if test="object.f_enday != null">
+                f_enday = #{object.f_enday},
+            </if>
+            <if test="object.f_endtime != null">
+                f_endtime = #{object.f_endtime},
+            </if>
+            <if test="object.f_planType != null">
+                f_planType = #{object.f_planType},
+            </if>
+            <if test="object.f_weekmask != null">
+                f_weekmask = #{object.f_weekmask},
+            </if>
+            <if test="object.f_sceneTaskInfo != null">
+                f_sceneInfoId = #{object.f_sceneTaskInfo},
+            </if>
+            <if test="object.f_scenetype != null">
+                f_scenetype = #{object.f_scenetype},
+            </if>
+            <if test="object.f_modeTaskInfo != null">
+                f_modeInfoId = #{object.f_modeTaskInfo},
+            </if>
+            <if test="object.f_active != null">
+                f_active = #{object.f_active},
+            </if>
+            <if test="object.f_planId != null">
+                f_planId = #{object.f_planId},
+            </if>
+            <if test="object.f_synchro != null">
+                f_synchro = #{object.f_synchro},
+            </if>
+            <if test="object.f_invoke != null">
+                f_invoke = #{object.f_invoke}
+            </if>
+        </set>
+        where f_id = #{object.f_id}
+    </update>
+
+    <!--修改bes_timetask表-->
+    <update id="updateTimeTask" parameterType="com.alibaba.fastjson.JSONObject">
+        update bes_timetask
+        <set>
+            f_timename = #{object.f_timename},
+            f_tasktype = #{object.f_tasktype},
+            f_specificvalue = #{object.f_specificvalue},
+            f_cronstartexpre = #{object.planTimeConfig},
+            <if test="object.f_jobId != null">
+                f_jobId = #{object.f_jobId}
+            </if>
+        </set>
+        where f_pId = #{object.f_id}
+    </update>
+
+    <!--修改定时任务调度表数据-->
+    <update id="updateSysJob" parameterType="com.alibaba.fastjson.JSONObject">
+        update sys_job
+        <set>
+            job_id = #{object.f_jobId},
+            job_name = #{object.f_timename},
+            cron_expression = #{object.planTimeConfig},
+            <if test="object.f_invoke != null">
+                status = #{object.f_invoke}
+            </if>
+        </set>
+        where planId = #{object.f_id}
+
+    </update>
+
+    <!--删除定时任务调度表数据-->
+    <delete id="deleteSysJob" parameterType="com.alibaba.fastjson.JSONObject">
+        delete from sys_job where planId = #{object.f_id}
+    </delete>
+
+    <!--根据f_id查询定时任务调度表中是否有数据-->
+    <select id="selectSysJob" resultType="java.util.Map">
+        select * from sys_job where planId = #{f_id}
+    </select>
+
+    <!--查询出全部”计划配置定义“数据-->
+    <select id="loadPlanAll" resultType="com.efounder.JEnterprise.model.basedatamanage.eqmanage.BesPlan">
+        select * from bes_plan
+    </select>
+
+    <!--查询出全部”计划配置公式定义“数据。-->
+    <select id="loadTimeTaskAll"
+            resultType="com.efounder.JEnterprise.model.basedatamanage.eqmanage.BesTimeTask">
+        select * from bes_timetask
+    </select>
+
+    <!--删除计划公式-->
+    <delete id="deleteTaskInfomationByPId">
+        delete from bes_timetask
+        where f_pId = #{fId}
+    </delete>
+
+    <!--根据计划id删除sys_job定时任务调度表中数据-->
+    <delete id="deleteSysJobByPId">
+        delete from sys_job where planId = #{fId}
+    </delete>
+
+    <!--根据模式id和类型id查询所有的计划数据(类型id 1:控制计划 2:采集计划)-->
+    <select id="selectPlanByModeId"
+            resultType="com.efounder.JEnterprise.model.basedatamanage.eqmanage.BesPlan">
+        select  * from bes_plan where f_modeInfoId = #{f_modeInfoId} and f_scenetype = #{scenetype}
+    </select>
+
+    <!--根据模式id查询模式点位表中的数据-->
+    <select id="selectScenePointBymodeId" resultType="java.util.Map">
+        select * from  bes_scenepoint
+        where f_scenemodeId = #{modeId} and f_pointnameDetailed IS NOT NULL and f_pointnameDetailed != ''
+    </select>
+
+</mapper>

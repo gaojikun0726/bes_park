@@ -1,0 +1,43 @@
+@charset "utf-8";
+/* 以下实际使用若已初始化可删除 .navissp height父级需逐级设置为100%*/
+body,html{height: 100%;    overflow: hidden;}
+body,ul{margin:0;padding:0}
+body{font:0.8vw "微软雅黑","宋体","Arial Narrow",HELVETICA;-webkit-text-size-adjust:100%;} 
+li{list-style:none} 
+a{text-decoration:none;}
+/* 以上实际使用若已初始化可删除 */
+
+/* nav */
+.navissp a span{margin-left: 0.5vw;}
+.navissp-item{position: relative;}
+.navissp-three{margin-left: 1.5vw!important;}
+.navissp-item.navissp-show{border-bottom: none;}
+.navissp-item.navissp-show ul{display: block;}
+.navissp-item>a:before{content: "";position: absolute;left: 0px;width: 2px;height: 46px;background: #34A0CE;opacity:0;transition: all .3s;}
+.navissp .navissp-icon{font-size: 20px;position: absolute;margin-left:-1px;}
+/* 此处修改导航图标 可自定义iconfont 替换*/
+.icon_1::after{content: "\e62b";}
+.icon_2::after{content: "\e669";}
+.icon_3::after{content: "\e61d";}
+/*---------------------*/
+.navissp-more{float:right;margin-right: 20px;font-size: 12px;transition: transform .3s;}
+/* 此处为导航右侧箭头 如果自定义iconfont 也需要替换*/
+.navissp-more::after{content: "\e621";}
+/*---------------------*/
+/* .navissp-show .navissp-more{transform:rotate(90deg);} */
+.navissp-show>a:before,.navissp-item>a:hover:before{opacity:1;}
+
+/* nav-mini */
+.navissp-mini.navissp{width: 60px;}
+.navissp-mini.navissp .navissp-icon{/* margin-left:-2px; */}
+.navissp-mini.navissp .navissp-item>a span{display: none;}
+.navissp-mini.navissp .navissp-more{margin-right: -20px;}
+.navissp-mini.navissp .navissp-item:hover{background:rgba(255,255,255,.1);}
+.navissp-mini.navissp .navissp-item:hover .navissp-item a{color:#FFF;}
+.navissp-mini.navissp .navissp-item:hover a:before{opacity:1;}
+.navissp-mini.navissp .navissp-item:hover ul{display: block;}
+
+
+
+
+

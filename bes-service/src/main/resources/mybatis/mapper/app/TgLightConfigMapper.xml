@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.efounder.JEnterprise.mapper.app.TgLightConfigMapper" >
+
+  <resultMap id="TgLightConfigMap" type="com.efounder.JEnterprise.model.app.TgLightConfig" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="light_address" property="tgLightAddress" jdbcType="VARCHAR" />
+    <result column="light_tg" property="tgLightTg" jdbcType="VARCHAR" />
+    <result column="light_tg_system" property="tgLightTgSystem" jdbcType="VARCHAR" />
+    <result column="light_status" property="tgLightStatus" jdbcType="VARCHAR" />
+    <result column="light_status_system" property="tgLightStatusSystem" jdbcType="VARCHAR" />
+  </resultMap>
+
+
+  <!--查询灯光配置列表-->
+  <select id="queryTgLightConfigList" resultMap="TgLightConfigMap">
+    select id,name,light_address,light_tg,light_tg_system,light_status,light_status_system from api_tglight_config
+  </select>
+
+  <!--删除-->
+  <delete id="delete">
+    delete from api_tglight_config where id = #{id}
+  </delete>
+
+<!--修改-->
+  <update id="update" parameterType="com.efounder.JEnterprise.model.app.TgLightConfig">
+      update api_tglight_config
+      <set>
+        <if test="name != null and name !=''">
+          name = #{name},
+        </if>
+        <if test="tgLightTg != null and tgLightTg !=''">
+          light_tg = #{tgLightTg},
+        </if>
+        <if test="tgLightAddress != null and tgLightAddress !=''">
+          light_address = #{tgLightAddress},
+        </if>
+        light_tg_system = #{tgLightTgSystem},
+        light_status = #{tgLightStatus},
+        light_status_system = #{tgLightStatusSystem}
+      </set>
+    where id = #{id}
+  </update>
+
+  <!--新增-->
+  <insert id="insert" parameterType="com.efounder.JEnterprise.model.app.TgLightConfig">
+    insert into api_tglight_config(name,light_address,light_tg,light_tg_system,light_status,light_status_system)
+    values(#{name},#{tgLightAddress},#{tgLightTg},#{tgLightTgSystem},#{tgLightStatus},#{tgLightStatusSystem})
+  </insert>
+
+  <!--查询-->
+  <select id="queryOne" resultMap="TgLightConfigMap">
+    select id,name,light_address ,light_tg ,light_tg_system,light_status,light_status_system from api_tglight_config
+    where id = #{id}
+  </select>
+
+  <insert id="insertTgLight">
+    insert into api_tglight_config(name,light_address,light_tg,light_tg_system,light_status,light_status_system)
+    values(#{name},#{lightAddress},#{lightTg},#{lightTgSystem},#{lightStatus},#{lightStatusSystem})
+  </insert>
+
+</mapper>

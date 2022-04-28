@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.efounder.JEnterprise.mapper.applicationmanage.ESHomeModuleMapper">
+	<resultMap id="esHomeModuleMap" type="com.efounder.JEnterprise.model.applicationmanage.ESHomeModule">
+		<result column="F_GUID" property="guid" />
+		<result column="F_MKBH" property="f_mkbh" />
+		<result column="F_MKMC" property="f_mkmc" />
+		<result column="F_CSS_CLASS" property="f_css_class" />
+		<result column="F_XTBH" property="f_xtbh" />
+		<result column="F_SHOWLEFTMENUS" property="f_showleftmenus" />
+		<result column="F_SORT" property="f_sort" />
+		<result column="F_CRDATE" property="f_crdate" />
+		<result column="F_CHDATE" property="f_chdate" />
+	</resultMap>
+	
+	<sql id="find_xxx">
+	    <![CDATA[
+			SELECT F_GUID,F_MKBH,F_MKMC,F_CSS_CLASS,F_XTBH,F_SHOWLEFTMENUS,F_SORT,date_format(F_CRDATE,'%Y-%m-%d %H:%i:%s' )F_CRDATE ,date_format(F_CHDATE,'%Y-%m-%d %H:%i:%s' )F_CHDATE
+	    ]]>
+	</sql>
+	
+	<sql id="from_xxx">
+	    <![CDATA[
+	    	FROM es_home_module
+	    ]]>
+	</sql>
+	
+	<!-- 查询全部 -->
+	<select id="loadList" parameterType="string" resultMap="esHomeModuleMap">
+		<include refid="find_xxx" />
+		<include refid="from_xxx" />
+		 order by F_GUID
+	</select>
+	
+	<select id="findByPage" parameterType="string" resultMap="esHomeModuleMap">
+  	<include refid="find_xxx" />
+	<include refid="from_xxx" />
+		<where>
+			1=1
+			<if test="keywords != null and keywords != ''"> 
+			and CONCAT(`F_MKBH`,'##',`F_MKMC` ) LIKE CONCAT('%',#{keywords},'%')
+			</if>
+		</where>
+		order by     CAST(F_SORT as SIGNED) ASC
+		
+  	</select>
+  	
+  	<select id="findByGuid" parameterType="string" resultMap="esHomeModuleMap">
+  		select * from es_home_module ehm where ehm.F_GUID = #{guid}
+  	</select>
+	
+	<insert id="insert" parameterType="com.efounder.JEnterprise.model.applicationmanage.ESHomeModule">
+		INSERT INTO es_home_module(F_GUID, F_MKBH,F_MKMC,F_CSS_CLASS,F_XTBH,F_SHOWLEFTMENUS,F_SORT,F_CRDATE, F_CHDATE) 
+		VALUES(#{guid},#{f_mkbh},#{f_mkmc},#{f_css_class},#{f_xtbh},#{f_showleftmenus},#{f_sort}, current_timestamp(),current_timestamp())
+	</insert>
+	
+	<update id="update" parameterType="com.efounder.JEnterprise.model.applicationmanage.ESHomeModule">
+		UPDATE es_home_module
+		<set>
+			<if test="f_mkbh != null and f_mkbh != ''">
+				F_MKBH = #{f_mkbh},
+			</if>
+			<if test="f_mkmc != null and f_mkmc != ''">
+				F_MKMC = #{f_mkmc},
+			</if>
+			<if test="f_css_class != null and f_css_class != ''">
+				F_CSS_CLASS = #{f_css_class},
+			</if>
+			<if test="f_xtbh != null and f_xtbh != ''">
+				F_XTBH = #{f_xtbh},
+			</if>
+			<if test="f_showleftmenus != null and f_showleftmenus != ''">
+				F_SHOWLEFTMENUS = #{f_showleftmenus},
+			</if>
+			<if test="f_sort != null and f_sort != ''">
+				F_SORT = #{f_sort},
+			</if>
+			F_CHDATE = current_timestamp()
+		</set>
+		WHERE F_GUID=#{guid}
+	</update>
+	
+	<delete id="delByGuid" parameterType="string">
+		DELETE FROM es_home_module WHERE F_GUID = #{guid}
+	</delete>
+</mapper>

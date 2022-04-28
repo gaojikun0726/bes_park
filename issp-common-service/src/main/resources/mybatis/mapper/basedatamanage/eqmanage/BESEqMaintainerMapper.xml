@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.efounder.JEnterprise.mapper.basedatamanage.eqmanage.BESEqMaintainerMapper">
+	<resultMap id="besEqMaintainerMap" type="com.efounder.JEnterprise.model.basedatamanage.eqmanage.BESEqMaintainer">
+		<id column="F_ID" property="f_id" jdbcType="VARCHAR" />
+		<result column="F_WHSMC" property="f_whsmc" jdbcType="VARCHAR" />
+		<result column="F_WHSDZ" property="f_whsdz" jdbcType="VARCHAR" />
+		<result column="F_WHXM" property="f_whxm" jdbcType="VARCHAR" />
+		<result column="F_LXR" property="f_lxr" jdbcType="VARCHAR" />
+		<result column="F_LXFS" property="f_lxfs" jdbcType="VARCHAR" />
+		<result column="F_CZ" property="f_cz" jdbcType="VARCHAR" />
+		<result column="F_EMAIL" property="f_email" jdbcType="VARCHAR" />
+		<result column="F_REMARK" property="f_remark" jdbcType="VARCHAR" />
+		<result column="F_CRDATE" property="f_crdate" jdbcType="TIMESTAMP" />
+		<result column="F_CHDATE" property="f_chdate" jdbcType="TIMESTAMP" />
+	</resultMap>
+	
+	<sql id="find_xxx">
+	    <![CDATA[
+			SELECT F_ID,F_WHSMC,F_WHSDZ,F_WHXM,F_LXR,F_LXFS,F_CZ,F_EMAIL,F_REMARK,date_format(F_CRDATE,'%Y-%m-%d %H:%i:%s' )F_CRDATE ,date_format(F_CHDATE,'%Y-%m-%d %H:%i:%s' )F_CHDATE
+	    ]]>
+	</sql>
+	
+	<sql id="from_xxx">
+	    <![CDATA[
+	    	FROM bes_eq_maintainer
+	    ]]>
+	</sql>
+	
+	<sql id="Base_Column_List">
+		F_ID, F_WHSMC, F_WHSDZ, F_WHXM, F_LXR, F_LXFS,F_CZ,F_EMAIL,F_REMARK,
+		date_format(F_CRDATE,'%Y-%m-%d %H:%i:%s' ) F_CRDATE ,
+		date_format(F_CHDATE,'%Y-%m-%d %H:%i:%s' ) F_CHDATE
+	</sql>
+	
+	<select id="findByPage" parameterType="java.lang.String" resultMap="besEqMaintainerMap">
+	select
+  	<include refid="Base_Column_List" />
+	 from bes_eq_maintainer
+		<where>
+			1=1
+			<if test="keywords != null and keywords != ''"> 
+			and CONCAT(`f_whsmc`) LIKE CONCAT('%',#{keywords},'%')
+			</if>
+		</where>
+		
+  	</select>
+  	
+  	<select id="findByFid" parameterType="string" resultMap="besEqMaintainerMap">
+  		select	<include refid="Base_Column_List" />
+  		 from bes_eq_maintainer 
+  		 where F_ID = #{f_id,jdbcType=VARCHAR}
+  	</select>
+  	
+  	<insert id="insert" parameterType="com.efounder.JEnterprise.model.basedatamanage.eqmanage.BESEqMaintainer">
+		insert into bes_eq_maintainer(F_ID, F_WHSMC,F_WHSDZ,
+		F_WHXM,F_LXR,F_LXFS,
+		F_CZ,F_EMAIL,F_REMARK,
+		F_CRDATE, F_CHDATE) 
+		values (#{f_id,jdbcType=VARCHAR},#{f_whsmc,jdbcType=VARCHAR},#{f_whsdz,jdbcType=VARCHAR},
+		#{f_whxm,jdbcType=VARCHAR},#{f_lxr,jdbcType=VARCHAR},#{f_lxfs,jdbcType=VARCHAR},
+		#{f_cz,jdbcType=VARCHAR},#{f_email,jdbcType=VARCHAR},#{f_remark,jdbcType=VARCHAR}, 
+		 #{f_crdate,jdbcType=TIMESTAMP}, #{f_chdate,jdbcType=TIMESTAMP})
+	</insert>
+	
+		<update id="update" parameterType="com.efounder.JEnterprise.model.basedatamanage.eqmanage.BESEqMaintainer">
+		update bes_eq_maintainer
+		set		F_WHSMC = #{f_whsmc,jdbcType=VARCHAR},
+				F_WHSDZ = #{f_whsdz,jdbcType=VARCHAR},
+				F_WHXM = #{f_whxm,jdbcType=VARCHAR},
+				F_LXR = #{f_lxr,jdbcType=VARCHAR},
+				F_LXFS = #{f_lxfs,jdbcType=VARCHAR},
+				F_CZ = #{f_cz,jdbcType=VARCHAR},
+				F_EMAIL = #{f_email,jdbcType=VARCHAR},
+				F_REMARK = #{f_remark,jdbcType=VARCHAR},
+				F_CHDATE = #{f_chdate,jdbcType=TIMESTAMP}
+		WHERE F_ID=#{f_id,jdbcType=VARCHAR}
+	</update>
+	
+	<delete id="delByFid" parameterType="string">
+		DELETE FROM bes_eq_maintainer 
+		WHERE F_ID = #{f_id,jdbcType=VARCHAR}
+	</delete>
+</mapper>

@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.efounder.JEnterprise.mapper.usercenter.ESSjqxMapper">
+
+	<resultMap id="sjqxMap" type="com.efounder.JEnterprise.model.usercenter.ESSjqx">
+		<result column="F_QXBH" property="f_qxbh" />
+		<result column="F_QXMC" property="f_qxmc" />
+		<result column="F_XTBH" property="f_xtbh" />
+		<result column="F_QXBZ" property="f_qxbz" />
+		<result column="F_QXSM" property="f_qxsm" />
+		<result column="F_TABN" property="f_tabn" />
+		<result column="F_BHZD" property="f_bhzd" />
+		<result column="F_MCZD" property="f_mczd" />
+		<result column="F_BMJG" property="f_bmjg" />
+		<result column="F_JSZD" property="f_jszd" />
+		<result column="F_MXZD" property="f_mxzd" />
+		<result column="F_WHER" property="f_wher" />
+		<result column="F_SFSY" property="f_sfsy" />
+		<result column="F_USER_QXB" property="f_user_qxb" />
+		<result column="F_YHZ_QXB" property="f_yhz_qxb" />
+		<result column="F_ROLE_QXB" property="f_role_qxb" />
+		<result column="F_GW_QXB" property="f_gw_qxb" />
+		<result column="F_CRDATE" property="f_crdate" />
+		<result column="F_CHDATE" property="f_chdate" />
+		
+	</resultMap>
+	
+
+
+	<sql id="find_xxx">
+	    <![CDATA[
+			SELECT F_QXBH , F_QXMC , F_XTBH, F_QXBZ ,
+			F_QXSM , F_TABN , F_BHZD, F_MCZD ,
+			F_BMJG , F_JSZD , F_MXZD, F_WHER ,F_SFSY,F_USER_QXB,F_YHZ_QXB,F_ROLE_QXB,F_GW_QXB,
+			date_format(F_CRDATE,'%Y-%m-%d %H:%i:%s' )F_CRDATE ,date_format(F_CHDATE,'%Y-%m-%d %H:%i:%s' )F_CHDATE
+	    ]]>
+	</sql>
+
+	<sql id="from_xxx">
+	    <![CDATA[
+	    	FROM ES_SJQX
+	    ]]>
+	</sql>
+
+	<sql id="where_xxx">
+	    <![CDATA[
+	    	WHERE 1=1
+	    ]]>
+	</sql>
+	
+	<!-- 查询所有数据权限信息 -->
+	<select id="findSjqxs" parameterType="string" resultMap="sjqxMap">
+		<include refid="find_xxx" />
+		<include refid="from_xxx" />
+		<![CDATA[
+			ORDER BY F_QXBH
+		]]>
+	</select>
+	
+	<!-- 根据关键字高级搜索数据权限 -->
+	<select id="findSjqxBykeywords" parameterType="string" resultMap="sjqxMap">
+		<include refid="find_xxx" />
+		<include refid="from_xxx" />
+		<where>
+		 1=1 
+			<if test="keywords != null and keywords != ''"> 
+			 and CONCAT(`f_qxbh`,'##',`f_qxmc` ) LIKE CONCAT('%',#{keywords},'%')
+			 </if>
+		</where>
+	</select>
+	
+	<!-- 根据数据权限编号查询信息 -->
+	<select id="checkQxbhExist" parameterType="string" resultMap="sjqxMap">
+		<include refid="find_xxx" />
+		<include refid="from_xxx" />
+		<![CDATA[
+			WHERE F_QXBH = #{qxbh}
+		]]>
+	</select>
+	<!-- 根据数据权限编号查询信息 -->
+	<select id="findSjqxById" parameterType="string" resultMap="sjqxMap">
+		<include refid="find_xxx" />
+		<include refid="from_xxx" />
+		<![CDATA[
+			WHERE F_QXBH = #{id}
+		]]>
+	</select>
+	<!-- 根据系统编号查询信息 -->
+	<select id="findSjqxByXtbh" parameterType="string" resultMap="sjqxMap">
+		<include refid="find_xxx" />
+		<include refid="from_xxx" />
+		<![CDATA[
+			WHERE F_XTBH = #{id}
+		]]>
+	</select>
+	
+	<!--分页  -->
+	<select id="findSjqxByPage" parameterType="string" resultMap="sjqxMap">
+		<include refid="find_xxx" />
+		<include refid="from_xxx" />
+		<![CDATA[
+			ORDER BY F_QXBH
+		]]>
+	</select>
+	
+	<!--添加数据权限  -->
+	<insert id="addSjqx" parameterType="com.efounder.JEnterprise.model.usercenter.ESSjqx"> 
+        INSERT  INTO ES_SJQX(F_QXBH , F_QXMC , F_XTBH, F_QXBZ ,F_QXSM , F_TABN ,
+         F_BHZD, F_MCZD ,F_BMJG , F_JSZD , F_MXZD, F_WHER ,F_SFSY,F_USER_QXB,F_YHZ_QXB,F_ROLE_QXB,F_GW_QXB,F_CRDATE,F_CHDATE) 
+         values(#{f_qxbh},#{f_qxmc},#{f_xtbh},#{f_qxbz},#{f_qxsm},#{f_tabn},
+         #{f_bhzd},#{f_mczd},#{f_bmjg},#{f_jszd},#{f_mxzd},#{f_wher},#{f_sfsy},#{f_user_qxb},#{f_yhz_qxb},#{f_role_qxb},#{f_gw_qxb},NOW(),NOW())  
+    </insert>
+    
+    <!--根据数据权限编码删除信息  -->
+   	<delete id="delSjqx" parameterType="com.efounder.JEnterprise.model.usercenter.ESSjqx">
+		DELETE FROM ES_SJQX WHERE F_QXBH = #{f_qxbh}
+	</delete>
+	
+	<!--更新数据权限  -->
+	<update id="upSjqx" parameterType="com.efounder.JEnterprise.model.usercenter.ESSjqx">
+		UPDATE ES_SJQX
+		<set>
+			<if test="f_qxmc != null and f_qxmc != '' ">
+				F_QXMC = #{f_qxmc},
+			</if>
+			<if test="f_qxbz != null and f_qxbz != '' ">
+				F_QXBZ = #{f_qxbz},
+			</if>
+			<if test="f_qxsm != null and f_qxsm != '' ">
+				F_QXSM = #{f_qxsm},
+			</if>
+			<if test="f_tabn != null and f_tabn != '' ">
+				F_TABN = #{f_tabn},
+			</if>
+				F_BHZD = #{f_bhzd},
+				F_MCZD = #{f_mczd},
+				F_BMJG = #{f_bmjg},
+				F_JSZD = #{f_jszd},
+				F_MXZD = #{f_mxzd},
+				F_WHER = #{f_wher},
+				F_SFSY = #{f_sfsy},
+				F_USER_QXB = #{f_user_qxb},
+				F_YHZ_QXB = #{f_yhz_qxb},
+				F_ROLE_QXB = #{f_role_qxb},
+				F_GW_QXB = #{f_gw_qxb},
+			F_CHDATE=NOW() 
+		</set>
+		WHERE F_QXBH = #{f_qxbh}
+	</update>
+<select id="findMaxBmbh"  parameterType="string" resultType="string">
+		select MAX(F_QXBH) from ES_SJQX
+	</select>
+</mapper>

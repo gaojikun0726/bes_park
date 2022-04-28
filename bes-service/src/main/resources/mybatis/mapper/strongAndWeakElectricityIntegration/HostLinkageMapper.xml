@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.efounder.JEnterprise.mapper.strongAndWeakElectricityIntegration.HostLinkageMapper" >
+
+    <sql id="col_name">
+      id                    id,
+      name                  name,
+      point_display         pointDisplay,
+      point                 point,
+      point_state           pointState,
+      point_state_display   pointStateDisplay,
+      machine_set_id        machineSetId,
+      comments              comments
+	</sql>
+
+    <sql id="table_name">
+        strongandweakelectricityintegration_host
+    </sql>
+
+    <insert id="insert" useGeneratedKeys="true" keyProperty="id">
+
+        insert into
+        <include refid="table_name"/>
+
+        (
+            name,
+            point_display,
+            point,
+            point_state,
+            point_state_display,
+            machine_set_id,
+            comments
+        )
+        values
+        (
+
+            #{name},
+            #{pointDisplay},
+            #{point},
+            #{pointState},
+            #{pointStateDisplay},
+            #{machineSetId},
+            #{comments}
+        )
+
+
+    </insert>
+
+    <select id="findList" resultType="com.efounder.JEnterprise.model.strongAndWeakElectricityIntegration.HostLinkageModel">
+
+        select
+
+        <include refid="col_name"/>
+
+        from
+
+        <include refid="table_name"/>
+        <where>
+
+            <if test="id != null and id != ''" >
+                id    =   #{id}
+            </if>
+            <if test="machineSetId != null and machineSetId != ''" >
+                machine_set_id    =   #{machineSetId}
+            </if>
+
+            <if test="name != null and name != ''" >
+                and name  =   #{name}
+            </if>
+
+        </where>
+
+    </select>
+
+
+    <update id="update">
+
+        update
+          <include refid="table_name"/>
+
+        <set>
+            <if test="name != null and name!='' ">
+                name     =   #{name},
+            </if>
+            <if test="pointDisplay != null and pointDisplay!='' ">
+                point_display   =     #{pointDisplay},
+            </if>
+            <if test="point != null and point!='' ">
+                point           =     #{point},
+            </if>
+            <if test="pointState != null and pointState!='' ">
+                point_state     =     #{pointState},
+            </if>
+            <if test="pointStateDisplay != null and pointStateDisplay!='' ">
+                point_state_display           =     #{pointStateDisplay},
+            </if>
+            <if test="machineSetId != null and machineSetId!='' ">
+                machine_set_id           =     #{machineSetId},
+            </if>
+            comments =   #{comments}
+        </set>
+
+        where
+
+            id  =  #{id}
+    </update>
+
+    <delete id="delete">
+
+        delete from
+          <include refid="table_name"/>
+        where
+             id = #{id}
+    </delete>
+    
+</mapper>

@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.efounder.JEnterprise.mapper.app.electriccurtain.BESCurtainMapper" >
+
+    <sql id="col_name">
+      id                                 id,
+      name                               name,
+      electriccurtain_address            electriccurtain_address,
+      electriccurtain_switch             electriccurtain_switch,
+      electriccurtain_switch_system      electriccurtain_switch_system,
+      electriccurtain_kdkz               electriccurtain_kdkz,
+      electriccurtain_kdkz_system        electriccurtain_kdkz_system,
+      electriccurtain_stop               electriccurtain_stop,
+      electriccurtain_stop_system        electriccurtain_stop_system
+
+	</sql>
+
+    <sql id="table_name">
+        api_electriccurtain_config
+    </sql>
+
+    <insert id="insert">
+
+        insert into
+        <include refid="table_name"/>
+
+        (
+        name,
+        electriccurtain_address,
+        electriccurtain_switch,
+        electriccurtain_switch_system,
+        electriccurtain_kdkz,
+        electriccurtain_kdkz_system,
+        electriccurtain_stop,
+        electriccurtain_stop_system
+        )
+        values
+        (
+
+        #{name},
+        #{electriccurtain_address},
+        #{electriccurtain_switch},
+        #{electriccurtain_switch_system},
+        #{electriccurtain_kdkz},
+        #{electriccurtain_kdkz_system},
+        #{electriccurtain_stop},
+        #{electriccurtain_stop_system}
+
+        )
+
+
+    </insert>
+
+    <select id="findList" resultType="com.efounder.JEnterprise.model.app.electriccurtain.BESCurain">
+
+        select
+
+        <include refid="col_name"/>
+
+        from
+
+        <include refid="table_name"/>
+        <where>
+
+            <if test="id != null and id != ''" >
+                id    =   #{id}
+            </if>
+
+            <if test="name != null and name != ''" >
+                and name  =   #{name}
+            </if>
+
+        </where>
+
+    </select>
+
+
+    <update id="update">
+
+        update
+        <include refid="table_name"/>
+
+        set
+        name                              =   #{name},
+        electriccurtain_address           =   #{electriccurtain_address},
+        electriccurtain_switch            =   #{electriccurtain_switch},
+        electriccurtain_switch_system     =   #{electriccurtain_switch_system},
+        electriccurtain_kdkz              =   #{electriccurtain_kdkz},
+        electriccurtain_kdkz_system       =   #{electriccurtain_kdkz_system},
+        electriccurtain_stop              =   #{electriccurtain_stop},
+        electriccurtain_stop_system       =   #{electriccurtain_stop_system}
+
+        where
+
+        id              =         #{id}
+    </update>
+
+    <delete id="delete">
+
+        delete from
+        <include refid="table_name"/>
+        where
+        id = #{id}
+    </delete>
+
+    <insert id="insertCurtain">
+
+        insert into
+        <include refid="table_name"/>
+
+        (
+        name,
+        electriccurtain_address,
+        electriccurtain_switch,
+        electriccurtain_switch_system,
+        electriccurtain_kdkz,
+        electriccurtain_kdkz_system,
+        electriccurtain_stop,
+        electriccurtain_stop_system
+        )
+        values
+        (
+        #{name},
+        #{curtainAddress},
+        #{curtainSwitch},
+        #{curtainSwitchSystem},
+        #{curtainKdkz},
+        #{curtainKdkzSystem},
+        #{curtainStop},
+        #{curtainStopSystem}
+        )
+
+    </insert>
+
+</mapper>

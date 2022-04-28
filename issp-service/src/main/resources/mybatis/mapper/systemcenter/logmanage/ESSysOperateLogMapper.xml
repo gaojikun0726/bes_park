@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.efounder.JEnterprise.mapper.systemcenter.logmanage.ESSysOperateLogMapper">
+	<resultMap id="SysOperateLogMap1"
+		type="com.efounder.JEnterprise.model.systemcenter.logmanage.ESSysOperateLog">
+		<result column="F_ID" property="f_id" />
+		<result column="F_YHBH" property="f_yhbh" />
+		<result column="F_TYPE" property="f_type" />
+		<result column="F_TABLE_NAME" property="f_table_name" />
+		<result column="F_TABLE_ID" property="f_table_id" />
+		<result column="F_COMMENT" property="f_comment" />
+		<result column="F_OPERATION_TIME" property="f_operation_time" />
+		<result column="F_CRDATE" property="f_crdate" />
+		<result column="F_CHDATE" property="f_chdate" />
+		
+	</resultMap>
+  
+	<sql id="find_xxx">
+	  <![CDATA[
+	  SELECT 
+	    a.F_ID,
+	    a.F_YHBH,
+	    a.F_TYPE,
+	    CASE F_TYPE WHEN '3' THEN '查询' WHEN '2' THEN '修改' WHEN '1' THEN '删除' WHEN '0' THEN '增加' END AS F_TYPE0,
+	    a.F_TABLE_NAME,
+	    a.F_TABLE_ID,
+        a.F_COMMENT,
+        date_format(a.F_OPERATION_TIME,'%Y-%m-%d %H:%i:%s' )F_OPERATION_TIME,
+      	b.F_NAME,
+        date_format(a.F_CRDATE,'%Y-%m-%d %H:%i:%s' )F_CRDATE ,date_format(a.F_CHDATE,'%Y-%m-%d %H:%i:%s' )F_CHDATE
+	  ]]>
+	</sql>
+	<sql id="from_xxx">
+	    <![CDATA[
+	      FROM es_operation_log a LEFT JOIN es_user b ON a.F_YHBH = b.F_YHBH
+	    ]]>
+	</sql>
+
+    <!-- 多个条件连接查询 -->
+	<select id="getlmcxList" resultMap="SysOperateLogMap1" parameterType="java.lang.String">
+		<include refid="find_xxx" />
+		<include refid="from_xxx" />
+		where 1=1 
+		<if test="fcomment != null and fcomment != '' ">
+				and a.F_COMMENT = #{fcomment}
+			</if>
+		<if test="fname != null and fname != '' " >
+				and b.F_NAME LIKE '%${fname}%'
+			</if>
+		<if test="ftype != null and ftype != '' ">
+				and a.F_TYPE = #{ftype}
+			</if>	
+		<if test="startTime != null and startTime != '' ">
+				<![CDATA[
+					and a.F_OPERATION_TIME >= #{startTime}
+				]]>
+			</if>
+		<if test="endTime != null and endTime != '' ">
+				<![CDATA[
+					and a.F_OPERATION_TIME <= #{endTime}
+				]]>
+			</if>
+	</select>
+
+	<!--wanghongjie 根据条件加载操作日志信息-->
+	<select id="loadsysOperateloglistss" parameterType="String" resultMap="SysOperateLogMap1">
+		<include refid="find_xxx" />
+		<include refid="from_xxx" />
+		<where>
+			1=1
+			<if test="keywords != null and keywords != ''">
+				and CONCAT(a.`f_username`,'##',a.`f_rolemc`) LIKE CONCAT('%',#{keywords},'%')
+			</if>
+		</where>
+		order by F_CHDATE desc
+	</select>
+
+
+</mapper>

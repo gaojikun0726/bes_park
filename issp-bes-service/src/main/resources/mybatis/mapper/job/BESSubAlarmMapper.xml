@@ -1,0 +1,190 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.efounder.JEnterprise.mapper.collectorJob.BESSubAlarmMapper">
+
+	<resultMap id="BesNoteAlarmMap" type="com.efounder.JEnterprise.model.dataAnalysises.BesBranchConfAlarmConfiguration" >
+		<result column="F_ALERTID" property="fAlertid" jdbcType="VARCHAR" />
+		<result column="F_AMMSYS_NAME" property="fAmmsysName" jdbcType="VARCHAR" />
+		<result column="F_NYMC" property="fNymc" jdbcType="VARCHAR" />
+		<result column="F_ZLBH" property="fZlbh" jdbcType="VARCHAR" />
+		<result column="F_ALERTNAME" property="fAlertname" jdbcType="VARCHAR" />
+		<result column="F_OPERATOR" property="fOperator" jdbcType="VARCHAR" />
+		<result column="F_ALERTGRADE" property="fAlertgrade" jdbcType="VARCHAR" />
+		<result column="F_RANGETYPE" property="fRangetype" jdbcType="VARCHAR" />
+		<result column="F_NOMORE" property="fNomore" jdbcType="VARCHAR" />
+		<result column="F_NOLESS" property="fNoless" jdbcType="VARCHAR" />
+		<result column="F_EQUAL" property="fEqual" jdbcType="VARCHAR" />
+		<result column="F_ACTIVE" property="fActive" jdbcType="VARCHAR" />
+		<result column="F_ALERTYPEID" property="fType" jdbcType="VARCHAR" />
+		<result column="F_YQBH" property="fYqbh" jdbcType="VARCHAR" />
+	</resultMap>
+
+	<resultMap id="BesBranchConfParameterMap" type="com.efounder.JEnterprise.model.dataAnalysises.BesBranchConfParameter" >
+		<result column="F_ID" property="fId" jdbcType="VARCHAR" />
+		<result column="F_ALERTID" property="fAlertid" jdbcType="VARCHAR" />
+		<result column="F_AMMSYS_NAME" property="fAmmsysName" jdbcType="VARCHAR" />
+		<result column="F_ELEDNBH" property="fElednbh" jdbcType="VARCHAR" />
+		<result column="F_SORTNO" property="fSortno" jdbcType="VARCHAR" />
+		<result column="F_CRDATE" property="fCrdate" jdbcType="VARCHAR" />
+		<result column="F_CHDATE" property="fChdate" jdbcType="VARCHAR" />
+	</resultMap>
+	<!-- 按园区编号查询支路报警规则 -->
+	<select id="SelectAlarmSub" resultType="java.util.HashMap">
+		SELECT
+			a.*, b.F_ZLBH,b.F_NYBH,b.F_YQBH
+		FROM
+			bes_branch_conf_alert a,
+			bes_branch_conf b
+		WHERE
+			a.active = '0'
+		AND a.F_ZLBH = b.F_ZLBH
+		AND b.F_YQBH = #{parkId}
+	</select>
+
+	<!-- 查询报警规则所用到的参数 -->
+	<select id="SelectAlarmParmeSub" resultType="java.util.HashMap">
+		select a.*,b.F_SBID from bes_branch_conf_parameter a,bes_ammeter b
+where F_ALERTID = #{F_ALERTID} and a.F_AMMSYS_NAME = b.F_SYS_NAME ORDER BY F_SORTNO
+	</select>	
+	
+	<!-- 查询能源类型名称-->
+	<select id="selectEnergyTypeName" resultType="java.lang.String">
+		select F_NYMC from bes_energy_type WHERE F_NYBH = #{F_NYBH}
+	</select>
+
+	<!-- 根据电表id和电能参数id查原始数据 -->
+	<select id="SelectAlarmParmeData" resultType="java.util.Map">
+		SELECT F_DATA FROM
+			bes_original_data
+		WHERE
+			F_DBSYS_NAME = #{F_AMMSYS_NAME}
+		and F_DNBH = #{F_ELEDNBH}
+		ORDER BY F_CJSJ DESC 
+		LIMIT 1
+	</select>
+
+	<select id="queryMailByPark" resultType="java.util.HashMap">
+		SELECT F_EMAIL, F_PHONE FROM es_user WHERE F_YQBH = #{parkid}
+		OR F_YQBH = 'admin'
+	</select>
+
+	<!-- 查询支路报警类型 -->
+	<select id="selectSubAlarm" resultType="java.lang.String">
+		select F_ALERT_TYPE from bes_branch_alert_type where F_ZLBH =#{id}
+	</select>
+	<!--wanghongjie start 20200602 查询当前电表所关联的配置报警信息-->
+	<select id="selectId" resultType="java.util.HashMap" parameterType="string">
+		(select a.F_ALERTID,a.F_AMMSYS_NAME,c.F_NYMC ,d.F_ZLBH,d.F_ALERTNAME,d.F_OPERATOR,d.F_ALERTGRADE,d.F_RANGETYPE,d.F_NOMORE,d.F_NOLESS,d.F_EQUAL,d.F_ACTIVE,d.F_ALERTYPEID F_TYPE,e.F_YQBH
+			from bes_branch_conf_parameter a ,bes_electric_params b,bes_energy_type c ,bes_branch_conf_alert d,bes_branch_conf e,bes_ammeter f
+			where f.F_SYS_NAME_OLD = #{f_sys_name_old}
+			and a.F_ELEDNBH = b.F_DNBH
+			and b.F_nyBH = c.F_NYBH
+			and a.F_ALERTID = d.F_ID
+			and d.F_ZLBH = e.F_ZLBH
+			and a.F_AMMSYS_NAME = f.F_SYS_NAME)
+			UNION  (
+			select a.F_ALERTID,a.F_AMMSYS_NAME,c.F_NYMC ,d.F_ZLBH,d.F_ALERTNAME,d.F_OPERATOR,d.F_ALERTGRADE,d.F_RANGETYPE,d.F_NOMORE,d.F_NOLESS,d.F_EQUAL,d.F_ACTIVE,d.F_ALERTYPEID F_TYPE,e.F_YQBH
+			from bes_branch_conf_parameter a ,bes_electric_params b,bes_energy_type c ,bes_branch_conf_alert d,bes_branch_conf e,bes_ammeter f
+			where f.F_SYS_NAME_OLD = #{f_sys_name_old}
+			and a.F_ELEDNBH = b.F_DNBH
+			and b.F_nyBH = c.F_NYBH
+			and a.F_ALERTID = d.F_ID
+			and d.F_ZLBH = e.F_ZLBH
+			and a.F_AMMSYS_NAME = f.F_SYS_NAME
+		)
+	</select>
+
+	<!--wanghongjie start 20200603 当前电表所包含的电能参数-->
+	<select id="SelectAlarmParmeF_nhbh" resultType="java.util.HashMap">
+		select a.*,b.* from bes_electric_coll_rlgl a,bes_electric_params b where
+		a.F_CJFABH = (SELECT F_CJFABH FROM bes_ammeter where f_sbid = #{meterID}) and a.F_NHBH = b.F_DNBH
+	</select>
+	<!--wanghongjie start 20200612 获取当前电表的变比  根据上传的sbid查询-->
+	<select id="SelectAlarmParmeF_percentage" parameterType="string" resultType="string">
+		select F_PERCENTAGE from bes_ammeter where F_SBID = #{meterID}
+	</select>
+
+	<!--wanghongjie start 20200727 根据id查询是否有这个点位-->
+    <select id="sbpzStructPointMap" resultType="java.util.Map">
+		select a.*,b.F_NODE_TABLE from bes_sbpz_struct a ,bes_sbtree_nodetype b where F_ID = #{pointId} and a.F_TYPE = b.F_NODE_TYPE
+	</select>
+
+	<!--wanghongjie start 20200727 查询实点点位在相应表中的数据-->
+	<select id="selectPointMap" resultType="java.util.Map">
+		select * from ${tabName} where F_STRUCT_ID = #{pointId}
+	</select>
+
+	<!--wanghongjie start 20200727 查询虚点点位在相应表中的数据-->
+	<select id="selectVPointMap" resultType="java.util.Map">
+		select * from BES_VPOINT where F_SBID = #{pointId}
+	</select>
+
+	<!--wanghongjie start 20200727 查询当前点位所属的模块-->
+	<select id="selectModuleName" resultType="java.lang.String">
+		select F_SYS_NAME_OLD  from bes_sbpz_struct where F_ID =  #{pointId}
+	</select>
+
+	<!--wanghongjie start 20200727 查询点位所属的控制器-->
+	<select id="selectDDCPointMap" resultType="java.util.Map">
+		select * from bes_ddc where
+		F_SYS_NAME_OLD = (
+		select F_PSYS_NAME from bes_sbpz_struct where F_SYS_NAME_OLD = (
+		select F_PSYS_NAME from bes_sbpz_struct where F_SYS_NAME_OLD = (
+		select F_PSYS_NAME from bes_sbpz_struct where F_SYS_NAME_OLD = (
+		select F_PSYS_NAME from bes_sbpz_struct where F_ID = #{pointId}
+		))))
+		|| F_SYS_NAME_OLD = (
+		select F_PSYS_NAME from bes_sbpz_struct where F_SYS_NAME_OLD = (
+		select F_PSYS_NAME from bes_sbpz_struct where F_ID = #{pointId}
+		))
+		|| F_SYS_NAME_OLD = (
+		select F_PSYS_NAME from bes_sbpz_struct where F_SYS_NAME_OLD = (
+		select F_PSYS_NAME from bes_sbpz_struct where F_SYS_NAME_OLD = (
+		select F_PSYS_NAME from bes_sbpz_struct where F_ID = #{pointId}
+		)))
+	</select>
+
+	<!--如果是AI点的电表,则向电表数据表 bes_calculate_data 查询当前AI点的数据-->
+	<select id="selectCalculateDataByAIPoint" resultType="java.util.Map">
+		SELECT F_DATA FROM
+			bes_calculate_data
+		WHERE
+			F_DBSYS_NAME = #{f_ammsys_name}
+		ORDER BY F_CJSJ DESC
+		LIMIT 1
+	</select>
+
+	<!--根据id查询电表数据表-->
+	<select id="selectAmmeterMap" resultType="java.util.Map">
+		select * from bes_ammeter where f_sbid = #{meterID}
+	</select>
+
+	<!--支路报警配置-->
+	<select id="loadAll" resultMap="BesNoteAlarmMap">
+		(select a.F_ALERTID,a.F_AMMSYS_NAME,c.F_NYMC ,d.F_ZLBH,d.F_ALERTNAME,d.F_OPERATOR,d.F_ALERTGRADE,d.F_RANGETYPE,d.F_NOMORE,d.F_NOLESS,d.F_EQUAL,d.F_ACTIVE,d.F_ALERTYPEID,e.F_YQBH
+			from bes_branch_conf_parameter a ,bes_electric_params b,bes_energy_type c ,bes_branch_conf_alert d,bes_branch_conf e,bes_ammeter f
+			where f.F_SYS_NAME_OLD = f.F_SYS_NAME_OLD
+			and a.F_ELEDNBH = b.F_DNBH
+			and b.F_nyBH = c.F_NYBH
+			and a.F_ALERTID = d.F_ID
+			and d.F_ZLBH = e.F_ZLBH
+			and a.F_AMMSYS_NAME = f.F_SYS_NAME_OLD)
+			UNION  (
+			select a.F_ALERTID,a.F_AMMSYS_NAME,c.F_NYMC ,d.F_ZLBH,d.F_ALERTNAME,d.F_OPERATOR,d.F_ALERTGRADE,d.F_RANGETYPE,d.F_NOMORE,d.F_NOLESS,d.F_EQUAL,d.F_ACTIVE,d.F_ALERTYPEID,e.F_YQBH
+			from bes_branch_conf_parameter a ,bes_electric_params b,bes_energy_type c ,bes_branch_conf_alert d,bes_branch_conf e,bes_ammeter f
+			where f.F_SYS_NAME_OLD = f.F_SYS_NAME_OLD
+			and a.F_ELEDNBH = b.F_DNBH
+			and b.F_nyBH = c.F_NYBH
+			and a.F_ALERTID = d.F_ID
+			and d.F_ZLBH = e.F_ZLBH
+			and a.F_AMMSYS_NAME = f.F_SYS_NAME_OLD
+		)
+	</select>
+
+	<!--从数据库中查询出全部”支路报警规则“数据。-->
+    <select id="loadAllBranchConfParam" resultMap="BesBranchConfParameterMap">
+	select a.* from bes_branch_conf_parameter a,bes_ammeter b
+	where  a.F_AMMSYS_NAME = b.F_SYS_NAME_OLD ORDER BY F_SORTNO
+	</select>
+</mapper>

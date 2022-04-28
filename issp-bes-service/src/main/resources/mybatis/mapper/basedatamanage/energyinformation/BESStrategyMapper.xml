@@ -1,0 +1,172 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.efounder.JEnterprise.mapper.basedatamanage.energyinformation.BESStrategyMapper">
+
+
+    <select id="getStrategyTree" resultType="com.efounder.JEnterprise.model.basedatamanage.energyinformation.BESStrategy">
+        select f_id,f_name,f_type,f_pId
+        from bes_strategy
+        where f_user_code = #{userCode} or f_user_code = 'all'
+        ORDER BY f_id
+    </select>
+
+    <select id="queryTableParam" parameterType="String" resultType="map">
+            select
+                f_id,
+                f_name,
+                f_type,
+                f_pId,
+                f_cron,
+                f_status,
+                f_range,
+                f_email,
+                f_cron_job_type,
+                date_format(f_cron_start_date,'%Y-%m-%d %H:%i:%s') f_cron_start_date
+            from
+                bes_strategy
+            WHERE f_id = #{id,jdbcType=VARCHAR}
+    </select>
+
+    <update id="updateStrategyName" parameterType="String">
+        update bes_strategy
+        set f_name = #{name,jdbcType=VARCHAR}
+        where f_id = #{id,jdbcType=VARCHAR}
+    </update>
+
+    <delete id="deleteStrategy"  parameterType="String">
+        delete from bes_strategy where f_id = #{id,jdbcType=VARCHAR}
+    </delete>
+
+    <insert id="insertStrategy" useGeneratedKeys="true" keyProperty="f_id" parameterType="com.efounder.JEnterprise.model.basedatamanage.energyinformation.BESStrategy">
+        insert into bes_strategy(f_name,f_type,f_pId,f_status,f_user_code,f_user_name)
+        values(#{f_name},#{f_type},#{f_pId},#{f_status},#{f_user_code},#{f_user_name})
+    </insert>
+
+    <update id="updateStrategy" parameterType="com.efounder.JEnterprise.model.basedatamanage.energyinformation.BESStrategy">
+        update bes_strategy
+        <set>
+            <if test="f_name != null and f_name != ''">
+                f_name = #{f_name},
+            </if>
+            f_pId = #{f_pId},
+            f_cron = #{f_cron},
+            f_status = #{f_status},
+            f_range = #{f_range},
+            f_email = #{f_email},
+            f_cron_job_type = #{f_cron_job_type},
+            f_cron_start_date = #{f_cron_start_date}
+        </set>
+        where f_id = #{f_id}
+    </update>
+
+    <delete id="deleteBranch" parameterType="String">
+        delete from bes_strategy_branch where f_strategy_id = #{fStrategyId,jdbcType=VARCHAR}
+    </delete>
+
+    <insert id="insertBranch" parameterType="String">
+        insert into bes_strategy_branch(f_strategy_id,f_zlbh,f_level,f_zlmc)
+        values(#{fStrategyId,jdbcType=VARCHAR},#{f_zlbh,jdbcType=VARCHAR},#{f_level,jdbcType=VARCHAR},#{f_zlmc,jdbcType=VARCHAR})
+    </insert>
+
+    <delete id="deleteDepartment" parameterType="String">
+        delete from bes_strategy_department where f_strategy_id = #{fStrategyId,jdbcType=VARCHAR}
+    </delete>
+
+    <insert id="insertDepartment" parameterType="String">
+        insert into bes_strategy_department(f_strategy_id,f_department_id,f_level,f_zlmc)
+        values(#{fStrategyId,jdbcType=VARCHAR},#{f_department_id,jdbcType=VARCHAR},#{f_level,jdbcType=VARCHAR},#{f_zlmc,jdbcType=VARCHAR})
+    </insert>
+
+    <select id="queryStrategyBranch"  parameterType="String" resultType="string">
+        select f_zlbh,f_strategy_id from bes_strategy_branch where f_strategy_id = #{id,jdbcType=VARCHAR}
+    </select>
+
+    <select id="queryStrategyDepartment"  parameterType="String" resultType="string">
+        select f_department_id,f_strategy_id from bes_strategy_department where f_strategy_id = #{id,jdbcType=VARCHAR}
+    </select>
+
+    <insert id="insertSysJobSyncInfo" parameterType="com.efounder.JEnterprise.domain.SysJob" useGeneratedKeys="true" keyProperty="jobId">
+         insert into sys_job(
+             job_id,job_name,job_group,invoke_target,cron_expression,misfire_policy,concurrent,status,create_by
+             ,update_by,remark,sync_id
+             )
+         values (
+             #{jobId,jdbcType=VARCHAR},#{jobName,jdbcType=VARCHAR},#{jobGroup,jdbcType=VARCHAR},#{invokeTarget,jdbcType=VARCHAR},
+             #{cronExpression,jdbcType=VARCHAR},#{misfirePolicy,jdbcType=VARCHAR},#{concurrent},
+             #{status},#{createBy,jdbcType=VARCHAR},#{updateBy},#{remark},#{syncId,jdbcType=VARCHAR}
+         )
+    </insert>
+    
+    <select id="queryStrategyJobId" parameterType="String"  resultType="string">
+        select f_job_id from bes_strategy where f_id = #{f_id,jdbcType=VARCHAR}
+    </select>
+
+    <delete id="deleteJobInfo" parameterType="string">
+        delete from sys_job where job_id = #{jobId,jdbcType=VARCHAR}
+    </delete>
+
+    <update id="updateStrategyJobId" parameterType="string">
+        update bes_strategy set f_job_id = #{fJobId,jdbcType=VARCHAR} where f_id = #{f_id,jdbcType=VARCHAR}
+    </update>
+
+    <select id="queryStrategyInfo" parameterType="string" resultType="java.util.Map">
+        select f_name,f_pId,f_status,f_range,f_email,f_job_id from bes_strategy where f_id = #{strategyId,jdbcType=VARCHAR}
+    </select>
+
+    <select id="queryBranchData"  parameterType="string" resultType="java.util.Map">
+
+        SELECT * from
+            (SELECT t1.*,sum(t2.F_DATA) fData,t2.F_CJSJ,t2.F_TYPE
+            from bes_strategy_branch t1 LEFT JOIN bes_branch_data t2 on t1.f_zlbh = t2.F_ZLBH
+
+            where
+            F_LEVEL = '1' and t2.F_TYPE = '0'
+            and t1.f_strategy_id = #{strategyId,jdbcType=VARCHAR}
+            and  t2.F_CJSJ >= #{nowStart,jdbcType=VARCHAR} and t2.F_CJSJ &lt;= #{nowEnd,jdbcType=VARCHAR}
+            GROUP BY t1.F_ZLBH
+            ) table1
+        left join
+            (SELECT t3.f_zlbh,sum(t4.F_DATA) yData
+            from bes_strategy_branch t3 LEFT JOIN bes_branch_data t4 on t3.f_zlbh = t4.F_ZLBH
+
+            where
+            F_LEVEL = '1' and t4.F_TYPE = '0'
+            and t3.f_strategy_id = #{strategyId,jdbcType=VARCHAR}
+            and t4.F_CJSJ >= #{lastStart,jdbcType=VARCHAR} and t4.F_CJSJ &lt;= #{lastEnd,jdbcType=VARCHAR}
+            GROUP BY t3.F_ZLBH
+            ) table2
+        on table1.F_ZLBH = table2.F_ZLBH
+
+        ORDER BY F_LEVEL asc,fData desc
+    </select>
+
+    <select id="queryChildBranchData"  parameterType="string" resultType="java.util.Map">
+
+        SELECT * from
+            (SELECT t1.*,sum(t2.F_DATA) fData,t2.F_CJSJ,t2.F_TYPE
+            from bes_strategy_branch t1 LEFT JOIN bes_branch_data t2 on t1.f_zlbh = t2.F_ZLBH
+
+            where
+            F_LEVEL > '1' and t2.F_TYPE = '0'
+            and t1.f_strategy_id = #{strategyId,jdbcType=VARCHAR}
+            and  t2.F_CJSJ >= #{nowStart,jdbcType=VARCHAR} and t2.F_CJSJ &lt;= #{nowEnd,jdbcType=VARCHAR}
+            GROUP BY t1.F_ZLBH
+            ) table1
+        left join
+            (SELECT t3.f_zlbh,sum(t4.F_DATA) yData
+            from bes_strategy_branch t3 LEFT JOIN bes_branch_data t4 on t3.f_zlbh = t4.F_ZLBH
+
+            where
+            F_LEVEL > '1' and t4.F_TYPE = '0'
+            and t3.f_strategy_id = #{strategyId,jdbcType=VARCHAR}
+            and t4.F_CJSJ >= #{lastStart,jdbcType=VARCHAR} and t4.F_CJSJ &lt;= #{lastEnd,jdbcType=VARCHAR}
+            GROUP BY t3.F_ZLBH
+            ) table2
+        on table1.F_ZLBH = table2.F_ZLBH
+
+        ORDER BY F_LEVEL asc,fData desc
+    </select>
+
+
+</mapper>

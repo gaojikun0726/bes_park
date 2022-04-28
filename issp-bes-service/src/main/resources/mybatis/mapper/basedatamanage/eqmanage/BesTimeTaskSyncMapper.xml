@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.efounder.JEnterprise.mapper.basedatamanage.eqmanage.BesTimeTaskSyncMapper" >
+
+    <select id="queryPage" resultType="map">
+        select
+        f_id,
+        f_job_name,
+        f_equipment_name,
+        f_cron,
+        f_status,
+        f_remark
+        FROM
+        bes_time_task_sync
+        <where>
+            <if test="keywords != null and keywords != ''">
+                f_job_name LIKE CONCAT('%',#{keywords},'%')
+            </if>
+        </where>
+    </select>
+
+    <select id="selectSyncMaxId" resultType="string">
+        SELECT  max(CAST(F_ID as SIGNED)) as maxId  FROM  bes_time_task_sync
+    </select>
+
+    <insert id="insertSyncInfo" parameterType="com.efounder.JEnterprise.model.basedatamanage.eqmanage.BesTimeTaskSync">
+       insert into bes_time_task_sync(
+            f_id,f_job_name,f_equipment_name,f_cron,f_status,f_remark
+            )
+        values (
+            #{f_id,jdbcType=VARCHAR}, #{f_job_name,jdbcType=VARCHAR},#{f_equipment_name,jdbcType=VARCHAR},
+            #{f_cron,jdbcType=VARCHAR},#{f_status,jdbcType=VARCHAR},#{f_remark,jdbcType=VARCHAR}
+        )
+    </insert>
+
+    <insert id="insertSbInfo" parameterType="com.efounder.JEnterprise.model.basedatamanage.eqmanage.BesTimeTaskSyncSb">
+       insert into bes_time_task_sync_sb(
+            f_sync_id,f_point_id,f_point_name,f_point_type,f_point_all_name,f_point_psys_name
+            )
+        values (
+            #{f_sync_id,jdbcType=VARCHAR},#{f_point_id,jdbcType=VARCHAR},#{f_point_name,jdbcType=VARCHAR},
+            #{f_point_type,jdbcType=VARCHAR},#{f_point_all_name,jdbcType=VARCHAR},#{f_point_psys_name,jdbcType=VARCHAR}
+        )
+    </insert>
+
+    <update id="insertTimeTaskSyncJobId" parameterType="string">
+        update bes_time_task_sync
+        <set >
+            <if test="jobId != null" >
+                f_job_id = #{jobId},
+            </if>
+        </set>
+        where  f_id = #{syncId,jdbcType=VARCHAR}
+    </update>
+
+    <select id="querySbList" resultType="map"  parameterType="string">
+        select f_point_id,f_point_name,f_point_type,f_point_all_name,f_point_psys_name
+        FROM bes_time_task_sync_sb
+        <where>
+            f_sync_id = #{syncId,jdbcType=VARCHAR}
+        </where>
+    </select>
+
+    <select id="selectTimeTaskSyncInfo" parameterType="string"
+            resultType="map">
+        select * from bes_time_task_sync
+        where f_id = #{syncId,jdbcType=VARCHAR}
+    </select>
+
+    <delete id="deleteSyncInfo" parameterType="string">
+        delete from bes_time_task_sync where f_id = #{syncId,jdbcType=VARCHAR}
+    </delete>
+
+    <delete id="deleteSyncSbList" parameterType="string">
+        delete from bes_time_task_sync_sb where f_sync_id = #{syncId,jdbcType=VARCHAR}
+    </delete>
+
+    <select id="selectSysJobInfo" parameterType="string" resultType="map">
+        select * from sys_job
+        where
+        sync_id = #{syncId,jdbcType=VARCHAR} and invoke_target = #{invokeTarget,jdbcType=VARCHAR}
+    </select>
+
+    <delete id="deleteJobInfo" parameterType="string">
+        delete from sys_job where job_id = #{jobId,jdbcType=VARCHAR}
+    </delete>
+
+    <update id="updateTimeTaskSync" parameterType="com.efounder.JEnterprise.model.basedatamanage.eqmanage.BesTimeTaskSync">
+        update bes_time_task_sync
+        <set>
+            <if test="f_job_name != null and f_job_name != ''">
+                f_job_name = #{f_job_name,jdbcType=VARCHAR},
+            </if>
+            <if test="f_equipment_name != null and f_equipment_name != ''">
+                f_equipment_name = #{f_equipment_name,jdbcType=VARCHAR},
+            </if>
+            <if test="f_cron != null and f_cron != ''">
+                f_cron = #{f_cron,jdbcType=VARCHAR},
+            </if>
+            <if test="f_remark != null and f_remark != ''">
+                f_remark = #{f_remark,jdbcType=VARCHAR},
+            </if>
+            f_status = '0'
+        </set>
+        where f_id = #{f_id,jdbcType=VARCHAR}
+    </update>
+
+    <update id="updateSysJobInfo" parameterType="com.alibaba.fastjson.JSONObject">
+        update sys_job
+        <set>
+            job_id = #{object.f_job_id},
+            job_name = #{object.f_job_name},
+            cron_expression = #{object.f_cron},
+            remark = #{object.f_remark}
+        </set>
+        where sync_id = #{object.f_id}
+    </update>
+
+</mapper>

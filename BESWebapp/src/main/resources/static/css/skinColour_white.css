@@ -1,0 +1,1071 @@
+@CHARSET "UTF-8";
+
+/* 界面换肤 white  
+	CSS样式表
+	创建人：sunhao
+ */
+
+/* 主背景色 */
+.issp-tabscontent{
+	background-color: #eeeeee;
+}
+/* 信息模块放大背景色 */
+.tab-pane.active{
+	background: #fff;
+    /*width: calc(100% - 40px);*/
+}
+/* 最顶端背景图片 */
+#top{
+	 background:url(../../static/uniform/image/headBg.jpg) #3e7deb;
+	/*background: rgb(48, 140, 227);*/
+	height: 5.5%;
+    /*height:60px;*/
+	width:100%;
+}
+/* 个人中心背景色 */
+.navbar-top-links li.user-dropdown {
+    vertical-align: top;
+    /* background-color:#0e1a32; */
+        height: 100%;
+}
+.nav.navbar-top-links a {
+	color:#ffffff;
+    font-size: 1vw;
+}
+/* 个人中心字体颜色 */
+.nav.navbar-right > li > a {
+    color: #ffffff;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+/* 个人中心鼠标路过 */
+.nav.navbar-top-links > li > a:hover,
+.nav.navbar-top-links > li > a:focus {
+    background-color: #0e7be2;
+}
+/* 个人中心鼠标点击 */
+.navbar-top-links .dropdown-toggle:hover,
+.navbar-top-links .dropdown-toggle:focus,
+.navbar-top-links .dropdown-toggle:active,
+.navbar-top-links .dropdown-toggle.active,
+.navbar-top-links .open .dropdown-toggle.dropdown-toggle {
+    background: #7db0f2;
+    color: #ffffff;
+    -moz-box-shadow: none;
+    -webkit-box-shadow: none;
+    box-shadow: none;
+}
+/* 个人中心下拉框背景色 */
+.notification-menu .dropdown-menu-usermenu {
+    background: #a9d4ff;
+   /*  min-width: 200px; */
+}
+/* 个人中心下拉框字体颜色 */
+.notification-menu .dropdown-menu li a {
+    color: #000;
+    font-size: 13px;
+    padding: 7px 10px;
+    -moz-border-radius: 2px;
+    -webkit-border-radius: 2px;
+    border-radius: 2px;
+    -moz-transition: all 0.2s ease-out 0s;
+    -webkit-transition: all 0.2s ease-out 0s;
+    transition: all 0.2s ease-out 0s;
+}
+/* 个人中心下拉框鼠标路过 */
+.notification-menu .dropdown-menu li a:hover {
+    background: #7db0f2;
+    color: #000;
+}
+.jt_left{
+    left: 0;
+    /* border-right: 1px solid #366c90; */
+	/*     background-color: #3781ee;*/   
+	/* border-bottom: 1px solid #366c90; */
+   position: absolute;
+    width: 40px;
+    height: 5.5%;
+    line-height: 2.7;
+    margin-left: 23%;
+    text-align: center;
+    z-index: 999;
+    display: flex;
+    justify-content: center;  /*水平居中*/
+    align-items: center; 
+}
+.jt_right{
+    right: 0;
+    background-color: rgb(48, 140, 227);
+    /* border-bottom: 1px solid #366c90; */
+    /* border-left: 1px solid #366c90; */
+    position: absolute;
+    width: 60px;
+    height: 5.5%;
+    margin-right: 167px;
+    color: #999;
+    /* z-index: 999; */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+/* 导航条背景色 */
+.nth-tabs .content-tabs {
+	width: 100%;
+	position: relative;
+	height: 100%;
+	background-color: #ebf1f6;
+    border-bottom: 1px solid #cfd7e5;
+	line-height: 40px;
+	overflow: hidden;
+}
+/* 信息模块导航条四个按钮背景色*/
+.nth-tabs .roll-nav-left {
+	left: 0;
+	border-right: 1px solid #366c90;
+	background:#ffffff;
+	/*border-bottom: 1px solid #366c90;*/
+}
+.nth-tabs .roll-nav-right {
+	right: 80px;
+	    background-color:#ffffff;
+    /*border-bottom: 1px solid #366c90;*/
+	border-left: 1px solid #366c90;
+	
+}
+.nth-tabs .roll-nav {
+	position: absolute;
+	width: 40px;
+	height: 92%;;
+	text-align: center;
+	color: #999;
+	/*background-color:#ffffff;*/
+	/*border-bottom: 1px solid #366c90;*/
+	z-index: 999;
+	top: 0;
+}
+/* 信息模块导航条按钮颜色 */
+.nth-tabs a.roll-nav:active, .nth-tabs a.roll-nav:visited {
+	color: #5f5353;
+}
+.nth-tabs .right-nav-list a {
+	color: #5f5353;
+}
+.nth-tabs .right-nav-list a:hover {
+	color: red;
+}
+/* 信息模块导航条四个按钮end */
+
+/*关闭按钮*/
+.nth-tabs .tab-close {
+	margin-right: -5px;
+	margin-left: 3px;
+	width: 18px;
+	height: 18px;
+	text-align: center;
+	line-height: 18px;
+	/*color: #5a5b5b;*/
+    font-size: 12px;
+}
+/* 信息模块导航条内字体颜色 */
+.nav-tabs > li > a {
+    /*color: #0e0c0c;*/
+    /*font-weight: 500;*/
+    font-size: 14px;
+}
+/* 信息模块导航条内触发样式  鼠标点击 */
+.nav-tabs > li.active > a,
+.nav-tabs > li.active > a:hover,
+.nav-tabs > li.active > a:focus {
+    -moz-border-bottom-colors: none;
+    -moz-border-left-colors: none;
+    -moz-border-right-colors: none;
+    -moz-border-top-colors: none;
+    background: none;
+    border-color: rgba(221, 221, 221, 0) rgba(221, 221, 221, 0) rgba(0, 0, 0, 0);
+   /* 	background: -webkit-linear-gradient(top, #96c8fb,rgb(71, 145, 255),#96c8fb); */
+    border-bottom: #f3f3f4;
+    border-image: none;
+    border-style: solid;
+    border-width: 1px;
+    /*color: #ffffff;*/
+    /*background-color: #5db0ff;*/
+    cursor: default;
+    color: #3e7deb;
+    background: #ffffff;
+}
+/* 信息模块导航条内触发样式  鼠标落上 */
+.nav>li>a:focus, .nav>li>a:hover {
+	/*background: rgba(93, 176, 255, 0.4);*/
+	/*  border-top: 1px solid rgba(119, 47, 47, 0); */
+    border-color: rgba(238, 238, 238, 0) rgba(238, 238, 238, 0) rgba(221, 221, 221, 0);
+    color:#000;
+   /*  background: #000000; 
+background: linear-gradient(to bottom, #000000 0%,#ffffff 100%); 
+filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#000000', endColorstr='#ffffff',GradientType=0 );  */
+	
+}
+/* 表格列名CSS */
+.tabulator .tabulator-header .tabulator-col .tabulator-col-content .tabulator-col-title {
+    color:#1b4858;
+  box-sizing: border-box;
+  width: 100%;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  vertical-align: bottom;
+}
+
+/* 列表内信息颜色 */
+.tabulator .tabulator-row{
+      height: 3.5vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.tabulator .tabulator-row .tabulator-cell {
+    position: relative;
+    box-sizing: border-box;
+    /*height: 65px !important;*/
+    border: solid 1px #0000000a;
+    padding: 8px;
+    line-height: 34px;
+    vertical-align: middle;
+    white-space: nowrap;
+    overflow: hidden;
+    /*隐藏此样式，避免单元格内容溢出，显示出省略号*/
+    /*display: flex;*/
+    text-overflow: ellipsis;
+    align-items: center;
+    justify-content: center;
+}
+/* 整体字体颜色与样式 */
+body {
+    font-family: "open sans", "Helvetica Neue", Helvetica, Arial, "Microsoft Yahei";
+    /* background-color: #2f4050; */
+    font-size: 14px;
+    color: #172c31;
+    overflow-x: hidden;
+    line-height: 1.5;
+
+}
+/* 信息模块左侧树边框颜色 */
+.list-group-item {
+    background-color: inherit;
+    border-bottom: 1px solid #dedede;
+    border-top: 1px solid #dedede;
+    display: block;
+    /*border-radius: 6px;*/
+    margin-bottom: -1px;
+    padding: 10px 15px;
+    position: relative;
+    border-left: none;
+    border-right: none;
+}
+/* 表格操作按钮样式 */
+.btn-white {
+    color: #66b1ff;
+    background: rgba(247, 251, 255, 0.39);
+    border: 1px solid #ccc;
+    height: 3vh;
+    /* background: #3a4e5d82;
+    border: 1px solid #1ab39414; */
+}
+/* 表格信息触发样式颜色 */
+.tabulator .tabulator-row.tabulator-selected {
+     background: #cee3f7 !important;
+  border-radius: 20px;
+}
+.tabulator .tabulator-row.tabulator-selectable:hover {
+  background: -webkit-linear-gradient(top, #e5effb,#d5e3f7,#e5effb);
+   border-radius:20px;
+  cursor: pointer;
+}
+/* 表格分列样式 */
+.tabulator .tabulator-row.tabulator-row-even {
+    background-color: rgba(165, 209, 247, 0.12);
+    border-radius: 0 !important;
+    /*height: 65px;*/
+}
+/* 导入导出，搜索等按钮样式 *-*   */
+.btn-primary {
+    /* background-color: #1ab394;
+    border-color: #1ab394;
+    color: #FFFFFF; */
+    color: #ffffff;
+    background-color:#66b1ff;
+    /*background-color: rgb(255, 255, 255);*/
+    /*border-color: #6c6d6d;*/
+    border: none;
+    width: 3.5vw;
+    height: 3.5vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    line-height: 50%;
+    margin-right: 5px;
+}
+/* 导入导出 鼠标落上触发事件 */
+.btn.focus, .btn:focus, .btn:hover {
+    color: #292929;
+    background-color: #eeeeee;
+    border-color: #5f97a5;
+}
+/* 弹出框背景色 */
+.modal-body {
+    padding: 20px 30px 30px 30px;
+    background-color: rgb(152, 201, 224);
+}
+/* 弹出框样式 */
+.modal-body {
+    padding: 20px 30px 30px 30px;
+    background:rgb(249, 253, 255);
+}
+.includeCss{
+	float: left;
+    width: 310px;
+    height: 480px;
+    border: 1px solid rgba(121, 194, 218, 0.44);
+    -webkit-border-radius: 6px;
+    -moz-border-radius: 6px;
+    border-radius: 6px;
+    margin: 5px 0;
+    padding: 10px 0 10px 0;
+    background-color: #ebf6fb;
+}
+.notIncludeCss{
+    border: 1px solid rgba(121, 194, 218, 0.44);
+    background-color: #ebf6fb;
+}
+/* 换肤模态框样式 */
+.modal-header {
+    background:#5c9ce4;
+    /*background: #5fa4c3;*/
+    color: #fff;
+    border-radius: 0;
+    -webkit-border-radius: 0;
+    border: none;
+}
+.modal-content {
+    background-clip: padding-box;
+    background-color: #f9fdff;
+    border: 1px solid rgba(0, 0, 0, 0);
+    border-radius: 4px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+    outline: 0 none;
+    position: relative;
+}
+.btn-default {   /* 关闭按钮 */
+    background-color: #ffffff;
+    border-color: #6296a9;
+    color: #4c7482;
+    height: 3.2vh;
+    line-height: 50%;
+    margin-bottom: 3px;
+}
+/* 删除弹框背景色 */
+.showSweetAlert[data-animation=pop] {
+  background-color: #f9fdff;
+  }
+/* 导航条下拉框选项卡样式 */
+.dropdown-menu {
+	background-color: #ffffff;
+    border: medium none;
+    margin-left:31px;
+    margin-top: -14px;
+    border-radius: 3px;
+    box-shadow: 0 0 3px rgba(86, 96, 117, 0.7);
+    display: none;
+    float: left;
+    font-size: 12px;
+    left: 0;
+    list-style: none outside none;
+    padding: 0;
+    position: absolute;
+    text-shadow: none;
+    top: 100%;
+    z-index: 1000;
+}
+/* 搜索输入框样式 */
+.single-line {
+    background-color: #ffffff;
+    background-image: none;
+    border: 1px solid #366c90;
+    border-radius: 1px;
+    margin-left: -6px;
+    color: #0b224c;
+    display: block;
+    padding: 4px 12px;
+    transition: border-color 0.15s ease-in-out 0s, box-shadow 0.15s ease-in-out 0s;
+    width: 100%;
+    font-size: 14px;
+}
+/* 版权信息 */
+.issp-footercontent {
+  height: 25px; 
+   margin: 0 auto; 
+   text-align: center;
+	background-color: #ffffff;
+	color:#000000;
+}
+/* left background CSS  左侧模块样式start*/
+.navissp{
+	width: 100%;
+	height: 94.5%;
+	background: #fff;
+	transition: all .3s;
+}
+/* 左侧导航模块鼠标落上样式 */
+.navissp-show,.navissp-item>a:hover{
+	/*background:rgb(238, 238, 238);*/
+    color:#3e7deb;
+}
+/* 字体样式 */
+.navissp a{
+	display: block;
+	overflow: hidden;
+	padding-left: 20px;
+    line-height: 50px;
+	height: 50px;
+    font-size: 16px;
+	color: #000000;
+	transition: all .3s;
+	    width: 100%;
+	}
+/*!* 选中事件 *!*/
+/*.selected {*/
+	/*background: rgba(122, 174, 249, 0.5);*/
+/*}*/
+/* 下拉列表背景色 */
+
+.navissp-item ul{
+	display: none;
+	/*background: rgb(224, 224, 224);*/
+}
+/* 下拉列表鼠标落上 */
+.navissp-item li:hover a{
+    /*background: rgb(197, 197, 197);*/
+    color:#3e7deb;
+}
+/* 收缩之后显示框样式 */
+.navissp-mini.navissp .navissp-item ul{
+	position: absolute;
+	top:0px;
+	left:60px;
+	width: 180px;
+	z-index: 99;
+	background:#a9d4ff;
+	overflow: hidden;
+}
+/* left CSS ---------------------左侧模块样式end*/
+
+
+/* 数据权限样式 */
+.qxselected{
+    background: #a9d4ff;
+    border-color: rgba(238, 238, 238, 0) rgba(238, 238, 238, 0) rgba(221, 221, 221, 0);
+  }
+  /* 数据权限字体 */
+ .nav > li > a {
+    /*color: #555555;*/
+    /*font-weight: 600;*/
+   /*  padding: 14px 20px 14px 25px; */
+}
+/* 设备配置树颜色 */
+.sbtreeNodeBtn:hover,
+.sbtreeNodeBtn:focus,
+.sbtreeNodeBtn:active,
+.sbtreeNodeBtn.active,
+.sbtreeNodeBtn{
+	margin-left: 5px;
+    color: rgba(0, 0, 0, 0.77);
+    background-color: rgb(197, 220, 255);
+    border-color: #518f9a;
+    border: 1px solid;
+}
+/* 同比环比分析模块样式 */
+.tabulator .tabulator-header .tabulator-col.tabulator-sortable:hover {
+  cursor: pointer;
+  background-color: #a9d4ff;
+}
+/* 同比环比分析模块样式 */
+.trendAnalysisLine{
+	background-color: #d7ebff; /*#123e58*/
+}
+/* 趋势分析模块样式 */
+.input-daterange .input-group-addon {
+  width: auto;
+  min-width: 16px;
+  padding: 6px 12px;
+  font-weight: 400;
+  line-height: 1;
+  text-align: center;
+/*   text-shadow: 0 0 0 #fff; */
+  vertical-align: middle;
+  background-color: #b8d5f1;
+  border-width: 1px 0;
+  margin-left: -5px;
+  margin-right: -5px;
+}
+/* 分页 */
+.pagination > li > a,
+.pagination > li > span {
+    background-color: rgb(216, 239, 255);
+    border: 1px solid rgb(169, 232, 255);
+    color: inherit;
+    float: left;
+    line-height: 1.52857143;
+    margin-left: -1px;
+    padding: 7px 18px;
+    position: relative;
+    text-decoration: none;
+}
+/* 页面滚动条样式 ----------------------------------start*/
+::-webkit-scrollbar{  
+    width: 10px;  
+    height: 10px;  
+/*     background-color: #0e4b7e;   */
+}  
+/*定义滚动条轨道 内阴影+圆角*/  
+::-webkit-scrollbar-track{  
+    -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);  
+    border-radius: 10px;  
+    background-color: #ffffff;  
+}    
+/*定义滑块 内阴影+圆角*/  
+::-webkit-scrollbar-thumb{  
+    border-radius: 10px;  
+    -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,.3);  
+    background-color: #eaf5fd;  
+}  
+/*滑块效果*/
+::-webkit-scrollbar-thumb:hover{
+border-radius: 5px;
+-webkit-box-shadow: inset 0 0 5px rgba(0,0,0,0.2);
+background: #a9d4ff;
+}
+/* 页面滚动条样式--------------------------------------end */
+
+/* 树点击样式 */
+.node-selected{
+	background:#d0e1ff;
+}
+
+/* 模态框标签前特殊字符 */
+.editIcon:before{
+	font-family: FontAwesome;
+    content: "\f040";
+}
+.addIcon:before{
+	font-family: FontAwesome;
+    content: "\f055";
+}
+
+/* ***************搜索框*************** */
+* 
+div.zc_search {
+	background: #ffffff;
+    border: solid 1px #aba6a6;
+}
+.zc_search_form {
+  position: relative;
+  width: 100%;
+  height: 86%;
+  margin: 0 auto;
+      float: right;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-right: 5px;
+}
+
+.find input, .find button {
+  outline: none;
+  background: white;
+}
+.find input {
+    background: rgba(0, 27, 58, 0);
+}
+.find button {
+    background: #ffffff;
+}
+/* .find button:before {
+  content: "\f002";
+  font-family: FontAwesome;
+  font-size: 1vw;
+  color: #6c6d6d;
+} */
+.find input:focus {
+  border-color: #3781ee;
+}
+*::-webkit-input-placeholder {
+    color: #c7c7c7 !important;
+}
+
+*:-moz-placeholder {
+    color: #c7c7c7 !important;
+}
+
+*::-moz-placeholder {
+    color: #c7c7c7 !important;
+}
+
+*:-ms-input-placeholder {
+    color: #c7c7c7 !important;
+}
+.combox-input {
+    background: #ffffff;
+    border-radius: 3px;
+    color: #1f4b71;
+}
+.combox-btn {
+    color: #8fe3f7;
+}
+/* 监控首页底部div */
+.bottom_mon_div{
+	background-color:rgb(255, 255, 255);
+}
+/* 监控首页左侧设备树模块 */
+.leftarea_left{
+	background: rgb(255, 255, 255);
+	color:#000;
+}
+.leftarea_left_Middle{
+	background-color:#a9d4ff;
+	height: 30px;
+}
+/* 监控首页右上角悬浮按钮 */
+.triggerButton{
+	background:#a9d4ff;
+}
+/* 监控首页右侧图层收缩模块 */
+.contactusdiyou{
+	color:#000;
+	background: #dcedff;/* rgb(0, 27, 58); */
+}
+/* 分页右侧箭头 */
+.pagination>.disabled>a, 
+.pagination>.disabled>a:focus, 
+.pagination>.disabled>a:hover, 
+.pagination>.disabled>span, 
+.pagination>.disabled>span:focus, 
+.pagination>.disabled>span:hover {
+    color: #000;
+    background-color: #d8efff;
+    border-color: #a9e8ff;
+}
+/* 品牌选项栏 */
+.bootstrap-select.btn-group .dropdown-menu{
+	background-color: #a9d4ff;
+	width: 100%;
+}
+/* 信息模块顶部操作栏 */
+.information-model{
+    background: #ffffff;
+    /*border-bottom: solid #acbac3 1px;*/
+    margin-bottom: 1px;
+    /*border-left: solid #acbac3 1px;*/
+}
+/* 下拉框 */
+.selector{
+	background-color: rgb(255, 255, 255);
+}
+/* 时间选框 */
+.input-datecheck{
+	background-color: rgb(255, 255, 255);
+}
+/* 监控首页情报板设备模态框 */
+.row_color{
+	background-color: #e9f8ff;
+}
+.btn_right_odd{
+	background: #c2d7e0;
+}
+.btn_right_even{
+	background: #c2d7e0;
+}
+legend{
+	color: #000000;
+}
+/* 监控首页称重设备模态框 */
+.btn_sb{
+	background-color: rgb(95, 164, 195);
+}
+.btn_weighParam{
+	background-color: rgb(95, 164, 195);
+}
+.tabulator .tabulator-tableHolder .tabulator-table .tabulator-row.success {
+  color: #000000 !important;
+}
+.index_color{
+	background:#ffffff;
+}
+span>.inputHeight{
+	    border: solid 1px #3870a0;
+}
+.div_color{
+	border: solid 1px #3870a0;
+	background: white !important;
+}
+
+/* 监控首页下拉框选中样式 */
+.btn-default:hover,
+.btn-default:focus,
+.btn-default:active,
+.btn-default.active,
+.open .dropdown-toggle.btn-default {
+    background-color: #ffffff;
+    border-color: #366c90;
+    color: #000000;
+}
+/* *************组织机构树鼠标落上样式**************** */
+.node-tree_euser:not(.node-disabled):hover {
+    background-color: #eeeeee !important;
+}
+.node-tree_department:not(.node-disabled):hover {
+    background-color: #eeeeee !important;
+}
+.node-tree_eqtypebyeq:not(.node-disabled):hover {
+    background-color: #eeeeee !important;
+}
+.node-tree_eqType:not(.node-disabled):hover {
+    background-color: #eeeeee !important;
+}
+.node-tree_routepart:not(.node-disabled):hover {
+    background-color: #eeeeee !important;
+}
+.node-monitorRoom_tree_org:not(.node-disabled):hover {
+    background-color: #eeeeee !important;
+}
+.node-eqListTree:not(.node-disabled):hover {
+    background-color: #eeeeee !important;
+}
+.node-tree_equipment:not(.node-disabled):hover {
+    background-color: #eeeeee !important;
+}
+.node-tree_station:not(.node-disabled):hover {
+    background-color: #eeeeee !important;
+}
+.node-tree_dymc:not(.node-disabled):hover {
+    background-color: #eeeeee !important;
+}
+.node-tree_dcz:not(.node-disabled):hover {
+    background-color: #eeeeee !important;
+}
+.node-weigh_type_tree:not(.node-disabled):hover {
+    background-color: #eeeeee !important;
+}
+.node-WdtTable:not(.node-disabled):hover {
+    background-color: #eeeeee !important;
+}
+.node-inter_eq_station_tree:not(.node-disabled):hover {
+    background-color: #eeeeee !important;
+}
+.node-tree_zzjg1:not(.node-disabled):hover {
+    background-color: #eeeeee !important;
+}
+.node-tree_zzjg:not(.node-disabled):hover {
+    background-color: #eeeeee !important;
+}
+.node-tree_qydy:not(.node-disabled):hover {
+    background-color: #eeeeee !important;
+}
+.node-tree_monitor_center_zzjg:not(.node-disabled):hover {
+    background-color: #eeeeee !important;
+}
+.node-tree_tollstation_zzjg:not(.node-disabled):hover {
+    background-color: #eeeeee !important;
+}
+.node-tree_tunnel_zzjg:not(.node-disabled):hover {
+    background-color: #eeeeee !important;
+}
+.node-tree_ugroup:not(.node-disabled):hover {
+    background-color: #eeeeee !important;
+}
+.node-tree_gnzd_sys:not(.node-disabled):hover {
+    background-color: #eeeeee !important;
+}
+.node-spqzc_tree:not(.node-disabled):hover {
+    background-color: #eeeeee !important;
+}
+.node-treeequipmentA:not(.node-disabled):hover {
+    background-color: #eeeeee !important;
+}
+.node-tree_acess:not(.node-disabled):hover {
+    background-color: #eeeeee !important;
+}
+.node-monitoringhome_zzjgtree:not(.node-disabled):hover {
+    background-color: #eeeeee !important;
+}
+.node-monitoringhome_layerTree:not(.node-disabled):hover {
+    background-color: #eeeeee !important;
+}
+/* *************组织机构树鼠标落上样式end**************** */
+ul.dropdown-menu.inner.selectpicker {
+    background-color: #eeeeee;
+    color: #0c0c0c;
+    width: 100%;
+}
+.dropdown-menu>.active>a, .dropdown-menu>.active>a:focus, .dropdown-menu>.active>a:hover {
+    color: #000;
+    text-decoration: none;
+    background-color: #b4cef4;
+    outline: 0;
+}
+.dropdown-menu ul li:hover {
+    background-color: rgb(180, 206, 244) !important;
+    cursor: pointer;
+}
+.form-control[disabled], .form-control[readonly], fieldset[disabled] .form-control {
+    background-color: rgb(228, 243, 251) !important;
+}
+ul#side-menu>li>ul>li.selected a {
+    background: #d0e1ff !important;
+}
+ul#side-menu>li>ul>ul>ul>li.selected > a {
+    background: #d0e1ff !important;
+    color:#3e7deb;
+}
+ul#side-menu>li>ul>ul>ul>li.selected > a:hover{
+    color:#3e7deb;
+}
+li.navissp-item.selected > a {
+    /*background: #cacaca;*/
+    color:#3e7deb;
+}
+.btn_basic_info{
+	background:#c2d7e0 !important;
+}
+.weight-style{
+	background: #f3f3f3 !important;
+}
+.jdsb_monitor_detailValue{
+	color:#000000 !important;
+}
+#photovoltaics_updTime{
+	color:#000000 !important;
+}
+#photovoltaics_cycle{
+	color:#000000 !important;
+}
+.photovoltaics_item:hover {
+    background-color: #c9dce4 !important;
+}
+.ybPan_style{
+	background-color: #eeeeee !important;
+}
+a#tolltuckMark {
+    color: black !important;
+}
+a#tolltuckMark:hover {
+    color: black !important;
+}
+a#server_a {
+    color: black !important;
+}
+.photovoltaics_pvInfoCell {
+    background-color: #f3f3f3 !important;
+    color: black !important;
+}
+.notIncludeCss{
+	background-color: #ebf6fb !important;
+}
+.includeCss{
+	background-color: #ebf6fb !important;
+}
+#jdsb_monitor_infoTitle{
+	color: #555555 !important;
+}
+.weight-style>h4 {
+    color: black !important;
+}
+.photovoltaics_monitor_detailInfo {
+    color: black !important;
+}
+
+#lanesbTable .checkbox label::before {
+    background-color: rgb(226, 226, 226) !important;
+    border: rgba(255,255,255,.15) !important;
+    color: #49afab !important;
+}
+#lanesbTable .checkbox-success input[type="checkbox"]:checked + label::after, .checkbox-success input[type="radio"]:checked + label::after {
+    color: #696b64 !important;
+}
+ul.mgt_ul>li>a {
+    color: black !important;
+}
+.liselected {
+    background-color: #cacaca !important;
+}
+.mgt_ul>li:hover {
+    background-color: #eeeeee !important;
+}
+#lanesbTable .checkbox-warning input[type="checkbox"]:checked + label::after, .checkbox-warning input[type="radio"]:checked + label::after {
+    color: #696b64 !important;
+}
+#lanesbTable .checkbox-danger input[type="checkbox"]:checked + label::after, .checkbox-danger input[type="radio"]:checked + label::after {
+    color: #696b64 !important;
+}
+.tabs{background: #ffffff;}
+.tabs > li.active > a,
+.tabs > li.active > a:hover,
+.tabs > li.active > a:focus{background-color: #5db0ff!important;color:#ffffff;}
+.tablestyle > thead > tr > th, .table-bordered > thead > tr > td{background-color: #ffffff!important;
+    /*border:2px solid #c1c1c1!important;*/
+}
+.tablestyle > tbody > tr > th, .table-bordered > tbody > tr > td{background-color: #ffffff!important;
+    /*border:2px solid #c1c1c1!important;*/
+}
+.leftarea{border: none !important;}
+#tree_zl_qstjfx{border-top:solid 1px #eeeeee;}
+#tree_zl_tbhbfx{border-top:solid 1px #eeeeee;}
+.information_size{border-bottom:solid 2px #eeeeee!important;margin-left: 11px;margin-top: 11px;}
+.information_right{border:none !important;}
+.information-model{}
+.left_tree{background: #ffffff;}
+.monitoringhome_zzjgtree{background: rgb(48, 140, 227);}
+.zc_search_special{
+	background: rgb(255, 255, 255);
+    border-width: 1px;
+    border-style: solid;
+    border-color: rgb(171, 166, 166);
+    border-image: initial;
+}
+div#essjqx_showtable div:last-child>div>div.tabulator-row:hover,
+div#esRsjqx_showtable div:last-child>div>div.tabulator-row:hover,
+div#esuser_showtable div:last-child>div>div.tabulator-row:hover,
+div#esrole_showtable div:last-child>div>div.tabulator-row:hover, 
+div#esuser_gnqx_showtable div:last-child>div>div.tabulator-row:hover, 
+div#esrole_gnqx_showtable div:last-child>div>div.tabulator-row:hover {
+    background: rgba(206, 227, 247, 0.5) !important;
+    border-radius: 0px !important;
+}
+div#essjqx_showtable div:last-child>div>div.tabulator-row.tabulator-selected,
+div#esRsjqx_showtable div:last-child>div>div.tabulator-row.tabulator-selected,
+div#esuser_showtable div:last-child>div>div.tabulator-row.tabulator-selected,
+div#esrole_showtable div:last-child>div>div.tabulator-row.tabulator-selected,
+div#esuser_gnqx_showtable div:last-child>div>div.tabulator-row.tabulator-selected,
+div#esrole_gnqx_showtable div:last-child>div>div.tabulator-row.tabulator-selected{
+    background: #cee3f7 !important;
+    border-radius: 0px !important;
+}
+
+
+/* Start add by yangjx at 20191022 for 强弱电融入BES 通用及渐变色处理 */
+.strongAndWeakElectricityIntegrationCommon{/* 强弱电浅色主题公用样式设置将背景色变为#f7f7f7 */
+	background : #f7f7f7;
+	border:solid 1px #e6e6e6;
+}
+/* 颜色渐变深色(浅灰变深灰) */
+.commonChangeColorDarker{
+	border: solid 1px #ffffff;
+	background: -webkit-gradient(linear, left top, left bottom, from(#f5f6f7), to(#cbd0ce));
+	background: -moz-linear-gradient(top, #f5f6f7 ,  #cbd0ce);
+	filter:  progid:DXImageTransform.Microsoft.gradient(startColorstr='#f5f6f7', endColorstr='#cbd0ce');
+}
+
+/* 颜色渐变浅色(深灰渐变浅灰) */
+.commonChangeColorLighter{
+	border: solid 1px #ffffff;
+	background: -webkit-gradient(linear, left top, left bottom, from(#dddddd), to(#f5f6f7));
+	background: -moz-linear-gradient(top,  #dddddd,  #f5f6f7);
+	filter:  progid:DXImageTransform.Microsoft.gradient(startColorstr='#dddddd', endColorstr='#f5f6f7');
+}
+/* End add by yangjx at 20191022 for 强弱电融入BES 通用及渐变色处理 */
+
+
+/**
+---------------设计器样式开始--------------------
+ */
+.design_content .layui-input-block {
+    display: flex;
+    align-items: center;
+    margin-left: 20px;
+}
+/*设计器默认背景色*/
+.design_content{
+    background-color:#ffffff;
+}
+/*工具条样式*/
+.design_toolbar_div .modal-body{
+    border: 1px #337ab7 solid;
+}
+
+.design_toolbar_div .modal-header.bg-primary.ui-draggable-handle {
+    background-color: rgb(95, 169, 236);
+}
+/*[Attributes Style]*/
+#design_svg .design_shape {
+    /*fill: rgb(30, 96, 157);*/
+    stroke: rgb(29, 125, 177);
+}
+/**
+---------------设计器样式结束--------------------
+ */
+
+
+/*服务接口--设备列表等页面的公共样式*/
+.layui_content_div .layui-btn {
+    background-color: #009688;
+}
+
+
+/*浅蓝色背景下的样式调整*/
+#tbhbfhfx_bottom,#qstjfh_bottom,#tbhbfh_bottom_dw,#qstjfh_bottom_dw,#tbhbfhfx_bottom_dw,#qstjfx_bottom,#tbhbfx_bottom,#tbhbfx_bottom_dw{
+    background:initial!important;
+}
+
+/*.qstjfxFixHead{*/
+    /*!*background-color: #042D4B !important;*!*/
+    /*border: 2px solid #c1c1c1 !important;*/
+    /*white-space: nowrap;*/
+/*}*/
+/*.tbhbfhFiHead{*/
+    /*!*background-color: #042D4B !important;*!*/
+    /*border: 2px solid #c1c1c1 !important;*/
+    /*white-space: nowrap;*/
+/*}*/
+
+.pagination > .active > a, .pagination > .active > span, .pagination > .active > a:hover, .pagination > .active > span:hover, .pagination > .active > a:focus, .pagination > .active > span:focus {
+    background-color: #3e7deb;
+    border-color: #3e7deb;
+    /*color: inherit;*/
+    cursor: default;
+    z-index: 2;
+    color: #fff;
+}
+
+.btn-primary_sbdy{
+    color: #ffffff!important;
+    background-color: #66b1ff!important;
+}
+.attrInfo>.frist_attr>.has-success{
+    background:initial;
+}
+.btn-primary[disabled], .btn-primary[disabled]:hover{
+    background-color: #66b1ff;
+    border-color: #66b1ff;
+}
+.tableContent{
+    background-color: initial!important;
+}
+
+
+/*浅蓝色皮肤缺少的样式添加*/
+/*设计器调试弹窗样式*/
+.layui-input-block {
+    display: flex;
+    align-items: center;
+}
+
+
+
+
+
+
+
+
+
+
+
