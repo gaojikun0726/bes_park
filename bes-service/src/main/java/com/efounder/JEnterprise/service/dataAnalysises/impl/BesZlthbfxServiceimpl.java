@@ -669,9 +669,13 @@ public class BesZlthbfxServiceimpl implements BesZlthbfxService {
                 List<Map<String,Object>> branchList = besbranchdatamapper.queryAllBranchByDep(str);
                 List<Map<String,Object>> ammeterList = besbranchdatamapper.queryAllAmmeterByDep(str);
                 List<Map<String,Object>> allList = new ArrayList<>();
-                if(ammeterList.size()>0 && branchList.size()>0){
-                    allList.addAll(branchList);
-                    allList.addAll(ammeterList);
+                if(ammeterList.size()>0 || branchList.size()>0){
+                    if(branchList.size()>0){
+                        allList.addAll(branchList);
+                    }
+                    if(ammeterList.size()>0){
+                        allList.addAll(ammeterList);
+                    }
                     //根据所有支路，电表取该部门总数居
                     /*List<BesBranchData> list*/
                     List<BesBranchData> list = besbranchdatamapper.searchstatisAnalyOfEnergyConsumptionDataDep(str,besQstjfxData.getfType(),besQstjfxData.getNhlx(),

@@ -50,11 +50,11 @@
             <div class="modal-body">
                 <#--<form role="form" id="addZzjg" name="addZzjg" class="form-horizontal">-->
                 <div id="depPeopleNumberDiv">
-                    <h4 class="modal-title">部门人数:</h4>
+                    <h4 class="modal-title">人数:</h4>
                     <br>
                     <div>
                         <input type="number" id="depPeopleNumber" name="depPeopleNumber" class="input-sm form-control"
-                               placeholder="请输入部门人数(必填)"
+                               placeholder="请输入人数(必填)"
                                autocomplete="off" oninput="if(value>10000)value=10000;if(value<0)value=0"
                                onblur="organizationmanage_zzjg.checkDepPeopleNumber(this)"/>
                     </div>
@@ -1444,7 +1444,7 @@
             },
             //保存提交
             add_depInfo: function () {
-                if (_zzjgJs == '3') {
+                // if (_zzjgJs == '3') {
                     if ($('#depPeopleNumber').val() == "" || $('#depPeopleNumber').val() == "0" || $('#depPeopleNumber').val() == 0) {
                         swal("请输入部门人数", "", "error");
                         return;
@@ -1454,7 +1454,7 @@
                         swal("请输入正确的部门人数", "", "error");
                         return;
                     }
-                }
+                // }
                 if (addDepList.length == 0) {
                     swal("请添加支路或电表数据", "", "error");
                     return;
@@ -1580,13 +1580,13 @@
                 // $('#selectBranchInfo').val('');
                 // $('#selectElectricityMeterInfo').val('');
                 var node = $('#tree_zzjg').treeview('getSelected');
-                if (node.length == 0 || node[0].level != '3') {
-                    $("#depPeopleNumberDiv").hide();
-                    $("#depPeopleNumberDivHR").hide();
-                } else {
-                    $("#depPeopleNumberDiv").show();
-                    $("#depPeopleNumberDivHR").show();
-                }
+                // if (node.length == 0 || node[0].level != '3') {
+                //     $("#depPeopleNumberDiv").hide();
+                //     $("#depPeopleNumberDivHR").hide();
+                // } else {
+                //     $("#depPeopleNumberDiv").show();
+                //     $("#depPeopleNumberDivHR").show();
+                // }
                 // if (node.length == 0 || node[0].level != '3') {//凡是1节点，note.length都为1；无选择节点，为0；
                 //     swal({
                 //         title: "请选择部门",
