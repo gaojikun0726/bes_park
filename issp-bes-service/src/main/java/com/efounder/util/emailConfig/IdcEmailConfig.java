@@ -42,6 +42,16 @@ public class IdcEmailConfig extends BaseEntity
 
     private String filePath; //附件地址
 
+    private String fileName; //附件名称
+
+    public String getFileName() {
+        return fileName;
+    }
+
+    public void setFileName(String fileName) {
+        this.fileName = fileName;
+    }
+
     public String getFilePath() {
         return filePath;
     }

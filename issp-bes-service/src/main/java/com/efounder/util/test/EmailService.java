@@ -147,7 +147,7 @@ public class EmailService {
         //=================================准备附件数据
         MimeBodyPart body= new MimeBodyPart();
         body.setDataHandler(new DataHandler(new FileDataSource(mailInfo.getFilePath())));
-        body.setFileName("报表信息.xls");
+        body.setFileName(mailInfo.getFileName());
 
         //描述数据关系
         MimeMultipart mm=new MimeMultipart();

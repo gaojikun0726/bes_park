@@ -459,8 +459,24 @@ public class BesExecute {
             //支路数据
             branchData = besStrategyMapper.queryBranchData(strategyId, nowStart, nowEnd, lastStart, lastEnd);
             if (branchData != null && branchData.size() > 0){
+                String fData;
+                String yData;
                 for (Map<String,Object> dataMap : branchData){
                     dataMap.put("f_range",f_range);
+
+                    fData = dataMap.get("fData").toString();
+                    if (fData != null && !"".equals(fData)){
+                        dataMap.put("fData",fData + "kwh");
+                    } else {
+                        dataMap.put("fData","0kwh");
+                    }
+
+                    yData = dataMap.get("yData").toString();
+                    if (yData != null && !"".equals(yData)){
+                        dataMap.put("yData",yData + "kwh");
+                    } else {
+                        dataMap.put("yData","0kwh");
+                    }
                 }
             }
             //生成支路excel
@@ -468,13 +484,14 @@ public class BesExecute {
 
             //发送邮件
             IdcEmailConfig branchMailInfo=new IdcEmailConfig();
-            branchMailInfo.setContent("报表信息");
+            branchMailInfo.setContent(strategyInfo.get("f_name").toString());
             branchMailInfo.setFromAddress(emailAccount);
             branchMailInfo.setMailServerhost(emailServerHost);
             branchMailInfo.setPassword(emailPassWord);
-            branchMailInfo.setSubject("报表信息");
+            branchMailInfo.setSubject("支路报表信息--" + format.format(date));
             branchMailInfo.setToAddress(strategyInfo.get("f_email").toString());
             branchMailInfo.setFilePath(branchFilePath);
+            branchMailInfo.setFileName("支路报表信息--" + format.format(date) + ".xls");
 
             //部门数据
             departmentData = this.queryAllDepInfoByStrategyId(strategyId, "0", nowStart, nowEnd, lastStart, lastEnd);
@@ -488,13 +505,14 @@ public class BesExecute {
 
             //发送邮件
             IdcEmailConfig departmentMailInfo=new IdcEmailConfig();
-            departmentMailInfo.setContent("报表信息");
+            departmentMailInfo.setContent(strategyInfo.get("f_name").toString());
             departmentMailInfo.setFromAddress(emailAccount);
             departmentMailInfo.setMailServerhost(emailServerHost);
             departmentMailInfo.setPassword(emailPassWord);
-            departmentMailInfo.setSubject("报表信息");
+            departmentMailInfo.setSubject("部门报表信息--" + format.format(date));
             departmentMailInfo.setToAddress(strategyInfo.get("f_email").toString());
-            departmentMailInfo.setFilePath(branchFilePath);
+            departmentMailInfo.setFilePath(departmentFilePath);
+            departmentMailInfo.setFileName("部门报表信息--" + format.format(date) + ".xls");
 
             try {
                 emailService.init(branchMailInfo);
@@ -516,8 +534,24 @@ public class BesExecute {
             //支路数据
             branchData = besStrategyMapper.queryBranchData(strategyId, nowStart, nowEnd, lastStart, lastEnd);
             if (branchData != null && branchData.size() > 0){
+                String fData;
+                String yData;
                 for (Map<String,Object> dataMap : branchData){
                     dataMap.put("f_range",f_range);
+
+                    fData = dataMap.get("fData").toString();
+                    if (fData != null && !"".equals(fData)){
+                        dataMap.put("fData",fData + "kwh");
+                    } else {
+                        dataMap.put("fData","0kwh");
+                    }
+
+                    yData = dataMap.get("yData").toString();
+                    if (yData != null && !"".equals(yData)){
+                        dataMap.put("yData",yData + "kwh");
+                    } else {
+                        dataMap.put("yData","0kwh");
+                    }
                 }
             }
             //生成支路excel
@@ -525,13 +559,14 @@ public class BesExecute {
 
             //发送邮件
             IdcEmailConfig branchMailInfo=new IdcEmailConfig();
-            branchMailInfo.setContent("报表信息");
+            branchMailInfo.setContent(strategyInfo.get("f_name").toString());
             branchMailInfo.setFromAddress(emailAccount);
             branchMailInfo.setMailServerhost(emailServerHost);
             branchMailInfo.setPassword(emailPassWord);
-            branchMailInfo.setSubject("报表信息");
+            branchMailInfo.setSubject("部门报表信息--" + format.format(date));
             branchMailInfo.setToAddress(strategyInfo.get("f_email").toString());
             branchMailInfo.setFilePath(branchFilePath);
+            branchMailInfo.setFileName("支路报表信息--" + format.format(date)+ ".xls");
 
             try {
                 emailService.init(branchMailInfo);
@@ -549,6 +584,11 @@ public class BesExecute {
         } else if ("3".equals(strategyInfo.get("f_pId"))) { //只有部门
             //部门数据
             departmentData = this.queryAllDepInfoByStrategyId(strategyId, "0", nowStart, nowEnd, lastStart, lastEnd);
+            if (departmentData != null && departmentData.size() > 0){
+                for (Map<String,Object> dataMap : departmentData){
+                    dataMap.put("f_range",f_range);
+                }
+            }
             //生成支路excel
             ExcelReturn resDepartment = util.resListDynamic(FileName,departmentFilePath,departmentData,departmentAlias,departmentNames);
 
@@ -559,9 +599,10 @@ public class BesExecute {
             departmentMailInfo.setFromAddress(emailAccount);
             departmentMailInfo.setMailServerhost(emailServerHost);
             departmentMailInfo.setPassword(emailPassWord);
-            departmentMailInfo.setSubject("报表信息");
+            departmentMailInfo.setSubject("部门报表信息--" + format.format(date));
             departmentMailInfo.setToAddress(strategyInfo.get("f_email").toString());
-            departmentMailInfo.setFilePath(branchFilePath);
+            departmentMailInfo.setFilePath(departmentFilePath);
+            departmentMailInfo.setFileName("部门报表信息--" + format.format(date) + ".xls");
 
             try {
                 emailService.init(departmentMailInfo);
