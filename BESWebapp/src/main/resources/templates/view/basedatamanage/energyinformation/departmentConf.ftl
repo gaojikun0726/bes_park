@@ -2,7 +2,15 @@
 描述：组织机构
 作者：gongfanfei
 ---->
-
+<style type="text/css">
+    #footpanel {
+        position:fixed;
+        left:0;
+        bottom:0;
+        background: white;
+        border:1px solid black;
+    }
+</style>
 
 <!-- 组织机构树模块 -->
 <div class="leftarea information_left">
@@ -86,7 +94,7 @@
                                     </span>
                                 </div>
                             </div>
-                            <div id="householdBrc_noInclude" style="width:400px;margin-top:10px;overflow: auto;">
+                            <div id="householdBrc_noInclude" style="width:400px;margin-top:10px;"><#--overflow: auto;-->
                             </div>
                         </div>
                         <!-- 未选择用户结束- -->
@@ -108,7 +116,7 @@
                         <!--操作结束- -->
                         <!--包含用户开始- -->
                         <div class="includeCss" style="width:500px;">
-                            <div id="householdBrc_include" style="overflow: auto;margin-top:10px;">
+                            <div id="householdBrc_include" style="margin-top:10px;"><#--overflow: auto;-->
                             </div>
                             <div>
                             </div>
@@ -143,7 +151,7 @@
                                     </span>
                                 </div>
                             </div>
-                            <div id="wattHourMeter_noInclude" style="margin-top:10px;overflow: auto;">
+                            <div id="wattHourMeter_noInclude" style="margin-top:10px;"><#--overflow: auto;-->
                             </div>
                         </div>
                         <!-- 未选择用户结束-->
@@ -165,7 +173,7 @@
                         <!--操作结束-->
                         <!--包含用户开始-->
                         <div class="includeCss" style="width:500px;">
-                            <div id="wattHourMeter_include" style="overflow: auto;margin-top:10px;">
+                            <div id="wattHourMeter_include" style="margin-top:10px;"><#--overflow: auto;-->
                             </div>
                             <div>
                             </div>
@@ -173,8 +181,8 @@
                     </div>
                 </div>
 
-                <div class="form-group m-t-sm">
-                    <div class="col-sm-6 col-sm-push-3 display_flex">
+                <div id="footpanel" style="width:1150px;height:50px;">
+                    <div class="col-sm-6 col-sm-push-3 display_flex" style="margin-top:10px">
                         <button class="btn btn-md btn-primary" type="submit"
                                 onclick="organizationmanage_zzjg.add_depInfo();"><strong><i class="fa fa-check"
                                                                                             aria-hidden="true"></i>&nbsp;确定</strong>
@@ -415,15 +423,15 @@
                 },
                 success: function (result) {
                     if (result.hasOwnProperty("list")) {//判断result返回结果是否包含list
-                        result.list[0].text = '2号楼';
-                        var nodesList = result.list[0].nodes;
-                        var newNodesList = new Array();
-                        for (let i = 0; i < nodesList.length; i++) {
-                            if (nodesList[i].text == '山东正晨科技股份有限公司' || nodesList[i].text == '山东正威检测科技有限公司' || nodesList[i].text == '山东邦展建筑设计有限公司' || nodesList[i].text == '山东高速材料科技有限公司') {
-                                newNodesList.push(nodesList[i]);
-                            }
-                        }
-                        result.list[0].nodes = newNodesList;
+                        // result.list[0].text = '2号楼';
+                        // var nodesList = result.list[0].nodes;
+                        // var newNodesList = new Array();
+                        // for (let i = 0; i < nodesList.length; i++) {
+                        //     if (nodesList[i].text == '山东正晨科技股份有限公司' || nodesList[i].text == '山东正威检测科技有限公司' || nodesList[i].text == '山东邦展建筑设计有限公司' || nodesList[i].text == '山东高速材料科技有限公司') {
+                        //         newNodesList.push(nodesList[i]);
+                        //     }
+                        // }
+                        // result.list[0].nodes = newNodesList;
                         if (result.list.length > 0) {//如果包含判断是否长度大于0
                             $('#tree_zzjg').treeview({
                                 data: result.list,         // 数据源
@@ -1491,15 +1499,15 @@
                                 },
                                 success: function (result) {
                                     if (result.hasOwnProperty("list")) {//判断result返回结果是否包含list
-                                        result.list[0].text = '2号楼';
-                                        var nodesList = result.list[0].nodes;
-                                        var newNodesList = new Array();
-                                        for (let i = 0; i < nodesList.length; i++) {
-                                            if (nodesList[i].text == '山东正晨科技股份有限公司' || nodesList[i].text == '山东正威检测科技有限公司' || nodesList[i].text == '山东邦展建筑设计有限公司' || nodesList[i].text == '山东高速材料科技有限公司') {
-                                                newNodesList.push(nodesList[i]);
-                                            }
-                                        }
-                                        result.list[0].nodes = newNodesList;
+                                        // result.list[0].text = '2号楼';
+                                        // var nodesList = result.list[0].nodes;
+                                        // var newNodesList = new Array();
+                                        // for (let i = 0; i < nodesList.length; i++) {
+                                        //     if (nodesList[i].text == '山东正晨科技股份有限公司' || nodesList[i].text == '山东正威检测科技有限公司' || nodesList[i].text == '山东邦展建筑设计有限公司' || nodesList[i].text == '山东高速材料科技有限公司') {
+                                        //         newNodesList.push(nodesList[i]);
+                                        //     }
+                                        // }
+                                        // result.list[0].nodes = newNodesList;
                                         if (result.list.length > 0) {//如果包含判断是否长度大于0
                                             $('#tree_zzjg').treeview({
                                                 data: result.list,         // 数据源

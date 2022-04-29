@@ -255,38 +255,40 @@
     </select>
 
     <select id="loadAllDep" resultType="java.util.HashMap">
-        /*SELECT
-		F_ID,
-	F_ZZJGBH ID,
-	F_ZZJGMC NAME,
+    <!--SELECT
+    F_ID,
+F_ZZJGBH ID,
+F_ZZJGMC NAME,
 CASE WHEN F_PZZJGBH = '001001' THEN
-		'' ELSE F_PZZJGBH
-	END  PID,
-	F_JS JS,
-        (select F_ZZJGMC from es_zzjg WHERE F_ZZJGBH = a.F_ZZJGBH)PNAME
+    '' ELSE F_PZZJGBH
+END  PID,
+F_JS JS,
+    (select F_ZZJGMC from es_zzjg WHERE F_ZZJGBH = a.F_ZZJGBH)PNAME
 FROM
-	es_zzjg a
+es_zzjg a
 WHERE
-	(F_PZZJGBH = '001001030' AND F_ZZJGBH != '001001030024' AND F_ZZJGBH != '001001030025')
-	OR F_PZZJGBH IN ( SELECT F_ZZJGBH FROM es_zzjg WHERE F_PZZJGBH = '001001030' AND F_ZZJGBH != '001001030024' AND F_ZZJGBH != '001001030025')
-	OR F_ZZJGBH = '001001030'*/
+(F_PZZJGBH = '001001030' AND F_ZZJGBH != '001001030024' AND F_ZZJGBH != '001001030025')
+OR F_PZZJGBH IN ( SELECT F_ZZJGBH FROM es_zzjg WHERE F_PZZJGBH = '001001030' AND F_ZZJGBH != '001001030024' AND F_ZZJGBH != '001001030025')
+OR F_ZZJGBH = '001001030'-->
 
+        <!--WHEN F_JS!='3' THEN a.F_ZZJGMC
 
-	SELECT a.F_ID ,a.F_ZZJGBH ID,
-		CASE WHEN ISNULL(b.F_NUMBER) AND F_JS='3' THEN CONCAT(a.F_ZZJGMC,'  部门人数:0') WHEN F_JS!='3' THEN a.F_ZZJGMC
-		ELSE CONCAT(a.F_ZZJGMC,'  部门人数:',b.F_NUMBER) END NAME,
-		CASE WHEN a.F_ZZJGBH = '001019003' THEN '001001030' WHEN a.F_ZZJGBH = '001001030023' THEN '001001030' ELSE a.F_PZZJGBH END PID,
-		a.F_REMARK , a.F_JS JS, a.F_MX ,
-		(select F_ZZJGMC from es_zzjg WHERE F_ZZJGBH = a.F_ZZJGBH) PNAME,
-		date_format(a.F_CRDATE,'%Y-%m-%d %H:%i:%s' )F_CRDATE ,
-		date_format(a.F_CHDATE,'%Y-%m-%d %H:%i:%s' )F_CHDATE
-		FROM es_zzjg a LEFT JOIN bes_department_number b on a.F_ZZJGBH = b.F_DEP_ID
-		where
-		a.F_PZZJGBH = '001001030021' OR a.F_PZZJGBH = '001001030022' OR a.F_PZZJGBH = '001001030023' OR a.F_PZZJGBH = '001019003'
-		OR a.F_ZZJGBH = '001001030' OR a.F_ZZJGBH = '001001030021' OR a.F_ZZJGBH = '001001030022' OR a.F_ZZJGBH = '001001030023' OR a.F_ZZJGBH = '001019003'
-    </select>
+        /*CASE WHEN ISNULL(b.F_NUMBER) THEN CONCAT(a.F_ZZJGMC,'  部门人数:0')
+    ELSE CONCAT(a.F_ZZJGMC,'  部门人数:',b.F_NUMBER) END NAME,*/-->
+SELECT a.F_ID ,a.F_ZZJGBH ID,
+        a.F_ZZJGMC NAME,
+    CASE WHEN a.F_ZZJGBH = '001019003' THEN '001001030' WHEN a.F_ZZJGBH = '001001030023' THEN '001001030' ELSE a.F_PZZJGBH END PID,
+    a.F_REMARK , a.F_JS JS, a.F_MX ,
+    (select F_ZZJGMC from es_zzjg WHERE F_ZZJGBH = a.F_ZZJGBH) PNAME,
+    date_format(a.F_CRDATE,'%Y-%m-%d %H:%i:%s' )F_CRDATE ,
+    date_format(a.F_CHDATE,'%Y-%m-%d %H:%i:%s' )F_CHDATE
+    FROM es_zzjg a LEFT JOIN bes_department_number b on a.F_ZZJGBH = b.F_DEP_ID
+    where
+    a.F_PZZJGBH = '001001030021' OR a.F_PZZJGBH = '001001030022' OR a.F_PZZJGBH = '001001030023' OR a.F_PZZJGBH = '001019003'
+    OR a.F_ZZJGBH = '001001030' OR a.F_ZZJGBH = '001001030021' OR a.F_ZZJGBH = '001001030022' OR a.F_ZZJGBH = '001001030023' OR a.F_ZZJGBH = '001019003'
+</select>
 
-    <!--查询支路信息 根据支路id -->
+<!--查询支路信息 根据支路id -->
     <select id="pin_xmap" resultType="java.util.HashMap">
         select
         F_ZLBH ID,F_PZLBH PID,F_ZLMC NAME
@@ -452,67 +454,6 @@ WHERE
         ORDER BY a.F_CJSJ
     </select>
 
-    <!--加载能源统计分析-支路用能-部门用能统计分析-->
-    <!--<select id="searchstatisAnalyOfEnergyConsumptionDataDep" resultMap="BesBranchDataMap">
-        (
-        SELECT a.F_ZLBH, a.F_DNBH, a.F_DATA, a.F_TYPE, date_format( a.F_CJSJ, '%Y-%m-%d %H:%i:%s' ) F_CJSJ, b.F_ZLMC,
-        c.F_UNIT
-        FROM bes_branch_data a
-        LEFT JOIN bes_branch_conf b ON a.F_ZLBH = b.F_ZLBH
-        LEFT JOIN bes_energy_type c ON a.F_DNBH = c.F_NYBH
-        <where>
-            1 = 1
-            <if test="fType !=null and fType != ''">
-                and a.F_TYPE = #{fType}
-            </if>
-            <if test="nhlx !=null and nhlx != ''">
-                and a.F_DNBH = #{nhlx}
-            </if>
-            <if test="time_start !=null and time_start != ''">
-                <![CDATA[ and a.F_CJSJ >= #{time_start}  ]]>
-            </if>
-            <if test="time_end !=null and time_end != ''">
-                <![CDATA[  and a.F_CJSJ <= #{time_end}   ]]>
-            </if>
-            <if test="branchList != null and branchList.size() > 0">
-                and a.F_ZLBH in
-                <foreach item="item" index="index" collection="branchList"
-                         open="(" separator="," close=")">
-                    #{item.bh}
-                </foreach>
-            </if>
-        </where>
-        ORDER BY a.F_CJSJ
-        )
-        UNION ALL
-        (
-        SELECT a.F_DBSYS_NAME F_ZLBH, a.F_DNBH, a.F_DATA, a.F_TYPE, date_format( a.F_CJSJ, '%Y-%m-%d %H:%i:%s' ) F_CJSJ, b.F_NICK_NAME F_ZLMC,
-        'kwh' F_UNIT
-        FROM bes_original_data a
-        LEFT JOIN bes_ammeter b ON a.F_DBSYS_NAME = b.F_SYS_NAME
-        <where>
-            1 = 1
-            <if test="nhlx !=null and nhlx != ''">
-                and a.F_DNBH = #{nhlx}
-            </if>
-            <if test="time_start !=null and time_start != ''">
-                <![CDATA[ and a.F_CJSJ >= #{time_start}  ]]>
-            </if>
-            <if test="time_end !=null and time_end != ''">
-                <![CDATA[  and a.F_CJSJ <= #{time_end}   ]]>
-            </if>
-            <if test="ammeterList != null and ammeterList.size() > 0">
-                and a.F_DBSYS_NAME in
-                <foreach item="itemm" index="index" collection="ammeterList"
-                         open="(" separator="," close=")">
-                    #{itemm.bh}
-                </foreach>
-            </if>
-        </where>
-        ORDER BY a.F_CJSJ
-        )
-    </select>-->
-
     <select id="searchstatisAnalyOfEnergyConsumptionDataDep" resultMap="BesBranchDataMap">
         SELECT F_ZLBH,F_DNBH,F_DATA,F_type,F_CJSJ,F_ZLMC,F_UNIT FROM
         ( (
@@ -522,25 +463,19 @@ WHERE
         LEFT JOIN bes_branch_conf b ON a.F_ZLBH = b.F_ZLBH
         LEFT JOIN bes_energy_type c ON a.F_DNBH = c.F_NYBH
         <where>
-            1 = 1
-            <if test="fType !=null and fType != ''">
-                and a.F_TYPE = #{fType}
-            </if>
-            <if test="nhlx !=null and nhlx != ''">
-                and a.F_DNBH = #{nhlx}
-            </if>
-            <if test="time_start !=null and time_start != ''">
-                <![CDATA[ and a.F_CJSJ >= #{time_start}  ]]>
-            </if>
-            <if test="time_end !=null and time_end != ''">
-                <![CDATA[  and a.F_CJSJ <= #{time_end}   ]]>
-            </if>
+            a.F_TYPE = #{fType}
+            and a.F_DNBH = #{nhlx}
+            and a.F_CJSJ &gt;= #{time_start}
+            and a.F_CJSJ &lt;= #{time_end}
             <if test="branchList != null and branchList.size() > 0">
                 and a.F_ZLBH in
                 <foreach item="item" index="index" collection="branchList"
                          open="(" separator="," close=")">
                     #{item.bh}
                 </foreach>
+            </if>
+            <if test="branchList == null or branchList.size() == 0">
+                and a.F_ZLBH = '0'
             </if>
         </where>
         GROUP BY a.F_CJSJ
@@ -552,19 +487,9 @@ WHERE
         FROM bes_monitoring_data a
         LEFT JOIN bes_ammeter b ON a.F_DBSYS_NAME = b.F_SYS_NAME
         <where>
-            1 = 1
-            <if test="fType !=null and fType != ''">
-                and a.F_TYPE = #{fType}
-            </if>
-            <if test="nhlx !=null and nhlx != ''">
-                and a.F_DNBH = #{nhlx}
-            </if>
-            <if test="time_start !=null and time_start != ''">
-                <![CDATA[ and a.F_CJSJ >= #{time_start}  ]]>
-            </if>
-            <if test="time_end !=null and time_end != ''">
-                <![CDATA[  and a.F_CJSJ <= #{time_end}   ]]>
-            </if>
+            and a.F_DNBH = #{nhlx}
+            and a.F_CJSJ &gt;= #{time_start}
+            and a.F_CJSJ &lt;= #{time_end}
             <if test="ammeterList != null and ammeterList.size() > 0">
                 and a.F_DBSYS_NAME in
                 <foreach item="itemm" index="index" collection="ammeterList"
@@ -572,21 +497,23 @@ WHERE
                     #{itemm.bh}
                 </foreach>
             </if>
+            <if test="ammeterList == null or ammeterList.size() == 0 ">
+                and a.F_DBSYS_NAME = '0'
+            </if>
         </where>
-        GROUP BY a.F_CJSJ
-        ) ) c
         <if test="fType == '0'.toString() or fType == 0">
-            GROUP BY date_format(F_CJSJ, '%Y-%m-%d %H')
+            GROUP BY date_format(a.F_CJSJ, '%Y-%m-%d %H')
         </if>
         <if test="fType == '1'.toString() or fType == 1">
-            GROUP BY date_format(F_CJSJ,'%Y-%m-%d')
+            GROUP BY date_format(a.F_CJSJ,'%Y-%m-%d')
         </if>
         <if test="fType == '2'.toString() or fType == 2">
-            GROUP BY date_format(F_CJSJ,'%Y-%m')
+            GROUP BY date_format(a.F_CJSJ,'%Y-%m')
         </if>
         <if test="fType == '3'.toString() or fType == 3">
-            GROUP BY date_format(F_CJSJ,'%Y')
+            GROUP BY date_format(a.F_CJSJ,'%Y')
         </if>
+        ) ) c
     </select>
 
     <select id="queryAllDepByStrategy" resultType="java.util.Map">
@@ -631,6 +558,9 @@ WHERE
                     #{item.bh}
                 </foreach>
             </if>
+            <if test="branchList == null or branchList.size() == 0">
+                and a.F_ZLBH = '0'
+            </if>
         </where>
         GROUP BY a.F_ZLBH
         )
@@ -640,9 +570,6 @@ WHERE
         FROM bes_monitoring_data a
         <where>
             1 = 1
-            <if test="fType !=null and fType != ''">
-                and a.F_TYPE = #{fType}
-            </if>
             <if test="nhlx !=null and nhlx != ''">
                 and a.F_DNBH = #{nhlx}
             </if>
@@ -658,6 +585,9 @@ WHERE
                          open="(" separator="," close=")">
                     #{itemm.bh}
                 </foreach>
+            </if>
+            <if test="ammeterList == null or ammeterList.size() == 0">
+                and a.F_DBSYS_NAME = '0'
             </if>
         </where>
         GROUP BY a.F_DBSYS_NAME

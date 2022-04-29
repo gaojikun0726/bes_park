@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 
 import java.sql.Timestamp;
 import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * @author 杨超
@@ -676,10 +677,14 @@ public class BesZlthbfxServiceimpl implements BesZlthbfxService {
                     if(ammeterList.size()>0){
                         allList.addAll(ammeterList);
                     }
+                    String fType = besQstjfxData.getfType();
+                    String nhlx = besQstjfxData.getNhlx();
+                    nhlx = "01000";
+                    String time_start = besQstjfxData.getTime_start();
+                    String time_end = besQstjfxData.getTime_end();
                     //根据所有支路，电表取该部门总数居
                     /*List<BesBranchData> list*/
-                    List<BesBranchData> list = besbranchdatamapper.searchstatisAnalyOfEnergyConsumptionDataDep(str,besQstjfxData.getfType(),besQstjfxData.getNhlx(),
-                            besQstjfxData.getTime_start(),besQstjfxData.getTime_end(),branchList,ammeterList);
+                    List<BesBranchData> list = besbranchdatamapper.searchstatisAnalyOfEnergyConsumptionDataDep(str,fType,nhlx,time_start,time_end,branchList,ammeterList);
 
                     a: for(BesBranchData b : list){
                         b: for(Map m : allList){
@@ -689,8 +694,37 @@ public class BesZlthbfxServiceimpl implements BesZlthbfxService {
                             }
                             b.setfZlbh(str);
                         }
+                        if("0".equals(fType)){
+                            String FCJSJ = b.getfCjsj().substring(0,13)+":00:00";
+                            b.setfCjsj(FCJSJ);
+                        }else if("1".equals(fType)){
+                            String FCJSJ = b.getfCjsj().substring(0,10)+" 00:00:00";
+                            b.setfCjsj(FCJSJ);
+                        }else if("2".equals(fType)){
+                            String FCJSJ = b.getfCjsj().substring(0,7)+"-01 00:00:00";
+                            b.setfCjsj(FCJSJ);
+                        }else{
+                            String FCJSJ = b.getfCjsj().substring(0,4)+"-01-01 00:00:00";
+                            b.setfCjsj(FCJSJ);
+                        }
                     }
-                    returnList.addAll(list);
+
+
+                    Map<String, List<BesBranchData>> collect =
+                            list.stream().collect(Collectors.groupingBy(BesBranchData::getfCjsj, LinkedHashMap::new, Collectors.toList()));
+
+                    List<BesBranchData> resultList = new ArrayList<>();
+                    for(String key:collect.keySet()){
+                        List<BesBranchData> mapList = collect.get(key);
+                        Double dou = 0.00;
+                        for(BesBranchData bes: mapList){
+                            dou = dou+bes.getfData();
+                        }
+                        mapList.get(0).setfData(dou);
+                        resultList.add(mapList.get(0));
+                    }
+
+                    returnList.addAll(resultList);
                 }
 
             }

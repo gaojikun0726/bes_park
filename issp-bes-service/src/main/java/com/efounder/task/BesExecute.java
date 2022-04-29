@@ -753,10 +753,10 @@ public class BesExecute {
     }
 
 
-    @PostConstruct
-    public void testMethods() {
-        List<Map<String, Object>> list = queryAllDepInfoByStrategyId("11", "0", "2022-04-18 00:00:00", "2022-04-24 23:59:59", "2022-04-11 23:59:59", "2022-04-17 23:59:59");
-    }
+//    @PostConstruct
+//    public void testMethods() {
+//        List<Map<String, Object>> list = queryAllDepInfoByStrategyId("11", "0", "2022-04-18 00:00:00", "2022-04-24 23:59:59", "2022-04-11 23:59:59", "2022-04-17 23:59:59");
+//    }
 
     private Double getTwoDecimal(Double dou) {
         BigDecimal two = new BigDecimal(dou);
