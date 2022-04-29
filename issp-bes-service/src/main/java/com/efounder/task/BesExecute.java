@@ -14,6 +14,8 @@ import com.efounder.JEnterprise.model.excelres.ExcelReturn;
 import com.efounder.JEnterprise.service.basedatamanage.eqmanage.BESSbdyService;
 import com.efounder.JEnterprise.service.basedatamanage.eqmanage.EnerEquipmentService;
 import com.efounder.util.StringUtils;
+import com.efounder.util.emailConfig.IdcEmailConfig;
+import com.efounder.util.test.EmailService;
 import com.framework.common.utils.ExcelUtil;
 import com.google.gson.JsonObject;
 import org.dom4j.Branch;
@@ -55,6 +57,9 @@ public class BesExecute {
 
     @Autowired
     private BESStrategyMapper besStrategyMapper;
+
+    @Autowired
+    EmailService emailService;
 
     public void besMultipleParams(String s, Boolean b, Long l, Double d, Integer i) {
         System.out.println(StringUtils.format("执行多参方法： 字符串类型{}，布尔类型{}，长整型{}，浮点型{}，整形{}", s, b, l, d, i));
@@ -230,7 +235,7 @@ public class BesExecute {
     //定时发送报表
     public void executeStrategy(String strategyId) throws UnsupportedEncodingException, RemoteException, ServiceException {
         Date date = new Date();
-        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd :hh:mm:ss");
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
         System.out.println("定时发送报表走了***********************************: strategyId " + strategyId + dateFormat.format(date));
 
@@ -382,11 +387,13 @@ public class BesExecute {
 
         names.add("f_level");
         names.add("f_zlmc");
+        names.add("f_range");
         names.add("fData");
         names.add("yData");
 
         alias.add("等级");
         alias.add("支路名称");
+        alias.add("时间颗粒度");
         alias.add("能耗量");
         alias.add("上次能耗量");
 
@@ -396,12 +403,16 @@ public class BesExecute {
 
         departmentNames.add("f_level");
         departmentNames.add("f_zlmc");
+        departmentNames.add("f_range");
         departmentNames.add("fData");
+        departmentNames.add("peopleData");
         departmentNames.add("yData");
 
         departmentAlias.add("等级");
         departmentAlias.add("支路名称");
+        departmentAlias.add("时间颗粒度");
         departmentAlias.add("能耗量");
+        departmentAlias.add("人均能耗量");
         departmentAlias.add("上次能耗量");
 
 
@@ -423,25 +434,125 @@ public class BesExecute {
 
             //支路数据
             branchData = besStrategyMapper.queryBranchData(strategyId, nowStart, nowEnd, lastStart, lastEnd);
+            if (branchData != null && branchData.size() > 0){
+                for (Map<String,Object> dataMap : branchData){
+                    dataMap.put("f_range",f_range);
+                }
+            }
             //生成支路excel
             ExcelReturn resBranch = util.resListDynamic(FileName,branchFilePath,branchData,alias,names);
 
+            //发送邮件
+            IdcEmailConfig branchMailInfo=new IdcEmailConfig();
+            branchMailInfo.setContent("报表信息");
+            branchMailInfo.setFromAddress("2856527022@qq.com");
+            branchMailInfo.setMailServerhost("smtp.qq.com");
+            branchMailInfo.setPassword("bzslwebaegohdehg");
+            branchMailInfo.setSubject("报表信息");
+            branchMailInfo.setToAddress(strategyInfo.get("f_email").toString());
+            branchMailInfo.setFilePath(branchFilePath);
+
             //部门数据
             departmentData = this.queryAllDepInfoByStrategyId(strategyId, "0", nowStart, nowEnd, lastStart, lastEnd);
+            if (departmentData != null && departmentData.size() > 0){
+                for (Map<String,Object> dataMap : departmentData){
+                    dataMap.put("f_range",f_range);
+                }
+            }
             //生成支路excel
             ExcelReturn resDepartment = util.resListDynamic(FileName,departmentFilePath,departmentData,departmentAlias,departmentNames);
+
+            //发送邮件
+            IdcEmailConfig departmentMailInfo=new IdcEmailConfig();
+            departmentMailInfo.setContent("报表信息");
+            departmentMailInfo.setFromAddress("2856527022@qq.com");
+            departmentMailInfo.setMailServerhost("smtp.qq.com");
+            departmentMailInfo.setPassword("bzslwebaegohdehg");
+            departmentMailInfo.setSubject("报表信息");
+            departmentMailInfo.setToAddress(strategyInfo.get("f_email").toString());
+            departmentMailInfo.setFilePath(branchFilePath);
+
+            try {
+                emailService.init(branchMailInfo);
+                emailService.init(departmentMailInfo);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            try {
+
+                emailService.sendEmail(branchMailInfo,dateFormat.format(date));
+                emailService.sendEmail(departmentMailInfo,dateFormat.format(date));
+                emailService.closeEmail();
+
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
 
         } else if ("2".equals(strategyInfo.get("f_pId"))) { //层级,只有支路
             //支路数据
             branchData = besStrategyMapper.queryBranchData(strategyId, nowStart, nowEnd, lastStart, lastEnd);
+            if (branchData != null && branchData.size() > 0){
+                for (Map<String,Object> dataMap : branchData){
+                    dataMap.put("f_range",f_range);
+                }
+            }
             //生成支路excel
             ExcelReturn resBranch = util.resListDynamic(FileName,branchFilePath,branchData,alias,names);
 
+            //发送邮件
+            IdcEmailConfig branchMailInfo=new IdcEmailConfig();
+            branchMailInfo.setContent("报表信息");
+            branchMailInfo.setFromAddress("2856527022@qq.com");
+            branchMailInfo.setMailServerhost("smtp.qq.com");
+            branchMailInfo.setPassword("bzslwebaegohdehg");
+            branchMailInfo.setSubject("报表信息");
+            branchMailInfo.setToAddress(strategyInfo.get("f_email").toString());
+            branchMailInfo.setFilePath(branchFilePath);
+
+            try {
+                emailService.init(branchMailInfo);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            try {
+
+                emailService.sendEmail(branchMailInfo,dateFormat.format(date));
+                emailService.closeEmail();
+
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         } else if ("3".equals(strategyInfo.get("f_pId"))) { //只有部门
             //部门数据
             departmentData = this.queryAllDepInfoByStrategyId(strategyId, "0", nowStart, nowEnd, lastStart, lastEnd);
             //生成支路excel
             ExcelReturn resDepartment = util.resListDynamic(FileName,departmentFilePath,departmentData,departmentAlias,departmentNames);
+
+
+            //发送邮件
+            IdcEmailConfig departmentMailInfo=new IdcEmailConfig();
+            departmentMailInfo.setContent(strategyInfo.get("f_name").toString());
+            departmentMailInfo.setFromAddress("2856527022@qq.com");
+            departmentMailInfo.setMailServerhost("smtp.qq.com");
+            departmentMailInfo.setPassword("bzslwebaegohdehg");
+            departmentMailInfo.setSubject("报表信息");
+            departmentMailInfo.setToAddress(strategyInfo.get("f_email").toString());
+            departmentMailInfo.setFilePath(branchFilePath);
+
+            try {
+                emailService.init(departmentMailInfo);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            try {
+
+                emailService.sendEmail(departmentMailInfo,dateFormat.format(date));
+                emailService.closeEmail();
+
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
 
         }
 
@@ -452,7 +563,7 @@ public class BesExecute {
 
 
     //组织部门数据
-    private List<Map<String, Object>> queryAllDepInfoByStrategyId(String strategyId, String fType, String time_start, String time_end, String last_time_start, String last_time_end) {
+    private List<Map<String, Object>>  queryAllDepInfoByStrategyId(String strategyId, String fType, String time_start, String time_end, String last_time_start, String last_time_end) {
         //获取参数
         //时间颗粒 fType
         String nhlx = "01000";

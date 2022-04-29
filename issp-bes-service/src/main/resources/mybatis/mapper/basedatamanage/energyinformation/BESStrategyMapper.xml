@@ -117,7 +117,7 @@
     <select id="queryBranchData"  parameterType="string" resultType="java.util.Map">
 
         SELECT * from
-            (SELECT t1.*,sum(t2.F_DATA) fData,t2.F_CJSJ,t2.F_TYPE
+            (SELECT t1.*,ROUND(sum(t2.F_DATA),2) fData,t2.F_CJSJ,t2.F_TYPE
             from bes_strategy_branch t1 LEFT JOIN bes_branch_data t2 on t1.f_zlbh = t2.F_ZLBH
 
             where
@@ -127,7 +127,7 @@
             GROUP BY t1.F_ZLBH
             ) table1
         left join
-            (SELECT t3.f_zlbh,sum(t4.F_DATA) yData
+            (SELECT t3.f_zlbh,ROUND(sum(t4.F_DATA),2) yData
             from bes_strategy_branch t3 LEFT JOIN bes_branch_data t4 on t3.f_zlbh = t4.F_ZLBH
 
             where
