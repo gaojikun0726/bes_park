@@ -49,6 +49,14 @@ data-centre:
   enable: 1
   #文件存储位置
   file-storage-location: /opt/file/buildAndEnergyInfo
+  #定时报表存放地址
+  email-file-storage-location: /opt/file/emailInfo
+  #定时报表发件人邮箱
+  email-account: 2856527022@qq.com
+  #定时报表发件人密码
+  email-password: bzslwebaegohdehg
+  #发件人的邮箱的 SMTP 服务器地址
+  email-server-host: smtp.qq.com
 
 
 #是否启用oauth2单点登录 enable: true启用

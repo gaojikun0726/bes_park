@@ -20,6 +20,7 @@ import com.framework.common.utils.ExcelUtil;
 import com.google.gson.JsonObject;
 import org.dom4j.Branch;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
@@ -30,6 +31,8 @@ import java.rmi.RemoteException;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
+import static com.framework.common.utils.xmlprocessor.utils.XmlUtils.makeWritableDirectoryIfNotExist;
+
 /**
  * 定时任务调度测试
  *
@@ -38,6 +41,22 @@ import java.util.*;
  */
 @Component("besTask")
 public class BesExecute {
+
+    /**
+     * 文件存放位置
+     */
+    @Value("${data-centre.email-file-storage-location}")
+    private String emailFilePath;
+
+    /**
+     * 发件人配置
+     */
+    @Value("${data-centre.email-account}")
+    private String emailAccount;
+    @Value("${data-centre.email-password}")
+    private String emailPassWord;
+    @Value("${data-centre.email-server-host}")
+    private String emailServerHost;
 
     @Autowired
     private SysJobPlanMapper sysJobPlanMapper;
@@ -426,8 +445,13 @@ public class BesExecute {
         String FilePath = path+"\\BESWebapp\\src\\main\\webapp\\WEB-INF\\file\\DDCprgram\\";//获取文件的上级目录的路径,为了拼接编译好的bin文件*/
         //String FilePath = System.getProperty("user.dir") + "\\" + file + ".xls";
 
-        String branchFilePath = "D:\\" + branchFile + ".xls";
-        String departmentFilePath = "D:\\" + departmentFile + ".xls";
+        //判断目录是否存在，不存在则创建
+        if (!makeWritableDirectoryIfNotExist(emailFilePath))
+        {
+            return;
+        }
+        String branchFilePath = emailFilePath + "\\" + branchFile + ".xls";
+        String departmentFilePath = emailFilePath + "\\" + departmentFile + ".xls";
 
         // 导出方法
         if ("1".equals(strategyInfo.get("f_pId"))) { //默认 支路和部门都有
@@ -445,9 +469,9 @@ public class BesExecute {
             //发送邮件
             IdcEmailConfig branchMailInfo=new IdcEmailConfig();
             branchMailInfo.setContent("报表信息");
-            branchMailInfo.setFromAddress("2856527022@qq.com");
-            branchMailInfo.setMailServerhost("smtp.qq.com");
-            branchMailInfo.setPassword("bzslwebaegohdehg");
+            branchMailInfo.setFromAddress(emailAccount);
+            branchMailInfo.setMailServerhost(emailServerHost);
+            branchMailInfo.setPassword(emailPassWord);
             branchMailInfo.setSubject("报表信息");
             branchMailInfo.setToAddress(strategyInfo.get("f_email").toString());
             branchMailInfo.setFilePath(branchFilePath);
@@ -465,9 +489,9 @@ public class BesExecute {
             //发送邮件
             IdcEmailConfig departmentMailInfo=new IdcEmailConfig();
             departmentMailInfo.setContent("报表信息");
-            departmentMailInfo.setFromAddress("2856527022@qq.com");
-            departmentMailInfo.setMailServerhost("smtp.qq.com");
-            departmentMailInfo.setPassword("bzslwebaegohdehg");
+            departmentMailInfo.setFromAddress(emailAccount);
+            departmentMailInfo.setMailServerhost(emailServerHost);
+            departmentMailInfo.setPassword(emailPassWord);
             departmentMailInfo.setSubject("报表信息");
             departmentMailInfo.setToAddress(strategyInfo.get("f_email").toString());
             departmentMailInfo.setFilePath(branchFilePath);
@@ -502,9 +526,9 @@ public class BesExecute {
             //发送邮件
             IdcEmailConfig branchMailInfo=new IdcEmailConfig();
             branchMailInfo.setContent("报表信息");
-            branchMailInfo.setFromAddress("2856527022@qq.com");
-            branchMailInfo.setMailServerhost("smtp.qq.com");
-            branchMailInfo.setPassword("bzslwebaegohdehg");
+            branchMailInfo.setFromAddress(emailAccount);
+            branchMailInfo.setMailServerhost(emailServerHost);
+            branchMailInfo.setPassword(emailPassWord);
             branchMailInfo.setSubject("报表信息");
             branchMailInfo.setToAddress(strategyInfo.get("f_email").toString());
             branchMailInfo.setFilePath(branchFilePath);
@@ -532,9 +556,9 @@ public class BesExecute {
             //发送邮件
             IdcEmailConfig departmentMailInfo=new IdcEmailConfig();
             departmentMailInfo.setContent(strategyInfo.get("f_name").toString());
-            departmentMailInfo.setFromAddress("2856527022@qq.com");
-            departmentMailInfo.setMailServerhost("smtp.qq.com");
-            departmentMailInfo.setPassword("bzslwebaegohdehg");
+            departmentMailInfo.setFromAddress(emailAccount);
+            departmentMailInfo.setMailServerhost(emailServerHost);
+            departmentMailInfo.setPassword(emailPassWord);
             departmentMailInfo.setSubject("报表信息");
             departmentMailInfo.setToAddress(strategyInfo.get("f_email").toString());
             departmentMailInfo.setFilePath(branchFilePath);
