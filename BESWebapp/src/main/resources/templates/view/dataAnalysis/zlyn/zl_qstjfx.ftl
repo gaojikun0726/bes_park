@@ -106,7 +106,9 @@
       <div style="display: none" class="zl_qstjfx zl_qstjfx_jsgd"><span class="zl_sxtj_span">单位换算：</span>
         <div id="zl_qstjfx_dwhs"></div>
       </div>
-      <div class="zl_qstjfx zl_qstjfx_jsgd"><span class="zl_sxtj_span">请选择支路>>> </span>
+      <div class="zl_qstjfx zl_qstjfx_jsgd">
+        <span id="branchSelect" class="zl_sxtj_span">请选择支路>>> </span>
+        <span id="DepSelect" class="zl_sxtj_span">请选择部门>>> </span>
         <input type="text" style="visibility: hidden;" class="input-datecheck">
         <label style="cursor: pointer;right: 3vh;display: flex;position: absolute;">
           <input id="zl_qstjfxCascade" type="checkbox" checked value="1"><#--<input id="zl_bmqstjfxCascade" type="checkbox" checked value="1">-->是否级联
@@ -237,6 +239,8 @@
       fslx = sp.id;//每次改变赋值给fslx
       if(fslx == 'zl'){
         left_tree(fnybh, true, []);
+        $("#branchSelect").show()
+        $("#DepSelect").hide()
         // $("#tree_zl_bmqstjfx").hide()
         // $("#sumButtonTwo").hide()
         // $("#zl_bmqstjfxCascade").hide()
@@ -245,6 +249,8 @@
         // $("#zl_qstjfxCascade").show()
       }else{
         left_tree_two(fnybh, true, []);
+        $("#branchSelect").hide()
+        $("#DepSelect").show()
         // $("#tree_zl_bmqstjfx").show()
         // $("#sumButtonTwo").show()
         // $("#zl_bmqstjfxCascade").show()
@@ -1323,7 +1329,12 @@
               }
               itemMap.put(fCjsj, item);
             }
-            var qstjfhdaydata = "<th class='czjz' rowspan='2' style='width:20%;white-space: nowrap;' >支路名称</th>";
+            if(fslx == 'zl'){
+              var qstjfhdaydata = "<th class='czjz' rowspan='2' style='width:20%;white-space: nowrap;' >支路名称</th>";
+            }else{
+              var qstjfhdaydata = "<th class='czjz' rowspan='2' style='width:20%;white-space: nowrap;' >部门名称</th>";
+            }
+
             let timeMap = new Map();
             timeSet.forEach(fCjsj => {
               let bigTime = null;
