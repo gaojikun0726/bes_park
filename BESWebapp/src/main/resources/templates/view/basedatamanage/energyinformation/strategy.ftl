@@ -60,13 +60,14 @@
         background-color: #00264d;
         border: solid 0px #ffffff;
     }
+
     /*样式前加上前缀，避免影响其他页面样式*/
     #strategy_content .layui-table-cell {
         min-height: 30px;
         height: initial;
     }
 
-    #strategy_content .layui-table-cell,#strategy_content .layui-table-tool-panel li {
+    #strategy_content .layui-table-cell, #strategy_content .layui-table-tool-panel li {
         white-space: initial;
         /*为了让字母和数字也换行*/
         word-break: break-word;
@@ -99,12 +100,14 @@
     #strategy_content .layui-table-body {
         overflow: visible;
     }
+
     /* 设置下拉框的高度与表格单元相同 */
-    #strategy_content td .layui-form-select{
+    #strategy_content td .layui-form-select {
         margin-left: -15px;
         margin-right: -15px;
     }
-    .tab-pane active{
+
+    .tab-pane active {
         height: 96%;
     }
 
@@ -171,7 +174,8 @@
                 <div class="form-group col-sm-4" style="margin-top: 20px">
                     <label class="col-sm-3 control-label">执行类型:</label>
                     <div class="col-sm-8">
-                        <select id="f_strategyCronJobType" name="f_strategyCronJobType" style="width: 200px" class="form-control">
+                        <select id="f_strategyCronJobType" name="f_strategyCronJobType" style="width: 200px"
+                                class="form-control">
                             <option value="0">每分钟</option>
                             <option value="1">每小时</option>
                             <option value="2">每天</option>
@@ -192,7 +196,7 @@
                                style="width: 200px">-->
                         <input type="text" style="width: 200px" class="form-control"
                                onfocus="WdatePicker({dateFmt: 'yyyy-MM-dd HH:mm:ss'})"
-                               name="f_strategyCronStartDate"  id="f_strategyCronStartDate" placeholder="开始日期">
+                               name="f_strategyCronStartDate" id="f_strategyCronStartDate" placeholder="开始日期">
                     </div>
                 </div>
 
@@ -218,11 +222,12 @@
 
             <#--层级树和部门树-->
             <div style="height: 70%;white-space:nowrap;overflow:auto;">
-                <div id="zlTreeModel" style="width:40%; height:98%;border: 2px solid  #CDCDCD;float:left;display: none;margin-right: 5%;">
+                <div id="zlTreeModel"
+                     style="width:40%; height:98%;border: 2px solid  #CDCDCD;float:left;display: none;margin-right: 5%;">
                     <div style="height: 25px;width: 100%">
                         <span class="zl_sxtj_span">请选择层级>>> </span>
                         <label style="margin-left: 60%">
-                            <input id="zlCascade" type="checkbox" >是否级联
+                            <input id="zlCascade" type="checkbox">是否级联
                         </label>
                     </div>
                     <div id="zlTree" style="width:100%;height:95%;overflow-y: auto;overflow-x: auto;"></div>
@@ -232,7 +237,7 @@
                     <div style="height: 25px;width: 100%">
                         <span class="zl_sxtj_span">请选择部门>>> </span>
                         <label style="margin-left: 60%">
-                            <input id="bmCascade" type="checkbox" >是否级联
+                            <input id="bmCascade" type="checkbox">是否级联
                         </label>
                     </div>
                     <div id="bmTree" style="width:100%;height:95%;overflow-y: auto;overflow-x: auto;"></div>
@@ -241,10 +246,10 @@
             </div>
 
             <div style="width:100%;margin-top: 10px;font-size: 15px;float:left">
-                <button class="layui-btn"  type="button" id="" style="margin-left: 35%;"
+                <button class="layui-btn" type="button" id="" style="margin-left: 35%;"
                         onclick="basedatamanage_eqmanage_strategy.saveStrategy()">报表预览
                 </button>
-                <button class="layui-btn"  type="button" id="" style="margin-left: 10px;"
+                <button class="layui-btn" type="button" id="" style="margin-left: 10px;"
                         onclick="basedatamanage_eqmanage_strategy.saveStrategy()">保存策略
                 </button>
             </div>
@@ -256,7 +261,6 @@
 <link href="${ctx}/static/ztree/css/metroStyle/metroStyle.css" rel="stylesheet">
 
 <script src="${ctx}/static/layui/lay/modules/layer.js" type="text/javascript"></script>
-
 
 
 <!--cron表达式-->
@@ -303,11 +307,11 @@
         var zlAllName = '';
         var bmAllName = '';
 
-        Array.prototype.push2 =function(){
+        Array.prototype.push2 = function () {
 
-            for(var i=0; i<arguments.length; i++){
+            for (var i = 0; i < arguments.length; i++) {
                 var ele = arguments[i];
-                if(this.indexOf(ele) == -1){
+                if (this.indexOf(ele) == -1) {
                     this.push(ele);
                 }
             }
@@ -328,6 +332,7 @@
             //部门树
             bm_tree();
         })
+
         //左侧树
         function strategy_tree() {
             $.ajax({
@@ -342,13 +347,20 @@
                     if (status !== '1') {
                         return;
                     }
-
+                    //debugger
                     var data = result.data;
 
                     if (!Array.isArray(data)) {
                         return;
                     }
-
+                    data.forEach((item) => {
+                        if (item.f_status=='1' && item.f_type=='1') {
+                            item["icon"] = "/energy/static/ztree/css/zTreeStyle/img/diy/kai.png";
+                        }else{
+                            item["icon"] = "/energy/static/ztree/css/zTreeStyle/img/diy/guan.png";
+                        }
+                    })
+                    // debugger
                     var strategyTree = new Tree({
                         container: 'strategyTree',
                         idKey: 'f_id',
@@ -361,13 +373,17 @@
                         noEditBtn: true,
                         setting: {
                             view: {
-                                showIcon: false,
+                                showIcon: function (treeId, treeNode) {
+                                    return (treeNode.f_type==1)
+                                        ? true
+                                        : false;
+                                },
                                 // selectedMulti: true,
                                 txtSelectedEnable: false,
                                 fontCss: function (treeId, treeNode) {
                                     return (treeNode.highlight)
                                         ? {color: '#A60000', 'font-weight': 'bold'}
-                                        : {color: '#8FE3F7',"font-family":"none","li.line-height":"30px", 'font-weight': 'normal'};
+                                        : { color: '#8FE3F7',"font-family": "none","li.line-height": "30px",'font-weight': 'normal'};
                                 },
                                 addHoverDom: addHoverDom, //当鼠标移动到节点上时，显示用户自定义控件
                                 removeHoverDom: removeHoverDom, //离开节点时的操作
@@ -418,9 +434,9 @@
 
         //节点点击事件 将Id放全局变量里面
         function pointDosth(e, treeId, treeNode) {
-            if(treeNode.level === 0) {
+            if (treeNode.level === 0) {
                 $('#strategy_content').hide();
-            }else {
+            } else {
                 $('#strategy_content').show();
             }
             modeList.length = 0;
@@ -491,14 +507,14 @@
                             f_name: fname,
                             f_type: "1",
                             f_pId: pId,
-                            f_status : '0',
-                            f_cron_start_date:'2022-04-24 12:00:00',
-                            f_cron_job_type : 2
+                            f_status: '0',
+                            f_cron_start_date: '2022-04-24 12:00:00',
+                            f_cron_job_type: 2
                         },
                         success: function (result) {
                             if (result.status === '1') {
                                 var id = result.data;
-                                zTree.addNodes(treeNode, {f_id: id, f_pId: pId, f_name: fname, f_type:"1"})
+                                zTree.addNodes(treeNode, {f_id: id, f_pId: pId, f_name: fname, f_type: "1"})
                             } else {
                                 swal({
                                     title: "策略添加失败",
@@ -660,9 +676,6 @@
         }
 
 
-
-
-
         //加载支路树
         function zl_tree(fnybh, refreshType, AllChecked) {
             $.ajax({
@@ -674,7 +687,7 @@
                     //只取2号楼的数据
                     result.list[0].nodes.forEach((item) => {
                         //git提交测试
-                        if (item.text == '二号楼'){
+                        if (item.text == '二号楼') {
                             firstBranchNode.push(item)
                         }
                     })
@@ -693,7 +706,7 @@
                             onNodeChecked: function (event, nodeData) {//选中方法
                                 //级联的情况下,选中时默认将子节点和父节点选中（级联的情况下,不级联的时候默认选中选择的节点）
                                 // debugger
-                                if (deWhetherToManClick){
+                                if (deWhetherToManClick) {
                                     deWhetherToManClick = false;//判断是否手动点击树节点(点击过后首先设置为false)
                                     nodeChecked(nodeData);
                                 }
@@ -737,20 +750,20 @@
                 // debugger
                 //获取父节点
                 let fatherNodeId = nodeData.pid;
-                allNodes.forEach((node,i) => {
+                allNodes.forEach((node, i) => {
                     if (node.nodeTreeId == fatherNodeId) {
                         fatherNodeId = node;
-                        fatherNodes(fatherNodeId,allNodes);
+                        fatherNodes(fatherNodeId, allNodes);
                     }
                 })
 
                 //获取子节点(如果有的话)
                 if (Array.isArray(nodeData.nodes)) {
                     childNodes = nodeData.nodes;
-                    childNodesFunction(childNodes,allNodes);
+                    childNodesFunction(childNodes, allNodes);
                 }
 
-                checkNodes.forEach((node,i) =>{
+                checkNodes.forEach((node, i) => {
                     $('#zlTree').treeview('checkNode', [node, {silent: false}]);
                 })
             }
@@ -758,12 +771,12 @@
         }
 
         //支路树获取父节点集合，将父节点集合放到选中的节点集合里面
-        function fatherNodes(fatherNodeId,allNodes) {
+        function fatherNodes(fatherNodeId, allNodes) {
             checkNodes.push(fatherNodeId);
             let result = [];
             let obj = {};
-            for(var i =0; i<checkNodes.length; i++){
-                if(!obj[checkNodes[i].nodeTreeId]){
+            for (var i = 0; i < checkNodes.length; i++) {
+                if (!obj[checkNodes[i].nodeTreeId]) {
                     result.push(checkNodes[i]);
                     obj[checkNodes[i].nodeTreeId] = true;
                 }
@@ -771,28 +784,28 @@
             checkNodes = result;
             //判断父节点是否含有父节点
             if (typeof fatherNodeId.pid != 'undefined') {//有的话,递归
-                allNodes.forEach((node,i) => {
+                allNodes.forEach((node, i) => {
                     if (node.nodeTreeId == fatherNodeId.pid) {
                         fatherNodeId = node;
-                        fatherNodes(fatherNodeId,allNodes);
+                        fatherNodes(fatherNodeId, allNodes);
                     }
                 })
             }
         }
 
         //支路树获取子节点集合，将子节点集合放到选中的节点集合里面
-        function childNodesFunction(childNodes,allNodes) {
+        function childNodesFunction(childNodes, allNodes) {
             //遍历子节点集合,判断子节点中是否含有子节点
-            childNodes.forEach((childNode,i) => {
+            childNodes.forEach((childNode, i) => {
                 checkNodes.push(childNode);
                 if (Array.isArray(childNode.nodes)) {
-                    childNodesFunction(childNode.nodes,allNodes);
+                    childNodesFunction(childNode.nodes, allNodes);
                 }
             })
             let result = [];
             let obj = {};
-            for(var i =0; i<checkNodes.length; i++){
-                if(!obj[checkNodes[i].nodeTreeId]){
+            for (var i = 0; i < checkNodes.length; i++) {
+                if (!obj[checkNodes[i].nodeTreeId]) {
                     result.push(checkNodes[i]);
                     obj[checkNodes[i].nodeTreeId] = true;
                 }
@@ -822,10 +835,10 @@
                 //获取子节点(如果有的话)
                 if (Array.isArray(nodeData.nodes)) {
                     childNodes = nodeData.nodes;
-                    unchildNodesFunction(childNodes,allNodes);
+                    unchildNodesFunction(childNodes, allNodes);
                 }
 
-                checkNodes.forEach((node,i) =>{
+                checkNodes.forEach((node, i) => {
                     $('#zlTree').treeview('checkNode', [node, {silent: false}]);
                 })
             }
@@ -833,33 +846,33 @@
         }
 
         //支路树获取父节点集合
-        function unfatherNodes(fatherNodeId,allNodes) {
+        function unfatherNodes(fatherNodeId, allNodes) {
             checkNodes.splice(fatherNodeId);
             $('#zlTree').treeview('uncheckNode', [fatherNodeId, {silent: true}]);
             //判断父节点是否含有父节点
             if (typeof fatherNodeId.pid != 'undefined' && fatherNodeId.pid != '062') {//有的话,递归
-                allNodes.forEach((node,i) => {
+                allNodes.forEach((node, i) => {
                     if (node.nodeTreeId == fatherNodeId.pid) {
                         fatherNodeId = node;
-                        unfatherNodes(fatherNodeId,allNodes);
+                        unfatherNodes(fatherNodeId, allNodes);
                     }
                 })
             }
         }
 
         //支路树获取子节点集合
-        function unchildNodesFunction(childNodes,allNodes) {
+        function unchildNodesFunction(childNodes, allNodes) {
             //遍历子节点集合,判断子节点中是否含有子节点
-            childNodes.forEach((childNode,i) => {
-                checkNodes.forEach((checkNode,index) => {
-                    if (checkNode.id == childNode.id){
-                        checkNodes.splice(index,1);
+            childNodes.forEach((childNode, i) => {
+                checkNodes.forEach((checkNode, index) => {
+                    if (checkNode.id == childNode.id) {
+                        checkNodes.splice(index, 1);
                     }
                 })
                 $('#zlTree').treeview('uncheckNode', [childNode, {silent: true}]);
                 // checkNodes.push(childNode);
                 if (Array.isArray(childNode.nodes)) {
-                    unchildNodesFunction(childNode.nodes,allNodes);
+                    unchildNodesFunction(childNode.nodes, allNodes);
                 }
             })
         }
@@ -880,9 +893,6 @@
             }
 
         });
-
-
-
 
 
         //加载部门树
@@ -932,13 +942,13 @@
                         $('#bmTree').treeview('expandNode', [bmFirstBranchNode, {silent: false}]);
                     } else {//树查询失败
                         swal({
-                            title : '当前能源下暂无部门配置!',// 展示的标题
-                            text : "",// 内容
-                            type : "warning",
-                            showCloseButton : false, // 展示关闭按钮
-                            allowOutsideClick : false,
-                            showConfirmButton : false,
-                            timer : 1000
+                            title: '当前能源下暂无部门配置!',// 展示的标题
+                            text: "",// 内容
+                            type: "warning",
+                            showCloseButton: false, // 展示关闭按钮
+                            allowOutsideClick: false,
+                            showConfirmButton: false,
+                            timer: 1000
                         });
                         $('#bmTree').treeview('remove');//移除列表树容器。
                         $('#bmTree').treeview('uncheckAll', {silent: true});//清空所有check
@@ -964,20 +974,20 @@
             if (bmCascadeType) {//级联
                 //获取父节点
                 let fatherNodeId = nodeData.pid;
-                allNodes.forEach((node,i) => {
+                allNodes.forEach((node, i) => {
                     if (node.nodeTreeId == fatherNodeId) {
                         fatherNodeId = node;
-                        bmFatherNodes(fatherNodeId,allNodes);
+                        bmFatherNodes(fatherNodeId, allNodes);
                     }
                 })
 
                 //获取子节点(如果有的话)
                 if (Array.isArray(nodeData.nodes)) {
                     childNodes = nodeData.nodes;
-                    bmChildNodesFunction(childNodes,allNodes);
+                    bmChildNodesFunction(childNodes, allNodes);
                 }
 
-                bmCheckNodes.forEach((node,i) =>{
+                bmCheckNodes.forEach((node, i) => {
                     $('#bmTree').treeview('checkNode', [node, {silent: false}]);
                 })
             }
@@ -985,12 +995,12 @@
         }
 
         //部门树获取父节点集合，将父节点集合放到选中的节点集合里面
-        function bmFatherNodes(fatherNodeId,allNodes) {
+        function bmFatherNodes(fatherNodeId, allNodes) {
             bmCheckNodes.push(fatherNodeId);
             let result = [];
             let obj = {};
-            for(var i =0; i<bmCheckNodes.length; i++){
-                if(!obj[bmCheckNodes[i].nodeTreeId]){
+            for (var i = 0; i < bmCheckNodes.length; i++) {
+                if (!obj[bmCheckNodes[i].nodeTreeId]) {
                     result.push(bmCheckNodes[i]);
                     obj[bmCheckNodes[i].nodeTreeId] = true;
                 }
@@ -998,28 +1008,28 @@
             bmCheckNodes = result;
             //判断父节点是否含有父节点
             if (typeof fatherNodeId.pid != 'undefined') {//有的话,递归
-                allNodes.forEach((node,i) => {
+                allNodes.forEach((node, i) => {
                     if (node.nodeTreeId == fatherNodeId.pid) {
                         fatherNodeId = node;
-                        bmFatherNodes(fatherNodeId,allNodes);
+                        bmFatherNodes(fatherNodeId, allNodes);
                     }
                 })
             }
         }
 
         //部门树获取子节点集合，将子节点集合放到选中的节点集合里面
-        function bmChildNodesFunction(childNodes,allNodes) {
+        function bmChildNodesFunction(childNodes, allNodes) {
             //遍历子节点集合,判断子节点中是否含有子节点
-            childNodes.forEach((childNode,i) => {
+            childNodes.forEach((childNode, i) => {
                 bmCheckNodes.push(childNode);
                 if (Array.isArray(childNode.nodes)) {
-                    bmChildNodesFunction(childNode.nodes,allNodes);
+                    bmChildNodesFunction(childNode.nodes, allNodes);
                 }
             })
             let result = [];
             let obj = {};
-            for(var i =0; i<bmCheckNodes.length; i++){
-                if(!obj[bmCheckNodes[i].nodeTreeId]){
+            for (var i = 0; i < bmCheckNodes.length; i++) {
+                if (!obj[bmCheckNodes[i].nodeTreeId]) {
                     result.push(bmCheckNodes[i]);
                     obj[bmCheckNodes[i].nodeTreeId] = true;
                 }
@@ -1049,10 +1059,10 @@
                 //获取子节点(如果有的话)
                 if (Array.isArray(nodeData.nodes)) {
                     childNodes = nodeData.nodes;
-                    bmUnchildNodesFunction(childNodes,allNodes);
+                    bmUnchildNodesFunction(childNodes, allNodes);
                 }
 
-                bmCheckNodes.forEach((node,i) =>{
+                bmCheckNodes.forEach((node, i) => {
                     $('#bmTree').treeview('checkNode', [node, {silent: false}]);
                 })
             }
@@ -1061,18 +1071,18 @@
 
 
         //部门树获取子节点集合
-        function bmUnchildNodesFunction(childNodes,allNodes) {
+        function bmUnchildNodesFunction(childNodes, allNodes) {
             //遍历子节点集合,判断子节点中是否含有子节点
-            childNodes.forEach((childNode,i) => {
-                bmCheckNodes.forEach((checkNode,index) => {
-                    if (checkNode.id == childNode.id){
-                        bmCheckNodes.splice(index,1);
+            childNodes.forEach((childNode, i) => {
+                bmCheckNodes.forEach((checkNode, index) => {
+                    if (checkNode.id == childNode.id) {
+                        bmCheckNodes.splice(index, 1);
                     }
                 })
                 $('#bmTree').treeview('uncheckNode', [childNode, {silent: true}]);
                 // checkNodes.push(childNode);
                 if (Array.isArray(childNode.nodes)) {
-                    bmUnchildNodesFunction(childNode.nodes,allNodes);
+                    bmUnchildNodesFunction(childNode.nodes, allNodes);
                 }
             })
         }
@@ -1094,40 +1104,37 @@
         });
 
 
+        function saveStrategy() {
 
-
-
-        function saveStrategy(){
-
-            let f_name= $("#f_strategyName").val(); //策略名称
-            let f_cron= $("#f_strategyCron").val();  //策略cron表达式
-            let f_status=$("#f_strategyStatus").val();  //策略状态
-            let f_range= $("#f_strategyRange").val();  //策略报表时间
-            let f_email= $("#f_strategyEmail").val();  //接收邮箱
-            let f_cron_start_date=$("#f_strategyCronStartDate").val();  //执行时间
+            let f_name = $("#f_strategyName").val(); //策略名称
+            let f_cron = $("#f_strategyCron").val();  //策略cron表达式
+            let f_status = $("#f_strategyStatus").val();  //策略状态
+            let f_range = $("#f_strategyRange").val();  //策略报表时间
+            let f_email = $("#f_strategyEmail").val();  //接收邮箱
+            let f_cron_start_date = $("#f_strategyCronStartDate").val();  //执行时间
             let f_cron_job_type = $("#f_strategyCronJobType").val();  //执行类型
 
             //选中的层级
             let branchList = []
             let branchNode;
 
-            if (checkNodes.length > 0){
-                checkNodes.forEach((node,i) => {
+            if (checkNodes.length > 0) {
+                checkNodes.forEach((node, i) => {
                     // branchList.push(node.id)
                     zlAllName = '';
                     branchNode = {};
 
                     //
-                    queryParentNode(node,'')
+                    queryParentNode(node, '')
                     // debugger
                     //完整路径
                     zlAllName = zlAllName + node.text
-                    zlAllName = zlAllName.substring(2,zlAllName.length)
+                    zlAllName = zlAllName.substring(2, zlAllName.length)
 
                     branchNode = {
-                        'f_zlmc' : zlAllName,
-                        'f_zlbh' : node.id,
-                        'f_level' : node.level
+                        'f_zlmc': zlAllName,
+                        'f_zlbh': node.id,
+                        'f_level': node.level
                     }
 
                     branchList.push(branchNode)
@@ -1136,23 +1143,23 @@
             //选中的部门
             let departmentList = []
             let departmentNode;
-            if (bmCheckNodes.length > 0){
-                bmCheckNodes.forEach((node,i) => {
+            if (bmCheckNodes.length > 0) {
+                bmCheckNodes.forEach((node, i) => {
                     // departmentList.push(node.id)
                     bmAllName = '';
                     departmentNode = {};
 
                     //
-                    queryBmParentNode(node,'')
+                    queryBmParentNode(node, '')
                     // debugger
                     //完整路径
                     bmAllName = bmAllName + node.text
-                    bmAllName = bmAllName.substring(2,bmAllName.length)
+                    bmAllName = bmAllName.substring(2, bmAllName.length)
 
                     departmentNode = {
-                        'f_zlmc' : bmAllName,
-                        'f_department_id' : node.id,
-                        'f_level' : node.level
+                        'f_zlmc': bmAllName,
+                        'f_department_id': node.id,
+                        'f_level': node.level
                     }
 
                     departmentList.push(departmentNode)
@@ -1235,8 +1242,8 @@
 
 
             //根据pid(1默认,2层级,3部门),判断是否选中了相应的层级\部门
-            if (strategyPId == '1'){
-                if (branchList.length < 1){
+            if (strategyPId == '1') {
+                if (branchList.length < 1) {
                     swal({
                         title: '请选择层级!',// 展示的标题
                         text: "",// 内容
@@ -1247,7 +1254,7 @@
                         timer: 1000
                     });
                     return;
-                } else if (departmentList.length < 1){
+                } else if (departmentList.length < 1) {
                     swal({
                         title: '请选择部门!',// 展示的标题
                         text: "",// 内容
@@ -1259,7 +1266,7 @@
                     });
                     return;
                 }
-            } else if (strategyPId == '2' && branchList.length < 1){
+            } else if (strategyPId == '2' && branchList.length < 1) {
                 swal({
                     title: '请选择层级!',// 展示的标题
                     text: "",// 内容
@@ -1270,7 +1277,7 @@
                     timer: 1000
                 });
                 return;
-            } else if (strategyPId == '3' && departmentList.length < 1){
+            } else if (strategyPId == '3' && departmentList.length < 1) {
                 swal({
                     title: '请选择部门!',// 展示的标题
                     text: "",// 内容
@@ -1294,15 +1301,15 @@
                     f_id: strategyId,
                     f_name: f_name,
                     f_type: '1',
-                    f_pId:strategyPId,
+                    f_pId: strategyPId,
                     f_cron: f_cron,
                     f_status: f_status,
                     f_range: f_range,
                     f_email: f_email,
                     branchList: branchList,
-                    departmentList:departmentList,
+                    departmentList: departmentList,
                     f_cron_start_date: f_cron_start_date,
-                    f_cron_job_type : f_cron_job_type
+                    f_cron_job_type: f_cron_job_type
                 }),
                 success: function (result) {
                     var data = result.map;
@@ -1338,13 +1345,13 @@
 
         }
 
-        function queryParentNode(node,allName){
+        function queryParentNode(node, allName) {
 
-            let pNode = $('#zlTree').treeview('getParents',[node])[0];
-            if (typeof(pNode) != "undefined" && pNode != null && pNode != ''){
-                if (typeof(pNode.pid) != "undefined" && pNode.pid != null && pNode.pid != ''){
-                    allName = pNode.text + '--' + allName ;
-                    queryParentNode(pNode,allName);
+            let pNode = $('#zlTree').treeview('getParents', [node])[0];
+            if (typeof (pNode) != "undefined" && pNode != null && pNode != '') {
+                if (typeof (pNode.pid) != "undefined" && pNode.pid != null && pNode.pid != '') {
+                    allName = pNode.text + '--' + allName;
+                    queryParentNode(pNode, allName);
                 } else {
                     zlAllName = '--' + allName
                 }
@@ -1353,13 +1360,13 @@
             }
         }
 
-        function queryBmParentNode(node,allName){
+        function queryBmParentNode(node, allName) {
 
-            let pNode = $('#bmTree').treeview('getParents',[node])[0];
-            if (typeof(pNode) != "undefined" && pNode != null && pNode != ''){
-                if (typeof(pNode.pid) != "undefined" && pNode.pid != null && pNode.pid != ''){
-                    allName = pNode.text + '--' + allName ;
-                    queryBmParentNode(pNode,allName);
+            let pNode = $('#bmTree').treeview('getParents', [node])[0];
+            if (typeof (pNode) != "undefined" && pNode != null && pNode != '') {
+                if (typeof (pNode.pid) != "undefined" && pNode.pid != null && pNode.pid != '') {
+                    allName = pNode.text + '--' + allName;
+                    queryBmParentNode(pNode, allName);
                 } else {
                     bmAllName = '--' + allName
                 }
@@ -1367,9 +1374,6 @@
                 bmAllName = '--' + allName
             }
         }
-
-
-
 
 
         //根据id查询table内数据
@@ -1404,7 +1408,7 @@
                     $("#f_strategyCronStartDate").val(data.f_cron_start_date);//执行时间
 
 
-                    if (data.f_pId != null && data.f_pId == '1'){
+                    if (data.f_pId != null && data.f_pId == '1') {
                         $("#zlTreeModel").css('display', 'block');
                         $("#bmTreeModel").css('display', 'block');
 
@@ -1434,45 +1438,45 @@
                     var checkedDepartmentList = []
                     data.strategyBranch = Array.from(data.strategyBranch);
                     data.strategyDepartment = Array.from(data.strategyDepartment);
-                    if (data.f_pId != null && data.f_pId == '1'){
+                    if (data.f_pId != null && data.f_pId == '1') {
                         // debugger
                         //在支路树中查出关联的支路node
-                        data.strategyBranch.forEach((item,i) => {
-                            checkedBranchList.push($("#zlTree").treeview('findNodes',[item,'nodeTreeId'])[0])
+                        data.strategyBranch.forEach((item, i) => {
+                            checkedBranchList.push($("#zlTree").treeview('findNodes', [item, 'nodeTreeId'])[0])
                         })
                         //选中node
-                        checkedBranchList.forEach((item,i) => {
+                        checkedBranchList.forEach((item, i) => {
                             $("#zlTree").treeview('checkNode', [item, {silent: false}])
                         })
 
 
                         //在部门树中查出关联的支路node
-                        data.strategyDepartment.forEach((item,i) => {
-                            checkedDepartmentList.push($("#bmTree").treeview('findNodes',[item,'nodeTreeId'])[0])
+                        data.strategyDepartment.forEach((item, i) => {
+                            checkedDepartmentList.push($("#bmTree").treeview('findNodes', [item, 'nodeTreeId'])[0])
                         })
                         //部门树选中node
-                        checkedDepartmentList.forEach((item,i) => {
+                        checkedDepartmentList.forEach((item, i) => {
                             $("#bmTree").treeview('checkNode', [item, {silent: false}])
                         })
 
 
-                    } else if (data.f_pId != null && data.f_pId == '2'){
+                    } else if (data.f_pId != null && data.f_pId == '2') {
                         //在支路树中查出关联的支路node
-                        data.strategyBranch.forEach((item,i) => {
-                            checkedBranchList.push($("#zlTree").treeview('findNodes',[item,'nodeTreeId'])[0])
+                        data.strategyBranch.forEach((item, i) => {
+                            checkedBranchList.push($("#zlTree").treeview('findNodes', [item, 'nodeTreeId'])[0])
                         })
                         //选中node
-                        checkedBranchList.forEach((item,i) => {
+                        checkedBranchList.forEach((item, i) => {
                             $("#zlTree").treeview('checkNode', [item, {silent: false}])
                         })
                     } else {
                         // debugger
                         //在部门树中查出关联的支路node
-                        data.strategyDepartment.forEach((item,i) => {
-                            checkedDepartmentList.push($("#bmTree").treeview('findNodes',[item,'nodeTreeId'])[0])
+                        data.strategyDepartment.forEach((item, i) => {
+                            checkedDepartmentList.push($("#bmTree").treeview('findNodes', [item, 'nodeTreeId'])[0])
                         })
                         //部门树选中node
-                        checkedDepartmentList.forEach((item,i) => {
+                        checkedDepartmentList.forEach((item, i) => {
                             $("#bmTree").treeview('checkNode', [item, {silent: false}])
                         })
                     }
@@ -1494,9 +1498,6 @@
                 }
             })
         }
-
-
-
 
 
         //cron表达式
@@ -1528,12 +1529,11 @@
         }
 
 
-
-
         return {
 
-            saveStrategy:function () {
+            saveStrategy: function () {
                 saveStrategy();
+                strategy_tree();
             },
             cron: function (cron) {
                 $("#f_strategyCron").val(cron);
