@@ -168,5 +168,24 @@
         ORDER BY F_LEVEL asc,fData desc
     </select>
 
+    <select id="queryBranchList"  parameterType="string" resultType="java.util.Map">
+        select f_zlbh,f_level,f_zlmc from bes_strategy_branch where f_strategy_id = #{strategyId,jdbcType=VARCHAR}
+    </select>
+
+    <select id="queryNowDataByBranchId" parameterType="string" resultType="string">
+        SELECT IFNULL(ROUND(sum(F_DATA),2),0) fData
+        from bes_branch_data
+        where f_type = '0'
+            and f_zlbh = #{f_zlbh,jdbcType=VARCHAR}
+            and f_cjsj >= #{nowStart,jdbcType=VARCHAR}  and F_CJSJ &lt;= #{nowEnd,jdbcType=VARCHAR}
+    </select>
+
+    <select id="queryLastDataByBranchId" parameterType="string" resultType="string">
+        SELECT IFNULL(ROUND(sum(F_DATA),2),0) fData
+        from bes_branch_data
+        where f_type = '0'
+            and f_zlbh = #{f_zlbh,jdbcType=VARCHAR}
+            and f_cjsj >= #{lastStart,jdbcType=VARCHAR}  and F_CJSJ &lt;= #{lastEnd,jdbcType=VARCHAR}
+    </select>
 
 </mapper>

@@ -56,7 +56,7 @@ public class EmailService {
         // 2. 根据配置创建会话对象, 用于和邮件服务器交互
         session = Session.getInstance(props);
         // 设置为debug模式, 可以查看详细的发送 log
-        session.setDebug(true);
+        session.setDebug(false);
         // 4. 根据 Session 获取邮件传输对象
          transport = session.getTransport();
 

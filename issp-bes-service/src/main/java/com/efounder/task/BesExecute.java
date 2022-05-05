@@ -456,28 +456,8 @@ public class BesExecute {
         if ("1".equals(strategyInfo.get("f_pId"))) { //默认 支路和部门都有
 
             //支路数据
-            branchData = besStrategyMapper.queryBranchData(strategyId, nowStart, nowEnd, lastStart, lastEnd);
-            if (branchData != null && branchData.size() > 0) {
-                String fData;
-                String yData;
-                for (Map<String, Object> dataMap : branchData) {
-                    dataMap.put("f_range", f_range);
+            branchData = this.queryAllBranchDataByStrategyId(strategyId,f_range, nowStart, nowEnd, lastStart, lastEnd);
 
-                    fData = dataMap.get("fData").toString();
-                    if (fData != null && !"".equals(fData)) {
-                        dataMap.put("fData", fData + "kwh");
-                    } else {
-                        dataMap.put("fData", "0kwh");
-                    }
-
-                    yData = dataMap.get("yData").toString();
-                    if (yData != null && !"".equals(yData)) {
-                        dataMap.put("yData", yData + "kwh");
-                    } else {
-                        dataMap.put("yData", "0kwh");
-                    }
-                }
-            }
             //生成支路excel
             ExcelReturn resBranch = util.resListDynamic(FileName, branchFilePath, branchData, alias, names);
 
@@ -531,28 +511,8 @@ public class BesExecute {
 
         } else if ("2".equals(strategyInfo.get("f_pId"))) { //层级,只有支路
             //支路数据
-            branchData = besStrategyMapper.queryBranchData(strategyId, nowStart, nowEnd, lastStart, lastEnd);
-            if (branchData != null && branchData.size() > 0) {
-                String fData;
-                String yData;
-                for (Map<String, Object> dataMap : branchData) {
-                    dataMap.put("f_range", f_range);
+            branchData = this.queryAllBranchDataByStrategyId(strategyId,f_range, nowStart, nowEnd, lastStart, lastEnd);
 
-                    fData = dataMap.get("fData").toString();
-                    if (fData != null && !"".equals(fData)) {
-                        dataMap.put("fData", fData + "kwh");
-                    } else {
-                        dataMap.put("fData", "0kwh");
-                    }
-
-                    yData = dataMap.get("yData").toString();
-                    if (yData != null && !"".equals(yData)) {
-                        dataMap.put("yData", yData + "kwh");
-                    } else {
-                        dataMap.put("yData", "0kwh");
-                    }
-                }
-            }
             //生成支路excel
             ExcelReturn resBranch = util.resListDynamic(FileName, branchFilePath, branchData, alias, names);
 
@@ -759,36 +719,7 @@ public class BesExecute {
 
         }
 
-        // 排序器
-        Comparator<Map<String, Object>> comparator = new Comparator<Map<String, Object>>() {
-            @Override
-            public int compare(Map<String, Object> o1, Map<String, Object> o2) {
-                int o1RoomNo = Integer.parseInt(o1.get("f_level").toString());
-                int o2RoomNo = Integer.parseInt(o2.get("f_level").toString());
 
-                if (o1RoomNo > o2RoomNo) {
-                    return 1;
-                } else if (o1RoomNo < o2RoomNo) {
-                    return -1;
-                } else {
-                    // 若是相同等级，则比较总能耗
-                    if (o1.get("fData") == null || o2.get("fData") == null) {
-                        return 1;
-                    }
-
-                    Double o1Data = Double.parseDouble(o1.get("fData").toString());
-                    Double o2Data = Double.parseDouble(o2.get("fData").toString());
-
-
-                    if (o1Data < o2Data) {
-                        return 1;
-                    } else if (o1Data > o2Data) {
-                        return -1;
-                    }
-                    return 0;
-                }
-            }
-        };
 
         list.sort(comparator);
         for (Map map : list) {
@@ -797,6 +728,37 @@ public class BesExecute {
         }
         return list;
     }
+
+    // 排序器
+    Comparator<Map<String, Object>> comparator = new Comparator<Map<String, Object>>() {
+        @Override
+        public int compare(Map<String, Object> o1, Map<String, Object> o2) {
+            int o1RoomNo = Integer.parseInt(o1.get("f_level").toString());
+            int o2RoomNo = Integer.parseInt(o2.get("f_level").toString());
+
+            if (o1RoomNo > o2RoomNo) {
+                return 1;
+            } else if (o1RoomNo < o2RoomNo) {
+                return -1;
+            } else {
+                // 若是相同等级，则比较总能耗
+                if (o1.get("fData") == null || o2.get("fData") == null) {
+                    return 1;
+                }
+
+                Double o1Data = Double.parseDouble(o1.get("fData").toString());
+                Double o2Data = Double.parseDouble(o2.get("fData").toString());
+
+
+                if (o1Data < o2Data) {
+                    return 1;
+                } else if (o1Data > o2Data) {
+                    return -1;
+                }
+                return 0;
+            }
+        }
+    };
 
 
 //    @PostConstruct
@@ -809,6 +771,38 @@ public class BesExecute {
         BigDecimal two = new BigDecimal(dou);
         dou = two.setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
         return dou;
+    }
+
+    private List<Map<String,Object>> queryAllBranchDataByStrategyId(String strategyId, String f_range, String nowStart, String nowEnd, String lastStart, String lastEnd) {
+        //获取该策略下的支路列表
+        List<Map<String,Object>> branchList = besStrategyMapper.queryBranchList(strategyId);
+        if (branchList.size() > 0){
+            for (Map<String,Object> branchInfo : branchList){
+                String f_zlbh = branchInfo.get("f_zlbh").toString();
+
+                //查询该支路的本期数据
+                String nowData = besStrategyMapper.queryNowDataByBranchId(f_zlbh,nowStart,nowEnd);
+                branchInfo.put("fData",nowData);
+
+                //查询该支路的环比数据
+                String lastData = besStrategyMapper.queryLastDataByBranchId(f_zlbh,lastStart,lastEnd);
+                lastData += "kwh";
+                branchInfo.put("yData",lastData);
+
+                //放入周期
+                branchInfo.put("f_range",f_range);
+            }
+
+            //排序
+            branchList.sort(comparator);
+
+            for (Map<String,Object> branchInfo : branchList){
+                String fData = branchInfo.get("fData").toString();
+                //放入单位
+                branchInfo.put("fData",fData + "kwh");
+            }
+        }
+        return  branchList;
     }
 
 }

@@ -57,4 +57,10 @@ public interface BESStrategyMapper extends BaseMapper<String, BESStrategy> {
 
     List<Map<String,Object>> queryChildBranchData(@Param("strategyId") String strategyId,@Param("nowStart") String nowStart,@Param("nowEnd") String nowEnd,@Param("lastStart") String lastStart,@Param("lastEnd") String lastEnd);
 
+    List<Map<String,Object>> queryBranchList(@Param("strategyId") String strategyId);
+
+    String queryNowDataByBranchId(@Param("f_zlbh") String f_zlbh,@Param("nowStart") String nowStart,@Param("nowEnd") String nowEnd);
+
+    String queryLastDataByBranchId(@Param("f_zlbh") String f_zlbh,@Param("lastStart") String lastStart,@Param("lastEnd") String lastEnd);
+
 }
