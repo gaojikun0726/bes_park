@@ -5,7 +5,7 @@
 
 
     <select id="getStrategyTree" resultType="com.efounder.JEnterprise.model.basedatamanage.energyinformation.BESStrategy">
-        select f_id,f_name,f_type,f_pId
+        select f_id,f_name,f_type,f_pId,f_status
         from bes_strategy
         where f_user_code = #{userCode} or f_user_code = 'all'
         ORDER BY f_id
