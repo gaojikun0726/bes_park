@@ -8,16 +8,14 @@ import com.efounder.util.emailConfig.IdcEmailConfig;
 import org.springframework.stereotype.Service;
 
 import javax.activation.DataHandler;
+import javax.activation.DataSource;
 import javax.activation.FileDataSource;
-import javax.mail.MessagingException;
-import javax.mail.Session;
-import javax.mail.Transport;
-import javax.mail.internet.InternetAddress;
-import javax.mail.internet.MimeBodyPart;
-import javax.mail.internet.MimeMessage;
-import javax.mail.internet.MimeMultipart;
+import javax.mail.*;
+import javax.mail.internet.*;
+import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 import java.util.Properties;
 
 /**
@@ -145,7 +143,47 @@ public class EmailService {
 //        text.setContent("我的图片：<img src='cid:bz.jpg'>","text/html;charset=UTF-8");
 
         //=================================准备附件数据
-        MimeBodyPart body= new MimeBodyPart();
+        // 添加附件的内容
+
+        // MiniMultipart类是一个容器类，包含MimeBodyPart类型的对象
+
+        Multipart multipart = new MimeMultipart();
+
+        // 创建一个MimeBodyPart
+
+        BodyPart bodyPart = new MimeBodyPart();
+
+        // 设置内容及格式
+
+        bodyPart.setContent(mailInfo.getContent(), mailInfo.getContentType()+"; charset=utf-8");
+
+        multipart.addBodyPart(bodyPart);
+
+        // 添加附件的内容
+
+        List attachments=mailInfo.getFileList();
+        List fileName = mailInfo.getFileName();
+
+        if(attachments!=null){
+
+            for (int i = 0; i < attachments.size(); i++) {
+
+                BodyPart attachmentBodyPart = new MimeBodyPart();
+
+                DataSource source = new FileDataSource((File) attachments.get(i));
+
+                attachmentBodyPart.setDataHandler(new DataHandler(source));
+
+                attachmentBodyPart.setFileName(fileName.get(i).toString());
+
+                multipart.addBodyPart(attachmentBodyPart);
+
+            }
+
+        }
+
+
+        /*MimeBodyPart body= new MimeBodyPart();
         body.setDataHandler(new DataHandler(new FileDataSource(mailInfo.getFilePath())));
         body.setFileName(mailInfo.getFileName());
 
@@ -155,10 +193,10 @@ public class EmailService {
         mm.addBodyPart(body);
 //        mm.addBodyPart(image);
         // mm.setSubType("related");如果只发送图片，则关系为related
-        mm.setSubType("mixed");
+        mm.setSubType("mixed");*/
 
         //设置到消息中，保存修改
-        message.setContent(mm);
+        message.setContent(multipart);
         message.saveChanges();
 
         return message;

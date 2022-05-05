@@ -3,6 +3,8 @@ package com.efounder.util.emailConfig;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 
+import java.util.List;
+
 
 /**
  * 邮件配置对象 idc_email_config
@@ -40,25 +42,37 @@ public class IdcEmailConfig extends BaseEntity
 
     private String content;//发送内容
 
-    private String filePath; //附件地址
+    private String contentType; // 邮件的文本内容格式(HTML格式：text/html，纯文本格式：text/plain)
 
-    private String fileName; //附件名称
+    private List fileName; //附件名称
 
-    public String getFileName() {
+    private List fileList;//附件集合
+
+
+    public String getContentType() {
+        return contentType;
+    }
+
+    public void setContentType(String contentType) {
+        this.contentType = contentType;
+    }
+
+    public List getFileList() {
+        return fileList;
+    }
+
+    public void setFileList(List fileList) {
+        this.fileList = fileList;
+    }
+
+    public List getFileName() {
         return fileName;
     }
 
-    public void setFileName(String fileName) {
+    public void setFileName(List fileName) {
         this.fileName = fileName;
     }
 
-    public String getFilePath() {
-        return filePath;
-    }
-
-    public void setFilePath(String filePath) {
-        this.filePath = filePath;
-    }
 
     public String getToAddress() {
         return toAddress;

@@ -25,6 +25,7 @@ import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
 import javax.xml.rpc.ServiceException;
+import java.io.File;
 import java.io.UnsupportedEncodingException;
 import java.math.BigDecimal;
 import java.rmi.RemoteException;
@@ -256,7 +257,7 @@ public class BesExecute {
         Date date = new Date();
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
-        System.out.println("定时发送报表走了***********************************: strategyId " + strategyId + dateFormat.format(date));
+        System.out.println("定时发送报表走了*********************************** 策略id:" + strategyId +", 执行时间:" + dateFormat.format(date));
 
 
         //查询配置策略信息
@@ -440,10 +441,6 @@ public class BesExecute {
         String departmentFile = "department" + System.currentTimeMillis();
         // sheet页名称
         String FileName = "sheet";
-        // 导出excel地址
-        /*String path = System.getProperty("user.dir");//获取项目的路径
-        String FilePath = path+"\\BESWebapp\\src\\main\\webapp\\WEB-INF\\file\\DDCprgram\\";//获取文件的上级目录的路径,为了拼接编译好的bin文件*/
-        //String FilePath = System.getProperty("user.dir") + "\\" + file + ".xls";
 
         //判断目录是否存在，不存在则创建
         if (!makeWritableDirectoryIfNotExist(emailFilePath)) {
@@ -457,20 +454,8 @@ public class BesExecute {
 
             //支路数据
             branchData = this.queryAllBranchDataByStrategyId(strategyId,f_range, nowStart, nowEnd, lastStart, lastEnd);
-
             //生成支路excel
             ExcelReturn resBranch = util.resListDynamic(FileName, branchFilePath, branchData, alias, names);
-
-            //发送邮件
-            IdcEmailConfig branchMailInfo = new IdcEmailConfig();
-            branchMailInfo.setContent(strategyInfo.get("f_name").toString());
-            branchMailInfo.setFromAddress(emailAccount);
-            branchMailInfo.setMailServerhost(emailServerHost);
-            branchMailInfo.setPassword(emailPassWord);
-            branchMailInfo.setSubject("支路报表信息--" + format.format(date));
-            branchMailInfo.setToAddress(strategyInfo.get("f_email").toString());
-            branchMailInfo.setFilePath(branchFilePath);
-            branchMailInfo.setFileName("支路报表信息--" + format.format(date) + ".xls");
 
             //部门数据
             departmentData = this.queryAllDepInfoByStrategyId(strategyId, "0", nowStart, nowEnd, lastStart, lastEnd);
@@ -479,30 +464,42 @@ public class BesExecute {
                     dataMap.put("f_range", f_range);
                 }
             }
-            //生成支路excel
+            //生成部门excel
             ExcelReturn resDepartment = util.resListDynamic(FileName, departmentFilePath, departmentData, departmentAlias, departmentNames);
 
             //发送邮件
-            IdcEmailConfig departmentMailInfo = new IdcEmailConfig();
-            departmentMailInfo.setContent(strategyInfo.get("f_name").toString());
-            departmentMailInfo.setFromAddress(emailAccount);
-            departmentMailInfo.setMailServerhost(emailServerHost);
-            departmentMailInfo.setPassword(emailPassWord);
-            departmentMailInfo.setSubject("部门报表信息--" + format.format(date));
-            departmentMailInfo.setToAddress(strategyInfo.get("f_email").toString());
-            departmentMailInfo.setFilePath(departmentFilePath);
-            departmentMailInfo.setFileName("部门报表信息--" + format.format(date) + ".xls");
+            IdcEmailConfig mailInfo = new IdcEmailConfig();
+            mailInfo.setContent(strategyInfo.get("f_name").toString());
+            mailInfo.setFromAddress(emailAccount);
+            mailInfo.setMailServerhost(emailServerHost);
+            mailInfo.setPassword(emailPassWord);
+            mailInfo.setSubject("报表信息--" + format.format(date));
+            mailInfo.setToAddress(strategyInfo.get("f_email").toString());
+
+            List fileList = new ArrayList();
+            List fileName = new ArrayList();
+
+            File branchExcel = new File(branchFilePath);
+            fileList.add(branchExcel);
+            fileName.add("支路报表信息--" + format.format(date) + ".xls");
+
+            File departmentExcel = new File(departmentFilePath);
+            fileList.add(departmentExcel);
+            fileName.add("部门报表信息--" + format.format(date) + ".xls");
+
+            mailInfo.setFileList(fileList);
+            mailInfo.setFileName(fileName);
+
+            mailInfo.setContentType("text/html");//HTML格式：text/html，纯文本格式：text/plain
 
             try {
-                emailService.init(branchMailInfo);
-                emailService.init(departmentMailInfo);
+                emailService.init(mailInfo);
             } catch (Exception e) {
                 e.printStackTrace();
             }
             try {
 
-                emailService.sendEmail(branchMailInfo, dateFormat.format(date));
-                emailService.sendEmail(departmentMailInfo, dateFormat.format(date));
+                emailService.sendEmail(mailInfo, dateFormat.format(date));
                 emailService.closeEmail();
 
             } catch (Exception e) {
@@ -517,24 +514,33 @@ public class BesExecute {
             ExcelReturn resBranch = util.resListDynamic(FileName, branchFilePath, branchData, alias, names);
 
             //发送邮件
-            IdcEmailConfig branchMailInfo = new IdcEmailConfig();
-            branchMailInfo.setContent(strategyInfo.get("f_name").toString());
-            branchMailInfo.setFromAddress(emailAccount);
-            branchMailInfo.setMailServerhost(emailServerHost);
-            branchMailInfo.setPassword(emailPassWord);
-            branchMailInfo.setSubject("部门报表信息--" + format.format(date));
-            branchMailInfo.setToAddress(strategyInfo.get("f_email").toString());
-            branchMailInfo.setFilePath(branchFilePath);
-            branchMailInfo.setFileName("支路报表信息--" + format.format(date) + ".xls");
+            IdcEmailConfig mailInfo = new IdcEmailConfig();
+            mailInfo.setContent(strategyInfo.get("f_name").toString());
+            mailInfo.setFromAddress(emailAccount);
+            mailInfo.setMailServerhost(emailServerHost);
+            mailInfo.setPassword(emailPassWord);
+            mailInfo.setSubject("报表信息--" + format.format(date));
+            mailInfo.setToAddress(strategyInfo.get("f_email").toString());
+            List fileList = new ArrayList();
+            List fileName = new ArrayList();
+
+            File branchExcel = new File(branchFilePath);
+            fileList.add(branchExcel);
+            fileName.add("支路报表信息--" + format.format(date) + ".xls");
+
+            mailInfo.setFileList(fileList);
+            mailInfo.setFileName(fileName);
+
+            mailInfo.setContentType("text/html");//HTML格式：text/html，纯文本格式：text/plain
 
             try {
-                emailService.init(branchMailInfo);
+                emailService.init(mailInfo);
             } catch (Exception e) {
                 e.printStackTrace();
             }
             try {
 
-                emailService.sendEmail(branchMailInfo, dateFormat.format(date));
+                emailService.sendEmail(mailInfo, dateFormat.format(date));
                 emailService.closeEmail();
 
             } catch (Exception e) {
@@ -548,29 +554,38 @@ public class BesExecute {
                     dataMap.put("f_range", f_range);
                 }
             }
-            //生成支路excel
+            //生成部门excel
             ExcelReturn resDepartment = util.resListDynamic(FileName, departmentFilePath, departmentData, departmentAlias, departmentNames);
 
 
             //发送邮件
-            IdcEmailConfig departmentMailInfo = new IdcEmailConfig();
-            departmentMailInfo.setContent(strategyInfo.get("f_name").toString());
-            departmentMailInfo.setFromAddress(emailAccount);
-            departmentMailInfo.setMailServerhost(emailServerHost);
-            departmentMailInfo.setPassword(emailPassWord);
-            departmentMailInfo.setSubject("部门报表信息--" + format.format(date));
-            departmentMailInfo.setToAddress(strategyInfo.get("f_email").toString());
-            departmentMailInfo.setFilePath(departmentFilePath);
-            departmentMailInfo.setFileName("部门报表信息--" + format.format(date) + ".xls");
+            IdcEmailConfig mailInfo = new IdcEmailConfig();
+            mailInfo.setContent(strategyInfo.get("f_name").toString());
+            mailInfo.setFromAddress(emailAccount);
+            mailInfo.setMailServerhost(emailServerHost);
+            mailInfo.setPassword(emailPassWord);
+            mailInfo.setSubject("报表信息--" + format.format(date));
+            mailInfo.setToAddress(strategyInfo.get("f_email").toString());
+            List fileList = new ArrayList();
+            List fileName = new ArrayList();
+
+            File departmentExcel = new File(departmentFilePath);
+            fileList.add(departmentExcel);
+            fileName.add("部门报表信息--" + format.format(date) + ".xls");
+
+            mailInfo.setFileList(fileList);
+            mailInfo.setFileName(fileName);
+
+            mailInfo.setContentType("text/html");//HTML格式：text/html，纯文本格式：text/plain
 
             try {
-                emailService.init(departmentMailInfo);
+                emailService.init(mailInfo);
             } catch (Exception e) {
                 e.printStackTrace();
             }
             try {
 
-                emailService.sendEmail(departmentMailInfo, dateFormat.format(date));
+                emailService.sendEmail(mailInfo, dateFormat.format(date));
                 emailService.closeEmail();
 
             } catch (Exception e) {
