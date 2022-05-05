@@ -80,7 +80,8 @@ public class BESStrategyServiceImpl implements BESStrategyService {
 		if (strategyBranch != null && strategyBranch.size() > 0){
 			map.put("strategyBranch",strategyBranch);
 		} else {
-			map.put("branchList","");
+//			map.put("branchList","");
+			map.put("strategyBranch","");
 		}
 
 

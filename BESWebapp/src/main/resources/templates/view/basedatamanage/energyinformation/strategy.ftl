@@ -692,7 +692,7 @@
                             propagateCheckEvent: true,
                             onNodeChecked: function (event, nodeData) {//选中方法
                                 //级联的情况下,选中时默认将子节点和父节点选中（级联的情况下,不级联的时候默认选中选择的节点）
-                                debugger
+                                // debugger
                                 if (deWhetherToManClick){
                                     deWhetherToManClick = false;//判断是否手动点击树节点(点击过后首先设置为false)
                                     nodeChecked(nodeData);
@@ -734,7 +734,7 @@
             checkNodes = $("#zlTree").treeview('getChecked');
 
             if (zlCascadeType) {//级联
-                debugger
+                // debugger
                 //获取父节点
                 let fatherNodeId = nodeData.pid;
                 allNodes.forEach((node,i) => {
@@ -1119,7 +1119,7 @@
 
                     //
                     queryParentNode(node,'')
-                    debugger
+                    // debugger
                     //完整路径
                     zlAllName = zlAllName + node.text
                     zlAllName = zlAllName.substring(2,zlAllName.length)
@@ -1144,7 +1144,7 @@
 
                     //
                     queryBmParentNode(node,'')
-                    debugger
+                    // debugger
                     //完整路径
                     bmAllName = bmAllName + node.text
                     bmAllName = bmAllName.substring(2,bmAllName.length)
@@ -1390,7 +1390,7 @@
                     "id": id
                 },
                 success: function (result) {
-
+                    // debugger
                     var data = result.map;
                     sceneList = data;
                     var status = result && result.status;
@@ -1432,8 +1432,10 @@
 
                     var checkedBranchList = []
                     var checkedDepartmentList = []
+                    data.strategyBranch = Array.from(data.strategyBranch);
+                    data.strategyDepartment = Array.from(data.strategyDepartment);
                     if (data.f_pId != null && data.f_pId == '1'){
-
+                        // debugger
                         //在支路树中查出关联的支路node
                         data.strategyBranch.forEach((item,i) => {
                             checkedBranchList.push($("#zlTree").treeview('findNodes',[item,'nodeTreeId'])[0])
@@ -1464,6 +1466,7 @@
                             $("#zlTree").treeview('checkNode', [item, {silent: false}])
                         })
                     } else {
+                        // debugger
                         //在部门树中查出关联的支路node
                         data.strategyDepartment.forEach((item,i) => {
                             checkedDepartmentList.push($("#bmTree").treeview('findNodes',[item,'nodeTreeId'])[0])

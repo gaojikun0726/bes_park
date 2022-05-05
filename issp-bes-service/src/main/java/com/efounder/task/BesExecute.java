@@ -436,8 +436,8 @@ public class BesExecute {
 
 
         // 临时文件名
-        String branchFile =  "branch" + System.currentTimeMillis();
-        String departmentFile =  "department" + System.currentTimeMillis();
+        String branchFile = "branch" + System.currentTimeMillis();
+        String departmentFile = "department" + System.currentTimeMillis();
         // sheet页名称
         String FileName = "sheet";
         // 导出excel地址
@@ -446,8 +446,7 @@ public class BesExecute {
         //String FilePath = System.getProperty("user.dir") + "\\" + file + ".xls";
 
         //判断目录是否存在，不存在则创建
-        if (!makeWritableDirectoryIfNotExist(emailFilePath))
-        {
+        if (!makeWritableDirectoryIfNotExist(emailFilePath)) {
             return;
         }
         String branchFilePath = emailFilePath + "\\" + branchFile + ".xls";
@@ -458,32 +457,32 @@ public class BesExecute {
 
             //支路数据
             branchData = besStrategyMapper.queryBranchData(strategyId, nowStart, nowEnd, lastStart, lastEnd);
-            if (branchData != null && branchData.size() > 0){
+            if (branchData != null && branchData.size() > 0) {
                 String fData;
                 String yData;
-                for (Map<String,Object> dataMap : branchData){
-                    dataMap.put("f_range",f_range);
+                for (Map<String, Object> dataMap : branchData) {
+                    dataMap.put("f_range", f_range);
 
                     fData = dataMap.get("fData").toString();
-                    if (fData != null && !"".equals(fData)){
-                        dataMap.put("fData",fData + "kwh");
+                    if (fData != null && !"".equals(fData)) {
+                        dataMap.put("fData", fData + "kwh");
                     } else {
-                        dataMap.put("fData","0kwh");
+                        dataMap.put("fData", "0kwh");
                     }
 
                     yData = dataMap.get("yData").toString();
-                    if (yData != null && !"".equals(yData)){
-                        dataMap.put("yData",yData + "kwh");
+                    if (yData != null && !"".equals(yData)) {
+                        dataMap.put("yData", yData + "kwh");
                     } else {
-                        dataMap.put("yData","0kwh");
+                        dataMap.put("yData", "0kwh");
                     }
                 }
             }
             //生成支路excel
-            ExcelReturn resBranch = util.resListDynamic(FileName,branchFilePath,branchData,alias,names);
+            ExcelReturn resBranch = util.resListDynamic(FileName, branchFilePath, branchData, alias, names);
 
             //发送邮件
-            IdcEmailConfig branchMailInfo=new IdcEmailConfig();
+            IdcEmailConfig branchMailInfo = new IdcEmailConfig();
             branchMailInfo.setContent(strategyInfo.get("f_name").toString());
             branchMailInfo.setFromAddress(emailAccount);
             branchMailInfo.setMailServerhost(emailServerHost);
@@ -495,16 +494,16 @@ public class BesExecute {
 
             //部门数据
             departmentData = this.queryAllDepInfoByStrategyId(strategyId, "0", nowStart, nowEnd, lastStart, lastEnd);
-            if (departmentData != null && departmentData.size() > 0){
-                for (Map<String,Object> dataMap : departmentData){
-                    dataMap.put("f_range",f_range);
+            if (departmentData != null && departmentData.size() > 0) {
+                for (Map<String, Object> dataMap : departmentData) {
+                    dataMap.put("f_range", f_range);
                 }
             }
             //生成支路excel
-            ExcelReturn resDepartment = util.resListDynamic(FileName,departmentFilePath,departmentData,departmentAlias,departmentNames);
+            ExcelReturn resDepartment = util.resListDynamic(FileName, departmentFilePath, departmentData, departmentAlias, departmentNames);
 
             //发送邮件
-            IdcEmailConfig departmentMailInfo=new IdcEmailConfig();
+            IdcEmailConfig departmentMailInfo = new IdcEmailConfig();
             departmentMailInfo.setContent(strategyInfo.get("f_name").toString());
             departmentMailInfo.setFromAddress(emailAccount);
             departmentMailInfo.setMailServerhost(emailServerHost);
@@ -522,8 +521,8 @@ public class BesExecute {
             }
             try {
 
-                emailService.sendEmail(branchMailInfo,dateFormat.format(date));
-                emailService.sendEmail(departmentMailInfo,dateFormat.format(date));
+                emailService.sendEmail(branchMailInfo, dateFormat.format(date));
+                emailService.sendEmail(departmentMailInfo, dateFormat.format(date));
                 emailService.closeEmail();
 
             } catch (Exception e) {
@@ -533,32 +532,32 @@ public class BesExecute {
         } else if ("2".equals(strategyInfo.get("f_pId"))) { //层级,只有支路
             //支路数据
             branchData = besStrategyMapper.queryBranchData(strategyId, nowStart, nowEnd, lastStart, lastEnd);
-            if (branchData != null && branchData.size() > 0){
+            if (branchData != null && branchData.size() > 0) {
                 String fData;
                 String yData;
-                for (Map<String,Object> dataMap : branchData){
-                    dataMap.put("f_range",f_range);
+                for (Map<String, Object> dataMap : branchData) {
+                    dataMap.put("f_range", f_range);
 
                     fData = dataMap.get("fData").toString();
-                    if (fData != null && !"".equals(fData)){
-                        dataMap.put("fData",fData + "kwh");
+                    if (fData != null && !"".equals(fData)) {
+                        dataMap.put("fData", fData + "kwh");
                     } else {
-                        dataMap.put("fData","0kwh");
+                        dataMap.put("fData", "0kwh");
                     }
 
                     yData = dataMap.get("yData").toString();
-                    if (yData != null && !"".equals(yData)){
-                        dataMap.put("yData",yData + "kwh");
+                    if (yData != null && !"".equals(yData)) {
+                        dataMap.put("yData", yData + "kwh");
                     } else {
-                        dataMap.put("yData","0kwh");
+                        dataMap.put("yData", "0kwh");
                     }
                 }
             }
             //生成支路excel
-            ExcelReturn resBranch = util.resListDynamic(FileName,branchFilePath,branchData,alias,names);
+            ExcelReturn resBranch = util.resListDynamic(FileName, branchFilePath, branchData, alias, names);
 
             //发送邮件
-            IdcEmailConfig branchMailInfo=new IdcEmailConfig();
+            IdcEmailConfig branchMailInfo = new IdcEmailConfig();
             branchMailInfo.setContent(strategyInfo.get("f_name").toString());
             branchMailInfo.setFromAddress(emailAccount);
             branchMailInfo.setMailServerhost(emailServerHost);
@@ -566,7 +565,7 @@ public class BesExecute {
             branchMailInfo.setSubject("部门报表信息--" + format.format(date));
             branchMailInfo.setToAddress(strategyInfo.get("f_email").toString());
             branchMailInfo.setFilePath(branchFilePath);
-            branchMailInfo.setFileName("支路报表信息--" + format.format(date)+ ".xls");
+            branchMailInfo.setFileName("支路报表信息--" + format.format(date) + ".xls");
 
             try {
                 emailService.init(branchMailInfo);
@@ -575,7 +574,7 @@ public class BesExecute {
             }
             try {
 
-                emailService.sendEmail(branchMailInfo,dateFormat.format(date));
+                emailService.sendEmail(branchMailInfo, dateFormat.format(date));
                 emailService.closeEmail();
 
             } catch (Exception e) {
@@ -584,17 +583,17 @@ public class BesExecute {
         } else if ("3".equals(strategyInfo.get("f_pId"))) { //只有部门
             //部门数据
             departmentData = this.queryAllDepInfoByStrategyId(strategyId, "0", nowStart, nowEnd, lastStart, lastEnd);
-            if (departmentData != null && departmentData.size() > 0){
-                for (Map<String,Object> dataMap : departmentData){
-                    dataMap.put("f_range",f_range);
+            if (departmentData != null && departmentData.size() > 0) {
+                for (Map<String, Object> dataMap : departmentData) {
+                    dataMap.put("f_range", f_range);
                 }
             }
             //生成支路excel
-            ExcelReturn resDepartment = util.resListDynamic(FileName,departmentFilePath,departmentData,departmentAlias,departmentNames);
+            ExcelReturn resDepartment = util.resListDynamic(FileName, departmentFilePath, departmentData, departmentAlias, departmentNames);
 
 
             //发送邮件
-            IdcEmailConfig departmentMailInfo=new IdcEmailConfig();
+            IdcEmailConfig departmentMailInfo = new IdcEmailConfig();
             departmentMailInfo.setContent(strategyInfo.get("f_name").toString());
             departmentMailInfo.setFromAddress(emailAccount);
             departmentMailInfo.setMailServerhost(emailServerHost);
@@ -611,7 +610,7 @@ public class BesExecute {
             }
             try {
 
-                emailService.sendEmail(departmentMailInfo,dateFormat.format(date));
+                emailService.sendEmail(departmentMailInfo, dateFormat.format(date));
                 emailService.closeEmail();
 
             } catch (Exception e) {
@@ -622,19 +621,14 @@ public class BesExecute {
         }
 
 
-
-
     }
 
 
     //组织部门数据
-    private List<Map<String, Object>>  queryAllDepInfoByStrategyId(String strategyId, String fType, String time_start, String time_end, String last_time_start, String last_time_end) {
+    private List<Map<String, Object>> queryAllDepInfoByStrategyId(String strategyId, String fType, String time_start, String time_end, String last_time_start, String last_time_end) {
         //获取参数
         //时间颗粒 fType
         String nhlx = "01000";
-//        Double allDou = 0.00;
-//        Double allPredou = 0.00;
-//        Double allNUmber = 0.00;
 
         //根据id取得所有部门列表
         List<Map<String, Object>> list = besBranchDataMapper.queryAllDepByStrategy(strategyId);
@@ -650,53 +644,108 @@ public class BesExecute {
             allList.addAll(ammeterList);
             if (allList.size() > 0) {
 
-                //根据电表和支路查询数据
+                //根据电表和支路查询本月数据
                 List<Map<String, Object>> dataList = besBranchDataMapper.queryDepDataByList(fType, nhlx, time_start, time_end, branchList, ammeterList);
-                //根据系数修改数据
-                a:
-                for (Map dataMap : dataList) {
-                    b:
-                    for (Map zlxs : allList) {
-                        if (zlxs.get("bh").toString().equals(dataMap.get("F_ZLBH").toString())) {
-//                            dataMap.put("F_DATA",Double.parseDouble(dataMap.get("F_DATA").toString())*Double.parseDouble(m.get("xs").toString()));
-                            dou = dou + Double.parseDouble(dataMap.get("F_DATA").toString()) * Double.parseDouble(zlxs.get("xs").toString());
-                            continue a;
-                        }
-                    }
-                }
-//                    allDou = allDou +dou;
-                //环比数据
+                //根据电表和支路查询环比数据
                 List<Map<String, Object>> preDataList = besBranchDataMapper.queryDepDataByList(fType, nhlx, last_time_start, last_time_end, branchList, ammeterList);
-                //根据系数修改数据
-                a:
-                for (Map dataMap : preDataList) {
-                    b:
-                    for (Map zlxs : allList) {
-                        if (zlxs.get("bh").toString().equals(dataMap.get("F_ZLBH").toString())) {
-//                            dataMap.put("F_DATA",Double.parseDouble(dataMap.get("F_DATA").toString())*Double.parseDouble(m.get("xs").toString()));
-                            predou = predou + Double.parseDouble(dataMap.get("F_DATA").toString()) * Double.parseDouble(zlxs.get("xs").toString());
 
-                            continue a;
+                //根据系数修改本月数据以及环比数据
+                if (dataList.size() > 0 && preDataList.size() > 0) {
+                    //1.环比，本月都有数据
+
+                    //根据系数修改本月数据
+                    a:
+                    for (Map dataMap : dataList) {
+                        b:
+                        for (Map zlxs : allList) {
+                            if (zlxs.get("bh").toString().equals(dataMap.get("F_ZLBH").toString())) {
+                                //                            dataMap.put("F_DATA",Double.parseDouble(dataMap.get("F_DATA").toString())*Double.parseDouble(m.get("xs").toString()));
+                                dou = dou + Double.parseDouble(dataMap.get("F_DATA").toString()) * Double.parseDouble(zlxs.get("xs").toString());
+                                continue a;
+                            }
                         }
                     }
-                }
 
-                dou = getTwoDecimal(dou);
-                predou = getTwoDecimal(predou);
-//                    allPredou = allPredou+predou;
-                m.put("fData", dou);
-                m.put("F_CJSJ", time_end);
-                m.put("F_TYPE", fType);
-                m.put("f_zlbh(1)", m.get("f_department_id").toString());
-                m.put("yData", predou + "kwh");
-                //人均
-                if ("0".equals(m.get("F_NUMBER").toString())) {
+                    //根据系数修改环比数据
+                    c:
+                    for (Map dataMap : preDataList) {
+                        d:
+                        for (Map zlxs : allList) {
+                            if (zlxs.get("bh").toString().equals(dataMap.get("F_ZLBH").toString())) {
+                                predou = predou + Double.parseDouble(dataMap.get("F_DATA").toString()) * Double.parseDouble(zlxs.get("xs").toString());
+                                continue c;
+                            }
+                        }
+                    }
+
+                    dou = getTwoDecimal(dou);
+                    predou = getTwoDecimal(predou);
+                    m.put("fData", dou);
+                    m.put("F_CJSJ", time_end);
+                    m.put("F_TYPE", fType);
+                    m.put("f_zlbh(1)", m.get("f_department_id").toString());
+                    m.put("yData", predou + "kwh");
+                    //人均
+                    if ("0".equals(m.get("F_NUMBER").toString())) {
+                        m.put("peopleData", "0kwh");
+                    } else {
+                        peopleData = dou / Double.parseDouble(m.get("F_NUMBER").toString());
+                        peopleData = getTwoDecimal(peopleData);
+                        m.put("peopleData", peopleData + "kwh");
+                    }
+
+                } else if(dataList.size() == 0 && preDataList.size() == 0){
+                    //2.环比，本月都无数据
+                    m.put("fData", "0");
+                    m.put("F_CJSJ", time_end);
+                    m.put("F_TYPE", fType);
+                    m.put("f_zlbh(1)", m.get("f_department_id").toString());
+                    m.put("yData", "0kwh");
+                    //人均
                     m.put("peopleData", "0kwh");
-                } else {
-//                        allNUmber =  allNUmber+Double.parseDouble(m.get("F_NUMBER").toString());
-                    peopleData = dou / Double.parseDouble(m.get("F_NUMBER").toString());
-                    peopleData = getTwoDecimal(peopleData);
-                    m.put("peopleData", peopleData + "kwh");
+                } else if(dataList.size() == 0 && preDataList.size() > 0){
+                    //3.环比有数据，本月无数据
+
+                    //根据系数修改环比数据
+                    c:
+                    for (Map dataMap : preDataList) {
+                        d:
+                        for (Map zlxs : allList) {
+                            if (zlxs.get("bh").toString().equals(dataMap.get("F_ZLBH").toString())) {
+                                predou = predou + Double.parseDouble(dataMap.get("F_DATA").toString()) * Double.parseDouble(zlxs.get("xs").toString());
+                                continue c;
+                            }
+                        }
+                    }
+                    m.put("fData", "0");
+                    m.put("F_CJSJ", time_end);
+                    m.put("F_TYPE", fType);
+                    m.put("f_zlbh(1)", m.get("f_department_id").toString());
+                    m.put("yData", predou + "kwh");
+                    //人均
+                    m.put("peopleData", "0kwh");
+                }else{
+                    //4.环比无数据，本月有数据
+
+                    //根据系数修改本月数据
+                    a:
+                    for (Map dataMap : dataList) {
+                        b:
+                        for (Map zlxs : allList) {
+                            if (zlxs.get("bh").toString().equals(dataMap.get("F_ZLBH").toString())) {
+                                dou = dou + Double.parseDouble(dataMap.get("F_DATA").toString()) * Double.parseDouble(zlxs.get("xs").toString());
+                                continue a;
+                            }
+                        }
+                    }
+
+                    m.put("fData", dou);
+                    m.put("F_CJSJ", time_end);
+                    m.put("F_TYPE", fType);
+                    m.put("f_zlbh(1)", m.get("f_department_id").toString());
+                    m.put("yData", "0kwh");
+                    //人均
+                    m.put("peopleData", "0kwh");
                 }
             } else {
                 m.put("fData", "0");
@@ -709,9 +758,6 @@ public class BesExecute {
             }
 
         }
-//        for () {
-//
-//        }
 
         // 排序器
         Comparator<Map<String, Object>> comparator = new Comparator<Map<String, Object>>() {
@@ -725,7 +771,7 @@ public class BesExecute {
                 } else if (o1RoomNo < o2RoomNo) {
                     return -1;
                 } else {
-                    // 若是相同房间号，则比较时间
+                    // 若是相同等级，则比较总能耗
                     if (o1.get("fData") == null || o2.get("fData") == null) {
                         return 1;
                     }
@@ -755,10 +801,11 @@ public class BesExecute {
 
 //    @PostConstruct
 //    public void testMethods() {
-//        List<Map<String, Object>> list = queryAllDepInfoByStrategyId("11", "0", "2022-04-18 00:00:00", "2022-04-24 23:59:59", "2022-04-11 23:59:59", "2022-04-17 23:59:59");
+//        List<Map<String, Object>> list = queryAllDepInfoByStrategyId("11", "0", "2022-06-11 00:00:00", "2022-06-17 23:59:59", "2022-06-18 00:00:00", "2022-06-23 23:59:59");
 //    }
 
     private Double getTwoDecimal(Double dou) {
+        //取两位小数
         BigDecimal two = new BigDecimal(dou);
         dou = two.setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
         return dou;
