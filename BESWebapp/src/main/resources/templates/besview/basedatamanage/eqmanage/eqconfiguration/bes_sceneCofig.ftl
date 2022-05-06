@@ -121,7 +121,7 @@
 			<i class="fa fa-share-alt" aria-hidden="true"></i>&nbsp;场景配置树>>>
 		</span>
     </div>
-    <div id="sceneTree" class="ztree"></div>
+    <div id="sceneTree" class="ztree" style="height:100%;overflow-y: auto;border:1px white solid;"></div>
 </div>
 
 <#--点位树-->

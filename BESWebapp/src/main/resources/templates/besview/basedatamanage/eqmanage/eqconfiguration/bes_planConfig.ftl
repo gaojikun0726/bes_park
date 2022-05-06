@@ -97,10 +97,10 @@
 <div class="leftarea information_left">
   <div class="information-model">
 		<span class="tree_Subtitle">
-			<i class="fa fa-share-alt" aria-hidden="true"></i>&nbsp;计划配置树>>>
+			<i class="fa fa-share-alt" aria-hidden="true" ></i>&nbsp;计划配置树>>>
 		</span>
   </div>
-  <div id="planTree" class="ztree"></div>
+  <div id="planTree" class="ztree" style="height:100%;overflow-y: auto;border:1px white solid;"></div>
 </div>
 
 <#--计划配置列表-->
