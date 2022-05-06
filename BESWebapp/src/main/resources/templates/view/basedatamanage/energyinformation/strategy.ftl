@@ -247,7 +247,7 @@
 
             <div style="width:100%;margin-top: 10px;font-size: 15px;float:left">
                 <button class="layui-btn" type="button" id="" style="margin-left: 35%;"
-                        onclick="basedatamanage_eqmanage_strategy.saveStrategy()">报表预览
+                        onclick="basedatamanage_eqmanage_strategy.btn_exp()">报表预览
                 </button>
                 <button class="layui-btn" type="button" id="" style="margin-left: 10px;"
                         onclick="basedatamanage_eqmanage_strategy.saveStrategy()">保存策略
@@ -1103,6 +1103,12 @@
             }
         });
 
+        function btn_exp(){
+            var fname = "支路报表信息.xls";
+            var path = "file\\expExcel\\支路报表信息.xls";
+            //FileDownload("${ctx}/file/newFileDownload",fname,path);
+            FileDownload(_ctx + filePath.loadPath,fname,path);
+        }
 
         function saveStrategy() {
 
@@ -1531,6 +1537,29 @@
 
         return {
 
+            btn_exp : function(){
+                debugger
+                if (strategyPId == '1'){
+                    var branchName = "支路报表预览.xls";
+                    var branchPath = "file\\expExcel\\支路报表预览.xls";
+                    FileDownload(_ctx + filePath.loadPath,branchName,branchPath);
+
+                    var departmentName = "部门报表预览.xls";
+                    var departmentPath = "file\\expExcel\\部门报表预览.xls";
+                    //FileDownload("${ctx}/file/newFileDownload",fname,path);
+                    FileDownload(_ctx + filePath.loadPath,departmentName,departmentPath);
+                } else if (strategyPId == '2'){
+                    var branchName = "支路报表预览.xls";
+                    var branchPath = "file\\expExcel\\支路报表预览.xls";
+                    FileDownload(_ctx + filePath.loadPath,branchName,branchPath);
+                } else {
+                    var departmentName = "部门报表预览.xls";
+                    var departmentPath = "file\\expExcel\\部门报表预览.xls";
+                    //FileDownload("${ctx}/file/newFileDownload",fname,path);
+                    FileDownload(_ctx + filePath.loadPath,departmentName,departmentPath);
+                }
+
+            },
             saveStrategy: function () {
                 saveStrategy();
                 strategy_tree();
