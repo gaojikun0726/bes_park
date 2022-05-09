@@ -72,7 +72,7 @@
         background-color: rgba(31, 255, 8, 0);
         color: black;
         height: 16px;
-        border: 1px #FFB951 solid;
+        /*border: 1px #FFB951 solid;*/
         opacity: 0.8;
     }
 

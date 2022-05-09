@@ -111,7 +111,7 @@
         height: 96%;
     }
 
-    .ztree li a.curSelectedNode {
+    .ztree li a.curSelectedNode{
         boder:0 !important;
     }
 </style>
