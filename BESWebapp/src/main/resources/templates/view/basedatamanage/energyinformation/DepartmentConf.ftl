@@ -670,10 +670,10 @@
                                 addDepList.push(/*data.list[0]*/addList[0]);
                                 //未包含用户表格：
                                 var noinclude_group_data = $("#householdBrc_noInclude").tabulator("getData");
-                                $("#householdBrc_noInclude").tabulator("setData", noinclude_group_data);
+                                // $("#householdBrc_noInclude").tabulator("setData", noinclude_group_data);
                                 //已包含用户表格：
                                 var include_group_data = $("#householdBrc_include").tabulator("getData");
-                                $("#householdBrc_include").tabulator("setData", include_group_data);
+                                // $("#householdBrc_include").tabulator("setData", include_group_data);
                                 if (noinclude_group_data.length == 0) {
                                     $("#householdConf_right").attr('disabled', true);
                                     $("#householdConf_left").attr('disabled', false);
@@ -720,10 +720,10 @@
                         }
                         //未包含用户表格：
                         var noinclude_group_data = $("#householdBrc_noInclude").tabulator("getData");
-                        $("#householdBrc_noInclude").tabulator("setData", noinclude_group_data);
+                        // $("#householdBrc_noInclude").tabulator("setData", noinclude_group_data);
                         //已包含用户表格：
                         var include_group_data = $("#householdBrc_include").tabulator("getData");
-                        $("#householdBrc_include").tabulator("setData", include_group_data);
+                        // $("#householdBrc_include").tabulator("setData", include_group_data);
                         if (include_group_data.length == 0) {
                             $("#householdConf_left").attr('disabled', true);
                             $("#householdConf_right").attr('disabled', false);
@@ -780,10 +780,10 @@
                                 addDepList.push(/*data.list[0]*/addList[0]);
                                 //未包含用户表格：
                                 var noinclude_group_data = $("#wattHourMeter_noInclude").tabulator("getData");
-                                $("#wattHourMeter_noInclude").tabulator("setData", noinclude_group_data);
+                                // $("#wattHourMeter_noInclude").tabulator("setData", noinclude_group_data);
                                 //已包含用户表格：
                                 var include_group_data = $("#wattHourMeter_include").tabulator("getData");
-                                $("#wattHourMeter_include").tabulator("setData", include_group_data);
+                                // $("#wattHourMeter_include").tabulator("setData", include_group_data);
                                 if (noinclude_group_data.length == 0) {
                                     $("#wattHourMeter_right").attr('disabled', true);
                                     $("#wattHourMeter_left").attr('disabled', false);
@@ -830,10 +830,10 @@
                         }
                         //未包含用户表格：
                         var noinclude_group_data = $("#wattHourMeter_noInclude").tabulator("getData");
-                        $("#wattHourMeter_noInclude").tabulator("setData", noinclude_group_data);
+                        // $("#wattHourMeter_noInclude").tabulator("setData", noinclude_group_data);
                         //已包含用户表格：
                         var include_group_data = $("#wattHourMeter_include").tabulator("getData");
-                        $("#wattHourMeter_include").tabulator("setData", include_group_data);
+                        // $("#wattHourMeter_include").tabulator("setData", include_group_data);
                         if (include_group_data.length == 0) {
                             $("#wattHourMeter_left").attr('disabled', true);
                             $("#wattHourMeter_right").attr('disabled', false);
