@@ -112,7 +112,7 @@
     }
 
     .ztree li a.curSelectedNode {
-        background-color: #0d8ddb;
+        boder:0 !important;
     }
 </style>
 
