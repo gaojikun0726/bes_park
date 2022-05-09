@@ -514,7 +514,7 @@
                         success: function (result) {
                             if (result.status === '1') {
                                 var id = result.data;
-                                zTree.addNodes(treeNode, {f_id: id, f_pId: pId, f_name: fname, f_type: "1"})
+                                zTree.addNodes(treeNode, {f_id: id, f_pId: pId, f_name: fname, f_type: "1",icon : "/energy/static/ztree/css/zTreeStyle/img/diy/guan.png"})
                             } else {
                                 swal({
                                     title: "策略添加失败",
