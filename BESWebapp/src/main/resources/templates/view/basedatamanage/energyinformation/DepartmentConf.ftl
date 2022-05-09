@@ -145,7 +145,7 @@
                                 <div style="float:left;">
                                     <span class="input-group-btn" style="width: 60px;">
                                         <button class="btn btn-primary btn-sm m-b-none" id="queryNotIncludeBrc"
-                                                onclick="organizationmanage_zzjg.searchNotIncludeBrcDB()">
+                                                策略配置树>>>        onclick="organizationmanage_zzjg.searchNotIncludeBrcDB()">
                                             <i class="fa fa-search"></i> 搜索
                                         </button>
                                     </span>
