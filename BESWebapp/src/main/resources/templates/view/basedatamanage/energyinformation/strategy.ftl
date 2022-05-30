@@ -1103,12 +1103,6 @@
             }
         });
 
-        function btn_exp(){
-            var fname = "支路报表信息.xls";
-            var path = "file\\expExcel\\支路报表信息.xls";
-            //FileDownload("${ctx}/file/newFileDownload",fname,path);
-            FileDownload(_ctx + filePath.loadPath,fname,path);
-        }
 
         function saveStrategy() {
 
