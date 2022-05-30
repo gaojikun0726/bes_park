@@ -177,7 +177,6 @@ public class EmailService {
                 attachmentBodyPart.setFileName(fileName.get(i).toString());
 
                 multipart.addBodyPart(attachmentBodyPart);
-
             }
 
         }
