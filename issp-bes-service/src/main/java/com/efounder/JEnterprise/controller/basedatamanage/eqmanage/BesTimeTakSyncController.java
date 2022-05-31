@@ -2,6 +2,8 @@ package com.efounder.JEnterprise.controller.basedatamanage.eqmanage;
 
 import com.alibaba.fastjson.JSONObject;
 import com.core.common.ISSPReturnObject;
+import com.core.common.util.JsonMapper;
+import com.efounder.JEnterprise.model.basedatamanage.eqmanage.BesSyncLog;
 import com.efounder.JEnterprise.model.basedatamanage.eqmanage.BesTimeTaskSync;
 import com.efounder.JEnterprise.model.systemcenter.Interfaceconfig.DeviceTypeModel;
 import com.efounder.JEnterprise.service.basedatamanage.eqmanage.BesTimeTaskSyncService;
@@ -131,6 +133,20 @@ public class BesTimeTakSyncController {
     public ISSPReturnObject updateTimeTaskSync(@RequestBody JSONObject obj) throws ParseException {
         log.info("#BesTimeTakSyncController 修改定时同步任务" );
         return besTimeTaskSyncService.updateTimeTaskSync(obj);
+    }
+
+    /**
+     *
+     * 筛选查询执行记录，分页查询
+     */
+    @RequestMapping(value = "/getSyncLogPage", method = RequestMethod.POST)
+    public String getSyncLogPage(ModelMap map, Integer pageSize, Integer pageNum, BesSyncLog besSyncLog) {
+
+        PageInfo<BesSyncLog> page = besTimeTaskSyncService.getSyncLogPage(pageSize, pageNum,besSyncLog);
+        map.put("page", page);
+        map.put("dataset", JsonMapper.toJsonString(page.getList()));
+        map.put("pageSize", page.getPageSize() + "");
+        return "besview/basedatamanage/eqmanage/eqconfiguration/syncLogPage";
     }
 
 }

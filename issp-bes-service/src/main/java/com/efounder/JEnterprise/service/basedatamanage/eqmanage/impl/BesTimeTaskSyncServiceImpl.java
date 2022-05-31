@@ -387,4 +387,32 @@ public class BesTimeTaskSyncServiceImpl implements BesTimeTaskSyncService {
         }
         return returnObject;
     }
+
+    /**
+     * 查询分页数据
+     * @param pageSize
+     * @param pageNum
+     * @param besSyncLog
+     * @return
+     */
+    @Override
+    public PageInfo<BesSyncLog> getSyncLogPage(Integer pageSize, Integer pageNum,BesSyncLog besSyncLog) {
+        if (pageNum == null){
+            pageNum = 1;
+        }
+
+        if (pageSize == null) {
+            pageSize = Constants.PAGE_SIZE;
+        }
+
+        PageHelper.startPage(pageNum, pageSize);
+
+
+        // 紧跟着的第一个select方法会被分页
+        List<BesSyncLog> list = besTimeTaskSyncMapper.getSyncLogPage(besSyncLog);
+        // 用PageInfo对结果进行包装
+        PageInfo<BesSyncLog> page = new PageInfo<>(list);
+        return page;
+
+    }
 }

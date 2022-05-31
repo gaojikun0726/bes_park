@@ -113,4 +113,7 @@ public class CacheNameCode
 
     //计划配置的公式定义
     public static final String TIME_TASK_CACHE = "timeTaskCache";
+
+    //定时同步设备的执行日志缓存定义
+    public static final String SYNC_LOG_CACHE = "syncLogCache";
 }

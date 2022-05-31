@@ -7601,6 +7601,8 @@ public class BESSbdyServiceImpl implements BESSbdyService,ESBaseService{
 		String f_ip_master	= (String) ddcMap.get("F_IP_MASTER");//主机ip
 		String f_port_master= (String) ddcMap.get("F_PORT_MASTER");//主机端口
 
+		returnObject.setData(ip);
+
 		if (       !StringUtils.hasText(f_gateway)
 				|| !StringUtils.hasText(f_mask)
 				|| !StringUtils.hasText(f_ip_master)

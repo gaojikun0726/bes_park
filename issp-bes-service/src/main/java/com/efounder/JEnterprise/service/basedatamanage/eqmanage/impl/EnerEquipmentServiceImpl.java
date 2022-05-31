@@ -243,6 +243,8 @@ public class EnerEquipmentServiceImpl implements EnerEquipmentService{
 		// 通道id
 		String channelId = (String) collectorMap.get("F_CHANNEL_ID");
 
+		returnObject.setData(ip);
+
 		if (!StringUtils.hasText(gateway)
 				|| !StringUtils.hasText(mask)
 				|| !StringUtils.hasText(ipMaster)

@@ -144,4 +144,54 @@
         </set>
         where  f_id = #{syncId,jdbcType=VARCHAR}
     </update>
+
+    <insert id="insertSyncLog" parameterType="com.efounder.JEnterprise.model.basedatamanage.eqmanage.BesSyncLog">
+        insert into bes_time_task_sync_log
+        <trim prefix="(" suffix=")" suffixOverrides="," >
+            <if test="f_sync_name != null" >
+                f_sync_name,
+            </if>
+            <if test="f_point_name != null" >
+                f_point_name,
+            </if>
+            <if test="f_point_ip != null" >
+                f_point_ip,
+            </if>
+            <if test="f_sync_status != null" >
+                f_sync_status,
+            </if>
+            <if test="f_sync_time != null" >
+                f_sync_time,
+            </if>
+            <if test="f_callback_status != null" >
+                f_callback_status,
+            </if>
+            <if test="f_callback_time != null" >
+                f_callback_time,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides="," >
+            <if test="f_sync_name != null" >
+                #{f_sync_name,jdbcType=VARCHAR},
+            </if>
+            <if test="f_point_name != null" >
+                #{f_point_name,jdbcType=VARCHAR},
+            </if>
+            <if test="f_point_ip != null" >
+                #{f_point_ip,jdbcType=TIMESTAMP},
+            </if>
+            <if test="f_sync_status != null" >
+                #{f_sync_status,jdbcType=TIMESTAMP},
+            </if>
+            <if test="f_sync_time != null" >
+                #{f_sync_time,jdbcType=TIMESTAMP},
+            </if>
+            <if test="f_callback_status != null" >
+                #{f_callback_status,jdbcType=TIMESTAMP},
+            </if>
+            <if test="f_callback_time != null" >
+                #{f_callback_time,jdbcType=TIMESTAMP},
+            </if>
+        </trim>
+    </insert>
 </mapper>

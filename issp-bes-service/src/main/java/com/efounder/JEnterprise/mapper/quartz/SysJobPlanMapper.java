@@ -2,6 +2,7 @@ package com.efounder.JEnterprise.mapper.quartz;
 
 
 import com.efounder.JEnterprise.domain.SysJob;
+import com.efounder.JEnterprise.model.basedatamanage.eqmanage.BesSyncLog;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
@@ -70,5 +71,7 @@ public interface SysJobPlanMapper {
     List<Map<String,Object>> queryTimeTaskSyncSbList(String syncId);
 
     Boolean updateTimeTaskSyncStatus(@Param("syncId") String syncId, @Param("f_status") String f_status);
+
+    Boolean insertSyncLog(BesSyncLog besSyncLog);
 
 }

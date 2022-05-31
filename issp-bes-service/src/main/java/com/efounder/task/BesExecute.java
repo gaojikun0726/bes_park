@@ -6,10 +6,12 @@ import com.core.common.ISSPReturnObject;
 import com.efounder.JEnterprise.common.util.UUIDUtil;
 import com.efounder.JEnterprise.domain.SysJob;
 import com.efounder.JEnterprise.initializer.SbPzStructCache;
+import com.efounder.JEnterprise.initializer.SyncLogCache;
 import com.efounder.JEnterprise.mapper.basedatamanage.energyinformation.BESStrategyMapper;
 import com.efounder.JEnterprise.mapper.dataAnalysises.BesBranchDataMapper;
 import com.efounder.JEnterprise.mapper.quartz.SysJobPlanMapper;
 import com.efounder.JEnterprise.model.basedatamanage.eqmanage.BESSbPzStruct;
+import com.efounder.JEnterprise.model.basedatamanage.eqmanage.BesSyncLog;
 import com.efounder.JEnterprise.model.excelres.ExcelReturn;
 import com.efounder.JEnterprise.service.basedatamanage.eqmanage.BESSbdyService;
 import com.efounder.JEnterprise.service.basedatamanage.eqmanage.EnerEquipmentService;
@@ -80,6 +82,9 @@ public class BesExecute {
 
     @Autowired
     EmailService emailService;
+
+    @Autowired
+    SyncLogCache syncLogCache;
 
     public void besMultipleParams(String s, Boolean b, Long l, Double d, Integer i) {
         System.out.println(StringUtils.format("执行多参方法： 字符串类型{}，布尔类型{}，长整型{}，浮点型{}，整形{}", s, b, l, d, i));
@@ -228,6 +233,9 @@ public class BesExecute {
         } else {
             for (Map<String, Object> sbInfo : sbList) {
                 ISSPReturnObject returnObject = new ISSPReturnObject();
+                Date date = new Date();
+                SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+                String dateTime = dateFormat.format(date);
 
                 String fPointType = sbInfo.get("f_point_type").toString();
                 String fSysName = sbInfo.get("f_point_name").toString();
@@ -245,6 +253,24 @@ public class BesExecute {
                     //能耗采集用的同步接口 synEnergyCollector
                     returnObject = enerEquipmentService.synEnergyCollector(fSysName);
 
+                }
+
+                //下发状态
+                String syncStatus = returnObject.getStatus();
+                String ip = returnObject.getData().toString();
+
+                BesSyncLog besSyncLog = new BesSyncLog();
+                besSyncLog.setF_sync_name(sysJob.getJobName());
+                besSyncLog.setF_point_name(fSysName);
+                besSyncLog.setF_sync_status(syncStatus);
+                besSyncLog.setF_sync_time(dateTime);
+                besSyncLog.setF_point_ip(ip);
+
+                //下发失败则直接插入数据库,下发成功加入缓存等待回调
+                if ("0".equals(syncStatus)){
+                    sysJobPlanMapper.insertSyncLog(besSyncLog);
+                } else {
+                    syncLogCache.addOneSyncLogCache(besSyncLog);
                 }
 
                 System.out.println("定时同步设备树任务: " + sysJob.getJobName() + "------------>" + fSysName + returnObject.getMsg());

@@ -13,6 +13,24 @@
         /*margin-top: 8px;*/
         position: relative;
     }
+    .syncLog-datecheck{
+        border: 1px solid rgb(54, 108, 144);
+        color: rgb(11, 34, 76);
+        width: 9vw;
+        height: 2.9vh;
+        text-align: left;
+        padding-left: 12px;
+        border-radius: 4px;
+    }
+    .syncLog-input{
+        border: 1px solid rgb(54, 108, 144);
+        color: rgb(11, 34, 76);
+        width: 9vw;
+        height: 2.9vh;
+        text-align: left;
+        padding-left: 12px;
+        border-radius: 4px;
+    }
 
 
 </style>
@@ -25,6 +43,10 @@
     <!-- 增加按钮 -->
     <a id="addTimeTaskSync" data-toggle="modal" href="#timeTaskSyncModalAdd" class="btn btn-primary toLeft">
         <i class="fa fa-plus" style="margin-top: 2.5px;margin-left: 2px;" aria-hidden="true"></i>增加
+    </a>
+    <!-- 执行日志按钮 -->
+    <a id="querySyncLog" data-toggle="modal" href="#timeTaskSyncLog" style="width: 4.5vw;" class="btn btn-primary toLeft">
+        <i class="fa fa-file-text" style="margin-top: 2.5px;margin-left: 2px;margin-right: 2px;" aria-hidden="true"></i>执行记录
     </a>
 
     <!-- 搜索框 -->
@@ -55,9 +77,49 @@
 
 </script>
 
+<!---执行记录开始----->
+<div class="modal fade" id="timeTaskSyncLog" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+     data-backdrop="static" data-keyboard="false" style="margin-right: 10%;">
+    <div class="modal-dialog">
+        <div class="modal-content" style="height: 50%;width: 1000px;margin-top: 20%">
+            <div class="modal-header bg-primary">
+                <button aria-hidden="true" data-dismiss="modal" class="close" type="button">×</button>
+                <h4 class="modal-title">&nbsp;执行记录</h4>
+            </div>
+            <!-- 搜索框 -->
+            <div style="margin-top: 20px">
 
-<!---分页列表----->
-<#--<div class="ibox" id="timeTaskSyncPageContainer" style="height:92%"></div>-->
+                <label style="margin-left: 20px">任务名称：</label>
+                <input type="text" id="syncLogFSyncName" name="syncLogFSyncName" class="syncLog-input"
+                       placeholder="">
+
+                <label style="margin-left: 20px">点位名称：</label>
+                <input type="text" id="syncLogFPointName" name="syncLogFPointName" class="syncLog-input"
+                       placeholder="">
+
+                <label style="margin-left: 20px">下发时间：</label>
+                <input  id="syncLogFSyncTime" type="text"  name="start" class="syncLog-datecheck"
+                        onClick="WdatePicker({readOnly:true,dateFmt:'yyyy-MM-dd'})" />
+
+                <#--<button id="queryTimeTaskSyncLog" onclick="timeTaskSync.syncLogSearch()">
+                    <i class="fa fa-search" aria-hidden="true"></i>
+                </button>-->
+
+                <button type="button" class="btn btn-sm btn-primary no-margins" style="float: right"
+                        onclick="timeTaskSync.syncLogReset()">
+                    <i class="fa fa-refresh"></i>&nbsp;重置
+                </button>
+                <button type="button" style="float: right" class="btn btn-sm btn-primary no-margins"
+                        onclick="timeTaskSync.syncLogSearch()">
+                    <i class="fa fa-spinner"></i>&nbsp;查询
+                </button>
+            </div>
+            <div class="ibox" id="sync_log_page" style="height:600px;margin-top: 10px"></div>
+
+        </div>
+    </div>
+</div>
+<!-- 执行记录结束 -->
 
 
 <!---添加设备类型开始----->
@@ -1173,6 +1235,46 @@
             })
         }
 
+        // 添加模态框开启时处理事件
+        $('#timeTaskSyncLog').on('show.bs.modal', function () {
+
+            getSyncLogPage({}, function (data) {
+                showPagingPage('sync_log_page', data);
+            });
+
+        });
+
+        // 获取分页页面
+        function getSyncLogPage(param, callback){
+            if(typeof callback !== 'function'){
+                return;
+            }
+
+            param = param || {};
+
+            $.ajax({
+                url     : _ctx + '/view/basedatamanage/eqmanage/besTimeTaskSync/getSyncLogPage',
+                type    : "post",
+                data    : param,
+                success : function(result) {
+                    callback(result);
+                },
+
+                error : function(result) {
+                    console.log(result)
+                }
+            });
+
+        }
+
+        // 显示分页
+        function showPagingPage(pageId, page){
+            if(!page || !pageId){
+                return;
+            }
+
+            $('#' + pageId).html(page);
+        }
 
         // 添加模态框开启时处理事件
         $('#timeTaskSyncModalAdd').on('show.bs.modal', function () {
@@ -1243,6 +1345,35 @@
             refreshTable(keywords);
         }
 
+        // 根据条件搜索
+        function syncLogSearch()
+        {
+            var f_sync_name = $('#syncLogFSyncName').val();
+            var f_point_name = $('#syncLogFPointName').val();
+            var f_sync_time = $('#syncLogFSyncTime').val();
+
+            getSyncLogPage({
+                f_sync_name:f_sync_name,
+                f_point_name:f_point_name,
+                f_sync_time:f_sync_time
+            },
+                function (data) {
+                showPagingPage('sync_log_page', data);
+            });
+        }
+
+        function syncLogReset()
+        {
+            $('#syncLogFSyncName').val("");
+            $('#syncLogFPointName').val("");
+            $('#syncLogFSyncTime').val("");
+
+            getSyncLogPage({},
+                function (data) {
+                    showPagingPage('sync_log_page', data);
+                });
+        }
+
 
         return {
             submitSyncInfo: function () {
@@ -1259,6 +1390,8 @@
                 }
             },
             search,
+            syncLogSearch,
+            syncLogReset,
             pageInit: function()
             {
                 getPagingPage();

@@ -9,6 +9,7 @@ import com.core.common.util.DataUtil;
 import com.efounder.JEnterprise.initializer.*;
 import com.efounder.JEnterprise.mapper.basedatamanage.eqmanage.*;
 import com.efounder.JEnterprise.mapper.collectorJob.BESJobManagerMapper;
+import com.efounder.JEnterprise.mapper.quartz.SysJobPlanMapper;
 import com.efounder.JEnterprise.model.basedatamanage.enegrycollectionmanage.BESElectricParams;
 import com.efounder.JEnterprise.model.basedatamanage.enegrycollectionmanage.BESElectric_Coll_Rlgl;
 import com.efounder.JEnterprise.model.basedatamanage.eqmanage.*;
@@ -48,6 +49,7 @@ import org.springframework.util.StringUtils;
 import org.springframework.web.socket.TextMessage;
 
 import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.*;
 
 /**
@@ -125,6 +127,11 @@ public class ClientEventCallback implements ClientMsgReceive
 
     // 采集参数定义缓存
     private ElectricParamsCache electricParamsCache = ApplicationContextProvider.getBean(ElectricParamsCache.class);
+
+    //定时同步设备的执行日志缓存
+    private SyncLogCache syncLogCache = ApplicationContextProvider.getBean(SyncLogCache.class);
+
+    private SysJobPlanMapper sysJobPlanMapper = ApplicationContextProvider.getBean(SysJobPlanMapper.class);
 
 	   /**
      * 向中台推送报警信息
@@ -461,7 +468,23 @@ public class ClientEventCallback implements ClientMsgReceive
        if (StringUtils.hasText(sessionId)) {
             // 推送消息到web客户端
             WebSocketService.postEvent(sessionId, WebSocketEvent.EDC, msg);
-        }
+        } else {
+           //定时同步设备树任务,插入执行日志
+           Date date = new Date();
+           SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+           String dateTime = dateFormat.format(date);
+
+           BesSyncLog besSyncLog = syncLogCache.getCachedElement(ip);
+
+           if (besSyncLog != null){
+               besSyncLog.setF_callback_status(msg.getCode().toString());
+               besSyncLog.setF_callback_time(dateTime);
+
+               sysJobPlanMapper.insertSyncLog(besSyncLog);
+               syncLogCache.deleteOneSyncLogCache(ip);
+           }
+
+       }
 
         // 同步状态 0 未同步 1 已同步
         String syncState = "0";
@@ -1147,6 +1170,22 @@ public class ClientEventCallback implements ClientMsgReceive
         {
             // 把添加控制器下位机返回的消息推送到前端页面
             WebSocketService.postEvent(sessionId, WebSocketEvent.DDC, msg);
+        } else {
+            //定时同步设备树任务,插入执行日志
+            Date date = new Date();
+            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+            String dateTime = dateFormat.format(date);
+
+            BesSyncLog besSyncLog = syncLogCache.getCachedElement(ip);
+
+            if (besSyncLog != null){
+                besSyncLog.setF_callback_status(msg.getCode().toString());
+                besSyncLog.setF_callback_time(dateTime);
+
+                sysJobPlanMapper.insertSyncLog(besSyncLog);
+                syncLogCache.deleteOneSyncLogCache(ip);
+            }
+
         }
 
         // 同步状态 0 未同步 1 已同步
@@ -3323,6 +3362,22 @@ public class ClientEventCallback implements ClientMsgReceive
         {
             // 把添加控制器下位机返回的消息推送到前端页面
             WebSocketService.postEvent(sessionId, WebSocketEvent.LDC, msg);
+
+        } else {
+            //定时同步设备树任务,插入执行日志
+            Date date = new Date();
+            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+            String dateTime = dateFormat.format(date);
+
+            BesSyncLog besSyncLog = syncLogCache.getCachedElement(ip);
+
+            if (besSyncLog != null){
+                besSyncLog.setF_callback_status(msg.getCode().toString());
+                besSyncLog.setF_callback_time(dateTime);
+
+                sysJobPlanMapper.insertSyncLog(besSyncLog);
+                syncLogCache.deleteOneSyncLogCache(ip);
+            }
 
         }
 

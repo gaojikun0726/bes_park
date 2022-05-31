@@ -117,4 +117,30 @@
         where sync_id = #{object.f_id}
     </update>
 
+    <select id="getSyncLogPage" parameterType="com.efounder.JEnterprise.model.basedatamanage.eqmanage.BesSyncLog"
+            resultType="com.efounder.JEnterprise.model.basedatamanage.eqmanage.BesSyncLog">
+
+        select
+        f_id,f_sync_name,f_point_name,f_point_ip,f_sync_status,
+        date_format(f_sync_time,'%Y-%m-%d %H:%i:%s') f_sync_time,
+        f_callback_status,date_format(f_callback_time,'%Y-%m-%d %H:%i:%s') f_callback_time
+
+        from bes_time_task_sync_log
+        <where>
+
+            <if test="f_sync_name != null and f_sync_name != ''" >
+                and f_sync_name like CONCAT('%',#{f_sync_name},'%')
+            </if>
+            <if test="f_point_name != null and f_point_name != ''" >
+                and f_point_name = #{f_point_name}
+            </if>
+            <if test="f_sync_time != null and f_sync_time != ''" >
+                and date_format(f_sync_time,'%Y-%m-%d') = #{f_sync_time}
+            </if>
+
+        </where>
+        order by f_id desc
+
+    </select>
+
 </mapper>

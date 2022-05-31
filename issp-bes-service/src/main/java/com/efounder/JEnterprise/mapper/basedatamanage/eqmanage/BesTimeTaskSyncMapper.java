@@ -41,4 +41,6 @@ public interface BesTimeTaskSyncMapper {
 
     Boolean updateSysJobInfo(@Param("object") JSONObject object);
 
+    List<BesSyncLog> getSyncLogPage(BesSyncLog besSyncLog);
+
 }
