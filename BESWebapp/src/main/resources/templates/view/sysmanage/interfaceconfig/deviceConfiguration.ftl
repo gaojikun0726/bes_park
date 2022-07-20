@@ -35,6 +35,21 @@
     top: 11.5%;
   }
 </style>
+<style type="text/css">
+  .treeSelect .layui-select-title span {
+    height: 25px;
+  }
+  .layui-form-select dl{
+    padding: 0;
+    top:30px;
+
+  }
+  .layui-tree-entry {
+    height: 30px;
+  }
+
+
+</style>
 
 <div class="information-model">
 		<span class="Subtitle">
@@ -47,6 +62,21 @@
 
   <div  style = "display:inline-block ;margin-left: 15px;">设备类型 :</div>
   <div id='deviceConfiguration_sblx' style = "display:inline-block ;margin-left: 15px;"></div>
+
+  <#--区域-->
+  <div style = "display:inline-block ;margin-left: 15px;">区域:</div>
+  <div class="layui-unselect layui-form-select treeSelect" style = "display:inline-block ;margin-left: 15px;">
+    <div class="layui-select-title">
+      <span class="layui-input layui-unselect" id="treeSelect">选择区域</span>
+      <input type="hidden" id="positionId" name="positionId">
+      <i class="layui-edge"></i>
+    </div>
+    <dl class="layui-anim layui-anim-upbit">
+      <dd style="padding-bottom: 10px;line-height: 50px">
+        <ul id="treeUl"></ul>
+      </dd>
+    </dl>
+  </div>
 
   <!-- 搜索框 -->
   <div class="zc_search find">
@@ -101,6 +131,21 @@
             <div class="col-sm-8">
               <input type="text" id="deviceConfigurationSiteAdd" name="deviceConfigurationSiteAdd" placeholder="请输入位置"
                      class="form-control">
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="col-sm-3 control-label">区域<span class="text-danger">*</span></label>
+            <div class="layui-unselect layui-form-select treeSelect" style = "display:inline-block ;margin-left: 15px;">
+              <div class="layui-select-title">
+                <span class="layui-input layui-unselect" id="treeAdd" style="border-color: #1ab394 !important;width: 350px;height: 34px;padding: 6px;">选择区域</span>
+                <input type="hidden" id="deviceConfigurationPositionAdd" name="deviceConfigurationPositionAdd" placeholder="请选择区域" >
+                <i class="layui-edge"></i>
+              </div>
+              <dl class="layui-anim layui-anim-upbit">
+                <dd style="padding-bottom: 10px;line-height: 50px">
+                  <ul id="positionAddTree"></ul>
+                </dd>
+              </dl>
             </div>
           </div>
           <div class="form-group">
@@ -165,6 +210,23 @@
                      class="form-control">
             </div>
           </div>
+
+          <div class="form-group">
+            <label class="col-sm-3 control-label">区域<span class="text-danger">*</span></label>
+            <div class="layui-unselect layui-form-select treeSelect" style = "display:inline-block ;margin-left: 15px;">
+              <div class="layui-select-title">
+                <span class="layui-input layui-unselect" id="treeEdit" style="border-color: #1ab394 !important;width: 350px;height: 34px;padding: 6px;">选择区域</span>
+                <input type="hidden" id="deviceConfigurationPositionEdit" name="deviceConfigurationPositionEdit" placeholder="请选择区域" >
+                <i class="layui-edge"></i>
+              </div>
+              <dl class="layui-anim layui-anim-upbit">
+                <dd style="padding-bottom: 10px;line-height: 50px">
+                  <ul id="positionEditTree"></ul>
+                </dd>
+              </dl>
+            </div>
+          </div>
+
           <div class="form-group">
             <label class="col-sm-3 control-label">备注</label>
             <div class="col-sm-8">
@@ -277,16 +339,22 @@
     var deviceType_id=[];//设备类型下拉表id
     var deviceType_val=[];//设备类型下拉表值
     var deviceTypeId;
+    var positionId;
 
     var deviceId;//设备id
     var deviceFunctionId;//设备功能id
     var inputObj; // 模态框内输入框保存对象
     var tree;// 树对象
+    var positionTree;
     var modalAddActive = false; // 保存添加模态框是否是显示状态 true 显示 | false 隐藏
     var modalEditActive = false; // 保存编辑模态框是否是显示状态 true 显示 | false 隐藏
 
+
+
     $(function () {
       initTree(); // 初始化树
+
+      initPositionTree(); //初始化区域树型下拉框
 
       // 获取设备类型数据并把数据加载到树中
       getAustereDevicesTree(function (data) {
@@ -302,6 +370,103 @@
         tree.loadData(treeList);
       });
     });
+    function initPositionTree(){
+      $.ajax({
+        url: _ctx + '/view/sysmanage/interfaceconfig/deviceConfiguration/queryPosition',
+        type: "post",
+        success: function (result) {
+          debugger
+          layui.config({
+            base: 'static/layui/' //静态资源所在路径
+          });
+          layui.use(['layer', 'tree', 'form'], function () {
+            var $ = layui.jquery,
+                    layer = layui.layer,
+                    form = layui.form,
+                    positionTree = layui.tree,
+                    positionAddTree = layui.tree,
+                    positionEditTree = layui.tree;
+            positionTree.render({
+              elem: "#treeUl", //指定元素
+              // showLine: false,
+              data: [{
+                id:'all',
+                title:'智能交通产业园',
+                children:result.list
+              }],
+              click: function(node) { //点击节点回调
+                debugger
+                var othis = $($(this)[0].elem).parents(".layui-form-select");
+                othis.removeClass("layui-form-selected").find(".layui-select-title span").html(node.data.title).end().find("input:hidden[name='positionId']").val(node.data.id);
+                refreshTable();
+
+              }
+            });
+            positionAddTree.render({
+              elem: "#positionAddTree", //指定元素
+              // showLine: false,
+              data: [{
+                id:'all',
+                title:'智能交通产业园',
+                children:result.list
+              }],
+              click: function(node) { //点击节点回调
+                debugger
+                var othis = $($(this)[0].elem).parents(".layui-form-select");
+                othis.removeClass("layui-form-selected").find(".layui-select-title span").html(node.data.title).end().find("input:hidden[name='deviceConfigurationPositionAdd']").val(node.data.id);
+
+              }
+            });
+            positionEditTree.render({
+              elem: "#positionEditTree", //指定元素
+              // showLine: false,
+              data: [{
+                id:'all',
+                title:'智能交通产业园',
+                children:result.list
+              }],
+              click: function(node) { //点击节点回调
+                debugger
+                var othis = $($(this)[0].elem).parents(".layui-form-select");
+                othis.removeClass("layui-form-selected").find(".layui-select-title span").html(node.data.title).end().find("input:hidden[name='deviceConfigurationPositionEdit']").val(node.data.id);
+
+              }
+            });
+
+            $(".treeSelect").on("click", ".layui-select-title", function(e) {
+              $(".layui-form-select").not($(this).parents(".layui-form-select")).removeClass("layui-form-selected");
+              $(this).parents(".treeSelect").toggleClass("layui-form-selected");
+              layui.stope(e);
+            }).on("click", "dl i", function(e) {
+              layui.stope(e);
+            });
+            $(document).on("click", function(e) {
+              $(".layui-form-select").removeClass("layui-form-selected");
+            });
+
+            // 获取选中值
+            // var positionId= $("input[name='positionId']").val();
+            // 默认选中
+            var checkNode = {
+              id: 'all',
+              name: '智能交通产业园'
+            }
+            var othis = $(".layui-form-select");
+            othis.removeClass("layui-form-selected").find(".layui-select-title span").html(checkNode.name).end().find("input:hidden[name='positionId']").val(checkNode.id);
+            othis.removeClass("layui-form-selected").find(".layui-select-title span").html(checkNode.name).end().find("input:hidden[name='deviceConfigurationPositionAdd']").val(checkNode.id);
+            form.render();
+
+          });
+        },
+
+        error: function (result)
+        {
+          console.log(result)
+        }
+      });
+
+
+    }
 
     // 初始化设备类型树
     function initTree() {
@@ -611,6 +776,7 @@
 
     function refreshTable(param)
     {
+      debugger
       if (typeof (param) != 'undefined') {
         if (param.id != null) {
           deviceTypeId = param.id
@@ -620,8 +786,9 @@
       if (typeof deviceConfigurationPage != 'undefined') {
         pageNum = deviceConfigurationPage.getPageNum();
       }
+      let positionId = $('#positionId').val();
 
-      getPagingPage({param,deviceTypeId,pageNum}, function (page)
+      getPagingPage({param,deviceTypeId,pageNum,positionId}, function (page)
       {
         showPagingPage('deviceConfigurationPageContainer', page);
       });
@@ -714,7 +881,12 @@
         $('#deviceConfigurationDeviceTypeEdit').val(data.deviceTypeId || '');
         $('#deviceConfigurationCodeEdit').val(data.code || '');
         $('#deviceConfigurationSiteEdit').val(data.site || '');
+        $('#deviceConfigurationPositionEdit').val(data.positionId || '');
+        $('#treeEdit').text(data.positionName || '');
         $('#deviceConfigurationCommentsEdit').val(data.comments || '');
+        debugger
+
+
       });
     });
 
@@ -853,7 +1025,10 @@
         },
         deviceConfigurationCommentsAdd: {
           maxlength: 50
-
+        },
+        deviceConfigurationPositionAdd:{
+          required: true,
+          maxlength: 50
         }
       },
       messages: {
@@ -869,6 +1044,9 @@
         deviceConfigurationSiteAdd: {
           required: '请输入位置'
         },
+        deviceConfigurationPositionAdd:{
+          required: '请选择区域'
+        }
       },
       submitHandler: function (formData)
       {
@@ -947,6 +1125,8 @@
           deviceTypeId : deviceTypeId,
           code : formData.deviceConfigurationCodeAdd,
           site : formData.deviceConfigurationSiteAdd,
+          positionId : formData.deviceConfigurationPositionAdd,
+          positionName : $('#treeAdd').text(),
           comments: formData.deviceConfigurationCommentsAdd
 
         },
@@ -1023,6 +1203,8 @@
           deviceTypeId : deviceTypeId,
           code : formData.deviceConfigurationCodeEdit,
           site : formData.deviceConfigurationSiteEdit,
+          positionId : formData.deviceConfigurationPositionEdit,
+          positionName : $('#treeEdit').text(),
           comments: formData.deviceConfigurationCommentsEdit
 
         },
@@ -1169,13 +1351,21 @@
     $('#deviceConfigurationModalAdd').on('hide.bs.modal', function ()
     {
 
-
       // 清空表单
       $('#deviceConfigurationNameAdd').val('');
-      // $('#deviceConfigurationDeviceTypeAdd').val('');
+      $('#deviceConfigurationDeviceTypeAdd').val('');
       $('#deviceConfigurationCodeAdd').val('');
       $('#deviceConfigurationSiteAdd').val('');
       $('#deviceConfigurationCommentsAdd').val('');
+      var checkNode = {
+        id: 'all',
+        name: '智能交通产业园'
+      }
+      $('#treeAdd').html(checkNode.name);
+      $('#deviceConfigurationPositionAdd').val(checkNode.id);
+
+      // var othis = $(".layui-form-select");
+      // othis.removeClass("layui-form-selected").find(".layui-select-title span").html(checkNode.name).end().find("deviceConfigurationPositionAdd").val(checkNode.id);
 
       // 重置添加验证表单
       addValidate.resetForm()
@@ -1190,7 +1380,15 @@
       // $('#deviceConfigurationDeviceTypeEdit').val('');
       $('#deviceConfigurationCodeEdit').val('');
       $('#deviceConfigurationSiteEdit').val('');
+      $('#deviceConfigurationPositionEdit').val('');
       $('#deviceConfigurationCommentsEdit').val('');
+
+      var checkNode = {
+        id: 'all',
+        name: '智能交通产业园'
+      }
+      $('#treeAdd').html(checkNode.name);
+      $('#deviceConfigurationPositionAdd').val(checkNode.id);
 
       // 重置添加验证表单
       editValidate.resetForm()

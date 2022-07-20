@@ -8,6 +8,7 @@ import com.efounder.JEnterprise.model.systemcenter.Interfaceconfig.DeviceTypeMod
 import com.github.pagehelper.PageInfo;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * @Author: wanghongjie
@@ -23,7 +24,7 @@ public interface DeviceConfigurationService {
      */
     List<DeviceConfigurationModel> findAll();
 
-    PageInfo<DeviceConfigurationModel> queryPage(String deviceTypeId, Integer pageNum,String param);
+    PageInfo<DeviceConfigurationModel> queryPage(String deviceTypeId,String positionId, Integer pageNum,String param);
 
     /**
      *
@@ -120,4 +121,11 @@ public interface DeviceConfigurationService {
      *
      */
     ISSPReturnObject deletePoint(String deviceFunctionPointID);
+
+    /**
+     *
+     * @Description: 获取所有的区域
+     *
+     */
+    List<Map<String,Object>> queryPosition();
 }

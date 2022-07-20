@@ -10,6 +10,8 @@
       name                                          name,
       site                                          site,
       comments                                      comments,
+      position_id                                   positionId,
+      position_name                                 positionName,
       DATE_FORMAT(create_time,'%Y-%m-%d %H:%i:%s')  createTime,
       DATE_FORMAT(update_time,'%Y-%m-%d %H:%i:%s')  updateTime
 
@@ -22,6 +24,8 @@
       a.name                                          name,
       a.site                                          site,
       a.comments                                      comments,
+      a.position_id                                   positionId,
+      a.position_name                                 positionName,
       DATE_FORMAT(a.create_time,'%Y-%m-%d %H:%i:%s')  createTime,
       DATE_FORMAT(a.update_time,'%Y-%m-%d %H:%i:%s')  updateTime,
       b.name                                          deviceType
@@ -88,6 +92,9 @@
             <if test='deviceTypeId != null and deviceTypeId != ""'>
                 and a.device_type_id LIKE #{deviceTypeId}
             </if>
+            <if test="positionId != null and positionId != '' and positionId != 'all'">
+                and a.position_id = #{positionId}
+            </if>
         </where>
         order by a.create_time
     </select>
@@ -109,7 +116,9 @@
         name,
         site,
         comments,
-        create_time
+        create_time,
+        position_id,
+        position_name
         ) values
         (
         #{id},
@@ -118,7 +127,9 @@
         #{name},
         #{site},
         #{comments},
-        current_timestamp()
+        current_timestamp(),
+        #{positionId},
+        #{positionName}
         )
     </insert>
 
@@ -149,7 +160,9 @@
             name = #{name},
             site = #{site},
             comments =  #{comments},
-            update_time = current_timestamp()
+            update_time = current_timestamp(),
+            position_id = #{positionId},
+            position_name = #{positionName}
         </set>
         where id = #{id}
 
@@ -196,5 +209,10 @@
         delete from bes_device_function_point
         where id = #{deviceFunctionPointID}
     </delete>
+
+    <select id="queryPositionByPid" resultType="java.util.Map">
+        select id,name as title from opm_position_info
+        where pid = #{pid}
+    </select>
 
 </mapper>

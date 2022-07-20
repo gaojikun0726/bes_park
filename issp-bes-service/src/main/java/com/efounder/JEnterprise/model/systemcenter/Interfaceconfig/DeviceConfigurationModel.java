@@ -39,6 +39,15 @@ public class DeviceConfigurationModel implements Serializable
     private String site;
 
     /**
+     * 区域id
+     */
+    private String positionId;
+    /**
+     * 区域名称
+     */
+    private String positionName;
+
+    /**
      * 备注
      */
     private String comments;
@@ -87,6 +96,22 @@ public class DeviceConfigurationModel implements Serializable
 
     public void setSite(String site) {
         this.site = site;
+    }
+
+    public String getPositionId() {
+        return positionId;
+    }
+
+    public void setPositionId(String positionId) {
+        this.positionId = positionId;
+    }
+
+    public String getPositionName() {
+        return positionName;
+    }
+
+    public void setPositionName(String positionName) {
+        this.positionName = positionName;
     }
 
     public String getComments() {

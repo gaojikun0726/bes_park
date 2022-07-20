@@ -16,6 +16,7 @@ import org.springframework.util.StringUtils;
 
 import javax.annotation.Resource;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 /**
@@ -43,11 +44,11 @@ public class DeviceConfigurationServiceImpl implements DeviceConfigurationServic
     }
 
     @Override
-    public PageInfo<DeviceConfigurationModel> queryPage(String deviceTypeId, Integer pageNum,String param) {
+    public PageInfo<DeviceConfigurationModel> queryPage(String deviceTypeId,String positionId, Integer pageNum,String param) {
         if (pageNum == null)
             pageNum = 1;
         PageHelper.startPage(pageNum, Constants.PAGE_SIZE);
-        List<DeviceConfigurationModel> list = deviceConfigurationMapper.queryPageNew(deviceTypeId,param);
+        List<DeviceConfigurationModel> list = deviceConfigurationMapper.queryPageNew(deviceTypeId,positionId,param);
         return new PageInfo<>(list);
     }
 
@@ -371,5 +372,31 @@ public class DeviceConfigurationServiceImpl implements DeviceConfigurationServic
         }
         return returnObject;
     }
+
+    /**
+     *
+     * @Description: 获取所有的区域
+     *
+     */
+    @Override
+    public List<Map<String,Object>> queryPosition() {
+        String pid = "1326432798285770754";
+        List<Map<String,Object>> list = deviceConfigurationMapper.queryPositionByPid(pid);
+        List<Map<String,Object>> positionList = this.queryPositionChild(list);
+        return positionList;
+    }
+
+    private List<Map<String,Object>> queryPositionChild(List<Map<String,Object>> positionList){
+        positionList.forEach((item ->{
+            List<Map<String,Object>> childList = deviceConfigurationMapper.queryPositionByPid(item.get("id").toString());
+            if (childList.size() > 0){
+                this.queryPositionChild(childList);
+            }
+            item.put("children",childList);
+        }));
+        return positionList;
+    }
+
+
 
 }

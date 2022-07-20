@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * @Author: wanghongjie
@@ -52,10 +53,11 @@ public class DeviceConfigurationController {
      */
     @RequestMapping(value = "/queryPage", method = RequestMethod.POST)
     public String getDeviceConfigurationList(@RequestParam(value = "deviceTypeId", required = false)String deviceTypeId,
+                                             @RequestParam(value = "positionId", required = false)String positionId,
                                              @RequestParam(value = "param", required = false)String param,
                                   @RequestParam(value = "pageNum", required = false)Integer pageNum, ModelMap map) {
         log.info("#分页查询：设备配置");
-        PageInfo<DeviceConfigurationModel> page = deviceConfigurationService.queryPage(deviceTypeId,pageNum,param);
+        PageInfo<DeviceConfigurationModel> page = deviceConfigurationService.queryPage(deviceTypeId,positionId,pageNum,param);
         map.put("page", page);
         String jsonString = JSONObject.toJSONString(page.getList());
         map.put("pageList", jsonString);
@@ -202,6 +204,21 @@ public class DeviceConfigurationController {
     public ISSPReturnObject queryPoint(DeviceFunctionPointModel deviceFunctionPointModel) {
         log.info("#根据功能id查询关联的点位信息");
         return deviceConfigurationService.queryPoint(deviceFunctionPointModel);
+    }
+
+    /**
+     *
+     * @Description: 获取区域
+     *
+     * @return: com.core.common.ISSPReturnObject
+     */
+    @RequestMapping(value = "/queryPosition", method = RequestMethod.POST)
+    @ResponseBody
+    public ISSPReturnObject queryPosition() {
+        ISSPReturnObject returnObject = new ISSPReturnObject();
+        List<Map<String,Object>> positionList = deviceConfigurationService.queryPosition();
+        returnObject.setList(positionList);
+        return returnObject;
     }
 
 }

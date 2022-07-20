@@ -8,6 +8,7 @@ import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * @Author: wanghongjie
@@ -32,7 +33,7 @@ public interface DeviceConfigurationMapper {
      * @param param
      * @return
      */
-    List<DeviceConfigurationModel> queryPageNew(@Param("deviceTypeId") String deviceTypeId,@Param("param") String param);
+    List<DeviceConfigurationModel> queryPageNew(@Param("deviceTypeId") String deviceTypeId,@Param("positionId") String positionId,@Param("param") String param);
 
     /**
      *
@@ -153,4 +154,6 @@ public interface DeviceConfigurationMapper {
      *
      */
     Boolean deletePoint(String deviceFunctionPointID);
+
+    List<Map<String,Object>> queryPositionByPid(@Param("pid") String pid);
 }
