@@ -375,7 +375,6 @@
         url: _ctx + '/view/sysmanage/interfaceconfig/deviceConfiguration/queryPosition',
         type: "post",
         success: function (result) {
-          debugger
           layui.config({
             base: 'static/layui/' //静态资源所在路径
           });
@@ -395,7 +394,6 @@
                 children:result.list
               }],
               click: function(node) { //点击节点回调
-                debugger
                 var othis = $($(this)[0].elem).parents(".layui-form-select");
                 othis.removeClass("layui-form-selected").find(".layui-select-title span").html(node.data.title).end().find("input:hidden[name='positionId']").val(node.data.id);
                 refreshTable();
@@ -411,7 +409,6 @@
                 children:result.list
               }],
               click: function(node) { //点击节点回调
-                debugger
                 var othis = $($(this)[0].elem).parents(".layui-form-select");
                 othis.removeClass("layui-form-selected").find(".layui-select-title span").html(node.data.title).end().find("input:hidden[name='deviceConfigurationPositionAdd']").val(node.data.id);
 
@@ -426,7 +423,6 @@
                 children:result.list
               }],
               click: function(node) { //点击节点回调
-                debugger
                 var othis = $($(this)[0].elem).parents(".layui-form-select");
                 othis.removeClass("layui-form-selected").find(".layui-select-title span").html(node.data.title).end().find("input:hidden[name='deviceConfigurationPositionEdit']").val(node.data.id);
 
@@ -776,7 +772,6 @@
 
     function refreshTable(param)
     {
-      debugger
       if (typeof (param) != 'undefined') {
         if (param.id != null) {
           deviceTypeId = param.id
@@ -884,7 +879,6 @@
         $('#deviceConfigurationPositionEdit').val(data.positionId || '');
         $('#treeEdit').text(data.positionName || '');
         $('#deviceConfigurationCommentsEdit').val(data.comments || '');
-        debugger
 
 
       });
