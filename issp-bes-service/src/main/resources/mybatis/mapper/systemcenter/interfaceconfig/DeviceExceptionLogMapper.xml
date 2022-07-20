@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.efounder.JEnterprise.mapper.systemcenter.interfaceconfig.DeviceExceptionLogMapper">
+
+    <select id="queryPage"
+            resultType="com.efounder.JEnterprise.model.systemcenter.Interfaceconfig.DeviceExceptionLogModel">
+        select t1.id,t1.deviceType,t2.name deviceTypeName,t1.deviceFunctionType,t3.name deviceFunctionTypeName,
+        t1.exceptionLog,date_format(t1.exceptionTime,'%Y-%m-%d %H:%i:%s') exceptionTime,
+        date_format(t1.createTime,'%Y-%m-%d %H:%i:%s') createTime,t1.device_id deviceId,t4.name deviceName,
+        t1.position_id positionId,t5.name positionName
+        from bes_device_exception_log t1
+        left join bes_device_type t2 on t1.deviceType = t2.id
+        left join bes_device_function t3 on t1.deviceFunctionType = t3.id
+        left join bes_device t4 on t1.device_id = t4.id
+        left join opm_position_info t5 on t1.position_id = t5.id
+        <where>
+            <if test='param != null and param != ""'>
+                and CONCAT(t4.name,'##',t1.exceptionLog) LIKE CONCAT('%',#{param},'%')
+            </if>
+            <if test='deviceTypeId != null and deviceTypeId != ""'>
+                and t1.deviceType = #{deviceTypeId}
+            </if>
+            <if test="positionId != null and positionId != ''">
+                and t1.position_id = #{positionId}
+            </if>
+        </where>
+        order by t1.createTime
+    </select>
+
+    <delete id="deleteAll">
+        delete from bes_device_exception_log
+        <where>
+        1 = 1
+            <if test='deviceTypeId != null and deviceTypeId != ""'>
+                and deviceType = #{deviceTypeId}
+            </if>
+            <if test='positionId != null and positionId != ""'>
+                and position_id = #{positionId}
+            </if>
+        </where>
+    </delete>
+
+</mapper>

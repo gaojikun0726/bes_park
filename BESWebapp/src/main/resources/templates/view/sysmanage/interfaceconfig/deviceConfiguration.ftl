@@ -34,6 +34,9 @@
     left:71%;
     top: 11.5%;
   }
+  .tabulator .tabulator-row.tabulator-selected {
+    background: #cee3f7 !important;
+  }
 </style>
 <style type="text/css">
   .treeSelect .layui-select-title span {
@@ -389,7 +392,7 @@
               elem: "#treeUl", //指定元素
               // showLine: false,
               data: [{
-                id:'all',
+                id:'',
                 title:'智能交通产业园',
                 children:result.list
               }],
@@ -404,7 +407,7 @@
               elem: "#positionAddTree", //指定元素
               // showLine: false,
               data: [{
-                id:'all',
+                id:'',
                 title:'智能交通产业园',
                 children:result.list
               }],
@@ -418,7 +421,7 @@
               elem: "#positionEditTree", //指定元素
               // showLine: false,
               data: [{
-                id:'all',
+                id:'',
                 title:'智能交通产业园',
                 children:result.list
               }],
@@ -444,7 +447,7 @@
             // var positionId= $("input[name='positionId']").val();
             // 默认选中
             var checkNode = {
-              id: 'all',
+              id: '',
               name: '智能交通产业园'
             }
             var othis = $(".layui-form-select");
@@ -1352,7 +1355,7 @@
       $('#deviceConfigurationSiteAdd').val('');
       $('#deviceConfigurationCommentsAdd').val('');
       var checkNode = {
-        id: 'all',
+        id: '',
         name: '智能交通产业园'
       }
       $('#treeAdd').html(checkNode.name);
@@ -1378,7 +1381,7 @@
       $('#deviceConfigurationCommentsEdit').val('');
 
       var checkNode = {
-        id: 'all',
+        id: '',
         name: '智能交通产业园'
       }
       $('#treeAdd').html(checkNode.name);
