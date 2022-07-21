@@ -31,7 +31,7 @@
     <delete id="deleteAll">
         delete from bes_device_exception_log
         <where>
-        1 = 1
+            1 = 1
             <if test='deviceTypeId != null and deviceTypeId != ""'>
                 and deviceType = #{deviceTypeId}
             </if>
@@ -39,6 +39,10 @@
                 and position_id = #{positionId}
             </if>
         </where>
+    </delete>
+
+    <delete id="delete">
+        delete from bes_device_exception_log where id = #{id}
     </delete>
 
 </mapper>

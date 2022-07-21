@@ -278,8 +278,55 @@
 
       $('#' + pageId).html(page);
     }
+    function deleteAll() {
+      swal
+      (
+              {
+                title: '您确定要批量删除吗?',
+                text: '信息批量删除后将不可恢复!',
+                type: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#1ab394',
+                confirmButtonText: '确定',
+                closeOnConfirm: false
+              }, function ()
+              {
+                deleteByList(deviceTypeId,function (result)
+                {
+                  var status = result && result.status;
 
-    function deleteAll(){
+                  if(status === "1"){
+                    swal({
+                      title : "批量删除成功",// 展示的标题
+                      text : "",// 内容
+                      type: "success",
+                      showCloseButton : false, // 展示关闭按钮
+                      allowOutsideClick : false,
+                      showConfirmButton : false,
+                      timer: 1000
+                    });
+
+                    refreshTable();
+
+
+                  }else {
+
+                    swal({
+                      title : "批量删除失败",// 展示的标题
+                      text : result.msg,// 内容
+                      type: "error",
+                      showCloseButton : false, // 展示关闭按钮
+                      allowOutsideClick : false,
+                      showConfirmButton : false,
+                      timer: 1000
+                    });
+                  }
+                })
+              }
+      );
+    }
+
+    function deleteByList(deviceTypeId,callback){
 
       $.ajax({
         url: _ctx + '/view/sysmanage/interfaceconfig/deviceExceptionLog/deleteAll',
@@ -289,40 +336,16 @@
           positionId : $('#exceptionLogPositionId').val()
         }),
         success: function (result) {
-          debugger
-          var status = result && result.status;
 
-          if(status === "1"){
-            swal({
-              title : "批量删除成功",// 展示的标题
-              text : "",// 内容
-              type: "success",
-              showCloseButton : false, // 展示关闭按钮
-              allowOutsideClick : false,
-              showConfirmButton : false,
-              timer: 1000
-            });
+          callback(result);
 
-            refreshTable();
-          }else {
-
-            swal({
-              title : "批量删除失败",// 展示的标题
-              text : result.msg,// 内容
-              type: "error",
-              showCloseButton : false, // 展示关闭按钮
-              allowOutsideClick : false,
-              showConfirmButton : false,
-              timer: 1000
-            });
-          }
         },
         error: function (result) {
-          console.log(result)
+          swal("批量删除失败!",null,"error");
+          console.warn(result)
         }
-      });
 
-
+      })
     }
 
 
@@ -385,61 +408,6 @@
 
     });
 
-    /**
-     * 删除点位的点击事件
-     *
-     */
-    $(document).on('click', '#deviceExceptionLog_FunctionTable button.delete', function ()
-    {
-      var deviceFunctionPointID = $(this).data('id');
-      swal
-      (
-          {
-            title: '您确定要删除当前配置的功能点位吗?',
-            text: '信息删除后将不可恢复!',
-            type: 'warning',
-            showCancelButton: true,
-            confirmButtonColor: '#1ab394',
-            confirmButtonText: '确定',
-            closeOnConfirm: false
-          }, function ()
-          {
-            deletePoint(deviceFunctionPointID, function (result)
-            {
-              var status = result && result.status;
-
-              if(status === "1"){
-                swal({
-                  title : "删除成功",// 展示的标题
-                  text : "",// 内容
-                  type: "success",
-                  showCloseButton : false, // 展示关闭按钮
-                  allowOutsideClick : false,
-                  showConfirmButton : false,
-                  timer: 1000
-                });
-
-                refreshTable();
-
-              }else {
-
-                swal({
-                  title : "删除失败",// 展示的标题
-                  text : result.msg,// 内容
-                  type: "error",
-                  showCloseButton : false, // 展示关闭按钮
-                  allowOutsideClick : false,
-                  showConfirmButton : false,
-                  timer: 1000
-                });
-              }
-            })
-          }
-      );
-
-    });
-
-
 
 
     // 删除
@@ -456,7 +424,6 @@
         dataType: "json",
         data: {
           id : id,
-
         },
         success: function (result) {
 

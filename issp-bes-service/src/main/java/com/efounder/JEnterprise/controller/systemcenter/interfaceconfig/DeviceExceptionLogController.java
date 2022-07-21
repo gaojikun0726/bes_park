@@ -76,7 +76,21 @@ public class DeviceExceptionLogController {
                                       @RequestParam(value = "positionId", required = false)String positionId) {
         log.info("#批量删除：设备异常日志");
         return deviceExceptionLogService.deleteAll(deviceTypeId,positionId);
+    }
 
+    /**
+     *
+     * @Description: 删除设备异常日志
+     *
+     * @param:
+     * @return:
+     *
+     */
+    @RequestMapping(value = "/delete", method = RequestMethod.POST)
+    @ResponseBody
+    public ISSPReturnObject delete(DeviceExceptionLogModel deviceExceptionLogModel) {
+        log.info("#删除设备配置信息");
+        return deviceExceptionLogService.delete(deviceExceptionLogModel);
     }
 
 

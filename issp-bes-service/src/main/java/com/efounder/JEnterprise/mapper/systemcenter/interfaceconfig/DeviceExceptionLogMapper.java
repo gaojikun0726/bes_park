@@ -20,4 +20,6 @@ public interface DeviceExceptionLogMapper {
 
 
     boolean deleteAll(@Param("deviceTypeId") String deviceTypeId, @Param("positionId") String positionId);
+
+    boolean delete(DeviceExceptionLogModel deviceExceptionLogModel);
 }

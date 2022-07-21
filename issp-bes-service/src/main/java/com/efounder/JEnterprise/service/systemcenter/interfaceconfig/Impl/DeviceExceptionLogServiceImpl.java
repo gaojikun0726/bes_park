@@ -57,5 +57,28 @@ public class DeviceExceptionLogServiceImpl implements DeviceExceptionLogService 
         return returnObject;
     }
 
+    /**
+     *
+     * @Description: 单个删除设备异常日志
+     *
+     * @auther: liuwenge
+     *
+     */
+    @Override
+    public ISSPReturnObject delete(DeviceExceptionLogModel deviceExceptionLogModel) {
+        ISSPReturnObject returnObject = new ISSPReturnObject();
+
+        boolean flag = deviceExceptionLogMapper.delete(deviceExceptionLogModel);
+
+        if (flag) {
+            returnObject.setStatus("1");
+            returnObject.setMsg("删除成功");
+        } else {
+            returnObject.setStatus("0");
+            returnObject.setMsg("删除失败");
+        }
+        return returnObject;
+    }
+
 
 }

@@ -18,5 +18,7 @@ public interface DeviceExceptionLogService {
 
     ISSPReturnObject deleteAll(String deviceTypeId, String positionId);
 
+    ISSPReturnObject delete(DeviceExceptionLogModel deviceExceptionLogModel);
+
 
 }
